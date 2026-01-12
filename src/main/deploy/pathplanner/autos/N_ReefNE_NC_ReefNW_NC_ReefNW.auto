@@ -1,0 +1,140 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N_ReefNE_NC_ReefNE_NC_ReefNE 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoStateL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralIntakeEjectThrough"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N_ReefNE_NC_ReefNE_NC_ReefNE 2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralIntakeIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoStopWithX"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N_ReefNE_NC_ReefNE_NC_ReefNE 3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralIntakeEjectThrough"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N_ReefNE_NC_ReefNE_NC_ReefNE 4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "CoralIntakeIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoStopWithX"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N_ReefNE_NC_ReefNE_NC_ReefNE 5"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralIntakeEjectThrough"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Three Piece",
+  "choreoAuto": false
+}
