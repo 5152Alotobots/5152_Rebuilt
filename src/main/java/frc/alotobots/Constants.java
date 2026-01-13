@@ -25,8 +25,22 @@ public final class Constants {
   /** The simulation mode to use when not running on real hardware. */
   public static final Mode simMode = Mode.SIM;
 
-  /** The current runtime mode, determined by whether running on real hardware or in simulation. */
+  /**
+   * The current runtime mode, determined by whether running on real hardware or in simulation.
+   * Assume competition if real hardware and unspecified
+   */
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+
+  /** The current robot hardware to deploy for */
+  public static final Robot currentRobot = Robot.DEV;
+
+  /** Defines the physical robots for the robot code. */
+  public enum Robot {
+    /** COMPETITION swerve chassis */
+    COMPETITION,
+    /** DEV swerve chassis */
+    DEV
+  }
 
   /** Defines the possible runtime modes for the robot code. */
   public enum Mode {

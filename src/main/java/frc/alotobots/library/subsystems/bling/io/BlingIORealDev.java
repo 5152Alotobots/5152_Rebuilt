@@ -23,7 +23,7 @@ import com.ctre.phoenix.led.CANdle;
  * Hardware implementation of the BlingIO interface for controlling physical LED strips. Uses CTRE's
  * CANdle device for LED control.
  */
-public class BlingIOReal implements BlingIO {
+public class BlingIORealDev implements BlingIO {
   /** CANdle controller for LED management */
   private CANdle candle;
 
@@ -34,9 +34,10 @@ public class BlingIOReal implements BlingIO {
   private Animation currentAnimation;
 
   /**
-   * Constructs a new BlingIOReal instance. Initializes the CANdle controller with default settings.
+   * Constructs a new BlingIORealCompetition instance. Initializes the CANdle controller with
+   * default settings.
    */
-  public BlingIOReal() {
+  public BlingIORealDev() {
     this.candle = new CANdle(CANDLE_CAN_ID);
     candle.configBrightnessScalar(MAX_LED_BRIGHTNESS);
     candle.configLEDType(LED_TYPE);

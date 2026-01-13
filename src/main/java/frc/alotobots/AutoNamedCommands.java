@@ -16,34 +16,16 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
-import frc.alotobots.rebuilt.commands.auto.*;
-import frc.alotobots.rebuilt.subsystems.coralIntake.CoralIntakeSubsystem;
-import frc.alotobots.rebuilt.subsystems.coralIntake.commands.CoralIntakeEject;
-import frc.alotobots.rebuilt.subsystems.coralIntake.commands.CoralIntakeEjectThrough;
-import frc.alotobots.rebuilt.subsystems.coralIntake.commands.CoralIntakeIntake;
-import frc.alotobots.rebuilt.subsystems.coralIntake.constants.CoralIntakeConstants;
-import frc.alotobots.rebuilt.subsystems.elevator.ElevatorSubsystem;
-import frc.alotobots.rebuilt.subsystems.wrist.WristSubsystem;
 import java.util.HashMap;
 import java.util.Map;
 
 /** Registers and manages named commands for autonomous routines. */
 public class AutoNamedCommands {
-  private final ElevatorSubsystem elevatorSubsystem;
-  private final WristSubsystem wristSubsystem;
-  private final CoralIntakeSubsystem coralIntakeSubsystem;
   private final SwerveDriveSubsystem swerveDriveSubsystem;
 
   /** Constructs command registration manager with required subsystems. */
-  public AutoNamedCommands(
-      ElevatorSubsystem elevatorSubsystem,
-      WristSubsystem wristSubsystem,
-      CoralIntakeSubsystem coralIntakeSubsystem,
-      SwerveDriveSubsystem swerveDriveSubsystem) {
+  public AutoNamedCommands(SwerveDriveSubsystem swerveDriveSubsystem) {
 
-    this.elevatorSubsystem = elevatorSubsystem;
-    this.wristSubsystem = wristSubsystem;
-    this.coralIntakeSubsystem = coralIntakeSubsystem;
     this.swerveDriveSubsystem = swerveDriveSubsystem;
 
     registerCommands();
@@ -54,47 +36,7 @@ public class AutoNamedCommands {
     Map<String, Command> commands = new HashMap<>();
 
     // Auto states
-    commands.put("AutoStateL1", new AutoStateL1(elevatorSubsystem, wristSubsystem));
-    commands.put("AutoStateL2", new AutoStateL2(elevatorSubsystem, wristSubsystem));
-    commands.put("AutoStateL3", new AutoStateL3(elevatorSubsystem, wristSubsystem));
-    commands.put("AutoStateL4", new AutoStateL4(elevatorSubsystem, wristSubsystem));
-    commands.put("AutoStateStowed", new AutoStateStowed(elevatorSubsystem, wristSubsystem));
-    commands.put(
-        "AutoStateCoralStation", new AutoStateCoralStation(elevatorSubsystem, wristSubsystem));
     commands.put("AutoStopWithX", new InstantCommand(swerveDriveSubsystem::stopWithX));
-    // Coral Intake Commands
-    commands.put(
-        "CoralIntakeEject",
-        new CoralIntakeEject(
-            coralIntakeSubsystem, () -> CoralIntakeConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
-    commands.put(
-        "CoralIntakeEjectThrough",
-        new CoralIntakeEjectThrough(
-            coralIntakeSubsystem, () -> CoralIntakeConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
-    commands.put(
-        "CoralIntakeIntake",
-        new CoralIntakeIntake(
-            coralIntakeSubsystem, () -> CoralIntakeConstants.Setpoints.OpenLoop.INTAKE_PERCENTAGE));
-    commands.put(
-        "CoralIntakeEjectPassive",
-        new CoralIntakeEject(
-            coralIntakeSubsystem,
-            () -> (CoralIntakeConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE * .75)));
-    commands.put(
-        "CoralIntakeEjectThroughPassive",
-        new CoralIntakeEjectThrough(
-            coralIntakeSubsystem,
-            () -> (CoralIntakeConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE * .75)));
-    commands.put(
-        "CoralIntakeEjectAggressive",
-        new CoralIntakeEject(
-            coralIntakeSubsystem,
-            () -> (CoralIntakeConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE * 1.5)));
-    commands.put(
-        "CoralIntakeEjectThroughAggressive",
-        new CoralIntakeEjectThrough(
-            coralIntakeSubsystem,
-            () -> (CoralIntakeConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE * 1.5)));
 
     NamedCommands.registerCommands(commands);
   }
