@@ -182,6 +182,12 @@ ctre_sim/
 # clangd
 /.cache
 compile_commands.json
+.aider*
+.env
 
-# Eclipse generated file for annotation processors
-.factorypath
+BuildConstants.java
+
+# Allow photonvision configs
+!.photonvision/**/*.zip
+
+
