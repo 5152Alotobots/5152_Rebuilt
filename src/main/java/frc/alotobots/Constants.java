@@ -54,10 +54,12 @@ public final class Constants {
     REPLAY
   }
 
-  /** Global tuning constants for the swerve drive. */
-
-  // TODO: UPDATE THIS WHEN WE HAVE NEW TUNING CONSTANTS ALSO SHOULD BE REFACTORED
-  public static final TunerConstants tunerConstants = new TunerConstants2023();
+  // TODO: UPDATE THIS WHEN WE HAVE NEW TUNING CONSTANTS
+  public static final TunerConstants tunerConstants =
+      switch (currentRobot) {
+        case COMPETITION -> new TunerConstants2023();
+        case DEV -> new TunerConstants2023();
+      };
 
   /**
    * CAN bus device ID assignments. This class maps CAN IDs for all motors, sensors and other
@@ -76,34 +78,5 @@ public final class Constants {
 
     public static final int SERVO_HUB_CAN_ID = 4;
 
-    /** Left Elevator CAN ID */
-    public static final int LEFT_ELEVATOR_CAN_ID = 30;
-
-    /** Right Elevator CAN ID */
-    public static final int RIGHT_ELEVATOR_CAN_ID = 31;
-
-    /** Elevator CANrange CAN ID */
-    public static final int ELEVATOR_CANRANGE_ID = 32;
-
-    /** Wrist Motor CAN ID */
-    public static final int WRIST_MOTOR_CAN_ID = 33;
-
-    /** Wrist Encoder CAN ID */
-    public static final int WRIST_ENCODER_CAN_ID = 34;
-
-    /** Intake Motor CAN ID */
-    public static final int INTAKE_MOTOR_CAN_ID = 35;
-
-    /** Intake CANrange CAN ID */
-    public static final int INTAKE_CANRANGE_ID = 36;
-
-    /** Algae intake left CAN ID */
-    public static final int ALGAE_INTAKE_LEFT_MOTOR_CAN_ID = 37;
-
-    /** Algae intake right CAN ID */
-    public static final int ALGAE_INTAKE_RIGHT_MOTOR_CAN_ID = 38;
-
-    /** Algae intake CANrange CAN ID */
-    public static final int ALGAE_INTAKE_CANRANGE_ID = 39;
   }
 }
