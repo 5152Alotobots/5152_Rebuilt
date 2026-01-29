@@ -27,6 +27,7 @@ public interface ShooterIO {
   public static class ShooterIOInputs {
     /** Current PID slot being used (0 for velocity, 1 for position) */
     public PIDSlots motorLeftPIDSlot = PIDSlots.DEFAULT_VELOCITY;
+
     public PIDSlots motorRightPIDSlot = PIDSlots.DEFAULT_VELOCITY;
 
     public boolean motorLeftConnected = false;
