@@ -10,6 +10,11 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher;
+package frc.alotobots.rebuilt.subsystems.turret.constants;
 
-public class ShooterSubsystem {}
+import com.revrobotics.spark.config.SparkBaseConfig;
+
+public class TurretSparkMaxConstants {
+  public static final SparkBaseConfig.IdleMode NEUTRAL_MODE = SparkBaseConfig.IdleMode.kBrake;
+  public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
+}

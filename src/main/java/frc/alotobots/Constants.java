@@ -78,5 +78,6 @@ public final class Constants {
 
     public static final int SERVO_HUB_CAN_ID = 4;
 
+    public static final int TURRET_CAN_ID = 10;
   }
 }
