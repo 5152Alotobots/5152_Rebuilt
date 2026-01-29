@@ -17,13 +17,11 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
@@ -33,7 +31,6 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.hopper.constants.HopperTalonFXConstants;
-import frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 
 public class HopperIOTalonFX implements HopperIO {
@@ -94,7 +91,11 @@ public class HopperIOTalonFX implements HopperIO {
   public void updateInputs(HopperIO.HopperIOInputs inputs) {
     var kickerSignals =
         BaseStatusSignal.refreshAll(
-            kickerPosition, kickerVelocity, kickerAcceleration, kickerAppliedVoltage, kickerAppliedCurrent);
+            kickerPosition,
+            kickerVelocity,
+            kickerAcceleration,
+            kickerAppliedVoltage,
+            kickerAppliedCurrent);
 
     inputs.motorKickerPIDSlot =
         switch (currentPidSlot.getValue()) {

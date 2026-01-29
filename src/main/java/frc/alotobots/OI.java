@@ -116,35 +116,11 @@ public class OI {
   public static final Trigger resetGyroButton = driverController.rightStick();
 
   /** Temporary test button */
-  public static final Trigger testButton = driverController.leftStick();
 
   // DRIVER -----------------------------------------------------------
-  public static final Trigger climbButton = driverController.start();
-  public static final Trigger unClimbButton = driverController.back();
   public static final Trigger lockWheelsButton = driverController.x();
 
-  // Auto Drive
-  public static final Trigger alignLeftBranchButton = driverController.povLeft();
-  public static final Trigger alignRightBranchButton = driverController.povRight();
-  public static final Trigger alignNearestCoralStationButton = driverController.y();
-  // CODRIVER -----------------------------------------------------------
-  public static final Trigger stateCoralCoralStationButton = codriverController.rightBumper();
-  public static final Trigger stateCoralStowedButton = codriverController.leftBumper();
-  public static final Trigger stateCoralL4Button = codriverController.y();
-  public static final Trigger stateCoralL3Button = codriverController.x();
-  public static final Trigger stateCoralL2Button = codriverController.b();
-  public static final Trigger stateCoralL1Button = codriverController.a();
-
-  public static final Trigger coralIntakeReleaseButton = codriverController.rightTrigger();
-
-  public static final Trigger stateAlgaeL3Button = codriverController.povLeft();
-  public static final Trigger stateAlgaeL2Button = codriverController.povRight();
-  public static final Trigger stateCoralGroundButton = codriverController.povDown();
-
-  // END CODRIVER -----------------------------------------------------------
-
-  public static final Trigger coralIntakeIntakeManualButton = driverController.povDown();
-  public static final Trigger coralIntakeEjectManualButton = driverController.povUp();
+  public static final Trigger testButton = codriverController.a();
 
   /**
    * Gets the manual elevator control input by selecting the larger magnitude input between the two
