@@ -38,6 +38,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.*;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
+import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2025.TunerConstants2025;
 import org.ironmaple.simulation.drivesims.COTS;
 import org.ironmaple.simulation.drivesims.configs.DriveTrainSimulationConfig;
 
@@ -380,6 +381,11 @@ public class TunerConstants2023 implements TunerConstants {
   @Override
   public SwerveDrivetrainConstants getDrivetrainConstants() {
     return GeneratedConstants.DrivetrainConstants;
+  }
+
+  @Override
+  public CANBus getCANBus() {
+    return TunerConstants2025.GeneratedConstants.kCANBus;
   }
 
   @Override

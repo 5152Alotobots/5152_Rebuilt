@@ -381,6 +381,11 @@ public class TunerConstants2025 implements TunerConstants {
   }
 
   @Override
+  public CANBus getCANBus() {
+    return GeneratedConstants.kCANBus;
+  }
+
+  @Override
   public PathConstraints getPathfindingConstraints() {
     return CustomConstants.PATHFINDING_CONSTRAINTS;
   }

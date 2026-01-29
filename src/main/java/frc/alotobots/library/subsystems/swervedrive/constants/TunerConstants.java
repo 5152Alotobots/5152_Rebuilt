@@ -12,6 +12,7 @@
 */
 package frc.alotobots.library.subsystems.swervedrive.constants;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -74,6 +75,13 @@ public interface TunerConstants {
    * @return SwerveDrivetrainConstants containing overall drivetrain configuration
    */
   SwerveDrivetrainConstants getDrivetrainConstants();
+
+  /**
+   * Gets the CAN bus interface used for CTRE device communication.
+   *
+   * @return CANBus interface for communicating with TalonFX, CANcoder, and other Phoenix 6 devices
+   */
+  CANBus getCANBus();
 
   /**
    * Gets the radius of the drive base from center to furthest module.
