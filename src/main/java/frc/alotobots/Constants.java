@@ -81,5 +81,6 @@ public final class Constants {
     public static final int TURRET_CAN_ID = 10;
     public static final int SHOOTER_LEFT_CAN_ID = 11;
     public static final int SHOOTER_RIGHT_CAN_ID = 12;
+    public static final int HOPPER_KICKER_CAN_ID = 13;
   }
 }
