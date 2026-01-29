@@ -16,7 +16,9 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -37,6 +39,9 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final CANBus canBus = new CANBus("rio");
   private final TalonFX motorLeft;
   private final TalonFX motorRight;
+  private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
+  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0.0);
+
   private StatusSignal<Angle> leftPosition;
   private StatusSignal<Angle> rightPosition;
   private StatusSignal<AngularVelocity> leftVelocity;
@@ -171,22 +176,22 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void setShooterVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    // Set shooter velocity with PID slot implementation
+    motorLeft.setControl(velocityVoltage.withVelocity(velocity).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setShooterVelocity(AngularVelocity velocity) {
-    // Set shooter velocity implementation
     setShooterVelocity(velocity, PIDSlots.DEFAULT_VELOCITY);
   }
 
   @Override
   public void setShooterOpenLoop(double percentOutput) {
-    // Set shooter open loop implementation
+    motorLeft.setControl(dutyCycleOut.withOutput(percentOutput));
   }
 
   @Override
   public void stop() {
-    // Stop shooter implementation
+    motorLeft.stopMotor();
+    motorRight.stopMotor();
   }
 }
