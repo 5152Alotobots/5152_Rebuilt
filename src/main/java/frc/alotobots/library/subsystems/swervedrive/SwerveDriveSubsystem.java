@@ -86,7 +86,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       new SwerveDriveKinematics(Constants.tunerConstants.getModuleTranslations());
 
   /** Raw rotation from the gyro */
-  private Rotation2d rawGyroRotation = new Rotation2d();
+  private Rotation2d rawGyroRotation = Rotation2d.kZero;
 
   private Field2d field = new Field2d();
 

@@ -13,7 +13,6 @@
 package frc.alotobots.library.subsystems.swervedrive;
 
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotController;
@@ -37,13 +36,8 @@ public class PhoenixOdometryThread extends Thread {
   private final List<Queue<Double>> genericQueues = new ArrayList<>();
   private final List<Queue<Double>> timestampQueues = new ArrayList<>();
 
+  private static final boolean isCANFD = Constants.tunerConstants.getCANBus().isNetworkFD();
   private static PhoenixOdometryThread instance = null;
-  private boolean isCANFD;
-
-  private void configure() {
-    this.isCANFD =
-        new CANBus(Constants.tunerConstants.getDrivetrainConstants().CANBusName).isNetworkFD();
-  }
 
   public static PhoenixOdometryThread getInstance() {
     if (instance == null) {

@@ -64,29 +64,27 @@ public class ModuleIOTalonFX implements ModuleIO {
 
   // Inputs from turn motor
   protected final StatusSignal<Angle> turnAbsolutePosition;
+  protected final StatusSignal<Angle> turnPosition;
   protected final StatusSignal<AngularVelocity> turnVelocity;
   protected final StatusSignal<Voltage> turnAppliedVolts;
   protected final StatusSignal<Current> turnCurrent;
 
   // Connection debouncers
-  private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
-  private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
-  private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
+  private final Debouncer driveConnectedDebounce =
+      new Debouncer(0.5, Debouncer.DebounceType.kFalling);
+  private final Debouncer turnConnectedDebounce =
+      new Debouncer(0.5, Debouncer.DebounceType.kFalling);
+  private final Debouncer turnEncoderConnectedDebounce =
+      new Debouncer(0.5, Debouncer.DebounceType.kFalling);
 
   protected ModuleIOTalonFX(
       SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
           constants) {
     this.constants = constants;
 
-    driveTalon =
-        new TalonFX(
-            constants.DriveMotorId, Constants.tunerConstants.getDrivetrainConstants().CANBusName);
-    turnTalon =
-        new TalonFX(
-            constants.SteerMotorId, Constants.tunerConstants.getDrivetrainConstants().CANBusName);
-    cancoder =
-        new CANcoder(
-            constants.EncoderId, Constants.tunerConstants.getDrivetrainConstants().CANBusName);
+    driveTalon = new TalonFX(constants.DriveMotorId, Constants.tunerConstants.getCANBus());
+    turnTalon = new TalonFX(constants.SteerMotorId, Constants.tunerConstants.getCANBus());
+    cancoder = new CANcoder(constants.EncoderId, Constants.tunerConstants.getCANBus());
 
     // Configure drive motor
     var driveConfig = constants.DriveMotorInitialConfigs;
@@ -108,22 +106,14 @@ public class ModuleIOTalonFX implements ModuleIO {
     var turnConfig = new TalonFXConfiguration();
     turnConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turnConfig.Slot0 = constants.SteerMotorGains;
-    if (Constants.currentMode == Constants.Mode.SIM)
-      turnConfig.Slot0.withKD(0.5).withKS(0); // during simulation, gains are slightly different
-
     turnConfig.Feedback.FeedbackRemoteSensorID = constants.EncoderId;
     turnConfig.Feedback.FeedbackSensorSource =
         switch (constants.FeedbackSource) {
           case RemoteCANcoder -> FeedbackSensorSourceValue.RemoteCANcoder;
           case FusedCANcoder -> FeedbackSensorSourceValue.FusedCANcoder;
           case SyncCANcoder -> FeedbackSensorSourceValue.SyncCANcoder;
-          case FusedCANdiPWM1 -> FeedbackSensorSourceValue.FusedCANdiPWM1;
-          case FusedCANdiPWM2 -> FeedbackSensorSourceValue.FusedCANdiPWM2;
-          case SyncCANdiPWM1 -> FeedbackSensorSourceValue.SyncCANdiPWM1;
-          case SyncCANdiPWM2 -> FeedbackSensorSourceValue.SyncCANdiPWM2;
-          case RemoteCANdiPWM1 -> FeedbackSensorSourceValue.RemoteCANdiPWM1;
-          case RemoteCANdiPWM2 -> FeedbackSensorSourceValue.RemoteCANdiPWM2;
-          case TalonFXS_PulseWidth -> FeedbackSensorSourceValue.FusedCANdiQuadrature;
+          default -> throw new RuntimeException(
+              "You have selected a turn feedback source that is not supported by the default implementation of ModuleIOTalonFX.");
         };
     turnConfig.Feedback.RotorToSensorRatio = constants.SteerMotorGearRatio;
     turnConfig.MotionMagic.MotionMagicCruiseVelocity = 100.0 / constants.SteerMotorGearRatio;
@@ -155,6 +145,7 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     // Create turn status signals
     turnAbsolutePosition = cancoder.getAbsolutePosition();
+    turnPosition = turnTalon.getPosition();
     turnVelocity = turnTalon.getVelocity();
     turnAppliedVolts = turnTalon.getMotorVoltage();
     turnCurrent = turnTalon.getStatorCurrent();
@@ -167,6 +158,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         driveVelocity,
         driveAppliedVolts,
         driveCurrent,
+        turnAbsolutePosition,
         turnVelocity,
         turnAppliedVolts,
         turnCurrent);
@@ -178,7 +170,8 @@ public class ModuleIOTalonFX implements ModuleIO {
     // Refresh all signals
     var driveStatus =
         BaseStatusSignal.refreshAll(drivePosition, driveVelocity, driveAppliedVolts, driveCurrent);
-    var turnStatus = BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
+    var turnStatus =
+        BaseStatusSignal.refreshAll(turnPosition, turnVelocity, turnAppliedVolts, turnCurrent);
     var turnEncoderStatus = BaseStatusSignal.refreshAll(turnAbsolutePosition);
 
     // Update drive inputs
@@ -192,6 +185,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.turnConnected = turnConnectedDebounce.calculate(turnStatus.isOK());
     inputs.turnEncoderConnected = turnEncoderConnectedDebounce.calculate(turnEncoderStatus.isOK());
     inputs.turnAbsolutePosition = Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
+    inputs.turnPosition = Rotation2d.fromRotations(turnPosition.getValueAsDouble());
     inputs.turnVelocityRadPerSec = Units.rotationsToRadians(turnVelocity.getValueAsDouble());
     inputs.turnAppliedVolts = turnAppliedVolts.getValueAsDouble();
     inputs.turnCurrentAmps = turnCurrent.getValueAsDouble();

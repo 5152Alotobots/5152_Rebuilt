@@ -28,7 +28,7 @@ public class SeedFieldRelative extends InstantCommand {
   @Override
   public void initialize() {
     swerveDriveSubsystem.setPose(
-        new Pose2d(swerveDriveSubsystem.getPose().getTranslation(), new Rotation2d()));
+        new Pose2d(swerveDriveSubsystem.getPose().getTranslation(), Rotation2d.kZero));
   }
 
   @Override

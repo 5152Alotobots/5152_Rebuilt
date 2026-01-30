@@ -37,7 +37,7 @@ public class WheelRadiusCharacterization extends Command {
   private final Timer timer = new Timer();
 
   private double[] startPositions = new double[4];
-  private Rotation2d lastAngle = new Rotation2d();
+  private Rotation2d lastAngle = Rotation2d.kZero;
   private double gyroDelta = 0.0;
   private boolean measurementStarted = false;
 
