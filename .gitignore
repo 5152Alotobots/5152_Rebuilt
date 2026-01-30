@@ -185,7 +185,7 @@ compile_commands.json
 .aider*
 .env
 
-BuildConstants.java
+**BuildConstants.java
 
 # Allow photonvision configs
 !.photonvision/**/*.zip
