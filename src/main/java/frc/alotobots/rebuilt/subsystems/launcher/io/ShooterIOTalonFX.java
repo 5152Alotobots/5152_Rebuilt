@@ -97,7 +97,7 @@ public class ShooterIOTalonFX implements ShooterIO {
         5,
         () ->
             motorRight.setControl(
-                new Follower(motorRight.getDeviceID(), MotorAlignmentValue.Opposed)));
+                new Follower(motorLeft.getDeviceID(), MotorAlignmentValue.Opposed)));
 
     leftPosition = motorLeft.getPosition();
     rightPosition = motorRight.getPosition();
