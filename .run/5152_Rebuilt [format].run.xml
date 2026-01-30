@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="5152_Reefscape [replayWatch]" type="GradleRunConfiguration" factoryName="Gradle" editBeforeRun="true">
+  <configuration default="false" name="5152_Rebuilt [format]" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="replayWatch" />
+          <option value=":spotlessApply" />
         </list>
       </option>
       <option name="vmOptions" />
