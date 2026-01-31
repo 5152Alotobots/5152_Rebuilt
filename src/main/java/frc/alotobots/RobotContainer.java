@@ -12,6 +12,8 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.OI.*;
 import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.BLING_NOTIFICATION_TIME;
@@ -37,6 +39,8 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.A
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.library.subsystems.vision.questnav.QuestNavSubsystem;
 import frc.alotobots.library.subsystems.vision.questnav.io.*;
+import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOSparkMax;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -50,6 +54,7 @@ public class RobotContainer {
   private final BlingSubsystem blingSubsystem;
   private final PathPlannerManager pathPlannerManager;
   private final AutoNamedCommands autoNamedCommands;
+  private final TurretSubsystem turretSubsystem;
   private LoggedDashboardChooser<Command> autoChooser;
   private SwerveDriveSimulation driveSimulation;
 
@@ -78,6 +83,7 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
         blingSubsystem = new BlingSubsystem(new BlingIORealCompetition());
+        turretSubsystem = new TurretSubsystem(new TurretIOSparkMax());
         break;
 
       case SIM:
@@ -119,9 +125,11 @@ public class RobotContainer {
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getPose));
 
         blingSubsystem = new BlingSubsystem(new BlingIOSim());
+        turretSubsystem = null;
         break;
 
       default:
+        turretSubsystem = null;
         // Replay mode initialization
         swerveDriveSubsystem =
             new SwerveDriveSubsystem(
@@ -155,6 +163,7 @@ public class RobotContainer {
 
   /** Contains button based commands */
   private void configureLogicCommands() {
+    testButton.whileTrue(new InstantCommand(() -> turretSubsystem.runToTargetAngle(Degrees.of(90))));
     lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // TEMPORARY!!
     resetGyroButton.onTrue(
