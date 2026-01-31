@@ -32,6 +32,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants.CanId;
 import frc.alotobots.rebuilt.subsystems.turret.constants.TurretSparkMaxConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class TurretIOSparkMax implements TurretIO {
   private final SparkMax turretMotor;
@@ -59,7 +60,7 @@ public class TurretIOSparkMax implements TurretIO {
     var turretPositionPIDSlot =
         ClosedLoopSlot.fromInt(TurretIO.PIDSlots.DEFAULT_POSITION.ordinal());
 
-    turretMotorConfig.closedLoop.pid(0, 0, 0, turretPositionPIDSlot);
+    turretMotorConfig.closedLoop.pid(.5, 0, 0, turretPositionPIDSlot);
     turretMotorConfig.signals.primaryEncoderPositionAlwaysOn(true);
     turretMotorConfig.signals.primaryEncoderVelocityAlwaysOn(true);
 
@@ -111,6 +112,7 @@ public class TurretIOSparkMax implements TurretIO {
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
     // Set SparkMax to position control mode and move to target position
+    Logger.recordOutput("turretIO/setpoint", position);
     closedLoopController.setSetpoint(
         position.in(Rotations), ControlType.kPosition, ClosedLoopSlot.fromInt(pidSlot.ordinal()));
   }
