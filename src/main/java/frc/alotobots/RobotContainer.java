@@ -12,7 +12,6 @@
 */
 package frc.alotobots;
 
-import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.OI.*;
@@ -163,7 +162,8 @@ public class RobotContainer {
 
   /** Contains button based commands */
   private void configureLogicCommands() {
-    testButton.whileTrue(new InstantCommand(() -> turretSubsystem.runToTargetAngle(Degrees.of(90))));
+    testButton.whileTrue(
+        new InstantCommand(() -> turretSubsystem.runToTargetAngle(Degrees.of(90))));
     lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // TEMPORARY!!
     resetGyroButton.onTrue(
