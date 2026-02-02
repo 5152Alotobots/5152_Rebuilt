@@ -132,9 +132,7 @@ public class OI {
     return MathUtil.applyDeadband(primary, DEADBAND);
   }
 
-  /**
-   * Contains defined limits for controller axis inputs.
-   */
+  /** Contains defined limits for controller axis inputs. */
   public static final class AxisLimits {
     public static final double MAX_AXIS_LIMIT = 1.0;
     public static final double MIN_AXIS_LIMIT = -1.0;

@@ -57,4 +57,3 @@ public class HopperSubsystem extends SubsystemBase {
             MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
   }
 }
-

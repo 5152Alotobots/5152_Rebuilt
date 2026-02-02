@@ -12,10 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.turret.io;
 
-import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Volt;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
@@ -38,10 +35,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.turret.constants.TurretTalonFXSConstants;
 import frc.alotobots.util.PhoenixUtil;
-
 import org.littletonrobotics.junction.Logger;
-
-
 
 public class TurretIOTalonFXS implements TurretIO {
   private final TalonFXS turretMotor;
@@ -72,7 +66,8 @@ public class TurretIOTalonFXS implements TurretIO {
     var motorMotorConfig = new TalonFXSConfiguration();
     motorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     motorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    motorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.Quadrature;
+    motorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
+        ExternalFeedbackSensorSourceValue.Quadrature;
     motorMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
 
     motorMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
@@ -97,9 +92,7 @@ public class TurretIOTalonFXS implements TurretIO {
         currentPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(turretMotor);
-
   }
- 
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
@@ -135,7 +128,8 @@ public class TurretIOTalonFXS implements TurretIO {
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
     Logger.recordOutput("turretIO/setpoint", position);
-    turretMotor.setControl(positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal())); 
+    turretMotor.setControl(
+        positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));
   }
 
   @Override

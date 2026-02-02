@@ -187,8 +187,7 @@ public class RobotContainer {
     addSysIdAutos();
   }
 
-
-private void addSysIdAutos() {
+  private void addSysIdAutos() {
     // Add SysId routines
     autoChooser.addOption(
         "Drive Wheel Radius Characterization",
@@ -207,7 +206,7 @@ private void addSysIdAutos() {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)",
         swerveDriveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-}
+  }
 
   private void handleAutoPathChange(String autoName) {
     pathPlannerManager
