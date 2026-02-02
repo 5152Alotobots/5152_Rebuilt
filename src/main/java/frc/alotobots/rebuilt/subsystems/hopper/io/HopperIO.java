@@ -23,7 +23,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
 
-interface HopperIO {
+public interface HopperIO {
   enum PIDSlots {
     DEFAULT_VELOCITY,
   }
