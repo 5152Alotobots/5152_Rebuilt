@@ -123,40 +123,20 @@ public class OI {
   public static final Trigger testButton = codriverController.a();
 
   /**
-   * Gets the manual elevator control input by selecting the larger magnitude input between the two
-   * co-driver controllers. Applies deadband after selection.
+   * Gets the manual turret control input, Applies deadband after selection.
    *
-   * @return Value between -1.0 (down) and 1.0 (up)
+   * @return Value between -1.0 (left) and 1.0 (right)
    */
-  public static double getElevatorAxis() {
-    double primary = codriverController.getRightY();
+  public static double getTurretAxis() {
+    double primary = codriverController.getRightX();
     return MathUtil.applyDeadband(primary, DEADBAND);
   }
 
   /**
-   * Gets the manual wrist control input by selecting the larger magnitude input between the two
-   * co-driver controllers. Applies deadband after selection.
-   *
-   * @return Value between -1.0 and 1.0
-   */
-  public static double getWristAxis() {
-    double primary = codriverController.getLeftY();
-    return MathUtil.applyDeadband(primary, DEADBAND);
-  }
-
-  /**
-   * Groups axis-related constants together for better organization. Contains defined limits for
-   * controller axis inputs.
+   * Contains defined limits for controller axis inputs.
    */
   public static final class AxisLimits {
-    /**
-     * Maximum value that a controller axis can output. Represents full forward/right on the stick.
-     */
     public static final double MAX_AXIS_LIMIT = 1.0;
-
-    /**
-     * Minimum value that a controller axis can output. Represents full backward/left on the stick.
-     */
     public static final double MIN_AXIS_LIMIT = -1.0;
   }
 }
