@@ -39,6 +39,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.library.subsystems.vision.questnav.QuestNavSubsystem;
 import frc.alotobots.library.subsystems.vision.questnav.io.*;
 import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOSparkMax;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
@@ -158,6 +159,7 @@ public class RobotContainer {
   /** Commands that run when nothing else is */
   private void configureDefaultCommands() {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
+    turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
   }
 
   /** Contains button based commands */

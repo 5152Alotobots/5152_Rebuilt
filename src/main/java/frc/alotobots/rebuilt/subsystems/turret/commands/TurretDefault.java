@@ -12,4 +12,32 @@
 */
 package frc.alotobots.rebuilt.subsystems.turret.commands;
 
-public class TurretDefault {}
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
+
+public class TurretDefault extends Command {
+  private final TurretSubsystem turretSubsystem;
+  private final DoubleSupplier input;
+
+  public TurretDefault(TurretSubsystem turretSubsystem, DoubleSupplier input) {
+    // No requirements, runs when no other commands are running
+    
+    this.turretSubsystem = turretSubsystem;
+    this.input = input;
+
+    addRequirements(turretSubsystem);
+  }
+
+  @Override
+  public void execute() {
+    turretSubsystem.runAtPercentOutput(input.getAsDouble());
+    // Default behavior can be defined here if needed
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false; // Never finishes on its own
+  }
+}
