@@ -59,8 +59,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Commands the wrist to move to a target angle using closed-loop control. Target angle is
-   * dynamically clamped based on current elevator height zone.
+   * Commands the wrist to move to a target angle using closed-loop control.
    *
    * @param angle The target angle for the wrist
    */
