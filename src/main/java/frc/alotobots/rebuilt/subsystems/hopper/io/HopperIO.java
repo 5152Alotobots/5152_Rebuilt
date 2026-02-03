@@ -31,12 +31,12 @@ public interface HopperIO {
   /** Data structure for inputs from shooter hardware. */
   @AutoLog
   public static class HopperIOInputs {
-    public PIDSlots motorKickerPIDSlot = PIDSlots.DEFAULT_VELOCITY;
-    public boolean motorKickerConnected = false;
-    public AngularVelocity motorKickerVelocity = RotationsPerSecond.zero();
-    public AngularAcceleration motorKickerAcceleration = RotationsPerSecondPerSecond.zero();
-    public Voltage motorKickerAppliedVolts = Volts.zero();
-    public Current motorKickerCurrent = Amps.zero();
+    public PIDSlots kickerMotorPIDSlot = PIDSlots.DEFAULT_VELOCITY;
+    public boolean kickerMotorConnected = false;
+    public AngularVelocity kickerMotorVelocity = RotationsPerSecond.zero();
+    public AngularAcceleration kickerMotorAcceleration = RotationsPerSecondPerSecond.zero();
+    public Voltage kickerMotorVolts = Volts.zero();
+    public Current kickerMotorCurrent = Amps.zero();
   }
 
   /**

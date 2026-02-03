@@ -98,7 +98,7 @@ public class TurretSubsystem extends SubsystemBase {
    * @return The current angle as an Angle object
    */
   public Angle getCurrentAngle() {
-    return inputs.mechanismAngle;
+    return inputs.turretMotorPosition;
   }
 
   /**

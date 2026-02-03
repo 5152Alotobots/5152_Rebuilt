@@ -48,12 +48,12 @@ public class TurretIOTalonFXS implements TurretIO {
   private final Debouncer ccwLimitDebouncer;
   private final Debouncer turretMotorConnectedDebouncer;
 
-  private StatusSignal<Angle> motorPosition;
-  private StatusSignal<AngularVelocity> motorVelocity;
-  private StatusSignal<AngularAcceleration> motorAcceleration;
-  private StatusSignal<Voltage> motorAppliedVoltage;
-  private StatusSignal<Current> motorAppliedCurrent;
-  private StatusSignal<Integer> currentPidSlot;
+  private StatusSignal<Angle> turretMotorPosition;
+  private StatusSignal<AngularVelocity> turretMotorVelocity;
+  private StatusSignal<AngularAcceleration> turretMotorAcceleration;
+  private StatusSignal<Voltage> turretMotorVoltage;
+  private StatusSignal<Current> turretMotorCurrent;
+  private StatusSignal<Integer> turretMotorPidSlot;
 
   public TurretIOTalonFXS() {
     turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, canBus);
@@ -63,33 +63,33 @@ public class TurretIOTalonFXS implements TurretIO {
     ccwLimitSwitch = new DigitalInput(0);
     cwLimitSwitch = new DigitalInput(1);
 
-    var motorMotorConfig = new TalonFXSConfiguration();
-    motorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    motorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
+    var turretMotorConfig = new TalonFXSConfiguration();
+    turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    turretMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Quadrature;
-    motorMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+    turretMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
 
-    motorMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
-    motorMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
-    motorMotorConfig.Slot0.kD = TurretTalonFXSConstants.POSITION_D_GAIN;
+    turretMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
+    turretMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
+    turretMotorConfig.Slot0.kD = TurretTalonFXSConstants.POSITION_D_GAIN;
 
-    PhoenixUtil.tryUntilOk(5, () -> turretMotor.getConfigurator().apply(motorMotorConfig, 0.25));
+    PhoenixUtil.tryUntilOk(5, () -> turretMotor.getConfigurator().apply(turretMotorConfig, 0.25));
 
-    motorPosition = turretMotor.getPosition();
-    motorVelocity = turretMotor.getVelocity();
-    motorAcceleration = turretMotor.getAcceleration();
-    motorAppliedVoltage = turretMotor.getMotorVoltage();
-    motorAppliedCurrent = turretMotor.getStatorCurrent();
-    currentPidSlot = turretMotor.getClosedLoopSlot();
+    turretMotorPosition = turretMotor.getPosition();
+    turretMotorVelocity = turretMotor.getVelocity();
+    turretMotorAcceleration = turretMotor.getAcceleration();
+    turretMotorVoltage = turretMotor.getMotorVoltage();
+    turretMotorCurrent = turretMotor.getStatorCurrent();
+    turretMotorPidSlot = turretMotor.getClosedLoopSlot();
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
-        motorPosition,
-        motorVelocity,
-        motorAcceleration,
-        motorAppliedVoltage,
-        motorAppliedCurrent,
-        currentPidSlot);
+        turretMotorPosition,
+        turretMotorVelocity,
+        turretMotorAcceleration,
+        turretMotorVoltage,
+        turretMotorCurrent,
+        turretMotorPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(turretMotor);
   }
@@ -98,26 +98,26 @@ public class TurretIOTalonFXS implements TurretIO {
   public void updateInputs(TurretIOInputs inputs) {
     var motorSignals =
         BaseStatusSignal.refreshAll(
-            motorPosition,
-            motorVelocity,
-            motorAcceleration,
-            motorAppliedVoltage,
-            motorAppliedCurrent);
+            turretMotorPosition,
+            turretMotorVelocity,
+            turretMotorAcceleration,
+            turretMotorVoltage,
+            turretMotorCurrent);
 
-    inputs.pidSlot =
-        switch (currentPidSlot.getValue()) {
+    inputs.turretMotorPidSlot =
+        switch (turretMotorPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_POSITION;
           default -> throw new IllegalStateException(
               "Bad things happened in Shooter and You check if you set the PID SLOTS RIGHT"
-                  + currentPidSlot.getValue());
+                  + turretMotorPidSlot.getValue());
         };
 
-    inputs.motorConnected = turretMotorConnectedDebouncer.calculate(motorSignals.isOK());
-    inputs.rotationVelocity = motorVelocity.getValue();
-    inputs.rotationAcceleration = motorAcceleration.getValue();
-    inputs.motorAppliedVolts = motorAppliedVoltage.getValue();
-    inputs.motorCurrent = motorAppliedCurrent.getValue();
-    inputs.mechanismAngle = motorPosition.getValue();
+    inputs.turretMotorConnected = turretMotorConnectedDebouncer.calculate(motorSignals.isOK());
+    inputs.turretMotorVelocity = turretMotorVelocity.getValue();
+    inputs.turretMotorAcceleration = turretMotorAcceleration.getValue();
+    inputs.turretMotorVolts = turretMotorVoltage.getValue();
+    inputs.turretMotorCurrent = turretMotorCurrent.getValue();
+    inputs.turretMotorPosition = turretMotorPosition.getValue();
   }
 
   @Override

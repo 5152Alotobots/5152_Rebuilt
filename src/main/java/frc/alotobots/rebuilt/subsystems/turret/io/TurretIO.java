@@ -29,15 +29,16 @@ public interface TurretIO {
   /** Data structure for inputs from turret hardware. */
   @AutoLog
   public static class TurretIOInputs {
-    public PIDSlots pidSlot = PIDSlots.DEFAULT_POSITION;
-    public boolean motorConnected = false;
+    public PIDSlots turretMotorPidSlot = PIDSlots.DEFAULT_POSITION;
+    public boolean turretMotorConnected = false;
+    public Angle turretMotorPosition = Rotations.zero();
+    public AngularVelocity turretMotorVelocity = RotationsPerSecond.zero();
+    public AngularAcceleration turretMotorAcceleration = RotationsPerSecondPerSecond.zero();
+    public Voltage turretMotorVolts = Volts.zero();
+    public Current turretMotorCurrent = Amps.zero();
+    
     public boolean ccwLimit = false;
     public boolean cwLimit = false;
-    public Angle mechanismAngle = Rotations.zero();
-    public AngularVelocity rotationVelocity = RotationsPerSecond.zero();
-    public AngularAcceleration rotationAcceleration = RotationsPerSecondPerSecond.zero();
-    public Voltage motorAppliedVolts = Volts.zero();
-    public Current motorCurrent = Amps.zero();
   }
 
   /**

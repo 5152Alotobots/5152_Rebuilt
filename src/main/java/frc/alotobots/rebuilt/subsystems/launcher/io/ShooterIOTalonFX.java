@@ -146,7 +146,7 @@ public class ShooterIOTalonFX implements ShooterIO {
             rightAppliedVoltage,
             rightAppliedCurrent);
 
-    inputs.motorRightPIDSlot =
+    inputs.shooterMotorRightPidSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_VELOCITY;
           default -> throw new IllegalStateException(
@@ -154,7 +154,7 @@ public class ShooterIOTalonFX implements ShooterIO {
                   + currentPidSlot.getValue());
         };
 
-    inputs.motorLeftPIDSlot =
+    inputs.shooterMotorLeftPidSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_VELOCITY;
           default -> throw new IllegalStateException(
@@ -162,16 +162,16 @@ public class ShooterIOTalonFX implements ShooterIO {
                   + currentPidSlot.getValue());
         };
 
-    inputs.motorLeftConnected = leftConnectedDebounce.calculate(leftSignals.isOK());
-    inputs.motorRightConnected = rightConnectedDebounce.calculate(rightSignals.isOK());
-    inputs.motorLeftVelocity = leftVelocity.getValue();
-    inputs.motorRightVelocity = rightVelocity.getValue();
-    inputs.motorLeftAcceleration = leftAcceleration.getValue();
-    inputs.motorRightAcceleration = rightAcceleration.getValue();
-    inputs.motorLeftAppliedVolts = leftAppliedVoltage.getValue();
-    inputs.motorRightAppliedVolts = rightAppliedVoltage.getValue();
-    inputs.motorLeftCurrent = leftAppliedCurrent.getValue();
-    inputs.motorRightCurrent = rightAppliedCurrent.getValue();
+    inputs.shooterMotorLeftConnected = leftConnectedDebounce.calculate(leftSignals.isOK());
+    inputs.shooterMotorRightConnected = rightConnectedDebounce.calculate(rightSignals.isOK());
+    inputs.shooterMotorLeftVelocity = leftVelocity.getValue();
+    inputs.shooterMotorRightVelocity = rightVelocity.getValue();
+    inputs.shooterMotorLeftAcceleration = leftAcceleration.getValue();
+    inputs.shooterMotorRightAcceleration = rightAcceleration.getValue();
+    inputs.shooterMotorLeftVolts = leftAppliedVoltage.getValue();
+    inputs.shooterMotorRightVolts = rightAppliedVoltage.getValue();
+    inputs.shooterMotorLeftCurrent = leftAppliedCurrent.getValue();
+    inputs.shooterMotorRightCurrent = rightAppliedCurrent.getValue();
   }
 
   @Override

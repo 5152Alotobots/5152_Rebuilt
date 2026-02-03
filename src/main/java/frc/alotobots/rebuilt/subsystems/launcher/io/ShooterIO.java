@@ -25,25 +25,23 @@ public interface ShooterIO {
   /** Data structure for inputs from shooter hardware. */
   @AutoLog
   public static class ShooterIOInputs {
-    /** Current PID slot being used (0 for velocity, 1 for position) */
-    public PIDSlots motorLeftPIDSlot = PIDSlots.DEFAULT_VELOCITY;
+    public PIDSlots shooterMotorLeftPidSlot = PIDSlots.DEFAULT_VELOCITY;
+    public PIDSlots shooterMotorRightPidSlot = PIDSlots.DEFAULT_VELOCITY;
 
-    public PIDSlots motorRightPIDSlot = PIDSlots.DEFAULT_VELOCITY;
+    public boolean shooterMotorLeftConnected = false;
+    public boolean shooterMotorRightConnected = false;
 
-    public boolean motorLeftConnected = false;
-    public boolean motorRightConnected = false;
+    public AngularVelocity shooterMotorLeftVelocity = RotationsPerSecond.zero();
+    public AngularVelocity shooterMotorRightVelocity = RotationsPerSecond.zero();
 
-    public AngularVelocity motorLeftVelocity = RotationsPerSecond.zero();
-    public AngularVelocity motorRightVelocity = RotationsPerSecond.zero();
+    public AngularAcceleration shooterMotorLeftAcceleration = RotationsPerSecondPerSecond.zero();
+    public AngularAcceleration shooterMotorRightAcceleration = RotationsPerSecondPerSecond.zero();
 
-    public AngularAcceleration motorLeftAcceleration = RotationsPerSecondPerSecond.zero();
-    public AngularAcceleration motorRightAcceleration = RotationsPerSecondPerSecond.zero();
+    public Voltage shooterMotorLeftVolts = Volts.zero();
+    public Voltage shooterMotorRightVolts = Volts.zero();
 
-    public Voltage motorLeftAppliedVolts = Volts.zero();
-    public Voltage motorRightAppliedVolts = Volts.zero();
-
-    public Current motorLeftCurrent = Amps.zero();
-    public Current motorRightCurrent = Amps.zero();
+    public Current shooterMotorLeftCurrent = Amps.zero();
+    public Current shooterMotorRightCurrent = Amps.zero();
   }
 
   /**

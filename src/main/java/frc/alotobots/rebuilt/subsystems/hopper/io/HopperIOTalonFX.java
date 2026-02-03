@@ -97,7 +97,7 @@ public class HopperIOTalonFX implements HopperIO {
             kickerAppliedVoltage,
             kickerAppliedCurrent);
 
-    inputs.motorKickerPIDSlot =
+    inputs.kickerMotorPIDSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_VELOCITY;
           default -> throw new IllegalStateException(
@@ -105,13 +105,13 @@ public class HopperIOTalonFX implements HopperIO {
                   + currentPidSlot.getValue());
         };
 
-    inputs.motorKickerConnected = kickerConnectedDebounce.calculate(kickerSignals.isOK());
-    inputs.motorKickerVelocity = kickerVelocity.getValue();
-    inputs.motorKickerAcceleration = kickerAcceleration.getValue();
-    inputs.motorKickerAppliedVolts = kickerAppliedVoltage.getValue();
-    inputs.motorKickerCurrent = kickerAppliedCurrent.getValue();
+    inputs.kickerMotorConnected = kickerConnectedDebounce.calculate(kickerSignals.isOK());
+    inputs.kickerMotorVelocity = kickerVelocity.getValue();
+    inputs.kickerMotorAcceleration = kickerAcceleration.getValue();
+    inputs.kickerMotorVolts = kickerAppliedVoltage.getValue();
+    inputs.kickerMotorCurrent = kickerAppliedCurrent.getValue();
 
-    inputs.motorKickerPIDSlot =
+    inputs.kickerMotorPIDSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_VELOCITY;
           default -> throw new IllegalStateException(

@@ -89,19 +89,19 @@ public class TurretIOSparkMax implements TurretIO {
   @Override
   public void updateInputs(TurretIOInputs inputs) {
     // Read data from SparkMax and update inputs
-    inputs.motorConnected =
+    inputs.turretMotorConnected =
         turretMotorConectedDebouncer.calculate(turretMotor.getLastError().equals(REVLibError.kOk));
     inputs.cwLimit = cwLimitDebouncer.calculate(cwLimitSwitch.get());
     inputs.ccwLimit = ccwLimitDebouncer.calculate(ccwLimitSwitch.get());
 
-    inputs.mechanismAngle =
+    inputs.turretMotorPosition =
         Angle.ofBaseUnits(turretMotor.getAbsoluteEncoder().getPosition(), Rotations);
-    inputs.rotationVelocity =
+    inputs.turretMotorVelocity =
         AngularVelocity.ofBaseUnits(
             turretMotor.getAbsoluteEncoder().getVelocity(), RotationsPerSecond);
-    inputs.motorAppliedVolts =
+    inputs.turretMotorVolts =
         Volt.ofBaseUnits(turretMotor.getAppliedOutput() * turretMotor.getBusVoltage());
-    inputs.motorCurrent = Amps.ofBaseUnits(turretMotor.getOutputCurrent());
+    inputs.turretMotorCurrent = Amps.ofBaseUnits(turretMotor.getOutputCurrent());
   }
 
   @Override
