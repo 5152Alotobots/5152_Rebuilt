@@ -40,7 +40,7 @@ import frc.alotobots.library.subsystems.vision.questnav.QuestNavSubsystem;
 import frc.alotobots.library.subsystems.vision.questnav.io.*;
 import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
-import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOSparkMax;
+import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -83,7 +83,7 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
         blingSubsystem = new BlingSubsystem(new BlingIORealCompetition());
-        turretSubsystem = new TurretSubsystem(new TurretIOSparkMax());
+        turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
         break;
 
       case SIM:

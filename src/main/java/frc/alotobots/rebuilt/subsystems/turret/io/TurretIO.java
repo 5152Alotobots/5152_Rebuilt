@@ -36,7 +36,7 @@ public interface TurretIO {
     public AngularAcceleration turretMotorAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage turretMotorVolts = Volts.zero();
     public Current turretMotorCurrent = Amps.zero();
-    
+
     public boolean ccwLimit = false;
     public boolean cwLimit = false;
   }
