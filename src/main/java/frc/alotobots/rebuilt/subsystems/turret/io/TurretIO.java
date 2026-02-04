@@ -14,12 +14,16 @@ package frc.alotobots.rebuilt.subsystems.turret.io;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.ResourceBundle.Control;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
+
+import com.ctre.phoenix6.signals.ControlModeValue;
 
 public interface TurretIO {
   enum PIDSlots {
@@ -36,6 +40,7 @@ public interface TurretIO {
     public AngularAcceleration turretMotorAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage turretMotorVolts = Volts.zero();
     public Current turretMotorCurrent = Amps.zero();
+    public ControlModeValue turretMotorControlMode = null;
 
     public boolean ccwLimit = false;
     public boolean cwLimit = false;

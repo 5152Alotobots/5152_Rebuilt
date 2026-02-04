@@ -21,6 +21,7 @@ import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
@@ -54,6 +55,7 @@ public class TurretIOTalonFXS implements TurretIO {
   private StatusSignal<Voltage> turretMotorVoltage;
   private StatusSignal<Current> turretMotorCurrent;
   private StatusSignal<Integer> turretMotorPidSlot;
+  private StatusSignal<ControlModeValue> turretMotorControlMode;
 
   public TurretIOTalonFXS() {
     turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, canBus);
@@ -67,8 +69,10 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     turretMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
-        ExternalFeedbackSensorSourceValue.Quadrature;
+        ExternalFeedbackSensorSourceValue.Commutation;
+    turretMotorConfig.ExternalFeedback.SensorToMechanismRatio = TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     turretMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+  
 
     turretMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
     turretMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
@@ -82,6 +86,8 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorVoltage = turretMotor.getMotorVoltage();
     turretMotorCurrent = turretMotor.getStatorCurrent();
     turretMotorPidSlot = turretMotor.getClosedLoopSlot();
+    turretMotorControlMode = turretMotor.getControlMode(); 
+
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
         turretMotorPosition,
@@ -89,7 +95,8 @@ public class TurretIOTalonFXS implements TurretIO {
         turretMotorAcceleration,
         turretMotorVoltage,
         turretMotorCurrent,
-        turretMotorPidSlot);
+        turretMotorPidSlot,
+        turretMotorControlMode);
 
     ParentDevice.optimizeBusUtilizationForAll(turretMotor);
   }
@@ -102,7 +109,8 @@ public class TurretIOTalonFXS implements TurretIO {
             turretMotorVelocity,
             turretMotorAcceleration,
             turretMotorVoltage,
-            turretMotorCurrent);
+            turretMotorCurrent,
+            turretMotorControlMode);
 
     inputs.turretMotorPidSlot =
         switch (turretMotorPidSlot.getValue()) {
@@ -112,6 +120,7 @@ public class TurretIOTalonFXS implements TurretIO {
                   + turretMotorPidSlot.getValue());
         };
 
+    inputs.turretMotorControlMode = turretMotorControlMode.getValue();
     inputs.turretMotorConnected = turretMotorConnectedDebouncer.calculate(motorSignals.isOK());
     inputs.turretMotorVelocity = turretMotorVelocity.getValue();
     inputs.turretMotorAcceleration = turretMotorAcceleration.getValue();
@@ -127,20 +136,33 @@ public class TurretIOTalonFXS implements TurretIO {
 
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
-    Logger.recordOutput("turretIO/setpoint", position);
+    if (position == null ) {
+      throw new IllegalArgumentException("Position cannot be null");
+    }
+
+    if (pidSlot == null) {
+      throw new IllegalArgumentException("PID Slot cannot be null");
+    }
+
+    if (pidSlot != PIDSlots.DEFAULT_POSITION) {
+      throw new IllegalArgumentException("Invalid PID Slot for Turret, Got " + pidSlot.toString());
+    }
+
+    Logger.recordOutput("turret/setpoint", position);
+
     turretMotor.setControl(
         positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setTurretOpenLoop(double percentOutput) {
-    // Set SparkMax to open-loop control with given percentage output
+    Logger.recordOutput("turret/openLoopPercentOut", percentOutput);
+
     turretMotor.set(percentOutput);
   }
 
   @Override
   public void stop() {
-    // Stop SparkMax motor
     turretMotor.stopMotor();
   }
 }
