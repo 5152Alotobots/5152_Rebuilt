@@ -42,7 +42,7 @@ public class TurretIOSparkMax implements TurretIO {
 
   private final Debouncer cwLimitDebouncer;
   private final Debouncer ccwLimitDebouncer;
-  private final Debouncer turretMotorConectedDebouncer;
+  private final Debouncer turretMotorConnectedDebouncer;
 
   private final SparkClosedLoopController closedLoopController;
 
@@ -52,7 +52,7 @@ public class TurretIOSparkMax implements TurretIO {
     ccwLimitSwitch = new DigitalInput(1);
     cwLimitDebouncer = new Debouncer(0.1);
     ccwLimitDebouncer = new Debouncer(0.1);
-    turretMotorConectedDebouncer = new Debouncer(0.5);
+    turretMotorConnectedDebouncer = new Debouncer(0.5);
     closedLoopController = turretMotor.getClosedLoopController();
 
     // Initialize SparkMax turret motor
@@ -90,7 +90,7 @@ public class TurretIOSparkMax implements TurretIO {
   public void updateInputs(TurretIOInputs inputs) {
     // Read data from SparkMax and update inputs
     inputs.turretMotorConnected =
-        turretMotorConectedDebouncer.calculate(turretMotor.getLastError().equals(REVLibError.kOk));
+        turretMotorConnectedDebouncer.calculate(turretMotor.getLastError().equals(REVLibError.kOk));
     inputs.cwLimit = cwLimitDebouncer.calculate(cwLimitSwitch.get());
     inputs.ccwLimit = ccwLimitDebouncer.calculate(ccwLimitSwitch.get());
 

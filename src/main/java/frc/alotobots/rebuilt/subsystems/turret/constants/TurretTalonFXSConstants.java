@@ -21,4 +21,8 @@ public class TurretTalonFXSConstants {
   public static final double POSITION_P_GAIN = .01;
   public static final double POSITION_I_GAIN = 0.0;
   public static final double POSITION_D_GAIN = 0.0;
+
+  // Gear ratio between the turret mechanism and the motor sensor 10 / 1 being a reduction 
+  public static final double SENSOR_TO_MECHANISM_RATIO = 10.0 / 1.0;
+
 }
