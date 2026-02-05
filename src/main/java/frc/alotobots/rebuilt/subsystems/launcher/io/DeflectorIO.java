@@ -14,46 +14,61 @@ package frc.alotobots.rebuilt.subsystems.launcher.io;
 
 import static edu.wpi.first.units.Units.*;
 
-import edu.wpi.first.units.measure.*;
+import java.util.ResourceBundle.Control;
+
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularAcceleration;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
+
+import com.ctre.phoenix6.signals.ControlModeValue;
 
 public interface DeflectorIO {
   enum PIDSlots {
     DEFAULT_POSITION,
   }
 
+  /** Data structure for inputs from turret hardware. */
   @AutoLog
   public static class DeflectorIOInputs {
-    public int motorPIDSlot = PIDSlots.DEFAULT_POSITION.ordinal();
-    public boolean motorConnected = false;
-    public AngularVelocity motorVelocity = RotationsPerSecond.zero();
-    public AngularAcceleration motorAcceleration = RotationsPerSecondPerSecond.zero();
-    public Voltage motorAppliedVolts = Volts.zero();
-    public Current motorCurrent = Amps.zero();
+    public PIDSlots deflectorMotorPidSlot = PIDSlots.DEFAULT_POSITION;
+    public boolean deflectorMotorConnected = false;
+    public Angle deflectorMotorPosition = Rotations.zero();
+    public AngularVelocity deflectorMotorVelocity = RotationsPerSecond.zero();
+    public AngularAcceleration deflectorMotorAcceleration = RotationsPerSecondPerSecond.zero();
+    public Voltage deflectorMotorVolts = Volts.zero();
+    public Current deflectorMotorCurrent = Amps.zero();
+    public ControlModeValue deflectorMotorControlMode = null;
+
+    public boolean backLimit = false;
   }
 
   /**
-   * Updates the turret input values from hardware.
+   * Updates the Deflector input values from hardware.
    *
    * @param inputs The input object to update with the latest hardware state
    */
-  default void updateInputs(DeflectorIO.DeflectorIOInputs inputs) {}
+  default void updateInputs(DeflectorIOInputs inputs) {}
 
   /**
-   * Sets the turret to run to a target position using closed-loop control.
+   * Sets the Deflector to run to a target position using closed-loop control.
    *
    * @param position The target angle to move to
    * @param pidSlot The PID slot to use (0 for velocity, 1 for position)
    */
   default void setDeflectorPosition(Angle position, PIDSlots pidSlot) {}
 
+  default void setDeflectorPosition(Angle position) {}
+
   /**
-   * Runs the turret using direct percentage output (open-loop control).
+   * Runs the Deflector using direct percentage output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
   default void setDeflectorOpenLoop(double percentOutput) {}
 
-  /** Stops all turret motor movement. */
+  /** Stops all Deflector motor movement. */
   default void stop() {}
 }

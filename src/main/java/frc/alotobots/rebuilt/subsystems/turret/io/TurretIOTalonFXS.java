@@ -134,6 +134,14 @@ public class TurretIOTalonFXS implements TurretIO {
     setTurretPosition(position, PIDSlots.DEFAULT_POSITION);
   }
 
+  /**
+   * 
+   * * Commands the turret to move to a specified position using closed-loop control.
+   *  @param position The target position for the turret
+   *  @param pidSlot The PID slot to use for the control
+   *  @throws IllegalArgumentException if position or pidSlot is null, or if pidSlot is invalid
+   */
+
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
     if (position == null ) {
@@ -148,7 +156,7 @@ public class TurretIOTalonFXS implements TurretIO {
       throw new IllegalArgumentException("Invalid PID Slot for Turret, Got " + pidSlot.toString());
     }
 
-    Logger.recordOutput("turret/setpoint", position);
+    Logger.recordOutput("Turret/setpoint", position);
 
     turretMotor.setControl(
         positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));
@@ -156,7 +164,7 @@ public class TurretIOTalonFXS implements TurretIO {
 
   @Override
   public void setTurretOpenLoop(double percentOutput) {
-    Logger.recordOutput("turret/openLoopPercentOut", percentOutput);
+    Logger.recordOutput("Turret/openLoopPercentOut", percentOutput);
 
     turretMotor.set(percentOutput);
   }
