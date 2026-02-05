@@ -67,15 +67,16 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     deflectorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     deflectorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Commutation;
-    deflectorMotorConfig.ExternalFeedback.SensorToMechanismRatio = TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
+    deflectorMotorConfig.ExternalFeedback.SensorToMechanismRatio =
+        TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     deflectorMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
-  
 
     deflectorMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
     deflectorMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
     deflectorMotorConfig.Slot0.kD = TurretTalonFXSConstants.POSITION_D_GAIN;
 
-    PhoenixUtil.tryUntilOk(5, () -> deflectorMotor.getConfigurator().apply(deflectorMotorConfig, 0.25));
+    PhoenixUtil.tryUntilOk(
+        5, () -> deflectorMotor.getConfigurator().apply(deflectorMotorConfig, 0.25));
 
     deflectorMotorPosition = deflectorMotor.getPosition();
     deflectorMotorVelocity = deflectorMotor.getVelocity();
@@ -83,7 +84,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     deflectorMotorVoltage = deflectorMotor.getMotorVoltage();
     deflectorMotorCurrent = deflectorMotor.getStatorCurrent();
     deflectorMotorPidSlot = deflectorMotor.getClosedLoopSlot();
-    deflectorMotorControlMode = deflectorMotor.getControlMode(); 
+    deflectorMotorControlMode = deflectorMotor.getControlMode();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
@@ -118,7 +119,8 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
         };
 
     inputs.deflectorMotorControlMode = deflectorMotorControlMode.getValue();
-    inputs.deflectorMotorConnected = deflectorMotorConnectedDebouncer.calculate(motorSignals.isOK());
+    inputs.deflectorMotorConnected =
+        deflectorMotorConnectedDebouncer.calculate(motorSignals.isOK());
     inputs.deflectorMotorVelocity = deflectorMotorVelocity.getValue();
     inputs.deflectorMotorAcceleration = deflectorMotorAcceleration.getValue();
     inputs.deflectorMotorVolts = deflectorMotorVoltage.getValue();
@@ -132,16 +134,15 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
   }
 
   /**
-   * 
    * * Commands the deflector to move to a specified position using closed-loop control.
-   *  @param position The target position for the deflector
-   *  @param pidSlot The PID slot to use for the control
-   *  @throws IllegalArgumentException if position or pidSlot is null, or if pidSlot is invalid
+   *
+   * @param position The target position for the deflector
+   * @param pidSlot The PID slot to use for the control
+   * @throws IllegalArgumentException if position or pidSlot is null, or if pidSlot is invalid
    */
-
   @Override
   public void setDeflectorPosition(Angle position, PIDSlots pidSlot) {
-    if (position == null ) {
+    if (position == null) {
       throw new IllegalArgumentException("Position cannot be null");
     }
 
@@ -150,7 +151,8 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     }
 
     if (pidSlot != PIDSlots.DEFAULT_POSITION) {
-      throw new IllegalArgumentException("Invalid PID Slot for deflector, Got " + pidSlot.toString());
+      throw new IllegalArgumentException(
+          "Invalid PID Slot for deflector, Got " + pidSlot.toString());
     }
 
     Logger.recordOutput("deflector/setpoint", position);

@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.launcher.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.io.DeflectorIOInputsAutoLogged;
-
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorSubsystem extends SubsystemBase {

@@ -70,9 +70,9 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Commutation;
-    turretMotorConfig.ExternalFeedback.SensorToMechanismRatio = TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
+    turretMotorConfig.ExternalFeedback.SensorToMechanismRatio =
+        TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     turretMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
-  
 
     turretMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
     turretMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
@@ -86,7 +86,7 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorVoltage = turretMotor.getMotorVoltage();
     turretMotorCurrent = turretMotor.getStatorCurrent();
     turretMotorPidSlot = turretMotor.getClosedLoopSlot();
-    turretMotorControlMode = turretMotor.getControlMode(); 
+    turretMotorControlMode = turretMotor.getControlMode();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
@@ -135,16 +135,15 @@ public class TurretIOTalonFXS implements TurretIO {
   }
 
   /**
-   * 
    * * Commands the turret to move to a specified position using closed-loop control.
-   *  @param position The target position for the turret
-   *  @param pidSlot The PID slot to use for the control
-   *  @throws IllegalArgumentException if position or pidSlot is null, or if pidSlot is invalid
+   *
+   * @param position The target position for the turret
+   * @param pidSlot The PID slot to use for the control
+   * @throws IllegalArgumentException if position or pidSlot is null, or if pidSlot is invalid
    */
-
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
-    if (position == null ) {
+    if (position == null) {
       throw new IllegalArgumentException("Position cannot be null");
     }
 
