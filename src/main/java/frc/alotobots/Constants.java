@@ -82,9 +82,6 @@ public final class Constants {
     public static final int SHOOTER_LEFT_CAN_ID = 51;
     public static final int SHOOTER_RIGHT_CAN_ID = 50;
     public static final int HOPPER_KICKER_CAN_ID = 52;
-
-    public static final int HOPPER_HOPPER_CAN_ID = 53;
-
-    public static final int BELT_KICKER_CAN_ID = 0;
+    public static final int BELT_KICKER_CAN_ID = 53;
   }
 }

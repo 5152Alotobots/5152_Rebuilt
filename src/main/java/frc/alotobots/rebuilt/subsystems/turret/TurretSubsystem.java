@@ -1,4 +1,5 @@
-/** ALOTOBOTS - FRC Team 5152
+/*
+* ALOTOBOTS - FRC Team 5152
   https://github.com/5152Alotobots
 * Copyright (C) 2025 ALOTOBOTS
 *
@@ -110,18 +111,18 @@ public class TurretSubsystem extends SubsystemBase {
    * @return true if the turret has maintained its target angle within tolerance
    */
   public boolean isAtTargetAngle() {
-      // Check if current angle is within threshold of target
+    // Check if current angle is within threshold of target
 
-      Angle error = targetAngle.minus(inputs.turretMotorPosition);
+    Angle error = targetAngle.minus(inputs.turretMotorPosition);
 
-      Logger.recordOutput("Turret/error", error);
+    Logger.recordOutput("Turret/error", error);
 
-      boolean inSetPointThreshold =
-              error.abs(Degree) < TurretConstants.AT_TARGET_ANGLE_THRESHOLD.in(Degrees);
+    boolean inSetPointThreshold =
+        error.abs(Degree) < TurretConstants.AT_TARGET_ANGLE_THRESHOLD.in(Degrees);
 
-      Logger.recordOutput("Turret/inSetPointThreshold", inSetPointThreshold);
+    Logger.recordOutput("Turret/inSetPointThreshold", inSetPointThreshold);
 
-      // Use debouncer to check if we've been at setpoint for the required duration
-      return atTargetAngleDebounce.calculate(inSetPointThreshold);
+    // Use debouncer to check if we've been at setpoint for the required duration
+    return atTargetAngleDebounce.calculate(inSetPointThreshold);
   }
 }

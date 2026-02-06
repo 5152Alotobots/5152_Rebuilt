@@ -13,8 +13,19 @@
 package frc.alotobots.rebuilt.subsystems.turret;
 
 public class TurretAngleCalculations {
+  public record CartesianCoordinates(double x, double y) {}
+
+  public record PolarCoordinates(double radius, double angle) {}
+
   public void stationaryTurretAngleCalculations() {
     // Placeholder for future implementation
 
+  }
+
+  public PolarCoordinates cartesianToPolarHubLocation(CartesianCoordinates cordsRelativeToRobot) {
+    double radius = Math.hypot(cordsRelativeToRobot.x(), cordsRelativeToRobot.y());
+    double angle = Math.atan2(cordsRelativeToRobot.y(), cordsRelativeToRobot.x());
+
+    return new PolarCoordinates(radius, angle);
   }
 }

@@ -198,8 +198,7 @@ public class RobotContainer {
             beltSubsystem,
             () -> AngularVelocity.ofBaseUnits(50, RotationsPerSecond),
             shooterLaunch));
-    testButton
-        .whileTrue(new RunTurretToPosition(turretSubsystem, Degrees.of(45)));
+    testButton.whileTrue(new RunTurretToPosition(turretSubsystem, Degrees.of(45)));
     lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // TEMPORARY!!
     resetGyroButton.onTrue(

@@ -18,7 +18,7 @@ public class TurretTalonFXSConstants {
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
 
-  public static final double POSITION_P_GAIN = 30.0;
+  public static final double POSITION_P_GAIN = 10.0;
   public static final double POSITION_I_GAIN = 0.0;
   public static final double POSITION_D_GAIN = 0.0;
 
