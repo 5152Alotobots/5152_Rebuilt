@@ -10,9 +10,9 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.hopper.constants;
+package frc.alotobots.rebuilt.subsystems.kicker.constants;
 
-public class HopperTalonFXConstants {
+public class KickerTalonFXConstants {
   public static final double VELOCITY_P_GAIN = 2.5;
   public static final double VELOCITY_I_GAIN = 0.0;
   public static final double VELOCITY_D_GAIN = 0.0;

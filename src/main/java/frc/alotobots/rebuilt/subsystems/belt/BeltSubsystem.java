@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.hopper;
+package frc.alotobots.rebuilt.subsystems.belt;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
@@ -18,23 +18,23 @@ import static frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFX
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.hopper.io.HopperIO;
-import frc.alotobots.rebuilt.subsystems.hopper.io.HopperIOInputsAutoLogged;
+import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
+import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
-public class HopperSubsystem extends SubsystemBase {
+public class BeltSubsystem extends SubsystemBase {
 
-  private HopperIO io;
-  private HopperIOInputsAutoLogged inputs = new HopperIOInputsAutoLogged();
+  private BeltIO io;
+  private BeltIOInputsAutoLogged inputs = new BeltIOInputsAutoLogged();
 
-  public HopperSubsystem(HopperIO io) {
+  public BeltSubsystem(BeltIO io) {
     this.io = io;
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Shooter", inputs);
+    Logger.processInputs("Belt", inputs);
   }
 
   /**
@@ -43,10 +43,14 @@ public class HopperSubsystem extends SubsystemBase {
    * @param velocity Target velocity in radians per second, automatically constrained between
    *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
    */
-  public void runKickerToTargetVelocity(AngularVelocity velocity) {
+  public void runBeltToTargetVelocity(AngularVelocity velocity) {
     AngularVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
-    io.setKickerVelocity(adjustedVelocity);
-    Logger.recordOutput("Hopper/ControlType", HopperIO.PIDSlots.DEFAULT_VELOCITY);
+    io.setBeltVelocity(adjustedVelocity);
+    Logger.recordOutput("Belt/ControlType", BeltIO.PIDSlots.DEFAULT_VELOCITY);
+  }
+
+  public void runBeltPercentOutput(double percentOutput) {
+    io.setBeltOpenLoop(percentOutput);
   }
 
   private AngularVelocity applyVelocityLimitIfNeeded(AngularVelocity velocity) {
@@ -55,5 +59,9 @@ public class HopperSubsystem extends SubsystemBase {
             velocity.in(RadiansPerSecond),
             -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
             MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
+  }
+
+  public void stop() {
+    io.stop();
   }
 }

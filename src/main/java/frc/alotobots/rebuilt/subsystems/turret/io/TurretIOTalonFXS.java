@@ -66,7 +66,7 @@ public class TurretIOTalonFXS implements TurretIO {
     cwLimitSwitch = new DigitalInput(1);
 
     var turretMotorConfig = new TalonFXSConfiguration();
-    turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Commutation;
@@ -155,7 +155,7 @@ public class TurretIOTalonFXS implements TurretIO {
       throw new IllegalArgumentException("Invalid PID Slot for Turret, Got " + pidSlot.toString());
     }
 
-    Logger.recordOutput("Turret/setpoint", position);
+    Logger.recordOutput("Turret/setpoint", position.in(Rotations));
 
     turretMotor.setControl(
         positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));

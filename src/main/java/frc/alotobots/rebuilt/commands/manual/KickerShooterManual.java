@@ -12,27 +12,32 @@
 */
 package frc.alotobots.rebuilt.commands.manual;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.alotobots.rebuilt.subsystems.hopper.HopperSubsystem;
+import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
+import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.ShooterSubsystem;
 import java.util.function.Supplier;
 
 public class KickerShooterManual extends SequentialCommandGroup {
   public KickerShooterManual(
       ShooterSubsystem shooterSubsystem,
-      HopperSubsystem hopperSubsystem,
+      KickerSubsystem kickerSubsystem,
+      BeltSubsystem beltSubsystem,
       Supplier<AngularVelocity> velocity,
       Trigger launchButton) {
     addCommands(
-        new InstantCommand(() -> shooterSubsystem.runToTargetVelocity(velocity.get())),
+        new InstantCommand(() -> shooterSubsystem.runShooterPercentOutput(-1)),
+        new InstantCommand(() -> kickerSubsystem.runKickerPercentOutput(1)),
         new WaitUntilCommand(launchButton),
-        new InstantCommand(
-            () -> hopperSubsystem.runKickerToTargetVelocity(RotationsPerSecond.of(50))));
+        new InstantCommand(() -> beltSubsystem.runBeltPercentOutput(.5)),
+        new WaitCommand(10).raceWith(new WaitUntilCommand(launchButton)),
+        new InstantCommand(shooterSubsystem::stop),
+        new InstantCommand(beltSubsystem::stop),
+        new InstantCommand(kickerSubsystem::stop));
   }
 }

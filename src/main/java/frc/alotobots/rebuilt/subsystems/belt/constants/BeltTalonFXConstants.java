@@ -10,10 +10,13 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret.constants;
+package frc.alotobots.rebuilt.subsystems.belt.constants;
 
-public class TurretConstants {
-  public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds
-  public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.05;
-  public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.05;
+public class BeltTalonFXConstants {
+  public static final double VELOCITY_P_GAIN = 2.5;
+  public static final double VELOCITY_I_GAIN = 0.0;
+  public static final double VELOCITY_D_GAIN = 0.0;
+  public static final double VELOCITY_V_GAIN = 0.125;
+  public static final double VELOCITY_S_GAIN = 0.0090433;
+  public static final double CLOSED_LOOP_RAMP_RATE = 0.5;
 }

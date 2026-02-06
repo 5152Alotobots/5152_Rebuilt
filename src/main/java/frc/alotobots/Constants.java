@@ -79,8 +79,12 @@ public final class Constants {
     public static final int SERVO_HUB_CAN_ID = 4;
 
     public static final int TURRET_CAN_ID = 25;
-    public static final int SHOOTER_LEFT_CAN_ID = 26;
-    public static final int SHOOTER_RIGHT_CAN_ID = 27;
-    public static final int HOPPER_KICKER_CAN_ID = 28;
+    public static final int SHOOTER_LEFT_CAN_ID = 51;
+    public static final int SHOOTER_RIGHT_CAN_ID = 50;
+    public static final int HOPPER_KICKER_CAN_ID = 52;
+
+    public static final int HOPPER_HOPPER_CAN_ID = 53;
+
+    public static final int BELT_KICKER_CAN_ID = 0;
   }
 }

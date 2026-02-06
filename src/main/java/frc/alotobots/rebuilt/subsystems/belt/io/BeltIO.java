@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.hopper.io;
+package frc.alotobots.rebuilt.subsystems.belt.io;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -23,20 +23,20 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface HopperIO {
+public interface BeltIO {
   enum PIDSlots {
     DEFAULT_VELOCITY,
   }
 
-  /** Data structure for inputs from shooter hardware. */
+  /** Data structure for inputs from belt hardware. */
   @AutoLog
-  public static class HopperIOInputs {
-    public PIDSlots kickerMotorPIDSlot = PIDSlots.DEFAULT_VELOCITY;
-    public boolean kickerMotorConnected = false;
-    public AngularVelocity kickerMotorVelocity = RotationsPerSecond.zero();
-    public AngularAcceleration kickerMotorAcceleration = RotationsPerSecondPerSecond.zero();
-    public Voltage kickerMotorVolts = Volts.zero();
-    public Current kickerMotorCurrent = Amps.zero();
+  public static class BeltIOInputs {
+    public PIDSlots beltMotorPIDSlot = PIDSlots.DEFAULT_VELOCITY;
+    public boolean beltMotorConnected = false;
+    public AngularVelocity beltMotorVelocity = RotationsPerSecond.zero();
+    public AngularAcceleration beltMotorAcceleration = RotationsPerSecondPerSecond.zero();
+    public Voltage beltMotorVolts = Volts.zero();
+    public Current beltMotorCurrent = Amps.zero();
   }
 
   /**
@@ -44,7 +44,7 @@ public interface HopperIO {
    *
    * @param inputs The input object to update with the latest hardware state
    */
-  default void updateInputs(HopperIO.HopperIOInputs inputs) {}
+  default void updateInputs(BeltIO.BeltIOInputs inputs) {}
 
   /**
    * Sets the kicker to run at a target velocity using closed-loop control.
@@ -52,22 +52,22 @@ public interface HopperIO {
    * @param velocity The target velocity to move at
    * @param pidSlot The PID slot to use (optional)
    */
-  default void setKickerVelocity(AngularVelocity velocity, PIDSlots pidSlot) {}
+  default void setBeltVelocity(AngularVelocity velocity, PIDSlots pidSlot) {}
 
   /**
-   * Sets the kicker to run at a target velocity using closed-loop control.
+   * Sets the belt to run at a target velocity using closed-loop control.
    *
    * @param velocity The target velocity to move at
    */
-  default void setKickerVelocity(AngularVelocity velocity) {}
+  default void setBeltVelocity(AngularVelocity velocity) {}
 
   /**
    * Runs the kicker using direct percentage output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
-  default void setKickerOpenLoop(double percentOutput) {}
+  default void setBeltOpenLoop(double percentOutput) {}
 
-  /** Stops all kicker motor movement. */
+  /** Stops all belt motor movement. */
   default void stop() {}
 }

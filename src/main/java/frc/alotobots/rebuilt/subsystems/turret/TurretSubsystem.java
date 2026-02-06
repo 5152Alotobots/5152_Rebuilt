@@ -64,7 +64,11 @@ public class TurretSubsystem extends SubsystemBase {
    * @param angle The target angle for the wrist
    */
   public void runToTargetAngle(Angle angle) {
-    io.setTurretPosition(angle, TurretIO.PIDSlots.DEFAULT_POSITION);
+    try {
+      io.setTurretPosition(angle, TurretIO.PIDSlots.DEFAULT_POSITION);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
 
     Logger.recordOutput("Turret/TargetAngle", angle.in(Degrees));
   }

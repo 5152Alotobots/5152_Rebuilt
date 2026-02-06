@@ -83,8 +83,11 @@
   },
   "peacock.color": "#215732",
   "cSpell.words": [
+    "alotobots",
     "codriver",
     "DEADBAND",
-    "Debouncer"
+    "Debouncer",
+    "Feedforward",
+    "Quasistatic"
   ]
 }

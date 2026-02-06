@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.hopper.io;
+package frc.alotobots.rebuilt.subsystems.kicker.io;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
@@ -30,10 +30,10 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
-import frc.alotobots.rebuilt.subsystems.hopper.constants.HopperTalonFXConstants;
+import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 
-public class HopperIOTalonFX implements HopperIO {
+public class KickerIOTalonFX implements KickerIO {
   private final CANBus canBus = new CANBus("rio");
   private final TalonFX motorKicker;
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
@@ -47,7 +47,7 @@ public class HopperIOTalonFX implements HopperIO {
   private StatusSignal<Integer> currentPidSlot;
   private Debouncer kickerConnectedDebounce = new Debouncer(0.1);
 
-  public HopperIOTalonFX() {
+  public KickerIOTalonFX() {
     motorKicker = new TalonFX(Constants.CanId.HOPPER_KICKER_CAN_ID, canBus);
 
     var motorKickerConfig = new TalonFXConfiguration();
@@ -55,16 +55,16 @@ public class HopperIOTalonFX implements HopperIO {
     motorKickerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     motorKickerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     motorKickerConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod =
-        HopperTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
+        KickerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
     motorKickerConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod =
-        HopperTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
+        KickerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
     motorKickerConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod =
-        HopperTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
-    motorKickerConfig.Slot0.kP = HopperTalonFXConstants.VELOCITY_P_GAIN;
-    motorKickerConfig.Slot0.kI = HopperTalonFXConstants.VELOCITY_I_GAIN;
-    motorKickerConfig.Slot0.kD = HopperTalonFXConstants.VELOCITY_D_GAIN;
-    motorKickerConfig.Slot0.kV = HopperTalonFXConstants.VELOCITY_V_GAIN;
-    motorKickerConfig.Slot0.kS = HopperTalonFXConstants.VELOCITY_S_GAIN;
+        KickerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
+    motorKickerConfig.Slot0.kP = KickerTalonFXConstants.VELOCITY_P_GAIN;
+    motorKickerConfig.Slot0.kI = KickerTalonFXConstants.VELOCITY_I_GAIN;
+    motorKickerConfig.Slot0.kD = KickerTalonFXConstants.VELOCITY_D_GAIN;
+    motorKickerConfig.Slot0.kV = KickerTalonFXConstants.VELOCITY_V_GAIN;
+    motorKickerConfig.Slot0.kS = KickerTalonFXConstants.VELOCITY_S_GAIN;
 
     PhoenixUtil.tryUntilOk(5, () -> motorKicker.getConfigurator().apply(motorKickerConfig, 0.25));
 
@@ -88,7 +88,7 @@ public class HopperIOTalonFX implements HopperIO {
   }
 
   @Override
-  public void updateInputs(HopperIO.HopperIOInputs inputs) {
+  public void updateInputs(KickerIO.KickerIOInputs inputs) {
     var kickerSignals =
         BaseStatusSignal.refreshAll(
             kickerPosition,
@@ -132,7 +132,7 @@ public class HopperIOTalonFX implements HopperIO {
 
   @Override
   public void setKickerOpenLoop(double percentOutput) {
-    motorKicker.setControl(dutyCycleOut.withOutput(percentOutput));
+    motorKicker.setControl(dutyCycleOut.withOutput(1));
   }
 
   @Override

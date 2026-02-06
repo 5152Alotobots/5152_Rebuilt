@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher;
+package frc.alotobots.rebuilt.subsystems.kicker;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
@@ -18,16 +18,16 @@ import static frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFX
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIO;
-import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIOInputsAutoLogged;
+import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
+import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class KickerSubsystem extends SubsystemBase {
 
-  private ShooterIO io;
-  private ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+  private KickerIO io;
+  private KickerIOInputsAutoLogged inputs = new KickerIOInputsAutoLogged();
 
-  public ShooterSubsystem(ShooterIO io) {
+  public KickerSubsystem(KickerIO io) {
     this.io = io;
   }
 
@@ -38,19 +38,20 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   /**
-   * Controls the shooter to move to a specified velocity using closed-loop velocity control.
+   * Controls the kicker to move to a specified velocity using closed-loop velocity control.
    *
-   * @param velocity Target velocity in meters per second, automatically constrained between
+   * @param velocity Target velocity in radians per second, automatically constrained between
    *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
    */
-  public void runToTargetVelocity(AngularVelocity velocity) {
+  public void runKickerToTargetVelocity(AngularVelocity velocity) {
     AngularVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
-    io.setShooterVelocity(adjustedVelocity);
-    Logger.recordOutput("Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
+    io.setKickerVelocity(adjustedVelocity);
+    Logger.recordOutput("Hopper/ControlType", KickerIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
-  public void runShooterPercentOutput(double percentOutput) {
-    io.setShooterOpenLoop(percentOutput);
+  // todo fix io method name
+  public void runKickerPercentOutput(double percentOutput) {
+    io.setKickerOpenLoop(percentOutput);
   }
 
   private AngularVelocity applyVelocityLimitIfNeeded(AngularVelocity velocity) {

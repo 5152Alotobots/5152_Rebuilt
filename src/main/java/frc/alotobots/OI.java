@@ -121,6 +121,8 @@ public class OI {
   public static final Trigger lockWheelsButton = driverController.x();
 
   public static final Trigger testButton = codriverController.a();
+  public static final Trigger shooterStart = codriverController.y();
+  public static final Trigger shooterLaunch = codriverController.x();
 
   /**
    * Gets the manual turret control input, Applies deadband after selection.

@@ -13,6 +13,7 @@
 package frc.alotobots;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.OI.*;
 import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.BLING_NOTIFICATION_TIME;
@@ -20,6 +21,7 @@ import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.BL
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -38,8 +40,19 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.A
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.library.subsystems.vision.questnav.QuestNavSubsystem;
 import frc.alotobots.library.subsystems.vision.questnav.io.*;
+import frc.alotobots.rebuilt.commands.manual.KickerShooterManual;
+import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
+import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
+import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
+import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
+import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.launcher.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIO;
+import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
+import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
@@ -55,6 +68,9 @@ public class RobotContainer {
   private final PathPlannerManager pathPlannerManager;
   private final AutoNamedCommands autoNamedCommands;
   private final TurretSubsystem turretSubsystem;
+  private final ShooterSubsystem shooterSubsystem;
+  private final KickerSubsystem kickerSubsystem;
+  private final BeltSubsystem beltSubsystem;
   private LoggedDashboardChooser<Command> autoChooser;
   private SwerveDriveSimulation driveSimulation;
 
@@ -84,6 +100,9 @@ public class RobotContainer {
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
         blingSubsystem = new BlingSubsystem(new BlingIORealCompetition());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
+        shooterSubsystem = new ShooterSubsystem(new ShooterIOTalonFX());
+        beltSubsystem = new BeltSubsystem(new BeltIOTalonFX());
+        kickerSubsystem = new KickerSubsystem(new KickerIOTalonFX());
         break;
 
       case SIM:
@@ -114,6 +133,10 @@ public class RobotContainer {
         autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
         configureAutoChooser();
 
+        shooterSubsystem = null;
+
+        beltSubsystem = null;
+        kickerSubsystem = null;
         questNavSubsystem =
             new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new QuestNavIOReal());
         aprilTagSubsystem =
@@ -129,8 +152,10 @@ public class RobotContainer {
         break;
 
       default:
-        turretSubsystem = null;
-        // Replay mode initialization
+        shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
+        kickerSubsystem = new KickerSubsystem(new KickerIO() {});
+        beltSubsystem = new BeltSubsystem(new BeltIO() {});
+        turretSubsystem = new TurretSubsystem(new TurretIO() {});
         swerveDriveSubsystem =
             new SwerveDriveSubsystem(
                 new GyroIO() {},
@@ -158,14 +183,25 @@ public class RobotContainer {
 
   /** Commands that run when nothing else is */
   private void configureDefaultCommands() {
+
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
   }
 
   /** Contains button based commands */
   private void configureLogicCommands() {
-    testButton.whileTrue(
-        new InstantCommand(() -> turretSubsystem.runToTargetAngle(Degrees.of(90))));
+    shooterStart.onTrue(
+        new KickerShooterManual(
+            shooterSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            () -> AngularVelocity.ofBaseUnits(50, RotationsPerSecond),
+            shooterLaunch));
+    testButton
+        .whileTrue(
+            new InstantCommand(
+                () -> turretSubsystem.runToTargetAngle(Degrees.of(45)), turretSubsystem))
+        .onFalse(new InstantCommand(turretSubsystem::stop, turretSubsystem));
     lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // TEMPORARY!!
     resetGyroButton.onTrue(
