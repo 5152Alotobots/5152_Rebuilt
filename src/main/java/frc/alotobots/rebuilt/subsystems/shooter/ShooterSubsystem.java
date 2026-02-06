@@ -10,16 +10,17 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher;
+package frc.alotobots.rebuilt.subsystems.shooter;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.shooter.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIOInputsAutoLogged;
+import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIO;
+
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {

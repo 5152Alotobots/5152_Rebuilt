@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher.io;
+package frc.alotobots.rebuilt.subsystems.shooter.io;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
@@ -32,7 +32,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
-import frc.alotobots.rebuilt.subsystems.launcher.constants.ShooterTalonFXConstants;
+import frc.alotobots.rebuilt.subsystems.shooter.constants.ShooterTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 
 public class ShooterIOTalonFX implements ShooterIO {

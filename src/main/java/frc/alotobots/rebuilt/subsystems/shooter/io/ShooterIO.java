@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher.io;
+package frc.alotobots.rebuilt.subsystems.shooter.io;
 
 import static edu.wpi.first.units.Units.*;
 
