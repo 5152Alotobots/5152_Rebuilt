@@ -18,9 +18,8 @@ import static frc.alotobots.rebuilt.subsystems.shooter.constants.ShooterTalonFXC
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.launcher.io.ShooterIOInputsAutoLogged;
 import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIO;
-
+import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {

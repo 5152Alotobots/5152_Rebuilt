@@ -20,7 +20,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.deflector.constnats.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.deflector.io.DeflectorIO;
-import frc.alotobots.rebuilt.subsystems.launcher.io.DeflectorIOInputsAutoLogged;
+import frc.alotobots.rebuilt.subsystems.deflector.io.DeflectorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorSubsystem extends SubsystemBase {

@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.shooter.ShooterSubsystem;
-
 import java.util.function.Supplier;
 
 public class KickerShooterManual extends SequentialCommandGroup {
