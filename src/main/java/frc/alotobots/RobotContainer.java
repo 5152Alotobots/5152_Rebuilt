@@ -50,9 +50,10 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToPosition;
-import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
+import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToTarget;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
@@ -186,7 +187,9 @@ public class RobotContainer {
   private void configureDefaultCommands() {
 
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
-    turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
+    // turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
+    turretSubsystem.setDefaultCommand(
+        new RunTurretToTarget(new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem)));
   }
 
   /** Contains button based commands */

@@ -12,19 +12,53 @@
 */
 package frc.alotobots.rebuilt.subsystems.turret;
 
+import static edu.wpi.first.units.Units.Radians;
+
+import org.littletonrobotics.junction.AutoLogOutput;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
+import frc.alotobots.rebuilt.FieldConstants.Hub;
+
 public class TurretAngleCalculations {
   public record CartesianCoordinates(double x, double y) {}
 
   public record PolarCoordinates(double radius, double angle) {}
 
-  public void stationaryTurretAngleCalculations() {
-    // Placeholder for future implementation
+  private SwerveDriveSubsystem swerveDriveSubsystem;
+  private TurretSubsystem turretSubsystem;
 
+  public TurretAngleCalculations(
+      SwerveDriveSubsystem swerveDriveSubsystem, TurretSubsystem turretSubsystem) {
+    swerveDriveSubsystem = this.swerveDriveSubsystem;
+    turretSubsystem = this.turretSubsystem;
   }
 
-  public PolarCoordinates cartesianToPolarHubLocation(CartesianCoordinates cordsRelativeToRobot) {
-    double radius = Math.hypot(cordsRelativeToRobot.x(), cordsRelativeToRobot.y());
-    double angle = Math.atan2(cordsRelativeToRobot.y(), cordsRelativeToRobot.x());
+  @AutoLogOutput
+  public Rotation2d stationaryTurretAngleCalculations() {
+    // TODO implement side flipping
+    var hubLocation = Hub.topCenterPoint;
+    var robotPose = swerveDriveSubsystem.getPose();
+    var deltaX = hubLocation.getX() - robotPose.getX();
+    var deltaY = hubLocation.getY() - robotPose.getY();
+
+    var polarCoordinates = cartesianToPolar(deltaX, deltaY);
+    var targetAngle = new Rotation2d(polarCoordinates.angle);
+
+    return targetAngle;
+  }
+
+  @AutoLogOutput
+  public Rotation2d turretDriveAdjustedAngle() {
+    var turretRotation = new Rotation2d(turretSubsystem.getCurrentAngle().in(Radians));
+    turretRotation.plus(swerveDriveSubsystem.getPose().getRotation());
+    return turretRotation;
+  }
+
+  @AutoLogOutput
+  public PolarCoordinates cartesianToPolar(double x, double y) {
+    double radius = Math.hypot(x, y);
+    double angle = Math.atan2(y, x);
 
     return new PolarCoordinates(radius, angle);
   }
