@@ -35,6 +35,7 @@ public class KickerShooterManual extends SequentialCommandGroup {
         new InstantCommand(() -> kickerSubsystem.runKickerPercentOutput(1)),
         new WaitUntilCommand(launchButton),
         new InstantCommand(() -> beltSubsystem.runBeltPercentOutput(.5)),
+        new WaitCommand(1),
         new WaitCommand(10).raceWith(new WaitUntilCommand(launchButton)),
         new InstantCommand(shooterSubsystem::stop),
         new InstantCommand(beltSubsystem::stop),
