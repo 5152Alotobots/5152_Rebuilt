@@ -51,6 +51,7 @@ import frc.alotobots.rebuilt.subsystems.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToPosition;
 import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
@@ -198,10 +199,7 @@ public class RobotContainer {
             () -> AngularVelocity.ofBaseUnits(50, RotationsPerSecond),
             shooterLaunch));
     testButton
-        .whileTrue(
-            new InstantCommand(
-                () -> turretSubsystem.runToTargetAngle(Degrees.of(45)), turretSubsystem))
-        .onFalse(new InstantCommand(turretSubsystem::stop, turretSubsystem));
+        .whileTrue(new RunTurretToPosition(turretSubsystem, Degrees.of(45)));
     lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // TEMPORARY!!
     resetGyroButton.onTrue(

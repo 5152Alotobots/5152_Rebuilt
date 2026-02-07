@@ -34,7 +34,6 @@ public class TurretDefault extends Command {
   public void execute() {
     turretSubsystem.runAtPercentOutput(input.getAsDouble());
     Logger.recordOutput("turretDef/isRunning", "Going" + input.getAsDouble());
-    // Default behavior can be defined here if needed
   }
 
   @Override

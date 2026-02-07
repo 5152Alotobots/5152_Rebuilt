@@ -12,8 +12,13 @@
 */
 package frc.alotobots.rebuilt.subsystems.turret.constants;
 
+import static edu.wpi.first.units.Units.Degrees;
+
+import edu.wpi.first.units.measure.Angle;
+
 public class TurretConstants {
   public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds
+  public static final Angle AT_TARGET_ANGLE_THRESHOLD = Degrees.of(1); // degrees
   public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.05;
   public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.05;
 }
