@@ -103,14 +103,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
 
-  /** Pose estimator for odometry */
-  private SwerveDrivePoseEstimator aprilTagPoseEstimator =
-      new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
-
-  /** Pose estimator for odometry */
-  private SwerveDrivePoseEstimator questNavPoseEstimator =
-      new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
-
   /**
    * Constructs a new SwerveDriveSubsystem.
    *
@@ -214,8 +206,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
       }
 
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
-      aprilTagPoseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
-      questNavPoseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
 
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
@@ -394,16 +384,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     return poseEstimator.getEstimatedPosition();
   }
 
-  @AutoLogOutput(key = "Drive/AprilTagPose")
-  public Pose2d getAprilTagPose() {
-    return aprilTagPoseEstimator.getEstimatedPosition();
-  }
-
-  @AutoLogOutput(key = "Drive/QuestNavPose")
-  public Pose2d getQuestNavPose() {
-    return questNavPoseEstimator.getEstimatedPosition();
-  }
-
   /**
    * Gets current odometry rotation.
    *
@@ -421,25 +401,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public void setPose(Pose2d pose) {
     NotificationPresets.SwerveDrive.sendSwerveDrivePoseResetNotification(pose);
     poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
-    aprilTagPoseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
-    questNavPoseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
-  }
-
-  public enum VisionSource {
-    APRIL_TAG,
-    QUESTNAV
   }
 
   /**
    * Adds vision measurement for pose estimation.
    *
-   * @param source Source of the vision measurement (AprilTag or QuestNav)
    * @param visionRobotPoseMeters Vision-measured robot pose
    * @param timestampSeconds Timestamp of measurement
    * @param visionMeasurementStdDevs Standard deviations of vision measurements
    */
   public void addVisionMeasurement(
-      VisionSource source,
       Pose2d visionRobotPoseMeters,
       double timestampSeconds,
       Matrix<N3, N1> visionMeasurementStdDevs) {
@@ -451,18 +422,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // Always add this measurement to the main pose estimator (no rotation)
     poseEstimator.addVisionMeasurement(
         visionRobotPoseMeters, timestampSeconds, rotationIgnoredStdDevs);
-
-    // Add the source to its respective pose estimator (w/ rotation)
-    switch (source) {
-      case APRIL_TAG:
-        aprilTagPoseEstimator.addVisionMeasurement(
-            visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
-        break;
-      case QUESTNAV:
-        questNavPoseEstimator.addVisionMeasurement(
-            visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
-        break;
-    }
   }
 
   /**

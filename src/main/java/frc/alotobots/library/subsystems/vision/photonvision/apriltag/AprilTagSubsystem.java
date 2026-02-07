@@ -23,7 +23,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOInputsAutoLogged;
 import frc.alotobots.util.NotificationPresets;
@@ -407,10 +406,7 @@ public class AprilTagSubsystem extends SubsystemBase {
 
     // Send pose to consumer
     aprilTagConsumer.accept(
-        SwerveDriveSubsystem.VisionSource.APRIL_TAG,
-        observation.pose().toPose2d(),
-        observation.timestamp(),
-        multiTagStdDevs);
+        observation.pose().toPose2d(), observation.timestamp(), multiTagStdDevs);
   }
 
   /**
@@ -436,11 +432,7 @@ public class AprilTagSubsystem extends SubsystemBase {
     Matrix<N3, N1> singleTagStdDevs = VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev);
 
     // Accept poses
-    aprilTagConsumer.accept(
-        SwerveDriveSubsystem.VisionSource.APRIL_TAG,
-        observation.pose(),
-        observation.timestamp(),
-        singleTagStdDevs);
+    aprilTagConsumer.accept(observation.pose(), observation.timestamp(), singleTagStdDevs);
   }
 
   /**
@@ -556,7 +548,6 @@ public class AprilTagSubsystem extends SubsystemBase {
      * @param visionMeasurementStdDevs Standard deviations for the measurement (x, y, theta)
      */
     public void accept(
-        SwerveDriveSubsystem.VisionSource source,
         Pose2d visionRobotPoseMeters,
         double timestampSeconds,
         Matrix<N3, N1> visionMeasurementStdDevs);
