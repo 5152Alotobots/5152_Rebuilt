@@ -14,11 +14,10 @@ package frc.alotobots.rebuilt.subsystems.turret;
 
 import static edu.wpi.first.units.Units.Radians;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.FieldConstants.Hub;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class TurretAngleCalculations {
   public record CartesianCoordinates(double x, double y) {}
@@ -30,17 +29,20 @@ public class TurretAngleCalculations {
 
   public TurretAngleCalculations(
       SwerveDriveSubsystem swerveDriveSubsystem, TurretSubsystem turretSubsystem) {
-    swerveDriveSubsystem = this.swerveDriveSubsystem;
-    turretSubsystem = this.turretSubsystem;
+    this.swerveDriveSubsystem = swerveDriveSubsystem;
+    this.turretSubsystem = turretSubsystem;
   }
 
+  // 15cm forward
+  // 5cm right
   @AutoLogOutput
   public Rotation2d stationaryTurretAngleCalculations() {
     // TODO implement side flipping
+    // TODO implement better offset adjustment
     var hubLocation = Hub.topCenterPoint;
     var robotPose = swerveDriveSubsystem.getPose();
-    var deltaX = hubLocation.getX() - robotPose.getX();
-    var deltaY = hubLocation.getY() - robotPose.getY();
+    var deltaX = hubLocation.getX() - robotPose.getX() - .05;
+    var deltaY = hubLocation.getY() - robotPose.getY() + .15;
 
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);
     var targetAngle = new Rotation2d(polarCoordinates.angle);

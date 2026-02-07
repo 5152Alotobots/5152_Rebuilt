@@ -12,7 +12,6 @@
 */
 package frc.alotobots;
 
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.OI.*;
@@ -52,8 +51,8 @@ import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
-import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToPosition;
 import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToTarget;
+import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
@@ -187,9 +186,10 @@ public class RobotContainer {
   private void configureDefaultCommands() {
 
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
-    // turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
-    turretSubsystem.setDefaultCommand(
-        new RunTurretToTarget(new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem)));
+    turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
+    // turretSubsystem.setDefaultCommand(
+    // new RunTurretToTarget(
+    // new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
   }
 
   /** Contains button based commands */
@@ -201,7 +201,9 @@ public class RobotContainer {
             beltSubsystem,
             () -> AngularVelocity.ofBaseUnits(50, RotationsPerSecond),
             shooterLaunch));
-    testButton.whileTrue(new RunTurretToPosition(turretSubsystem, Degrees.of(45)));
+    testButton.whileTrue(
+        new RunTurretToTarget(
+            new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
     lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // TEMPORARY!!
     resetGyroButton.onTrue(
