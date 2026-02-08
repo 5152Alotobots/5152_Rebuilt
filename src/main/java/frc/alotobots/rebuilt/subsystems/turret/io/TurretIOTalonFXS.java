@@ -18,7 +18,9 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.ControlModeValue;
@@ -43,7 +45,9 @@ public class TurretIOTalonFXS implements TurretIO {
   private final CANBus canBus = new CANBus("rio");
   private final DigitalInput cwLimitSwitch;
   private final DigitalInput ccwLimitSwitch;
+
   private final PositionVoltage positionControl = new PositionVoltage(0);
+  private final VoltageOut voltageControl = new VoltageOut(0);
 
   private final Debouncer cwLimitDebouncer;
   private final Debouncer ccwLimitDebouncer;
@@ -166,6 +170,13 @@ public class TurretIOTalonFXS implements TurretIO {
     Logger.recordOutput("Turret/openLoopPercentOut", percentOutput);
 
     turretMotor.set(percentOutput);
+  }
+
+  @Override
+  public void setTurretVoltageOut(Voltage voltageOutput) {
+    Logger.recordOutput("Turret/voltageOutput", voltageOutput);
+
+    voltageControl.withOutput(voltageOutput);
   }
 
   @Override

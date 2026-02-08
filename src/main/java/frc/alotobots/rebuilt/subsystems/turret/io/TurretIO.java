@@ -67,6 +67,8 @@ public interface TurretIO {
    */
   default void setTurretOpenLoop(double percentOutput) {}
 
+  default void setTurretVoltageOut(Voltage voltageOutput) {}
+
   /** Stops all turret motor movement. */
   default void stop() {}
 }

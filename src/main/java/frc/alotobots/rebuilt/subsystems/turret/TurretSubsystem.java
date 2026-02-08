@@ -17,7 +17,12 @@ import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.alotobots.rebuilt.subsystems.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOInputsAutoLogged;
@@ -33,11 +38,8 @@ public class TurretSubsystem extends SubsystemBase {
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
       new Debouncer(TurretConstants.AT_TARGET_ANGLE_TIME_THRESHOLD);
-
-  /**
-   * Angle object that tracks the currently selected position (maintains last position if not in
-   * POSITION control mode)
-   */
+  
+  private final SysIdRoutine sysIdRoutine;
   private Angle targetAngle = Degrees.zero();
 
   /**
@@ -48,6 +50,21 @@ public class TurretSubsystem extends SubsystemBase {
    */
   public TurretSubsystem(TurretIO io) {
     this.io = io;
+   
+    sysIdRoutine = new SysIdRoutine(
+    new SysIdRoutine.Config(
+      null, 
+      null, 
+      null, 
+      (state) -> Logger.recordOutput("Turret/SysIdState", state.toString())
+    ),
+    new SysIdRoutine.Mechanism(
+      (voltage) -> this.runAtVoltage(voltage),
+      null, // No log consumer, since data is recorded by AdvantageKit
+      this
+    )
+);
+
   }
 
   @Override
@@ -96,6 +113,10 @@ public class TurretSubsystem extends SubsystemBase {
     io.setTurretOpenLoop(adjustedSpeed);
   }
 
+  public void runAtVoltage(Voltage voltageOutput) {
+    io.setTurretVoltageOut(voltageOutput);
+  }
+
   /** Stops all wrist movement. */
   public void stop() {
     io.stop();
@@ -110,6 +131,24 @@ public class TurretSubsystem extends SubsystemBase {
     return inputs.turretMotorPosition;
   }
 
+  
+
+  public Command sysIDQuasistaticForward() {
+    return sysIdRoutine.quasistatic(Direction.kForward); 
+  }
+ 
+  public Command sysIDQuasistaticReverse() {
+    return sysIdRoutine.quasistatic(Direction.kReverse); 
+  }
+
+  public Command sysIDDynamicForward() {
+    return sysIdRoutine.dynamic(Direction.kForward); 
+  }
+
+  public Command sysIDDynamicReverse() {
+   return sysIdRoutine.dynamic(Direction.kReverse); 
+  }
+ 
   /**
    * Checks if the turret is stably at its target angle for a minimum duration.
    *
