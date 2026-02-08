@@ -15,6 +15,7 @@ package frc.alotobots.library.subsystems.bling.io;
 import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.*;
 
 import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix6.controls.ControlRequest;
 
 /**
  * Simulation implementation of the BlingIO interface. Provides a mock implementation for testing
@@ -25,7 +26,7 @@ public class BlingIOSim implements BlingIO {
   private LoggedColor currentColor;
 
   /** Current simulated animation */
-  private Animation currentAnimation;
+  private ControlRequest currentAnimation;
 
   /** Constructs a new BlingIOSim instance. */
   public BlingIOSim() {}
@@ -43,7 +44,7 @@ public class BlingIOSim implements BlingIO {
   }
 
   @Override
-  public void setAnimation(Animation animation) {
+  public void setAnimation(ControlRequest animation) {
     currentAnimation = animation;
   }
 

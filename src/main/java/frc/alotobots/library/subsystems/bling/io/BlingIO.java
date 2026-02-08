@@ -13,6 +13,9 @@
 package frc.alotobots.library.subsystems.bling.io;
 
 import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.signals.RGBWColor;
+
 import org.littletonrobotics.junction.AutoLog;
 
 /**
@@ -36,6 +39,10 @@ public interface BlingIO {
     public String animationName = "";
   }
 
+  public static RGBWColor LoggedColorToRGBW(LoggedColor loggedColor) {
+    return new RGBWColor(loggedColor.red(), loggedColor.green(), loggedColor.blue());
+  }
+
   /**
    * Record class representing an RGB color value for LED control.
    *
@@ -57,7 +64,7 @@ public interface BlingIO {
    *
    * @param animation The animation pattern to display
    */
-  public default void setAnimation(Animation animation) {}
+  public default void setAnimation(ControlRequest animation) {}
 
   /** Clears the current animation, stopping any running patterns. */
   public default void clearAnimation() {}

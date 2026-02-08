@@ -13,10 +13,19 @@
 package frc.alotobots.library.subsystems.bling.constants;
 
 import static edu.wpi.first.units.Units.Seconds;
+import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.Colors.BLUE_ALLIANCE_COLOR;
+import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.Colors.NO_ALLIANCE_COLOR;
+import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.Colors.RED_ALLIANCE_COLOR;
 
-import com.ctre.phoenix.led.*;
+import com.ctre.phoenix6.controls.ColorFlowAnimation;
+import com.ctre.phoenix6.controls.LarsonAnimation;
+import com.ctre.phoenix6.controls.RainbowAnimation;
+import com.ctre.phoenix6.controls.StrobeAnimation;
+import com.ctre.phoenix6.signals.StripTypeValue;
+
 import edu.wpi.first.units.measure.Time;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
+import frc.alotobots.library.subsystems.bling.io.BlingIOReal;
 
 /** Constants for LED control and configuration. */
 public class BlingConstants {
@@ -33,7 +42,7 @@ public class BlingConstants {
   public static final boolean DISABLE_STATUS_LED = false;
 
   /** LED strip type configuration */
-  public static final CANdle.LEDStripType LED_TYPE = CANdle.LEDStripType.GRB;
+  public static final StripTypeValue LED_TYPE = StripTypeValue.GRB;
 
   /** Duration of non state based LED notifications */
   public static final Time BLING_NOTIFICATION_TIME = Seconds.of(2);
@@ -43,61 +52,29 @@ public class BlingConstants {
     /** Animation pattern for no alliance selected state */
     public static final ColorFlowAnimation NO_ALLIANCE_ANIMATION =
         new ColorFlowAnimation(
-            255, 0, 0, 0, 0.75, NUM_LEDS, ColorFlowAnimation.Direction.Forward, LED_OFFSET);
+            LED_OFFSET, NUM_LEDS).withColor(BlingIO.LoggedColorToRGBW(NO_ALLIANCE_COLOR));
 
-    /** Coral intake has piece - Purple (2s) */
-    public static final ColorFlowAnimation CORAL_HAS_PIECE_ANIMATION =
-        new ColorFlowAnimation(
-            128, 0, 128, 0, 0.75, NUM_LEDS, ColorFlowAnimation.Direction.Forward, LED_OFFSET);
-
-    /** Coral intake wants piece - Purple Blinking (Till has piece) */
-    public static final StrobeAnimation CORAL_WANTS_PIECE_ANIMATION =
-        new StrobeAnimation(128, 0, 128, 0, 0.2, NUM_LEDS, LED_OFFSET);
-
-    /** Coral ejected time to drive (For Reef) - Purple run up and down (2s) */
-    public static final LarsonAnimation CORAL_EJECTED_DRIVE_ANIMATION =
-        new LarsonAnimation(
-            128, 0, 128, 0, 0.5, NUM_LEDS, LarsonAnimation.BounceMode.Front, LED_OFFSET);
-
-    /** Algae intake wants piece - Yellow Flashing (Till has piece) */
-    public static final StrobeAnimation ALGAE_WANTS_PIECE_ANIMATION =
-        new StrobeAnimation(255, 255, 0, 0, 0.2, NUM_LEDS, LED_OFFSET);
-
-    /** Coral intake has piece - Yellow (2s) */
-    public static final ColorFlowAnimation ALGAE_HAS_PIECE_ANIMATION =
-        new ColorFlowAnimation(
-            255, 255, 0, 0, 0.75, NUM_LEDS, ColorFlowAnimation.Direction.Forward, LED_OFFSET);
-
-    /** Algae ejected time to drive (For Reef) - Yellow run up and down (2s) */
-    public static final LarsonAnimation ALGAE_EJECTED_DRIVE_ANIMATION =
-        new LarsonAnimation(
-            255, 255, 0, 0, 0.5, NUM_LEDS, LarsonAnimation.BounceMode.Front, LED_OFFSET);
 
     /** Count down timer for endgame - Red slowly disappearing (30s) */
     public static final LarsonAnimation ENDGAME_COUNTDOWN_RED_ANIMATION =
         new LarsonAnimation(
-            255, 0, 0, 0, 0.3, NUM_LEDS, LarsonAnimation.BounceMode.Front, 5, LED_OFFSET);
+            LED_OFFSET, NUM_LEDS).withColor(BlingIO.LoggedColorToRGBW(RED_ALLIANCE_COLOR));
 
     /** Count down timer for endgame - Blue slowly disappearing (30s) */
     public static final LarsonAnimation ENDGAME_COUNTDOWN_BLUE_ANIMATION =
         new LarsonAnimation(
-            0, 0, 255, 0, 0.3, NUM_LEDS, LarsonAnimation.BounceMode.Front, 5, LED_OFFSET);
+            LED_OFFSET, NUM_LEDS).withColor(BlingIO.LoggedColorToRGBW(BLUE_ALLIANCE_COLOR));
 
     /** Time to climb animation (triggers like 5s before end of match) - Blink red rapidly (2s) */
     public static final StrobeAnimation TIME_TO_CLIMB_RED_ANIMATION =
-        new StrobeAnimation(255, 0, 0, 0, 0.1, NUM_LEDS, LED_OFFSET);
-
+        new StrobeAnimation(NUM_LEDS, LED_OFFSET).withColor(BlingIO.LoggedColorToRGBW(RED_ALLIANCE_COLOR));
     /** Time to climb animation (triggers like 5s before end of match) - Blink blue rapidly (2s) */
     public static final StrobeAnimation TIME_TO_CLIMB_BLUE_ANIMATION =
-        new StrobeAnimation(0, 0, 255, 0, 0.1, NUM_LEDS, LED_OFFSET);
-
-    /** Climber ready (to take down elevator) - White strobing (2s) */
-    public static final StrobeAnimation CLIMBER_READY_ANIMATION =
-        new StrobeAnimation(255, 255, 255, 0, 0.15, NUM_LEDS, LED_OFFSET);
+        new StrobeAnimation(NUM_LEDS, LED_OFFSET).withColor(BlingIO.LoggedColorToRGBW(BLUE_ALLIANCE_COLOR));
 
     /** Auto driving - Rainbow (While active) */
     public static final RainbowAnimation AUTO_DRIVING_ANIMATION =
-        new RainbowAnimation(1, 0.75, NUM_LEDS, false, LED_OFFSET);
+        new RainbowAnimation(NUM_LEDS, LED_OFFSET);
   }
 
   /** Pre-defined color configurations. */

@@ -73,7 +73,7 @@ public class BlingSubsystem extends SubsystemBase {
    *
    * @param animation The animation pattern to display
    */
-  public void setAnimation(Animation animation) {
+  public void setAnimation(ControlRequest animation) {
     io.setAnimation(animation);
   }
 
