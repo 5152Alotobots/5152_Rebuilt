@@ -14,6 +14,7 @@ package frc.alotobots.library.subsystems.vision.photonvision.objectdetection.io;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.library.subsystems.vision.photonvision.objectdetection.constants.CameraConfig;
 import frc.alotobots.library.subsystems.vision.photonvision.objectdetection.constants.ObjectDetectionConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.objectdetection.util.GameElement;
@@ -51,7 +52,8 @@ public class ObjectDetectionIOPhotonVision implements ObjectDetectionIO {
 
           // Make sure we have the object in our list of game elements
           if (ObjectDetectionConstants.GAME_ELEMENTS[target.getDetectedObjectClassID()] == null) {
-            throw new IllegalStateException("No object detected for class: " + classId);
+            DriverStation.reportWarning("No object detected for class: " + classId, true);
+            continue;
           }
 
           // Match object with list of game elements

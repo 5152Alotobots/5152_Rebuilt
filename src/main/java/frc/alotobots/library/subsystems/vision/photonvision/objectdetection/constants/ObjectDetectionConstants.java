@@ -28,7 +28,10 @@ public class ObjectDetectionConstants {
   // Game elements
   // Game elements array indexed by class ID
   // Index 0 = Note (class ID 0)
-  public static final GameElement[] GAME_ELEMENTS = new GameElement[] {};
+  public static final GameElement[] GAME_ELEMENTS =
+      new GameElement[] {
+        new GameElement("fuel", 5.91, 5.91, 5.91),
+      };
 
   // TUNE ON COMP. DAY!!
   /**
@@ -48,7 +51,4 @@ public class ObjectDetectionConstants {
    * list
    */
   public static final int MISSING_FRAMES_THRESHOLD = 15;
-
-  /*** Scale Factor. Tune this if the ObjectDetection is consistently under/over reporting */
-  public static final double SCALE_FACTOR = 1.15;
 }

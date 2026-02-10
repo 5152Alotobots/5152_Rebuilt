@@ -383,21 +383,21 @@ public class ObjectDetectionSubsystem extends SubsystemBase {
       ObjectDetectionIO.DetectedObjectFieldRelative obj1,
       ObjectDetectionIO.DetectedObjectFieldRelative obj2) {
 
-    double positionDiff =
-        Math.sqrt(
-            Math.pow(obj1.pose().getX() - obj2.pose().getX(), 2)
-                + Math.pow(obj1.pose().getY() - obj2.pose().getY(), 2));
+    if (obj1.classId() != obj2.classId()) return false;
 
-    // Calculate distance from robot to object
+    double positionDiff = obj1.pose().getTranslation().getDistance(obj2.pose().getTranslation());
+
+    // Calculate distance from robot to new detection object
     double distanceToObject =
-        Math.sqrt(
-            Math.pow(obj1.pose().getX() - robotPose.get().getX(), 2)
-                + Math.pow(obj1.pose().getY() - robotPose.get().getY(), 2));
+        obj2.pose()
+            .getTranslation()
+            .toTranslation2d()
+            .getDistance(robotPose.get().getTranslation());
 
     // Scale tolerance based on distance using quadratic scaling
     double scaledTolerance = 0.1 * (1 + 0.04 * Math.pow(distanceToObject, 2));
 
-    return positionDiff <= scaledTolerance && obj1.classId() == obj2.classId();
+    return positionDiff <= scaledTolerance;
   }
 
   /**
@@ -434,14 +434,8 @@ public class ObjectDetectionSubsystem extends SubsystemBase {
 
     for (int index = 0; index < robotRelative.length; index++) {
       Transform3d robotSpaceTransform = robotRelative[index].targetToRobot();
-      double measuredDistance = robotSpaceTransform.getTranslation().getNorm();
 
-      Transform3d correctedTransform =
-          new Transform3d(
-              robotSpaceTransform.getTranslation().times(SCALE_FACTOR),
-              robotSpaceTransform.getRotation());
-
-      Pose3d fieldSpaceObjectPose = robotPose3d.transformBy(correctedTransform);
+      Pose3d fieldSpaceObjectPose = robotPose3d.transformBy(robotSpaceTransform);
 
       fieldRelative[index] =
           new DetectedObjectFieldRelative(
