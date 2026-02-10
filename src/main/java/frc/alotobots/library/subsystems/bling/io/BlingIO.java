@@ -12,10 +12,8 @@
 */
 package frc.alotobots.library.subsystems.bling.io;
 
-import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.signals.RGBWColor;
-
 import org.littletonrobotics.junction.AutoLog;
 
 /**

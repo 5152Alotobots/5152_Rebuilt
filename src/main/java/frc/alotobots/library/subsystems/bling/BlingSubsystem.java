@@ -15,7 +15,7 @@ package frc.alotobots.library.subsystems.bling;
 import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.LED_OFFSET;
 import static frc.alotobots.library.subsystems.bling.constants.BlingConstants.NUM_LEDS;
 
-import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix6.controls.ControlRequest;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
 import frc.alotobots.library.subsystems.bling.io.BlingIOInputsAutoLogged;

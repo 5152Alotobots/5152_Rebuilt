@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.library.subsystems.bling.BlingSubsystem;
 import frc.alotobots.library.subsystems.bling.commands.*;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
-import frc.alotobots.library.subsystems.bling.io.BlingIORealCompetition;
+import frc.alotobots.library.subsystems.bling.io.BlingIOReal;
 import frc.alotobots.library.subsystems.bling.io.BlingIOSim;
 import frc.alotobots.library.subsystems.bling.util.BlingUtil;
 import frc.alotobots.library.subsystems.swervedrive.*;
@@ -99,7 +99,7 @@ public class RobotContainer {
                     AprilTagConstants.CAMERA_CONFIGS[0], swerveDriveSubsystem::getRotation),
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
-        blingSubsystem = new BlingSubsystem(new BlingIORealCompetition());
+        blingSubsystem = new BlingSubsystem(new BlingIOReal());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOTalonFX());
         beltSubsystem = new BeltSubsystem(new BeltIOTalonFX());

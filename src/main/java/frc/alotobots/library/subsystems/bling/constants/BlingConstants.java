@@ -22,10 +22,8 @@ import com.ctre.phoenix6.controls.LarsonAnimation;
 import com.ctre.phoenix6.controls.RainbowAnimation;
 import com.ctre.phoenix6.controls.StrobeAnimation;
 import com.ctre.phoenix6.signals.StripTypeValue;
-
 import edu.wpi.first.units.measure.Time;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
-import frc.alotobots.library.subsystems.bling.io.BlingIOReal;
 
 /** Constants for LED control and configuration. */
 public class BlingConstants {
@@ -51,26 +49,28 @@ public class BlingConstants {
   public static final class Animations {
     /** Animation pattern for no alliance selected state */
     public static final ColorFlowAnimation NO_ALLIANCE_ANIMATION =
-        new ColorFlowAnimation(
-            LED_OFFSET, NUM_LEDS).withColor(BlingIO.LoggedColorToRGBW(NO_ALLIANCE_COLOR));
-
+        new ColorFlowAnimation(LED_OFFSET, NUM_LEDS)
+            .withColor(BlingIO.LoggedColorToRGBW(NO_ALLIANCE_COLOR));
 
     /** Count down timer for endgame - Red slowly disappearing (30s) */
     public static final LarsonAnimation ENDGAME_COUNTDOWN_RED_ANIMATION =
-        new LarsonAnimation(
-            LED_OFFSET, NUM_LEDS).withColor(BlingIO.LoggedColorToRGBW(RED_ALLIANCE_COLOR));
+        new LarsonAnimation(LED_OFFSET, NUM_LEDS)
+            .withColor(BlingIO.LoggedColorToRGBW(RED_ALLIANCE_COLOR));
 
     /** Count down timer for endgame - Blue slowly disappearing (30s) */
     public static final LarsonAnimation ENDGAME_COUNTDOWN_BLUE_ANIMATION =
-        new LarsonAnimation(
-            LED_OFFSET, NUM_LEDS).withColor(BlingIO.LoggedColorToRGBW(BLUE_ALLIANCE_COLOR));
+        new LarsonAnimation(LED_OFFSET, NUM_LEDS)
+            .withColor(BlingIO.LoggedColorToRGBW(BLUE_ALLIANCE_COLOR));
 
     /** Time to climb animation (triggers like 5s before end of match) - Blink red rapidly (2s) */
     public static final StrobeAnimation TIME_TO_CLIMB_RED_ANIMATION =
-        new StrobeAnimation(NUM_LEDS, LED_OFFSET).withColor(BlingIO.LoggedColorToRGBW(RED_ALLIANCE_COLOR));
+        new StrobeAnimation(NUM_LEDS, LED_OFFSET)
+            .withColor(BlingIO.LoggedColorToRGBW(RED_ALLIANCE_COLOR));
+
     /** Time to climb animation (triggers like 5s before end of match) - Blink blue rapidly (2s) */
     public static final StrobeAnimation TIME_TO_CLIMB_BLUE_ANIMATION =
-        new StrobeAnimation(NUM_LEDS, LED_OFFSET).withColor(BlingIO.LoggedColorToRGBW(BLUE_ALLIANCE_COLOR));
+        new StrobeAnimation(NUM_LEDS, LED_OFFSET)
+            .withColor(BlingIO.LoggedColorToRGBW(BLUE_ALLIANCE_COLOR));
 
     /** Auto driving - Rainbow (While active) */
     public static final RainbowAnimation AUTO_DRIVING_ANIMATION =
