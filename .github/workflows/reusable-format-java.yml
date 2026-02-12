@@ -6,9 +6,6 @@ on:
 jobs:
   format:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: questnav-lib
 
     steps:
       - name: Checkout Repository
