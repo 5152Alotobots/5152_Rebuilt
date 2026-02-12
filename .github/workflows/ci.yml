@@ -32,8 +32,8 @@ jobs:
   format-java:
         if: needs.detect-changes.outputs.java-changed == 'true'
         needs: [detect-changes]
-        uses: .github/workflows/reusable-format-java.yml
+        uses: ./.github/workflows/reusable-format-java.yml
 
   build-java:
     needs: [detect-changes, format-java]
-    uses: .github/workflows/reusable-build-java.yml     
+    uses: ./.github/workflows/reusable-build-java.yml     
