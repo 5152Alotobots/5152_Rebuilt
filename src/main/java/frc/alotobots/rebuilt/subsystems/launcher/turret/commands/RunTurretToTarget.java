@@ -10,12 +10,12 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret.commands;
+package frc.alotobots.rebuilt.subsystems.launcher.turret.commands;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.alotobots.rebuilt.subsystems.turret.TurretAngleCalculations;
-import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import org.littletonrobotics.junction.Logger;
 
 public class RunTurretToTarget extends Command {

@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret;
+package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -22,9 +22,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.alotobots.rebuilt.subsystems.turret.constants.TurretConstants;
-import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
-import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOInputsAutoLogged;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class TurretSubsystem extends SubsystemBase {

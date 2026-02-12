@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret;
+package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
 import static edu.wpi.first.units.Units.Radians;
 

@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.deflector.constnats;
+package frc.alotobots.rebuilt.subsystems.launcher.deflector.constnats;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 

@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret.constants;
+package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 

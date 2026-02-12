@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.deflector;
+package frc.alotobots.rebuilt.subsystems.launcher.deflector;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -18,9 +18,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.deflector.constnats.DeflectorConstants;
-import frc.alotobots.rebuilt.subsystems.deflector.io.DeflectorIO;
-import frc.alotobots.rebuilt.subsystems.deflector.io.DeflectorIOInputsAutoLogged;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constnats.DeflectorConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorSubsystem extends SubsystemBase {

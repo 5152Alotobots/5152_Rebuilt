@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret.io;
+package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.Rotations;
 
@@ -35,7 +35,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants;
-import frc.alotobots.rebuilt.subsystems.turret.constants.TurretTalonFXSConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import frc.alotobots.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
 

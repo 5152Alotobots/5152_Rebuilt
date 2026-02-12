@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.shooter.constants;
+package frc.alotobots.rebuilt.subsystems.launcher.shooter.constants;
 
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 

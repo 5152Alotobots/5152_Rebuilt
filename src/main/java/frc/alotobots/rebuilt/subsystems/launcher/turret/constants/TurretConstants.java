@@ -10,10 +10,15 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.deflector.constnats;
+package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
-public class DeflectorConstants {
+import static edu.wpi.first.units.Units.Degrees;
+
+import edu.wpi.first.units.measure.Angle;
+
+public class TurretConstants {
   public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds
-  public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;
-  public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.5;
+  public static final Angle AT_TARGET_ANGLE_THRESHOLD = Degrees.of(1); // degrees
+  public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.1;
+  public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.1;
 }

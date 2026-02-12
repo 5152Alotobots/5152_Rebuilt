@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret.io;
+package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Rotations;
@@ -31,7 +31,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants.CanId;
-import frc.alotobots.rebuilt.subsystems.turret.constants.TurretSparkMaxConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretSparkMaxConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class TurretIOSparkMax implements TurretIO {

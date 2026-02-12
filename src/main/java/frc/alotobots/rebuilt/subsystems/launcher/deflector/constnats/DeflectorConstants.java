@@ -10,11 +10,10 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.turret.constants;
+package frc.alotobots.rebuilt.subsystems.launcher.deflector.constnats;
 
-import com.revrobotics.spark.config.SparkBaseConfig;
-
-public class TurretSparkMaxConstants {
-  public static final SparkBaseConfig.IdleMode NEUTRAL_MODE = SparkBaseConfig.IdleMode.kBrake;
-  public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
+public class DeflectorConstants {
+  public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds
+  public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;
+  public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.5;
 }
