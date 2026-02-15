@@ -12,7 +12,10 @@
 */
 package frc.alotobots.rebuilt.subsystems.turret.constants;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.units.measure.Angle;
 
 public class TurretTalonFXSConstants {
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
@@ -24,4 +27,9 @@ public class TurretTalonFXSConstants {
 
   // Gear ratio between the turret mechanism and the motor sensor 10 / 1 being a reduction
   public static final double SENSOR_TO_MECHANISM_RATIO = 14.4 / 1;
+
+  public static final Angle MIN_ANGLE = Degrees.of(-90);
+  public static final Angle MAX_ANGLE = Degrees.of(90);
+  public static final double MOMENT_OF_INERTIA =
+      .02; // TODO: Placeholder value, should be calculated based on the actual turret design
 }

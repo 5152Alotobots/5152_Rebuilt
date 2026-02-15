@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.alotobots.rebuilt.subsystems.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class TurretSubsystem extends SubsystemBase {
@@ -148,6 +149,7 @@ public class TurretSubsystem extends SubsystemBase {
    *
    * @return true if the turret has maintained its target angle within tolerance
    */
+  @AutoLogOutput
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target
 

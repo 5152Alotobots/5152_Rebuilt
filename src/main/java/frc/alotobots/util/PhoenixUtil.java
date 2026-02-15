@@ -147,4 +147,19 @@ public final class PhoenixUtil {
 
     return odometryTimeStamps;
   }
+
+  public static double calculateVoltageForPositionControl(
+      double targetRotations,
+      double currentRotations,
+      double velocityRotPerSec,
+      double kP,
+      double kD) {
+    // Calculate how far we are from the target in rotations
+    double positionError = targetRotations - currentRotations;
+
+    // Derivative of position error is (0 - currentVelocity)
+    double velocityError = -velocityRotPerSec;
+
+    return (kP * positionError) + (kD * velocityError);
+  }
 }

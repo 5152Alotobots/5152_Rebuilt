@@ -48,6 +48,6 @@ public class RunTurretToTarget extends Command {
 
   @Override
   public boolean isFinished() {
-    return turretSubsystem.isAtTargetAngle();
+    return false;
   }
 }
