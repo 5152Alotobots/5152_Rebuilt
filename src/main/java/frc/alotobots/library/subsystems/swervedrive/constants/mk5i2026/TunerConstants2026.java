@@ -322,7 +322,7 @@ public class TunerConstants2026 implements TunerConstants {
                 GeneratedConstants.FrontLeft.WheelRadius,
                 GeneratedConstants.kSpeedAt12Volts.in(MetersPerSecond),
                 WHEEL_COF,
-                DCMotor.getFalcon500(1)
+                DCMotor.getKrakenX60(1)
                     .withReduction(GeneratedConstants.FrontLeft.DriveMotorGearRatio),
                 GeneratedConstants.FrontLeft.SlipCurrent,
                 1),
