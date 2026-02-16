@@ -71,7 +71,7 @@ public final class Constants {
     public static final int PDH_CAN_ID = 1;
 
     public static final int CANDLE_CAN_ID = 2;
-    
+
     // CAN IDs 3, 10-21 reserved for swerve
 
     public static final int CLIMBER_CAN_ID = 30;
@@ -83,7 +83,5 @@ public final class Constants {
     public static final int SHOOTER_LEFT_CAN_ID = 36;
     public static final int SHOOTER_RIGHT_CAN_ID = 37;
     public static final int KICKER_CAN_ID = 38;
-    
-    
   }
 }
