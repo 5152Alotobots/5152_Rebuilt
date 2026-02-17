@@ -45,6 +45,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
@@ -132,10 +133,10 @@ public class RobotContainer {
         autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
         configureAutoChooser();
 
-        shooterSubsystem = null;
+        shooterSubsystem = new ShooterSubsystem(new ShooterIOSim());
 
-        beltSubsystem = null;
-        kickerSubsystem = null;
+        beltSubsystem = new BeltSubsystem(new BeltIO() {});
+        kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         questNavSubsystem =
             new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new QuestNavIOReal());
         aprilTagSubsystem =
@@ -185,9 +186,9 @@ public class RobotContainer {
 
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
-    turretSubsystem.setDefaultCommand(
-        new RunTurretToTarget(
-            new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
+    // turretSubsystem.setDefaultCommand(
+    // new RunTurretToTarget(
+    // new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
   }
 
   /** Contains button based commands */
