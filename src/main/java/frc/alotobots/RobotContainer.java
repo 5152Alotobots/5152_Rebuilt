@@ -43,15 +43,16 @@ import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
-import frc.alotobots.rebuilt.subsystems.shooter.ShooterSubsystem;
-import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIO;
-import frc.alotobots.rebuilt.subsystems.shooter.io.ShooterIOTalonFX;
-import frc.alotobots.rebuilt.subsystems.turret.TurretAngleCalculations;
-import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
-import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToTarget;
-import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
-import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
-import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.RunTurretToTarget;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretDefault;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -184,9 +185,9 @@ public class RobotContainer {
 
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
-    // turretSubsystem.setDefaultCommand(
-    // new RunTurretToTarget(
-    // new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
+    turretSubsystem.setDefaultCommand(
+        new RunTurretToTarget(
+            new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
   }
 
   /** Contains button based commands */
