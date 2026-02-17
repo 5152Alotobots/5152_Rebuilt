@@ -30,58 +30,47 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerTalo
 import frc.alotobots.util.PhoenixUtil;
 import org.dyn4j.exception.ArgumentNullException;
 
+import static edu.wpi.first.units.Units.Amps;
+
 public class IntakeRollerIOTalonFX implements IntakeRollerIO {
   private final CANBus canBus = new CANBus("rio");
   private final TalonFX intakeRollerMotor;
-  private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
-  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0.0);
 
-  private StatusSignal<Angle> intakeRollerPosition;
   private StatusSignal<AngularVelocity> intakeRollerVelocity;
-  private StatusSignal<AngularAcceleration> intakeRollerAcceleration;
   private StatusSignal<Voltage> intakeRollerAppliedVoltage;
   private StatusSignal<Current> intakeRollerAppliedCurrent;
-  private StatusSignal<Integer> currentPidSlot;
   private Debouncer intakeRollerConnectedDebounce = new Debouncer(0.1);
 
   public IntakeRollerIOTalonFX() {
     intakeRollerMotor = new TalonFX(Constants.CanId.INTAKE_ROLLER_CAN_ID, canBus);
 
     var intakeRollerMotorConfig = new TalonFXConfiguration();
-    intakeRollerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    intakeRollerMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    intakeRollerMotorConfig.MotorOutput.NeutralMode = IntakeRollerTalonFXConstants.MECHANISM_NEUTRAL_MODE;
+    intakeRollerMotorConfig.MotorOutput.Inverted = IntakeRollerTalonFXConstants.MOTOR_DIRECTION;
     intakeRollerMotorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    intakeRollerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod =
-        IntakeRollerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
-    intakeRollerMotorConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod =
-        IntakeRollerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
-    intakeRollerMotorConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod =
-        IntakeRollerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
-    intakeRollerMotorConfig.Slot0.kP = IntakeRollerTalonFXConstants.VELOCITY_P_GAIN;
-    intakeRollerMotorConfig.Slot0.kI = IntakeRollerTalonFXConstants.VELOCITY_I_GAIN;
-    intakeRollerMotorConfig.Slot0.kD = IntakeRollerTalonFXConstants.VELOCITY_D_GAIN;
-    intakeRollerMotorConfig.Slot0.kV = IntakeRollerTalonFXConstants.VELOCITY_V_GAIN;
-    intakeRollerMotorConfig.Slot0.kS = IntakeRollerTalonFXConstants.VELOCITY_S_GAIN;
 
+    intakeRollerMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent =
+            IntakeRollerTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
+    intakeRollerMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent =
+            IntakeRollerTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+
+    intakeRollerMotorConfig.CurrentLimits.StatorCurrentLimit =
+            IntakeRollerTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
+    intakeRollerMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    
     PhoenixUtil.tryUntilOk(
         5, () -> intakeRollerMotor.getConfigurator().apply(intakeRollerMotorConfig, 0.25));
 
-    intakeRollerPosition = intakeRollerMotor.getPosition();
     intakeRollerVelocity = intakeRollerMotor.getVelocity();
-    intakeRollerAcceleration = intakeRollerMotor.getAcceleration();
     intakeRollerAppliedVoltage = intakeRollerMotor.getMotorVoltage();
     intakeRollerAppliedCurrent = intakeRollerMotor.getStatorCurrent();
-    currentPidSlot = intakeRollerMotor.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
-        intakeRollerPosition,
         intakeRollerVelocity,
-        intakeRollerAcceleration,
         intakeRollerAppliedVoltage,
-        intakeRollerAppliedCurrent,
-        currentPidSlot);
-
+        intakeRollerAppliedCurrent);
+    
     ParentDevice.optimizeBusUtilizationForAll(intakeRollerMotor);
   }
 
@@ -89,48 +78,21 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
   public void updateInputs(IntakeRollerIOInputs inputs) {
     var intakeRollerSignals =
         BaseStatusSignal.refreshAll(
-            intakeRollerPosition,
             intakeRollerVelocity,
-            intakeRollerAcceleration,
             intakeRollerAppliedVoltage,
             intakeRollerAppliedCurrent);
-
-    inputs.intakeRollerMotorPIDSlot =
-        switch (currentPidSlot.getValue()) {
-          case 0 -> PIDSlots.DEFAULT_VELOCITY;
-          default -> throw new ArgumentNullException(
-              "No defined PID slot for value: " + currentPidSlot.getValue());
-        };
 
     inputs.intakeRollerMotorConnected =
         intakeRollerConnectedDebounce.calculate(intakeRollerSignals.isOK());
     inputs.intakeRollerMotorVelocity = intakeRollerVelocity.getValue();
-    inputs.intakeRollerMotorAcceleration = intakeRollerAcceleration.getValue();
     inputs.intakeRollerMotorVolts = intakeRollerAppliedVoltage.getValue();
     inputs.intakeRollerMotorCurrent = intakeRollerAppliedCurrent.getValue();
-
-    inputs.intakeRollerMotorPIDSlot =
-        switch (currentPidSlot.getValue()) {
-          case 0 -> PIDSlots.DEFAULT_VELOCITY;
-          default -> throw new ArgumentNullException(
-              "No defined PID slot for value: " + currentPidSlot.getValue());
-        };
-  }
-
-  @Override
-  public void setIntakeRollerVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    intakeRollerMotor.setControl(
-        velocityVoltage.withVelocity(velocity).withSlot(pidSlot.ordinal()));
-  }
-
-  @Override
-  public void setIntakeRollerVelocity(AngularVelocity velocity) {
-    setIntakeRollerVelocity(velocity, PIDSlots.DEFAULT_VELOCITY);
+    
   }
 
   @Override
   public void setIntakeRollerOpenLoop(double percentOutput) {
-    intakeRollerMotor.setControl(dutyCycleOut.withOutput(1));
+    intakeRollerMotor.set(percentOutput);
   }
 
   @Override

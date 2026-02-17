@@ -12,12 +12,10 @@
 */
 package frc.alotobots.rebuilt.subsystems.intake.roller;
 
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerTalonFXConstants.MAX_OPERATOR_VELOCITY;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
@@ -37,30 +35,12 @@ public class IntakeRollerSubsystem extends SubsystemBase {
     Logger.processInputs("Intake/Roller", inputs);
   }
 
-  /**
-   * Controls the intake roller to move to a specified velocity using closed-loop velocity control.
-   *
-   * @param velocity Target velocity in radians per second, automatically constrained between
-   *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
-   */
-  public void runIntakeRollerToTargetVelocity(AngularVelocity velocity) {
-    AngularVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
-    io.setIntakeRollerVelocity(adjustedVelocity);
-    Logger.recordOutput("Intake/Roller/ControlType", IntakeRollerIO.PIDSlots.DEFAULT_VELOCITY);
+  public void runAtPercentOutput(double percentOutput) {
+    double adjustedOutput = MathUtil.clamp(percentOutput, -IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE, IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
+    io.setIntakeRollerOpenLoop(adjustedOutput);
+    Logger.recordOutput("Intake/Roller/ControlType", "PERCENT_OUTPUT");
   }
-
-  public void runIntakeRollerPercentOutput(double percentOutput) {
-    io.setIntakeRollerOpenLoop(percentOutput);
-  }
-
-  private AngularVelocity applyVelocityLimitIfNeeded(AngularVelocity velocity) {
-    return RadiansPerSecond.of(
-        MathUtil.clamp(
-            velocity.in(RadiansPerSecond),
-            -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
-            MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
-  }
-
+  
   public void stop() {
     io.stop();
   }

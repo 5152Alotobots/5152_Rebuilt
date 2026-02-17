@@ -22,6 +22,7 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
@@ -82,7 +83,8 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
   }
 
   public void runAtPercentOutput(double percentOutput) {
-    io.setIntakeExtendoOpenLoop(percentOutput);
+    double adjustedOutput = MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
+    io.setIntakeExtendoOpenLoop(adjustedOutput);
     Logger.recordOutput("Intake/Roller/ControlType", "PERCENT_OUTPUT");
   }
 

@@ -12,17 +12,42 @@
 */
 package frc.alotobots.rebuilt.subsystems.intake.roller.constants;
 
+import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import lombok.experimental.UtilityClass;
 
+/**
+ * Constants for the physical intake roller subsystem using TalonFX motors. Contains PID constants for
+ * different control modes and motor safety limits.
+ */
+@UtilityClass
 public class IntakeRollerTalonFXConstants {
-  public static final double VELOCITY_P_GAIN = 2.5;
-  public static final double VELOCITY_I_GAIN = 0.0;
-  public static final double VELOCITY_D_GAIN = 0.0;
-  public static final double VELOCITY_V_GAIN = 0.125;
-  public static final double VELOCITY_S_GAIN = 0.0090433;
-  public static final double CLOSED_LOOP_RAMP_RATE = 0.5;
+  
+    /** Contains PID and motion control constants for different control modes. */
+    public static final class PIDConstants {
+      // This class is intentionally left empty
+    }
 
-  public static final AngularVelocity MAX_OPERATOR_VELOCITY = RadiansPerSecond.of(2 * Math.PI);
+    /** Contains safety limit constants for the intake roller motor. */
+    public static final class MotorSafetyLimits {
+      /** Maximum forward torque current limit in amperes */
+      public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(20);
+
+      /** Maximum reverse torque current limit in amperes */
+      public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-20);
+
+      /** Maximum stator current limit in amperes */
+      public static final Current STATOR_AMP_LIMIT = Amps.of(20);
+    }
+
+    /** Direction of the intake roller motor rotation */
+    public static final InvertedValue MOTOR_DIRECTION = InvertedValue.CounterClockwise_Positive;
+
+    /** Neutral mode (brake/coast) setting for the mechanism */
+    public static final NeutralModeValue MECHANISM_NEUTRAL_MODE = NeutralModeValue.Brake;
 }
