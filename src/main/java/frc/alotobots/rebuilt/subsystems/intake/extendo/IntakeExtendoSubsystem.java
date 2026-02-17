@@ -22,7 +22,6 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
@@ -40,11 +39,11 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
 
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetExtensionDebounce =
-          new Debouncer(AT_TARGET_EXTENSION_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(AT_TARGET_EXTENSION_TIME_THRESHOLD.in(Seconds));
 
   /** Debouncer for retracted-state resetting logic */
   private final Debouncer retractedDebounce =
-          new Debouncer(AT_TARGET_EXTENSION_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(AT_TARGET_EXTENSION_TIME_THRESHOLD.in(Seconds));
 
   public IntakeExtendoSubsystem(IntakeExtendoIO io) {
     this.io = io;
@@ -57,19 +56,22 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
   }
 
   /**
-   * Controls the extendo to move to a specified extension using closed-loop motion-magic position control.
+   * Controls the extendo to move to a specified extension using closed-loop motion-magic position
+   * control.
    *
-   * @param extension Target extension, automatically constrained between MIN_HEIGHT and
-   *     MAX_HEIGHT
+   * @param extension Target extension, automatically constrained between MIN_HEIGHT and MAX_HEIGHT
    */
   public void runToTargetPosition(Distance extension) {
     Distance adjustedExtension =
-            Meters.of(MathUtil.clamp(extension.in(Meters), MIN_EXTENSION.in(Meters), MAX_EXTENSION.in(Meters)));
+        Meters.of(
+            MathUtil.clamp(
+                extension.in(Meters), MIN_EXTENSION.in(Meters), MAX_EXTENSION.in(Meters)));
     targetExtension = adjustedExtension;
     io.setIntakeExtendoPosition(adjustedExtension, IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
-    Logger.recordOutput("Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
+    Logger.recordOutput(
+        "Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
   }
-  
+
   /**
    * Controls the intake extendo to move to a specified velocity using closed-loop velocity control.
    *
@@ -79,19 +81,20 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
   public void runToTargetVelocity(LinearVelocity velocity) {
     LinearVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
     io.setIntakeExtendoVelocity(adjustedVelocity);
-    Logger.recordOutput("Intake/Roller/ControlType", IntakeExtendoIO.PIDSlots.VELOCITY);
+    Logger.recordOutput("Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.VELOCITY);
   }
 
   public void runAtPercentOutput(double percentOutput) {
-    double adjustedOutput = MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
+    double adjustedOutput =
+        MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
     io.setIntakeExtendoOpenLoop(adjustedOutput);
-    Logger.recordOutput("Intake/Roller/ControlType", "PERCENT_OUTPUT");
+    Logger.recordOutput("Intake/Extendo/ControlType", "PERCENT_OUTPUT");
   }
 
   public void stop() {
     io.stop();
   }
-  
+
   /**
    * Retrieves the current extension of the extendo.
    *
@@ -109,8 +112,8 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
   public boolean isAtTargetExtension() {
     // Check if current extension is within threshold of target
     boolean inSetPointThreshold =
-            targetExtension.minus(inputs.intakeExtendoDistance).abs(Meters)
-                    < AT_TARGET_EXTENSION_POSITION_THRESHOLD.in(Meters);
+        targetExtension.minus(inputs.intakeExtendoDistance).abs(Meters)
+            < AT_TARGET_EXTENSION_POSITION_THRESHOLD.in(Meters);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetExtensionDebounce.calculate(inSetPointThreshold);
@@ -122,21 +125,23 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
    * @return true if the extendo is within the velocity limit distance, false otherwise
    */
   private boolean isVelocityLimitNeeded() {
-    if ((inputs.intakeExtendoDistance.minus(MIN_EXTENSION)).abs(Meters) < DISTANCE_FROM_LIMIT.in(Meters)) {
+    if ((inputs.intakeExtendoDistance.minus(MIN_EXTENSION)).abs(Meters)
+        < DISTANCE_FROM_LIMIT.in(Meters)) {
       Logger.recordOutput("Intake/Extendo/LimitReason", "NEAR_MIN_EXTENSION_LIMIT");
       return true;
     }
-    if ((inputs.intakeExtendoDistance.minus(MAX_EXTENSION)).abs(Meters) < DISTANCE_FROM_LIMIT.in(Meters)) {
+    if ((inputs.intakeExtendoDistance.minus(MAX_EXTENSION)).abs(Meters)
+        < DISTANCE_FROM_LIMIT.in(Meters)) {
       Logger.recordOutput("Intake/Extendo/LimitReason", "NEAR_MAX_EXTENSION_LIMIT");
       return true;
     }
-    
+
     return false;
   }
 
   /**
-   * Applies the velocity limit if the extendo is within the velocity limit distance from the in
-   * or out limits.
+   * Applies the velocity limit if the extendo is within the velocity limit distance from the in or
+   * out limits.
    *
    * @param velocity The target velocity
    * @return The adjusted velocity if the limit is needed, otherwise the original velocity
@@ -144,16 +149,16 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
   private LinearVelocity applyVelocityLimitIfNeeded(LinearVelocity velocity) {
     if (isVelocityLimitNeeded()) {
       return MetersPerSecond.of(
-              MathUtil.clamp(
-                      velocity.in(MetersPerSecond),
-                      -MAX_VELOCITY_NEAR_LIMIT.in(MetersPerSecond),
-                      MAX_VELOCITY_NEAR_LIMIT.in(MetersPerSecond)));
+          MathUtil.clamp(
+              velocity.in(MetersPerSecond),
+              -MAX_VELOCITY_NEAR_LIMIT.in(MetersPerSecond),
+              MAX_VELOCITY_NEAR_LIMIT.in(MetersPerSecond)));
     } else {
       return MetersPerSecond.of(
-              MathUtil.clamp(
-                      velocity.in(MetersPerSecond),
-                      -MAX_OPERATOR_VELOCITY.in(MetersPerSecond),
-                      MAX_OPERATOR_VELOCITY.in(MetersPerSecond)));
+          MathUtil.clamp(
+              velocity.in(MetersPerSecond),
+              -MAX_OPERATOR_VELOCITY.in(MetersPerSecond),
+              MAX_OPERATOR_VELOCITY.in(MetersPerSecond)));
     }
   }
 }

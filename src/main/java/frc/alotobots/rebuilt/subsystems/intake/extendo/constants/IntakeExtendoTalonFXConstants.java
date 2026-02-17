@@ -12,13 +12,13 @@
 */
 package frc.alotobots.rebuilt.subsystems.intake.extendo.constants;
 
+import static edu.wpi.first.units.Units.*;
+
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
-
-import static edu.wpi.first.units.Units.*;
 
 public class IntakeExtendoTalonFXConstants {
   /** Contains PID and motion control constants for different control modes. */
@@ -35,13 +35,13 @@ public class IntakeExtendoTalonFXConstants {
       public static final double KD = 0.0;
 
       /** Gravity compensation gain */
-      public static final double KG = 0.35;
+      public static final double KG = 0.0;
 
       /** Static friction compensation */
       public static final double KS = 0.0;
 
       /** Velocity feedforward gain */
-      public static final double KV = 0.11;
+      public static final double KV = 0.05;
     }
 
     /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
@@ -89,12 +89,13 @@ public class IntakeExtendoTalonFXConstants {
 
   /** Neutral mode (brake/coast) setting for the mechanism */
   public static final NeutralModeValue MECHANISM_NEUTRAL_MODE = NeutralModeValue.Brake;
-  
-  public static final InvertedValue MOTOR_DIRECTION = InvertedValue.Clockwise_Positive;
 
-  /** Regression used to calculate extension of motor. (Should be linear) Rotations:Meters
-   * This assumes we are measuring the opposite side of the triangle created by the intake (the one parallel to the
-   * floor or that measures distance extended from the frame)
-   * */
-  public static final double EXTENSION_PER_ROTATION = 0.0380319;
+  public static final InvertedValue MOTOR_DIRECTION = InvertedValue.CounterClockwise_Positive;
+
+  /**
+   * Regression used to calculate extension of motor. (Should be linear) Rotations:Meters This
+   * assumes we are measuring the opposite side of the triangle created by the intake (the one
+   * parallel to the floor or that measures distance extended from the frame)
+   */
+  public static final double EXTENSION_PER_ROTATION = 0.0140327;
 }

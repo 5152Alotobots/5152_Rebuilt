@@ -117,19 +117,21 @@ public class OI {
 
   /** Temporary test button */
 
-  // DRIVER CONTROLS-----------------------------------------------------------(Single Driver Only atm)
+  // DRIVER CONTROLS-----------------------------------------------------------(Single Driver Only
+  // atm)
   // public static final Trigger testButton = codriverController.a();
 
   // Climber Controls
   public static final Trigger retractClimber = driverController.x();
+
   public static final Trigger extendClimber = driverController.y();
-  public static final Trigger climbAction = driverController.a(); //Might be unnessecary?
-  
+  public static final Trigger climbAction = driverController.a(); // Might be unnessecary?
+
   // Intake Controls
   public static final Trigger intakeOut = driverController.povUp();
   public static final Trigger intakeIn = driverController.povDown();
   public static final Trigger intake = driverController.leftStick();
-  //Reverse intake wheels?
+  // Reverse intake wheels?
 
   // Turret Controls
   public static final Trigger shoot = driverController.rightStick();
@@ -137,7 +139,7 @@ public class OI {
   public static final Trigger rotateTurretLeft = driverController.povLeft();
   public static final Trigger turretAimPass = driverController.leftBumper();
   public static final Trigger turretAimShoot = driverController.rightBumper();
-  
+
   /**
    * Gets the manual turret control input, Applies deadband after selection.
    *

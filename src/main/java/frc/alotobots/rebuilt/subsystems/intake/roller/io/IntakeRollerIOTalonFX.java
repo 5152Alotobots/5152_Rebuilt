@@ -12,25 +12,20 @@
 */
 package frc.alotobots.rebuilt.subsystems.intake.roller.io;
 
+import static edu.wpi.first.units.Units.Amps;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.*;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
-import org.dyn4j.exception.ArgumentNullException;
-
-import static edu.wpi.first.units.Units.Amps;
 
 public class IntakeRollerIOTalonFX implements IntakeRollerIO {
   private final CANBus canBus = new CANBus("rio");
@@ -45,19 +40,20 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
     intakeRollerMotor = new TalonFX(Constants.CanId.INTAKE_ROLLER_CAN_ID, canBus);
 
     var intakeRollerMotorConfig = new TalonFXConfiguration();
-    intakeRollerMotorConfig.MotorOutput.NeutralMode = IntakeRollerTalonFXConstants.MECHANISM_NEUTRAL_MODE;
+    intakeRollerMotorConfig.MotorOutput.NeutralMode =
+        IntakeRollerTalonFXConstants.MECHANISM_NEUTRAL_MODE;
     intakeRollerMotorConfig.MotorOutput.Inverted = IntakeRollerTalonFXConstants.MOTOR_DIRECTION;
     intakeRollerMotorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
 
     intakeRollerMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent =
-            IntakeRollerTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
+        IntakeRollerTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     intakeRollerMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent =
-            IntakeRollerTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+        IntakeRollerTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
 
     intakeRollerMotorConfig.CurrentLimits.StatorCurrentLimit =
-            IntakeRollerTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
+        IntakeRollerTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
     intakeRollerMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-    
+
     PhoenixUtil.tryUntilOk(
         5, () -> intakeRollerMotor.getConfigurator().apply(intakeRollerMotorConfig, 0.25));
 
@@ -66,11 +62,8 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
     intakeRollerAppliedCurrent = intakeRollerMotor.getStatorCurrent();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
-        intakeRollerVelocity,
-        intakeRollerAppliedVoltage,
-        intakeRollerAppliedCurrent);
-    
+        50.0, intakeRollerVelocity, intakeRollerAppliedVoltage, intakeRollerAppliedCurrent);
+
     ParentDevice.optimizeBusUtilizationForAll(intakeRollerMotor);
   }
 
@@ -78,16 +71,13 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
   public void updateInputs(IntakeRollerIOInputs inputs) {
     var intakeRollerSignals =
         BaseStatusSignal.refreshAll(
-            intakeRollerVelocity,
-            intakeRollerAppliedVoltage,
-            intakeRollerAppliedCurrent);
+            intakeRollerVelocity, intakeRollerAppliedVoltage, intakeRollerAppliedCurrent);
 
     inputs.intakeRollerMotorConnected =
         intakeRollerConnectedDebounce.calculate(intakeRollerSignals.isOK());
     inputs.intakeRollerMotorVelocity = intakeRollerVelocity.getValue();
     inputs.intakeRollerMotorVolts = intakeRollerAppliedVoltage.getValue();
     inputs.intakeRollerMotorCurrent = intakeRollerAppliedCurrent.getValue();
-    
   }
 
   @Override

@@ -12,7 +12,6 @@
 */
 package frc.alotobots.rebuilt.subsystems.intake.roller;
 
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
@@ -36,11 +35,15 @@ public class IntakeRollerSubsystem extends SubsystemBase {
   }
 
   public void runAtPercentOutput(double percentOutput) {
-    double adjustedOutput = MathUtil.clamp(percentOutput, -IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE, IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
+    double adjustedOutput =
+        MathUtil.clamp(
+            percentOutput,
+            -IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
+            IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
     io.setIntakeRollerOpenLoop(adjustedOutput);
     Logger.recordOutput("Intake/Roller/ControlType", "PERCENT_OUTPUT");
   }
-  
+
   public void stop() {
     io.stop();
   }

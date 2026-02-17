@@ -27,9 +27,9 @@ public interface IntakeExtendoIO {
   @AutoLog
   public static class IntakeExtendoIOInputs {
     public PIDSlots intakeExtendoMotorPIDSlot = PIDSlots.VELOCITY;
-    
+
     public boolean intakeExtendoMotorConnected = false;
-    
+
     public Distance intakeExtendoDistance = Meters.zero();
     public Angle intakeExtendoMotorAngle = Rotations.zero();
     public AngularVelocity intakeExtendoMotorVelocity = RotationsPerSecond.zero();
@@ -58,7 +58,7 @@ public interface IntakeExtendoIO {
    * @param position The desired position for the extendo
    */
   public default void setIntakeExtendoPosition(Distance position) {}
-  
+
   /**
    * Sets the intake extendo to run at a target velocity using closed-loop control.
    *

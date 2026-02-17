@@ -12,6 +12,10 @@
 */
 package frc.alotobots.rebuilt.subsystems.intake.extendo.io;
 
+import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MIN_EXTENSION;
+import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants.EXTENSION_PER_ROTATION;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
@@ -28,10 +32,6 @@ import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 import org.dyn4j.exception.ArgumentNullException;
-
-import static edu.wpi.first.units.Units.*;
-import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MIN_EXTENSION;
-import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants.EXTENSION_PER_ROTATION;
 
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private final CANBus canBus = new CANBus("rio");
@@ -51,41 +51,63 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
     intakeExtendoMotor = new TalonFX(Constants.CanId.INTAKE_EXTENDO_CAN_ID, canBus);
 
     var intakeExtendoMotorConfig = new TalonFXConfiguration();
-    
+
     // PID configuration for velocity mode (Slot 0)
-    intakeExtendoMotorConfig.Slot0.kP = IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
-    intakeExtendoMotorConfig.Slot0.kI = IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
-    intakeExtendoMotorConfig.Slot0.kD = IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
+    intakeExtendoMotorConfig.Slot0.kP =
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
+    intakeExtendoMotorConfig.Slot0.kI =
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
+    intakeExtendoMotorConfig.Slot0.kD =
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
     intakeExtendoMotorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-    intakeExtendoMotorConfig.Slot0.kG = IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
-    intakeExtendoMotorConfig.Slot0.kS = IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KS;
-    intakeExtendoMotorConfig.Slot0.kV = IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
-    
+    intakeExtendoMotorConfig.Slot0.kG =
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
+    intakeExtendoMotorConfig.Slot0.kS =
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KS;
+    intakeExtendoMotorConfig.Slot0.kV =
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
+
     // PID configuration for position mode (motion magic voltage) (Slot 1)
-    intakeExtendoMotorConfig.Slot1.kP = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
-    intakeExtendoMotorConfig.Slot1.kI = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
-    intakeExtendoMotorConfig.Slot1.kD = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
-    intakeExtendoMotorConfig.Slot1.kA = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KA;
+    intakeExtendoMotorConfig.Slot1.kP =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
+    intakeExtendoMotorConfig.Slot1.kI =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
+    intakeExtendoMotorConfig.Slot1.kD =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
+    intakeExtendoMotorConfig.Slot1.kA =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KA;
     intakeExtendoMotorConfig.Slot1.GravityType = GravityTypeValue.Elevator_Static;
-    intakeExtendoMotorConfig.Slot1.kG = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
-    intakeExtendoMotorConfig.Slot1.kS = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
-    intakeExtendoMotorConfig.Slot1.kV = IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
-    
-    intakeExtendoMotorConfig.MotorOutput.NeutralMode = IntakeExtendoTalonFXConstants.MECHANISM_NEUTRAL_MODE;
-    
+    intakeExtendoMotorConfig.Slot1.kG =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
+    intakeExtendoMotorConfig.Slot1.kS =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
+    intakeExtendoMotorConfig.Slot1.kV =
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
+
+    intakeExtendoMotorConfig.MotorOutput.NeutralMode =
+        IntakeExtendoTalonFXConstants.MECHANISM_NEUTRAL_MODE;
+
     intakeExtendoMotorConfig.MotorOutput.Inverted = IntakeExtendoTalonFXConstants.MOTOR_DIRECTION;
-    
+
     intakeExtendoMotorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
 
-    intakeExtendoMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent = IntakeExtendoTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
-    intakeExtendoMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent = IntakeExtendoTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+    intakeExtendoMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent =
+        IntakeExtendoTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
+    intakeExtendoMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent =
+        IntakeExtendoTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
 
-    intakeExtendoMotorConfig.CurrentLimits.StatorCurrentLimit = IntakeExtendoTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
+    intakeExtendoMotorConfig.CurrentLimits.StatorCurrentLimit =
+        IntakeExtendoTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
     intakeExtendoMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
-    
-    intakeExtendoMotorConfig.MotionMagic.MotionMagicCruiseVelocity = linearVelocityToTalonFX(IntakeExtendoTalonFXConstants.MotionMagicConstants.CRUISE_VELOCITY).in(RotationsPerSecond);
-    intakeExtendoMotorConfig.MotionMagic.MotionMagicAcceleration = linearAccelerationToTalonFX(IntakeExtendoTalonFXConstants.MotionMagicConstants.ACCELERATION).in(RotationsPerSecondPerSecond);
-    intakeExtendoMotorConfig.MotionMagic.MotionMagicJerk = IntakeExtendoTalonFXConstants.MotionMagicConstants.JERK;
+
+    intakeExtendoMotorConfig.MotionMagic.MotionMagicCruiseVelocity =
+        linearVelocityToTalonFX(IntakeExtendoTalonFXConstants.MotionMagicConstants.CRUISE_VELOCITY)
+            .in(RotationsPerSecond);
+    intakeExtendoMotorConfig.MotionMagic.MotionMagicAcceleration =
+        linearAccelerationToTalonFX(IntakeExtendoTalonFXConstants.MotionMagicConstants.ACCELERATION)
+            .in(RotationsPerSecondPerSecond);
+    intakeExtendoMotorConfig.MotionMagic.MotionMagicJerk =
+        IntakeExtendoTalonFXConstants.MotionMagicConstants.JERK;
 
     PhoenixUtil.tryUntilOk(
         5, () -> intakeExtendoMotor.getConfigurator().apply(intakeExtendoMotorConfig, 0.25));
@@ -120,41 +142,46 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
             intakeExtendoAppliedCurrent);
 
     inputs.intakeExtendoMotorConnected =
-            intakeExtendoConnectedDebounce.calculate(intakeExtendoSignals.isOK());
-    
+        intakeExtendoConnectedDebounce.calculate(intakeExtendoSignals.isOK());
+
     inputs.intakeExtendoDistance = talonFXToExtension(intakeExtendoPosition.getValue());
     inputs.intakeExtendoMotorAngle = intakeExtendoPosition.getValue();
-    
+
     inputs.intakeExtendoMotorVelocity = intakeExtendoVelocity.getValue();
-    
+
     inputs.intakeExtendoMotorAcceleration = intakeExtendoAcceleration.getValue();
-    
+
     inputs.intakeExtendoMotorVolts = intakeExtendoAppliedVoltage.getValue();
     inputs.intakeExtendoMotorCurrent = intakeExtendoAppliedCurrent.getValue();
 
     inputs.intakeExtendoMotorPIDSlot =
-            switch (currentPidSlot.getValue()) {
-              case 0 -> PIDSlots.VELOCITY;
-              case 1 -> PIDSlots.MOTION_MAGIC_POSITION;
-              default -> throw new ArgumentNullException(
-                      "No defined PID slot for value: " + currentPidSlot.getValue());
-            };
+        switch (currentPidSlot.getValue()) {
+          case 0 -> PIDSlots.VELOCITY;
+          case 1 -> PIDSlots.MOTION_MAGIC_POSITION;
+          default -> throw new ArgumentNullException(
+              "No defined PID slot for value: " + currentPidSlot.getValue());
+        };
   }
 
   @Override
   public void setIntakeExtendoPosition(Distance position, PIDSlots pidSlot) {
-    intakeExtendoMotor.setControl(magicPositionVoltage.withPosition(extensionToTalonFX(position)).withSlot(pidSlot.ordinal()));  
+    intakeExtendoMotor.setControl(
+        magicPositionVoltage
+            .withPosition(extensionToTalonFX(position))
+            .withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setIntakeExtendoPosition(Distance position) {
-   setIntakeExtendoPosition(position, PIDSlots.MOTION_MAGIC_POSITION);
+    setIntakeExtendoPosition(position, PIDSlots.MOTION_MAGIC_POSITION);
   }
-  
+
   @Override
   public void setIntakeExtendoVelocity(LinearVelocity velocity, PIDSlots pidSlot) {
     intakeExtendoMotor.setControl(
-        velocityVoltage.withVelocity(linearVelocityToTalonFX(velocity)).withSlot(pidSlot.ordinal()));
+        velocityVoltage
+            .withVelocity(linearVelocityToTalonFX(velocity))
+            .withSlot(pidSlot.ordinal()));
   }
 
   @Override
@@ -171,11 +198,11 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   public void stop() {
     intakeExtendoMotor.stopMotor();
   }
-  
+
   /**
-   * Converts TalonFX rotations to intake extension. TalonFX reports position in rotations in Phoenix
-   * 6. Uses regression formula y = EXTENSION_PER_ROTATION + MIN_EXTENSION where x is rotations and y is
-   * meters.
+   * Converts TalonFX rotations to intake extension. TalonFX reports position in rotations in
+   * Phoenix 6. Uses regression formula y = EXTENSION_PER_ROTATION + MIN_EXTENSION where x is
+   * rotations and y is meters.
    *
    * @param rotations TalonFX motor rotations
    * @return Extension as a Distance unit
@@ -197,9 +224,10 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   }
 
   /**
-   * Converts intake extension to TalonFX rotations. TalonFX expects position in rotations in Phoenix
-   * 6. Uses inverse of regression formula y = EXTENSION_PER_ROTATION + MIN_EXTENSION, solving for x: x =
-   * (y - MIN_EXTENSION) / EXTENSION_PER_ROTATION where y is meters and x is rotations.
+   * Converts intake extension to TalonFX rotations. TalonFX expects position in rotations in
+   * Phoenix 6. Uses inverse of regression formula y = EXTENSION_PER_ROTATION + MIN_EXTENSION,
+   * solving for x: x = (y - MIN_EXTENSION) / EXTENSION_PER_ROTATION where y is meters and x is
+   * rotations.
    *
    * @param extension Extension as a Distance unit
    * @return TalonFX motor rotations as an Angle unit
@@ -210,8 +238,8 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
 
   /**
    * Converts linear velocity to TalonFX rotational velocity. TalonFX expects velocity in rotations
-   * per second in Phoenix 6. Uses inverse slope from regression formula y = EXTENSION_PER_ROTATION +
-   * MIN_EXTENSION.
+   * per second in Phoenix 6. Uses inverse slope from regression formula y = EXTENSION_PER_ROTATION
+   * + MIN_EXTENSION.
    *
    * @param linearVelocity Linear velocity as a LinearVelocity unit
    * @return TalonFX motor rotational velocity as an AngularVelocity unit
@@ -230,7 +258,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
    */
   private AngularAcceleration linearAccelerationToTalonFX(LinearAcceleration linearAcceleration) {
     return RotationsPerSecondPerSecond.of(
-            linearAcceleration.in(MetersPerSecondPerSecond) / EXTENSION_PER_ROTATION);
+        linearAcceleration.in(MetersPerSecondPerSecond) / EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -243,8 +271,8 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
    * @return Linear acceleration as a LinearAcceleration unit
    */
   private LinearAcceleration talonFXToLinearAcceleration(
-          AngularAcceleration rotationalAcceleration) {
+      AngularAcceleration rotationalAcceleration) {
     return MetersPerSecondPerSecond.of(
-            rotationalAcceleration.in(RotationsPerSecondPerSecond) * EXTENSION_PER_ROTATION);
+        rotationalAcceleration.in(RotationsPerSecondPerSecond) * EXTENSION_PER_ROTATION);
   }
 }

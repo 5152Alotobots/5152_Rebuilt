@@ -14,7 +14,6 @@ package frc.alotobots.rebuilt.subsystems.intake.roller.io;
 
 import static edu.wpi.first.units.Units.*;
 
-import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
@@ -37,7 +36,7 @@ public interface IntakeRollerIO {
    * @param inputs The input object to update with the latest hardware state
    */
   default void updateInputs(IntakeRollerIOInputs inputs) {}
-  
+
   /**
    * Runs the intake rollers using direct percentage output (open-loop control).
    *
