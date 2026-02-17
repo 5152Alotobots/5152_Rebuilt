@@ -51,7 +51,6 @@ import frc.alotobots.rebuilt.subsystems.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.turret.commands.RunTurretToTarget;
 import frc.alotobots.rebuilt.subsystems.turret.commands.TurretDefault;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIO;
-import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;

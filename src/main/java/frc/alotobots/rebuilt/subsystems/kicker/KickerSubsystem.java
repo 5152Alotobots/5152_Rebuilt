@@ -13,7 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.kicker;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.shooter.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
