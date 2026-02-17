@@ -113,17 +113,31 @@ public class OI {
   }
 
   /* State-based play control triggers */
-  public static final Trigger resetGyroButton = driverController.rightStick();
+  public static final Trigger resetGyroButton = driverController.start();
 
   /** Temporary test button */
 
-  // DRIVER -----------------------------------------------------------
-  public static final Trigger lockWheelsButton = driverController.x();
+  // DRIVER CONTROLS-----------------------------------------------------------(Single Driver Only atm)
+  // public static final Trigger testButton = codriverController.a();
 
-  public static final Trigger testButton = codriverController.a();
-  public static final Trigger shooterStart = codriverController.y();
-  public static final Trigger shooterLaunch = codriverController.x();
+  // Climber Controls
+  public static final Trigger retractClimber = driverController.x();
+  public static final Trigger extendClimber = driverController.y();
+  public static final Trigger climbAction = driverController.a(); //Might be unnessecary?
+  
+  // Intake Controls
+  public static final Trigger intakeOut = driverController.povUp();
+  public static final Trigger intakeIn = driverController.povDown();
+  public static final Trigger intake = driverController.leftStick();
+  //Reverse intake wheels?
 
+  // Turret Controls
+  public static final Trigger shoot = driverController.rightStick();
+  public static final Trigger rotateTurretRight = driverController.povRight();
+  public static final Trigger rotateTurretLeft = driverController.povLeft();
+  public static final Trigger turretAimPass = driverController.leftBumper();
+  public static final Trigger turretAimShoot = driverController.rightBumper();
+  
   /**
    * Gets the manual turret control input, Applies deadband after selection.
    *

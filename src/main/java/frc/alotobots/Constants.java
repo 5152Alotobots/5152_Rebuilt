@@ -15,6 +15,7 @@ package frc.alotobots;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2023.TunerConstants2023;
+import frc.alotobots.library.subsystems.swervedrive.constants.mk5i2026.TunerConstants2026;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -32,7 +33,7 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
   /** The current robot hardware to deploy for */
-  public static final Robot currentRobot = Robot.DEV;
+  public static final Robot currentRobot = Robot.COMPETITION;
 
   /** Defines the physical robots for the robot code. */
   public enum Robot {
@@ -54,10 +55,9 @@ public final class Constants {
     REPLAY
   }
 
-  // TODO: UPDATE THIS WHEN WE HAVE NEW TUNING CONSTANTS
   public static final TunerConstants tunerConstants =
       switch (currentRobot) {
-        case COMPETITION -> new TunerConstants2023();
+        case COMPETITION -> new TunerConstants2026();
         case DEV -> new TunerConstants2023();
       };
 
@@ -67,21 +67,21 @@ public final class Constants {
    */
   @UtilityClass
   public static final class CanId {
-    /** Power Distribution Panel CAN ID */
-    public static final int PDP_CAN_ID = 1;
 
-    /** Pneumatic Control Module CAN ID */
-    public static final int PCM_CAN_ID = 2;
+    public static final int PDH_CAN_ID = 1;
 
-    /** CANdle LED controller CAN ID */
-    public static final int CANDLE_CAN_ID = 40;
+    public static final int CANDLE_CAN_ID = 2;
 
-    public static final int SERVO_HUB_CAN_ID = 4;
+    // CAN IDs 3, 10-21 reserved for swerve
 
-    public static final int TURRET_CAN_ID = 25;
-    public static final int SHOOTER_LEFT_CAN_ID = 51;
-    public static final int SHOOTER_RIGHT_CAN_ID = 50;
-    public static final int HOPPER_KICKER_CAN_ID = 52;
-    public static final int BELT_KICKER_CAN_ID = 53;
+    public static final int CLIMBER_CAN_ID = 30;
+    public static final int INTAKE_EXTENDO_CAN_ID = 31;
+    public static final int INTAKE_ROLLER_CAN_ID = 32;
+    public static final int CONVEYOR_CAN_ID = 33;
+    public static final int TURRET_CAN_ID = 34;
+    public static final int DEFLECTOR_CAN_ID = 35;
+    public static final int SHOOTER_LEFT_CAN_ID = 36;
+    public static final int SHOOTER_RIGHT_CAN_ID = 37;
+    public static final int KICKER_CAN_ID = 38;
   }
 }

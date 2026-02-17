@@ -48,7 +48,7 @@ public class KickerIOTalonFX implements KickerIO {
   private Debouncer kickerConnectedDebounce = new Debouncer(0.1);
 
   public KickerIOTalonFX() {
-    motorKicker = new TalonFX(Constants.CanId.HOPPER_KICKER_CAN_ID, canBus);
+    motorKicker = new TalonFX(Constants.CanId.KICKER_CAN_ID, canBus);
 
     var motorKickerConfig = new TalonFXConfiguration();
     motorKickerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;

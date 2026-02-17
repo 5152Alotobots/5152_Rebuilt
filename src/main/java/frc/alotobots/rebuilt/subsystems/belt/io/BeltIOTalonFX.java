@@ -48,7 +48,7 @@ public class BeltIOTalonFX implements BeltIO {
   private Debouncer beltConnectedDebounce = new Debouncer(0.1);
 
   public BeltIOTalonFX() {
-    motorBelt = new TalonFX(Constants.CanId.BELT_KICKER_CAN_ID, canBus);
+    motorBelt = new TalonFX(Constants.CanId.CONVEYOR_CAN_ID, canBus);
 
     var motorBeltConfig = new TalonFXConfiguration();
     motorBeltConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
