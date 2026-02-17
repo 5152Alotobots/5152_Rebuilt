@@ -12,10 +12,11 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.commands;
 
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.util.Elastic;
+import frc.alotobots.util.Elastic.ElasticNotification;
 import org.littletonrobotics.junction.Logger;
 
 public class RunTurretToTarget extends Command {
@@ -42,7 +43,12 @@ public class RunTurretToTarget extends Command {
     turretSubsystem.stop();
 
     if (interrupted) {
-      DataLogManager.log("INFO: Turret Auto Position Command Interrupted");
+      Elastic.sendAlert(
+          new ElasticNotification()
+              .withDisplaySeconds(4)
+              .withLevel(Elastic.ElasticNotification.NotificationLevel.INFO)
+              .withTitle("Turret Command Interrupted")
+              .withDescription("The turret command was interrupted and has stopped."));
     }
   }
 

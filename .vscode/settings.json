@@ -90,5 +90,6 @@
     "Feedforward",
     "Quasistatic",
     "RGBW"
-  ]
+  ],
+  "wpilib.selectDefaultSimulateExtension": true
 }

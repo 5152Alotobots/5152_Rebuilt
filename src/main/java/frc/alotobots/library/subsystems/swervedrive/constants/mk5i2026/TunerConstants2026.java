@@ -351,8 +351,7 @@ public class TunerConstants2026 implements TunerConstants {
             .withBumperSize(BUMPER_LENGTH, BUMPER_WIDTH)
             .withSwerveModule(
                 // TODO: Switch to mk5i when availible
-                COTS.ofMark4i(
-                    DCMotor.getFalcon500Foc(1), DCMotor.getFalcon500Foc(1), WHEEL_COF, 2));
+                COTS.ofMark4i(DCMotor.getKrakenX60(1), DCMotor.getKrakenX44(1), WHEEL_COF, 2));
   }
 
   @Override

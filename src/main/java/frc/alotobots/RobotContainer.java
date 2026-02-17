@@ -201,11 +201,10 @@ public class RobotContainer {
     //         beltSubsystem,
     //         () -> AngularVelocity.ofBaseUnits(50, RotationsPerSecond),
     //         shooterLaunch));
-    testButton.whileTrue(
+    turretAimShoot.whileTrue(
         new RunTurretToTarget(
             new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
-    lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
-    // TEMPORARY!!
+    // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     resetGyroButton.onTrue(
         new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
     // Bling

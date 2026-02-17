@@ -27,7 +27,8 @@ public class TurretTalonFXSConstants {
 
   // Gear ratio between the turret mechanism and the motor sensor 10 / 1 being a reduction
   public static final double SENSOR_TO_MECHANISM_RATIO = 14.4 / 1;
-
+  public static final double ROBOT_TO_TURRET_OFFSET_X = -.05;
+  public static final double TURRET_TO_TURRET_OFFSET_Y = .15;
   public static final Angle MIN_ANGLE = Degrees.of(-90);
   public static final Angle MAX_ANGLE = Degrees.of(90);
   public static final double MOMENT_OF_INERTIA =

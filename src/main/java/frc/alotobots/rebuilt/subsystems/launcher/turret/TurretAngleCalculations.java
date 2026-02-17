@@ -12,11 +12,11 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
-import static edu.wpi.first.units.Units.Radians;
-
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.FieldConstants.Hub;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class TurretAngleCalculations {
@@ -37,24 +37,40 @@ public class TurretAngleCalculations {
   // 5cm right
   @AutoLogOutput
   public Rotation2d stationaryTurretAngleCalculations() {
-    // TODO implement side flipping
-    // TODO implement better offset adjustment
-    var hubLocation = Hub.topCenterPoint;
+    var hubLocationBlue = Hub.topCenterPoint;
+    var hubLocationRed = Hub.oppTopCenterPoint;
     var robotPose = swerveDriveSubsystem.getPose();
-    var deltaX = hubLocation.getX() - robotPose.getX() - .05;
-    var deltaY = hubLocation.getY() - robotPose.getY() + .15;
+
+    double deltaX;
+    double deltaY;
+
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      deltaX =
+          hubLocationRed.getX()
+              - robotPose.getX()
+              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_X;
+      deltaY =
+          hubLocationRed.getY()
+              - robotPose.getY()
+              + TurretTalonFXSConstants.TURRET_TO_TURRET_OFFSET_Y;
+    } else {
+      deltaX =
+          hubLocationBlue.getX()
+              - robotPose.getX()
+              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_X;
+      deltaY =
+          hubLocationBlue.getY()
+              - robotPose.getY()
+              + TurretTalonFXSConstants.TURRET_TO_TURRET_OFFSET_Y;
+    }
 
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);
+
     var targetAngle = new Rotation2d(polarCoordinates.angle);
+    var targetAngleAdjusted = targetAngle.minus(swerveDriveSubsystem.getPose().getRotation());
 
-    return targetAngle;
-  }
-
-  @AutoLogOutput
-  public Rotation2d turretDriveAdjustedAngle() {
-    var turretRotation = new Rotation2d(turretSubsystem.getCurrentAngle().in(Radians));
-    turretRotation.plus(swerveDriveSubsystem.getPose().getRotation());
-    return turretRotation;
+    return targetAngleAdjusted;
   }
 
   @AutoLogOutput
