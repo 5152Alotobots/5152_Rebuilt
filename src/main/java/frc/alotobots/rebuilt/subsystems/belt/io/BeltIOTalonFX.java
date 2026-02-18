@@ -1,7 +1,7 @@
 /*
 * ALOTOBOTS - FRC Team 5152
   https://github.com/5152Alotobots
-* Copyright (C) 2025 ALOTOBOTS
+* Copyright (C) 2026 ALOTOBOTS
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ public class BeltIOTalonFX implements BeltIO {
   private Debouncer beltConnectedDebounce = new Debouncer(0.1);
 
   public BeltIOTalonFX() {
-    motorBelt = new TalonFX(Constants.CanId.BELT_KICKER_CAN_ID, canBus);
+    motorBelt = new TalonFX(Constants.CanId.CONVEYOR_CAN_ID, canBus);
 
     var motorBeltConfig = new TalonFXConfiguration();
     motorBeltConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;

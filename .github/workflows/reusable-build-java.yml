@@ -1,0 +1,41 @@
+name: Build Java
+
+on:
+  workflow_call:
+    outputs:
+      artifact-id:
+        description: 'The artifact ID for the JAR'
+        value: ${{ jobs.build.outputs.artifact-id }}
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-id: ${{ steps.upload-jar.outputs.artifact-id }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+      - name: Setup Java and Gradle
+        uses: ./.github/actions/setup-java-gradle
+        with:
+          working-directory: '.'
+          cache-key-prefix: gradle-alotobots
+
+      - name: Build Library
+        run: |
+          ./gradlew build
+
+      - name: Upload JAR Artifact
+        id: upload-jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: questnav-jar-${{ github.sha }}
+          path: build/libs/*.jar
+          retention-days: 7

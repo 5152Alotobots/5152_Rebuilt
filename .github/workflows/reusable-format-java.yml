@@ -1,0 +1,23 @@
+name: Format Check (Java)
+
+on:
+  workflow_call:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+    
+      - name: Setup Java and Gradle
+        uses: ./.github/actions/setup-java-gradle
+        with:
+          working-directory: '.'
+          cache-key-prefix: gradle-alotobots
+
+      - name: Check Java Formatting
+        run: ./gradlew spotlessJavaCheck
