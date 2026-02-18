@@ -12,12 +12,17 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
-import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.Degree;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.Radians;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -27,6 +32,9 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOInputsAutoLogged;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
 
 public class TurretSubsystem extends SubsystemBase {
   /** Hardware abstraction for the wrist */
@@ -41,6 +49,11 @@ public class TurretSubsystem extends SubsystemBase {
 
   private final SysIdRoutine sysIdRoutine;
   private Angle targetAngle = Degrees.zero();
+
+  private final LoggedMechanism2d mech = new LoggedMechanism2d(3, 3);
+  private final LoggedMechanismRoot2d root = mech.getRoot("TurretRoot", 1.5, 1.5);
+  private final LoggedMechanismLigament2d turretLigament =
+      root.append(new LoggedMechanismLigament2d("Turret", 1, 0, 6, new Color8Bit(Color.kYellow)));
 
   /**
    * Creates a new TurretSubsystem.
@@ -69,6 +82,7 @@ public class TurretSubsystem extends SubsystemBase {
     // Update hardware inputs
     io.updateInputs(inputs);
     Logger.recordOutput("Turret/TargetAngle", targetAngle.in(Degree));
+    turretLigament.setAngle(inputs.turretMotorPosition.in(Degrees));
     Logger.processInputs("Turret", inputs);
   }
 
@@ -90,6 +104,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     Logger.recordOutput("Turret/TargetAngle", angle);
     Logger.recordOutput("Turret/AdjustedTargetAngle", targetAngle);
+    Logger.recordOutput("Turret/Mech", mech);
   }
 
   /**
