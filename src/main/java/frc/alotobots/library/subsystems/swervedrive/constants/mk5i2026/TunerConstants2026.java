@@ -44,9 +44,11 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Voltage;
-import frc.alotobots.library.subsystems.swervedrive.constants.COTS;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
+import org.ironmaple.simulation.drivesims.COTS;
+import org.ironmaple.simulation.drivesims.SwerveModuleSimulation;
 import org.ironmaple.simulation.drivesims.configs.DriveTrainSimulationConfig;
+import org.ironmaple.simulation.drivesims.configs.SwerveModuleSimulationConfig;
 
 public class TunerConstants2026 implements TunerConstants {
   public static class GeneratedConstants {
@@ -350,8 +352,18 @@ public class TunerConstants2026 implements TunerConstants {
             .withGyro(COTS.ofPigeon2())
             .withBumperSize(BUMPER_LENGTH, BUMPER_WIDTH)
             .withSwerveModule(
-                // TODO: Switch to mk5i when availible
-                COTS.ofMark5i(DCMotor.getKrakenX60(1), DCMotor.getKrakenX44(1), WHEEL_COF, 3));
+                () ->
+                    new SwerveModuleSimulation(
+                        new SwerveModuleSimulationConfig(
+                            DCMotor.getKrakenX60(1),
+                            DCMotor.getKrakenX44(1),
+                            GeneratedConstants.kDriveGearRatio,
+                            GeneratedConstants.kSteerGearRatio,
+                            Volts.of(0.1),
+                            Volts.of(0.2),
+                            GeneratedConstants.kWheelRadius,
+                            KilogramSquareMeters.of(0.03),
+                            WHEEL_COF)));
   }
 
   @Override
