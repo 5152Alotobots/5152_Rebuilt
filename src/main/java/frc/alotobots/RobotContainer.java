@@ -142,10 +142,8 @@ public class RobotContainer {
         aprilTagSubsystem =
             new AprilTagSubsystem(
                 swerveDriveSubsystem::addVisionMeasurement,
-                new AprilTagIOPhotonVisionSim(
-                    AprilTagConstants.CAMERA_CONFIGS[0], swerveDriveSubsystem::getPose),
-                new AprilTagIOPhotonVisionSim(
-                    AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getPose));
+                new AprilTagIO() {},
+                new AprilTagIO() {});
 
         blingSubsystem = new BlingSubsystem(new BlingIOSim());
         turretSubsystem = new TurretSubsystem(new TurretIOSim());

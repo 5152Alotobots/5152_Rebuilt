@@ -44,8 +44,8 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Voltage;
+import frc.alotobots.library.subsystems.swervedrive.constants.COTS;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
-import org.ironmaple.simulation.drivesims.COTS;
 import org.ironmaple.simulation.drivesims.configs.DriveTrainSimulationConfig;
 
 public class TunerConstants2026 implements TunerConstants {
@@ -351,7 +351,7 @@ public class TunerConstants2026 implements TunerConstants {
             .withBumperSize(BUMPER_LENGTH, BUMPER_WIDTH)
             .withSwerveModule(
                 // TODO: Switch to mk5i when availible
-                COTS.ofMark4i(DCMotor.getKrakenX60(1), DCMotor.getKrakenX44(1), WHEEL_COF, 2));
+                COTS.ofMark5i(DCMotor.getKrakenX60(1), DCMotor.getKrakenX44(1), WHEEL_COF, 3));
   }
 
   @Override
