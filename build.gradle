@@ -213,6 +213,15 @@ task(eventDeploy) {
 }
 createVersionFile.dependsOn(eventDeploy)
 
+// This is here because IntelliJ refuses to see the generated classes otherwise
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/sources/annotationProcessor/java/main"
+        }
+    }
+}
+
 // Spotless formatting
 project.compileJava.dependsOn(spotlessApply)
 
