@@ -10,7 +10,7 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher.deflector.constnats;
+package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 
 public class DeflectorConstants {
   public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds

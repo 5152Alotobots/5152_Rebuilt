@@ -18,7 +18,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.constnats.DeflectorConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
