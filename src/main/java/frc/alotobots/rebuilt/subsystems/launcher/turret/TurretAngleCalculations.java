@@ -43,7 +43,7 @@ public class TurretAngleCalculations {
       deltaY =
           hubLocationRed.getY()
               - robotPose.getY()
-              + TurretTalonFXSConstants.TURRET_TO_TURRET_OFFSET_Y;
+              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_Y;
     } else {
       deltaX =
           hubLocationBlue.getX()
@@ -52,7 +52,7 @@ public class TurretAngleCalculations {
       deltaY =
           hubLocationBlue.getY()
               - robotPose.getY()
-              + TurretTalonFXSConstants.TURRET_TO_TURRET_OFFSET_Y;
+              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_Y;
     }
 
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);

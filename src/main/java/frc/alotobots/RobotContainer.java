@@ -152,7 +152,7 @@ public class RobotContainer {
                 new AprilTagIO() {});
 
         blingSubsystem = new BlingSubsystem(new BlingIOSim());
-        turretSubsystem = new TurretSubsystem(new TurretIOSim() {});
+        turretSubsystem = new TurretSubsystem(new TurretIOSim());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOSim());
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
