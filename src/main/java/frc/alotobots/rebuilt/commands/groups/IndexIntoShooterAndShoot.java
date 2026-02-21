@@ -29,11 +29,15 @@ public class IndexIntoShooterAndShoot extends ParallelCommandGroup {
       KickerSubsystem kickerSubsystem,
       ShooterSubsystem shooterSubsystem) {
     addCommands(
-            new ShooterShootAtVelocity(shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
-                    .until(shooterSubsystem::isAtTargetVelocity),
-            new ParallelCommandGroup(
-                    new DefaultBeltRunAtVelocity(beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-                    new DefaultKickerRunAtVelocity(kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-                    new ShooterShootAtVelocity(shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)));
+        new ShooterShootAtVelocity(
+                shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
+            .until(shooterSubsystem::isAtTargetVelocity),
+        new ParallelCommandGroup(
+            new DefaultBeltRunAtVelocity(
+                beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+            new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+            new ShooterShootAtVelocity(
+                shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)));
   }
 }
