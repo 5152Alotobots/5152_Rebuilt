@@ -85,11 +85,11 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @param velocity Target velocity in radians per second, automatically constrained between
    *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
    */
-  public void runToTargetVelocity(LinearVelocity velocity) {
+  public void runToTargetVelocity(AngularVelocity velocity) {
     AngularVelocity adjustedVelocity = 
             RadiansPerSecond.of(
             MathUtil.clamp(
-            velocity.in(MetersPerSecond),
+            velocity.in(RadiansPerSecond),
             -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
             MAX_OPERATOR_VELOCITY.in(RadiansPerSecond))
             );
@@ -98,7 +98,7 @@ public class DeflectorSubsystem extends SubsystemBase {
   }
   
   /**
-   * Runs the wrist using direct percent output (open-loop control).
+   * Runs the deflector using direct percent output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */

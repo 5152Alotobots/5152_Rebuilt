@@ -83,5 +83,9 @@ public final class Constants {
     public static final int SHOOTER_LEFT_CAN_ID = 36;
     public static final int SHOOTER_RIGHT_CAN_ID = 37;
     public static final int KICKER_CAN_ID = 38;
+    //TODO get actual CAN ID 
+    public static final int DEFLECTOR_ENCODER_CAN_ID = 0;
+
+    public static final int DEFLECTOR_MOTOR_CAN_ID = 0;
   }
 }

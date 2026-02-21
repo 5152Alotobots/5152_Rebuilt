@@ -34,6 +34,9 @@ public interface DeflectorIO {
     public PIDSlots deflectorMotorPidSlot = PIDSlots.DEFAULT_POSITION;
     public boolean deflectorMotorConnected = false;
     public Angle deflectorMotorPosition = Rotations.zero();
+    public Angle deflectorEncoderPosition = Rotations.zero();
+    public Angle deflectorPosition = Rotations.zero();
+    public AngularVelocity deflectorEncoderVelocity = RotationsPerSecond.zero();
     public AngularVelocity deflectorMotorVelocity = RotationsPerSecond.zero();
     public AngularAcceleration deflectorMotorAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage deflectorMotorVolts = Volts.zero();
