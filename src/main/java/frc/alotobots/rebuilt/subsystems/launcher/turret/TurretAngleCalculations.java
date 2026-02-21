@@ -15,13 +15,13 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.FieldConstants.Hub;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class TurretAngleCalculations {
   public record CartesianCoordinates(double x, double y) {}
+
   public record PolarCoordinates(double radius, double angle) {}
 
   // 15cm forward

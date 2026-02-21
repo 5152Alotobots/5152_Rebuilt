@@ -18,15 +18,14 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.util.Elastic;
 import frc.alotobots.util.Elastic.ElasticNotification;
-import frc.alotobots.util.NotificationPresets.SwerveDrive;
-
 import org.littletonrobotics.junction.Logger;
 
 public class RunTurretToTarget extends Command {
   private TurretSubsystem turretSubsystem;
   private SwerveDriveSubsystem swerveDriveSubsystem;
 
-  public RunTurretToTarget(TurretSubsystem turretSubsystem, SwerveDriveSubsystem swerveDriveSubsystem) {
+  public RunTurretToTarget(
+      TurretSubsystem turretSubsystem, SwerveDriveSubsystem swerveDriveSubsystem) {
     this.turretSubsystem = turretSubsystem;
     this.swerveDriveSubsystem = swerveDriveSubsystem;
 
@@ -35,7 +34,8 @@ public class RunTurretToTarget extends Command {
 
   @Override
   public void execute() {
-    var targetAngle = TurretAngleCalculations.stationaryTurretAngleCalculations(swerveDriveSubsystem.getPose());
+    var targetAngle =
+        TurretAngleCalculations.stationaryTurretAngleCalculations(swerveDriveSubsystem.getPose());
     turretSubsystem.runToTargetAngle(targetAngle.getMeasure());
     Logger.recordOutput("Turret/calculatedTargetAngle", targetAngle);
   }
