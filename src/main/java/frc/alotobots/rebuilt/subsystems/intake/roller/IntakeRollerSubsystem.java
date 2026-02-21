@@ -19,6 +19,8 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
+import static frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants.Limits.LIMITS_ENABLED;
+
 public class IntakeRollerSubsystem extends SubsystemBase {
 
   private IntakeRollerIO io;
@@ -40,7 +42,7 @@ public class IntakeRollerSubsystem extends SubsystemBase {
             percentOutput,
             -IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
             IntakeRollerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
-    io.setIntakeRollerOpenLoop(adjustedOutput);
+    io.setIntakeRollerOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
     Logger.recordOutput("Intake/Roller/ControlType", "PERCENT_OUTPUT");
   }
 

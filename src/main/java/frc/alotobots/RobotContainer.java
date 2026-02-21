@@ -211,10 +211,8 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    shoot.whileTrue(
-            new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem)
-    );
-    
+    shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
+
     // TEMPORARY!!
     resetGyroButton.onTrue(
         new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));

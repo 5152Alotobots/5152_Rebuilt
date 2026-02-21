@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import frc.alotobots.util.PhoenixUtil;
-import org.dyn4j.exception.ArgumentNullException;
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorIOTalonFXS implements DeflectorIO {
@@ -95,7 +94,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
         deflectorMotorAcceleration,
         deflectorMotorVoltage,
         deflectorMotorCurrent,
-            currentPidSlot,
+        currentPidSlot,
         deflectorMotorControlMode);
 
     ParentDevice.optimizeBusUtilizationForAll(deflectorMotor);
@@ -110,14 +109,15 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
             deflectorMotorAcceleration,
             deflectorMotorVoltage,
             deflectorMotorCurrent,
+            currentPidSlot,
             deflectorMotorControlMode);
 
     inputs.deflectorMotorPidSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_POSITION;
           case 1 -> PIDSlots.VELOCITY;
-          default -> throw new ArgumentNullException(
-                  "No defined PID slot for value: " + currentPidSlot.getValue());
+          default -> throw new IllegalArgumentException(
+              "No defined PID slot for value: " + currentPidSlot.getValue());
         };
 
     inputs.deflectorMotorControlMode = deflectorMotorControlMode.getValue();
@@ -144,25 +144,22 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
    */
   @Override
   public void setDeflectorPosition(Angle position, PIDSlots pidSlot) {
-    
+
     deflectorMotor.setControl(
         positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setDeflectorVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    deflectorMotor.setControl(
-            velocityControl.withVelocity(velocity).withSlot(pidSlot.ordinal())
-    );
+    deflectorMotor.setControl(velocityControl.withVelocity(velocity).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setDeflectorVelocity(AngularVelocity velocity) {
     deflectorMotor.setControl(
-            velocityControl.withVelocity(velocity).withSlot(PIDSlots.VELOCITY.ordinal())
-    );
+        velocityControl.withVelocity(velocity).withSlot(PIDSlots.VELOCITY.ordinal()));
   }
-  
+
   @Override
   public void setDeflectorOpenLoop(double percentOutput) {
     Logger.recordOutput("deflector/openLoopPercentOut", percentOutput);

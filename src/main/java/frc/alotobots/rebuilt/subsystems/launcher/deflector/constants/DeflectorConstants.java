@@ -12,12 +12,12 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import lombok.experimental.UtilityClass;
-
-import static edu.wpi.first.units.Units.*;
 
 @UtilityClass
 public class DeflectorConstants {

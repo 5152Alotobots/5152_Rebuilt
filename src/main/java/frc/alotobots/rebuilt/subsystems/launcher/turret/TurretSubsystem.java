@@ -67,7 +67,7 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     // Update hardware inputs
     io.updateInputs(inputs);
-    Logger.recordOutput("Turret/TargetAngle", targetAngle.in(Degree));
+    Logger.recordOutput("Launcher/Turret/TargetAngle", targetAngle.in(Degree));
     Logger.processInputs("Launcher/Turret", inputs);
   }
 
@@ -87,8 +87,8 @@ public class TurretSubsystem extends SubsystemBase {
       System.out.println(e.getMessage());
     }
 
-    Logger.recordOutput("Turret/TargetAngle", angle);
-    Logger.recordOutput("Turret/AdjustedTargetAngle", targetAngle);
+    Logger.recordOutput("Launcher/Turret/TargetAngle", angle);
+    Logger.recordOutput("Launcher/Turret/AdjustedTargetAngle", targetAngle);
   }
 
   /**
@@ -153,12 +153,12 @@ public class TurretSubsystem extends SubsystemBase {
 
     Angle error = targetAngle.minus(inputs.turretMotorPosition);
 
-    Logger.recordOutput("Turret/error", error);
+    Logger.recordOutput("Launcher/Turret/error", error);
 
     boolean inSetPointThreshold =
         error.abs(Degree) < TurretConstants.AT_TARGET_ANGLE_THRESHOLD.in(Degrees);
 
-    Logger.recordOutput("Turret/inSetPointThreshold", inSetPointThreshold);
+    Logger.recordOutput("Launcher/Turret/inSetPointThreshold", inSetPointThreshold);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetAngleDebounce.calculate(inSetPointThreshold);
