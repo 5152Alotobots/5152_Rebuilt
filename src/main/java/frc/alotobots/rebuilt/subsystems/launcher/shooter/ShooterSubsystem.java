@@ -31,10 +31,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
   private final Debouncer atTargetVelocityDebounce =
-          new Debouncer(AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
 
   private final AngularVelocity targetVelocity = RadiansPerSecond.zero();
-  
+
   public ShooterSubsystem(ShooterIO io) {
     this.io = io;
   }
@@ -77,13 +77,16 @@ public class ShooterSubsystem extends SubsystemBase {
   public boolean isAtTargetVelocity() {
     // Check if current velocity is within threshold of target
     boolean inSetPointThreshold =
-            targetVelocity.minus((inputs.shooterMotorLeftVelocity.plus(inputs.shooterMotorRightVelocity)).div(2)).abs(RadiansPerSecond)
-                    < AT_TARGET_VELOCITY_SPEED_THRESHOLD.in(RadiansPerSecond);
+        targetVelocity
+                .minus(
+                    (inputs.shooterMotorLeftVelocity.plus(inputs.shooterMotorRightVelocity)).div(2))
+                .abs(RadiansPerSecond)
+            < AT_TARGET_VELOCITY_SPEED_THRESHOLD.in(RadiansPerSecond);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetVelocityDebounce.calculate(inSetPointThreshold);
   }
-  
+
   public void stop() {
     io.stop();
   }

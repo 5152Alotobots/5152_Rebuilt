@@ -25,7 +25,7 @@ public class IntakeRollerConstants {
   public static final class Limits {
 
     public static final boolean LIMITS_ENABLED = true;
-    
+
     /** Maximum open loop percent output (global) */
     public static final double MAX_OPEN_LOOP_PERCENTAGE = 1;
 
