@@ -12,11 +12,12 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
-import static edu.wpi.first.units.Units.Radians;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.rebuilt.FieldConstants.Hub;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class TurretAngleCalculations {
@@ -24,41 +25,42 @@ public class TurretAngleCalculations {
 
   public record PolarCoordinates(double radius, double angle) {}
 
-  private SwerveDriveSubsystem swerveDriveSubsystem;
-  private TurretSubsystem turretSubsystem;
-
-  public TurretAngleCalculations(
-      SwerveDriveSubsystem swerveDriveSubsystem, TurretSubsystem turretSubsystem) {
-    this.swerveDriveSubsystem = swerveDriveSubsystem;
-    this.turretSubsystem = turretSubsystem;
-  }
-
   // 15cm forward
   // 5cm right
   @AutoLogOutput
-  public Rotation2d stationaryTurretAngleCalculations() {
-    // TODO implement side flipping
-    // TODO implement better offset adjustment
-    var hubLocation = Hub.topCenterPoint;
-    var robotPose = swerveDriveSubsystem.getPose();
-    var deltaX = hubLocation.getX() - robotPose.getX() - .05;
-    var deltaY = hubLocation.getY() - robotPose.getY() + .15;
+  public static Rotation2d stationaryTurretAngleCalculations(Pose2d robotPose) {
+    var hubLocationBlue = Hub.topCenterPoint;
+    var hubLocationRed = Hub.oppTopCenterPoint;
+
+    double deltaX;
+    double deltaY;
+
+    robotPose =
+        robotPose.transformBy(
+            new Transform2d(
+                TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_X,
+                TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_Y,
+                new Rotation2d()));
+
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      deltaX = hubLocationRed.getX() - robotPose.getX();
+      deltaY = hubLocationRed.getY() - robotPose.getY();
+    } else {
+      deltaX = hubLocationBlue.getX() - robotPose.getX();
+      deltaY = hubLocationBlue.getY() - robotPose.getY();
+    }
 
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);
+
     var targetAngle = new Rotation2d(polarCoordinates.angle);
+    var targetAngleAdjusted = targetAngle.minus(robotPose.getRotation());
 
-    return targetAngle;
+    return targetAngleAdjusted;
   }
 
   @AutoLogOutput
-  public Rotation2d turretDriveAdjustedAngle() {
-    var turretRotation = new Rotation2d(turretSubsystem.getCurrentAngle().in(Radians));
-    turretRotation.plus(swerveDriveSubsystem.getPose().getRotation());
-    return turretRotation;
-  }
-
-  @AutoLogOutput
-  public PolarCoordinates cartesianToPolar(double x, double y) {
+  public static PolarCoordinates cartesianToPolar(double x, double y) {
     double radius = Math.hypot(x, y);
     double angle = Math.atan2(y, x);
 

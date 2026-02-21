@@ -50,10 +50,13 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TrackTurretToTarget;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretDefault;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
@@ -145,14 +148,12 @@ public class RobotContainer {
         aprilTagSubsystem =
             new AprilTagSubsystem(
                 swerveDriveSubsystem::addVisionMeasurement,
-                new AprilTagIOPhotonVisionSim(
-                    AprilTagConstants.CAMERA_CONFIGS[0], swerveDriveSubsystem::getPose),
-                new AprilTagIOPhotonVisionSim(
-                    AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getPose));
+                new AprilTagIO() {},
+                new AprilTagIO() {});
 
         blingSubsystem = new BlingSubsystem(new BlingIOSim());
-        turretSubsystem = new TurretSubsystem(new TurretIO() {});
-        shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
+        turretSubsystem = new TurretSubsystem(new TurretIOSim());
+        shooterSubsystem = new ShooterSubsystem(new ShooterIOSim());
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
@@ -198,12 +199,17 @@ public class RobotContainer {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(new TurretDefault(turretSubsystem, OI::getTurretAxis));
     // turretSubsystem.setDefaultCommand(
-    // new RunTurretToTarget(
-    // new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
+    //     new RunTurretToTarget(
+    //         new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem),
+    // turretSubsystem));
   }
 
   /** Contains button based commands */
   private void configureLogicCommands() {
+
+    turretAimShoot.whileTrue(
+        new TrackTurretToTarget(turretSubsystem, swerveDriveSubsystem::getPose));
+    // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // Intake Extendo
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));

@@ -167,7 +167,11 @@ public class Robot extends LoggedRobot {
 
   /** Called once when simulation mode is first enabled. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    if (Constants.currentMode == Constants.Mode.SIM) {
+      robotContainer.resetSimulationField();
+    }
+  }
 
   /** Called periodically during simulation mode. */
   @Override

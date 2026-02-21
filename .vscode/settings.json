@@ -87,8 +87,11 @@
     "codriver",
     "DEADBAND",
     "Debouncer",
+    "Extendo",
     "Feedforward",
     "Quasistatic",
     "RGBW"
-  ]
+  ],
+  "wpilib.selectDefaultSimulateExtension": true,
+  "java.debug.settings.onBuildFailureProceed": true
 }
