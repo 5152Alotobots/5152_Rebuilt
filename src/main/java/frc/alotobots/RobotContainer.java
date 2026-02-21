@@ -12,6 +12,7 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -211,8 +212,8 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
-
+    // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
+    shoot.whileTrue(new InstantCommand(() -> shooterSubsystem.runToTargetVelocity(RotationsPerSecond.of(50))).andThen(shooterSubsystem::stop));
     // TEMPORARY!!
     resetGyroButton.onTrue(
         new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
