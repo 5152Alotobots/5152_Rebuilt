@@ -53,7 +53,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.RunTurretToTarget;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TrackTurretToTarget;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretDefault;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
@@ -207,7 +207,8 @@ public class RobotContainer {
   /** Contains button based commands */
   private void configureLogicCommands() {
 
-    turretAimShoot.whileTrue(new RunTurretToTarget(turretSubsystem, swerveDriveSubsystem));
+    turretAimShoot.whileTrue(
+        new TrackTurretToTarget(turretSubsystem, swerveDriveSubsystem::getPose));
     // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // Intake Extendo
     intakeOut.onTrue(

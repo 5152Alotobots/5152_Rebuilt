@@ -12,30 +12,28 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.util.Elastic;
 import frc.alotobots.util.Elastic.ElasticNotification;
+import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
-public class RunTurretToTarget extends Command {
+public class TrackTurretToTarget extends Command {
   private TurretSubsystem turretSubsystem;
-  private SwerveDriveSubsystem swerveDriveSubsystem;
+  private Supplier<Pose2d> robotPose;
 
-  public RunTurretToTarget(
-      TurretSubsystem turretSubsystem, SwerveDriveSubsystem swerveDriveSubsystem) {
+  public TrackTurretToTarget(TurretSubsystem turretSubsystem, Supplier<Pose2d> robotPose) {
     this.turretSubsystem = turretSubsystem;
-    this.swerveDriveSubsystem = swerveDriveSubsystem;
-
+    this.robotPose = robotPose;
     addRequirements(turretSubsystem);
   }
 
   @Override
   public void execute() {
-    var targetAngle =
-        TurretAngleCalculations.stationaryTurretAngleCalculations(swerveDriveSubsystem.getPose());
+    var targetAngle = TurretAngleCalculations.stationaryTurretAngleCalculations(robotPose.get());
     turretSubsystem.runToTargetAngle(targetAngle.getMeasure());
     Logger.recordOutput("Turret/calculatedTargetAngle", targetAngle);
   }
@@ -56,6 +54,8 @@ public class RunTurretToTarget extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return false; // This command runs until interrupted
+    // TODO: CONSIDER: Adding a condition to end the command when the turret is within a certain
+    // threshold of the target angle
   }
 }
