@@ -12,7 +12,6 @@
 */
 package frc.alotobots;
 
-import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -49,8 +48,10 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.ShooterShootAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
@@ -74,6 +75,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem;
   private final KickerSubsystem kickerSubsystem;
   private final BeltSubsystem beltSubsystem;
+  private final DeflectorSubsystem deflectorSubsystem;
   private final IntakeExtendoSubsystem intakeExtendoSubsystem;
   private final IntakeRollerSubsystem intakeRollerSubsystem;
   private LoggedDashboardChooser<Command> autoChooser;
@@ -111,6 +113,7 @@ public class RobotContainer {
         kickerSubsystem = new KickerSubsystem(new KickerIOTalonFX());
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIOTalonFX());
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIOTalonFX());
+        deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOVortex());
         break;
 
       case SIM:
@@ -152,6 +155,7 @@ public class RobotContainer {
                 new AprilTagIOPhotonVisionSim(
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getPose));
 
+        deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
         blingSubsystem = new BlingSubsystem(new BlingIOSim());
         turretSubsystem = new TurretSubsystem(new TurretIO() {});
         shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
@@ -170,6 +174,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
+        deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
         autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
         configureAutoChooser();
 
@@ -217,7 +222,8 @@ public class RobotContainer {
     // shoot
     //     .whileTrue(
     //         new ShooterShootAtVelocity(
-    //             shooterSubsystem, () -> RadiansPerSecond.of(300).times(OI.getTurboSpeedTrigger())))
+    //             shooterSubsystem, () ->
+    // RadiansPerSecond.of(300).times(OI.getTurboSpeedTrigger())))
     //     .onFalse(new InstantCommand(shooterSubsystem::stop));
 
     // TEMPORARY!!

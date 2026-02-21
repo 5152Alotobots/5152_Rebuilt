@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class DeflectorVortexConstants {
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
@@ -23,5 +24,9 @@ public class DeflectorVortexConstants {
   public static final double POSITION_D_GAIN = 0.0;
 
   // Gear ratio between the turret mechanism and the motor sensor 2 / 1 being a reduction
-  public static final double SENSOR_TO_MECHANISM_RATIO = 2;
+  public static final double SENSOR_TO_MECHANISM_RATIO = -0.0749254;
+  public static final SensorDirectionValue ENCODER_SENSOR_DIRECTION =
+      SensorDirectionValue.Clockwise_Positive;
+  public static final double ENCODER_MAGNET_OFFSET = -0.821289;
+  public static final double ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
 }

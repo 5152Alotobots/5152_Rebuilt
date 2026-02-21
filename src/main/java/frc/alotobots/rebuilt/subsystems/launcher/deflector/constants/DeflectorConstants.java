@@ -34,10 +34,10 @@ public class DeflectorConstants {
   /** Contains physical limits and safety thresholds for the wrist. */
   public static final class Limits {
     /** Maximum allowed angle */
-    public static final Angle MAX_ANGLE = Degrees.of(118);
+    public static final Angle MAX_ANGLE = Degrees.of(68);
 
     /** Minimum allowed angle */
-    public static final Angle MIN_ANGLE = Degrees.of(-3);
+    public static final Angle MIN_ANGLE = Degrees.of(41.09268);
 
     /** Maximum open loop percent output */
     public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;

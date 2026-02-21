@@ -16,9 +16,11 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MIN_ANGLE;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -34,6 +36,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorVortexConstants;
+import frc.alotobots.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorIOVortex implements DeflectorIO {
@@ -54,36 +57,38 @@ public class DeflectorIOVortex implements DeflectorIO {
 
     deflectorMotorConnectedDebouncer = new Debouncer(0.5);
     backLimitDebouncer = new Debouncer(0.1);
-    backLimitSwitch = new DigitalInput(0);
+    backLimitSwitch = null;
 
     SparkFlexConfig deflectorMotorConfig = new SparkFlexConfig();
+    CANcoderConfiguration deflectorEncoderConfig = new CANcoderConfiguration();
 
-    deflectorMotorConfig.idleMode(IdleMode.kCoast).inverted(true);
+    deflectorEncoderConfig.MagnetSensor.MagnetOffset =
+        DeflectorVortexConstants.ENCODER_MAGNET_OFFSET;
+    deflectorEncoderConfig.MagnetSensor.SensorDirection =
+        DeflectorVortexConstants.ENCODER_SENSOR_DIRECTION;
+    deflectorEncoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint =
+        DeflectorVortexConstants.ABSOLUTE_SENSOR_DISCONTINUITY_POINT;
 
-    deflectorMotorConfig
-        .encoder
-        .positionConversionFactor(DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO)
-        .velocityConversionFactor(DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO);
+    PhoenixUtil.tryUntilOk(
+        5, () -> deflectorEncoder.getConfigurator().apply(deflectorEncoderConfig, 0.25));
 
-    deflectorMotorConfig.closedLoop.pid(
-        DeflectorVortexConstants.POSITION_P_GAIN,
-        DeflectorVortexConstants.POSITION_I_GAIN,
-        DeflectorVortexConstants.POSITION_D_GAIN,
-        ClosedLoopSlot.kSlot0);
+    deflectorMotorConfig.idleMode(IdleMode.kCoast).inverted(false);
 
     // Write config to the motor controller
     deflectorMotor.configure(
         deflectorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    encoderPosition = deflectorEncoder.getAbsolutePosition();
+    encoderPosition = deflectorEncoder.getPosition();
     encoderVelocity = deflectorEncoder.getVelocity();
 
     BaseStatusSignal.setUpdateFrequencyForAll(50.0, encoderPosition, encoderVelocity);
     deflectorEncoder.optimizeBusUtilization();
+    seedInternalEncoder();
   }
 
   @Override
   public void updateInputs(DeflectorIOInputs inputs) {
+
     BaseStatusSignal.refreshAll(encoderPosition, encoderVelocity);
 
     inputs.deflectorMotorConnected =
@@ -95,9 +100,10 @@ public class DeflectorIOVortex implements DeflectorIO {
     inputs.deflectorMotorVelocity =
         RotationsPerSecond.of(deflectorMotor.getEncoder().getVelocity());
     inputs.deflectorPosition =
-        Rotations.of(
-            inputs.deflectorMotorPosition.in(Rotations)
-                / DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO);
+        inputs
+            .deflectorMotorPosition
+            .times(DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO)
+            .plus(MIN_ANGLE);
 
     inputs.deflectorMotorVolts =
         Volts.of(deflectorMotor.getAppliedOutput() * deflectorMotor.getBusVoltage());
@@ -109,7 +115,7 @@ public class DeflectorIOVortex implements DeflectorIO {
 
   public void seedInternalEncoder() {
     // Wait a moment for the CANcoder to send its initial data over the bus
-    Angle absolutePosition = deflectorEncoder.getAbsolutePosition().getValue();
+    Angle absolutePosition = deflectorEncoder.getPosition().getValue();
 
     // Tell the Vortex internal encoder that its current position is the CANcoder's absolute
     // position
@@ -121,6 +127,7 @@ public class DeflectorIOVortex implements DeflectorIO {
     setDeflectorPosition(position, PIDSlots.DEFAULT_POSITION);
   }
 
+  // IMPORTANT Pos takes values from -6.28 - 0
   @Override
   public void setDeflectorPosition(Angle position, PIDSlots pidSlot) {
     ClosedLoopSlot slot =
