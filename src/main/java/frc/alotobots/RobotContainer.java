@@ -209,8 +209,7 @@ public class RobotContainer {
   private void configureLogicCommands() {
 
     turretAimShoot.whileTrue(
-        new RunTurretToTarget(
-            new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem), turretSubsystem));
+        new RunTurretToTarget(turretSubsystem, swerveDriveSubsystem));
     // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // Intake Extendo
     intakeOut.onTrue(

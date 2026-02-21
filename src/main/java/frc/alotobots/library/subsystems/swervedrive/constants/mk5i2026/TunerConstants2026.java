@@ -355,8 +355,8 @@ public class TunerConstants2026 implements TunerConstants {
                 () ->
                     new SwerveModuleSimulation(
                         new SwerveModuleSimulationConfig(
-                            DCMotor.getKrakenX60(1),
-                            DCMotor.getKrakenX44(1),
+                            DCMotor.getKrakenX60Foc(1),
+                            DCMotor.getKrakenX44Foc(1),
                             GeneratedConstants.kDriveGearRatio,
                             GeneratedConstants.kSteerGearRatio,
                             Volts.of(0.1),

@@ -12,6 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
@@ -21,25 +22,14 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class TurretAngleCalculations {
   public record CartesianCoordinates(double x, double y) {}
-
   public record PolarCoordinates(double radius, double angle) {}
-
-  private SwerveDriveSubsystem swerveDriveSubsystem;
-  private TurretSubsystem turretSubsystem;
-
-  public TurretAngleCalculations(
-      SwerveDriveSubsystem swerveDriveSubsystem, TurretSubsystem turretSubsystem) {
-    this.swerveDriveSubsystem = swerveDriveSubsystem;
-    this.turretSubsystem = turretSubsystem;
-  }
 
   // 15cm forward
   // 5cm right
   @AutoLogOutput
-  public Rotation2d stationaryTurretAngleCalculations() {
+  public static Rotation2d stationaryTurretAngleCalculations(Pose2d robotPose) {
     var hubLocationBlue = Hub.topCenterPoint;
     var hubLocationRed = Hub.oppTopCenterPoint;
-    var robotPose = swerveDriveSubsystem.getPose();
 
     double deltaX;
     double deltaY;
@@ -68,13 +58,13 @@ public class TurretAngleCalculations {
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);
 
     var targetAngle = new Rotation2d(polarCoordinates.angle);
-    var targetAngleAdjusted = targetAngle.minus(swerveDriveSubsystem.getPose().getRotation());
+    var targetAngleAdjusted = targetAngle.minus(robotPose.getRotation());
 
     return targetAngleAdjusted;
   }
 
   @AutoLogOutput
-  public PolarCoordinates cartesianToPolar(double x, double y) {
+  public static PolarCoordinates cartesianToPolar(double x, double y) {
     double radius = Math.hypot(x, y);
     double angle = Math.atan2(y, x);
 

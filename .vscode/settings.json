@@ -92,5 +92,6 @@
     "Quasistatic",
     "RGBW"
   ],
-  "wpilib.selectDefaultSimulateExtension": true
+  "wpilib.selectDefaultSimulateExtension": true,
+  "java.debug.settings.onBuildFailureProceed": true
 }

@@ -130,11 +130,11 @@ public class OI {
   // Intake Controls
   public static final Trigger intakeOut = driverController.povUp();
   public static final Trigger intakeIn = driverController.povDown();
-  public static final Trigger intake = driverController.leftStick();
+  public static final Trigger intake = driverController.leftTrigger();
   // Reverse intake wheels?
 
   // Turret Controls
-  public static final Trigger shoot = driverController.rightStick();
+  public static final Trigger shoot = driverController.rightTrigger();
   public static final Trigger rotateTurretRight = driverController.povRight();
   public static final Trigger rotateTurretLeft = driverController.povLeft();
 
