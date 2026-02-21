@@ -45,18 +45,19 @@ public class ShooterSubsystem extends SubsystemBase {
    *     -MAX_SPEED and MAX_SPEED
    */
   public void runToTargetVelocity(AngularVelocity velocity) {
-    AngularVelocity adjustedVelocity = RadiansPerSecond.of(
+    AngularVelocity adjustedVelocity =
+        RadiansPerSecond.of(
             MathUtil.clamp(
-                    velocity.in(RadiansPerSecond),
-                    -MAX_SPEED.in(RadiansPerSecond),
-                    MAX_SPEED.in(RadiansPerSecond)));
+                velocity.in(RadiansPerSecond),
+                -MAX_SPEED.in(RadiansPerSecond),
+                MAX_SPEED.in(RadiansPerSecond)));
     io.setShooterVelocity(adjustedVelocity);
     Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runShooterPercentOutput(double percentOutput) {
     double adjustedOutput =
-            MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
+        MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
     io.setShooterOpenLoop(percentOutput);
     Logger.recordOutput("Launcher/Shooter/ControlType", "PERCENT_OUTPUT");
   }

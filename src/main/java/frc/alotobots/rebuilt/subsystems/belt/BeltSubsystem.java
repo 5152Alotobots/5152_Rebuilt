@@ -45,17 +45,19 @@ public class BeltSubsystem extends SubsystemBase {
    *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
    */
   public void runBeltToTargetVelocity(AngularVelocity velocity) {
-    AngularVelocity adjustedVelocity = RadiansPerSecond.of(
+    AngularVelocity adjustedVelocity =
+        RadiansPerSecond.of(
             MathUtil.clamp(
-                    velocity.in(RadiansPerSecond),
-                    -MAX_SPEED.in(RadiansPerSecond),
-                    MAX_SPEED.in(RadiansPerSecond)));
+                velocity.in(RadiansPerSecond),
+                -MAX_SPEED.in(RadiansPerSecond),
+                MAX_SPEED.in(RadiansPerSecond)));
     io.setBeltVelocity(adjustedVelocity);
     Logger.recordOutput("Belt/ControlType", BeltIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runBeltPercentOutput(double percentOutput) {
-    double adjustedOutput = MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
+    double adjustedOutput =
+        MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
     io.setBeltOpenLoop(adjustedOutput);
     Logger.recordOutput("Belt/ControlType", "PERCENT_OUTPUT");
   }

@@ -69,13 +69,12 @@ public interface DeflectorIO {
   default void setDeflectorVelocity(AngularVelocity velocity, PIDSlots pidSlot) {}
 
   default void setDeflectorVelocity(AngularVelocity velocity) {}
-  
+
   /**
    * Runs the Deflector using direct percentage output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
-  
   default void setDeflectorOpenLoop(double percentOutput) {}
 
   /** Stops all Deflector motor movement. */

@@ -12,21 +12,19 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.deflector;
 
+import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.*;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Thresholds.AT_TARGET_ANGLE_POSITION_THRESHOLD;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
-
-import static edu.wpi.first.units.Units.*;
-import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
-import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.*;
-import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Thresholds.AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
 public class DeflectorSubsystem extends SubsystemBase {
   /** Hardware abstraction for the wrist */
@@ -68,11 +66,8 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @param angle The target angle for the wrist
    */
   public void runToTargetAngle(Angle angle) {
-    Angle adjustedAngle = Radians.of(
-            MathUtil.clamp(
-                    angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)
-            )
-    );
+    Angle adjustedAngle =
+        Radians.of(MathUtil.clamp(angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)));
     targetAngle = adjustedAngle;
     io.setDeflectorPosition(adjustedAngle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
 
@@ -85,18 +80,17 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @param velocity Target velocity in radians per second, automatically constrained between
    *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
    */
-  public void runToTargetVelocity(LinearVelocity velocity) {
-    AngularVelocity adjustedVelocity = 
-            RadiansPerSecond.of(
+  public void runToTargetVelocity(AngularVelocity velocity) {
+    AngularVelocity adjustedVelocity =
+        RadiansPerSecond.of(
             MathUtil.clamp(
-            velocity.in(MetersPerSecond),
-            -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
-            MAX_OPERATOR_VELOCITY.in(RadiansPerSecond))
-            );
+                velocity.in(RadiansPerSecond),
+                -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
+                MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
     io.setDeflectorVelocity(adjustedVelocity);
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.VELOCITY);
   }
-  
+
   /**
    * Runs the wrist using direct percent output (open-loop control).
    *
@@ -109,7 +103,7 @@ public class DeflectorSubsystem extends SubsystemBase {
             percentOutput,
             -DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
             DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
-    
+
     io.setDeflectorOpenLoop(adjustedSpeed);
     Logger.recordOutput("Launcher/Deflector/ControlType", "PERCENT_OUTPUT");
   }
@@ -134,12 +128,12 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @return true if the turret has maintained its target angle within tolerance
    */
   public boolean isAtTargetAngle() {
-      // Check if current angle is within threshold of target
-      boolean inSetPointThreshold =
-              targetAngle.minus(inputs.deflectorMotorPosition).abs(Radians)
-                < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
-      
-      // Use debouncer to check if we've been at setpoint for the required duration
-      return atTargetAngleDebounce.calculate(inSetPointThreshold);
+    // Check if current angle is within threshold of target
+    boolean inSetPointThreshold =
+        targetAngle.minus(inputs.deflectorMotorPosition).abs(Radians)
+            < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
+
+    // Use debouncer to check if we've been at setpoint for the required duration
+    return atTargetAngleDebounce.calculate(inSetPointThreshold);
   }
 }
