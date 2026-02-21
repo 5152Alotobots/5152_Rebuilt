@@ -12,7 +12,7 @@
 */
 package frc.alotobots;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -35,7 +35,6 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.A
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.library.subsystems.vision.questnav.io.*;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
-import frc.alotobots.rebuilt.commands.groups.IndexIntoShooterAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
@@ -51,6 +50,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.ShooterShootAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
@@ -212,8 +212,14 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
-    shoot.whileTrue(new InstantCommand(() -> shooterSubsystem.runToTargetVelocity(RotationsPerSecond.of(50))).andThen(shooterSubsystem::stop));
+    // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem,
+    // shooterSubsystem));
+    // shoot
+    //     .whileTrue(
+    //         new ShooterShootAtVelocity(
+    //             shooterSubsystem, () -> RadiansPerSecond.of(300).times(OI.getTurboSpeedTrigger())))
+    //     .onFalse(new InstantCommand(shooterSubsystem::stop));
+
     // TEMPORARY!!
     resetGyroButton.onTrue(
         new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));

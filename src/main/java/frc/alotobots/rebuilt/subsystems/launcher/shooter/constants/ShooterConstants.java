@@ -39,7 +39,7 @@ public class ShooterConstants {
     public static final AngularVelocity MAX_SPEED = DegreesPerSecond.of(90);
 
     /** Enable Limits */
-    public static final boolean LIMITS_ENABLED = true;
+    public static final boolean LIMITS_ENABLED = false;
   }
 
   /** Contains position setpoints for different wrist states. */

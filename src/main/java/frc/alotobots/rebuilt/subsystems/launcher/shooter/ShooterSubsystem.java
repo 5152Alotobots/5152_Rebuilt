@@ -23,6 +23,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -33,6 +34,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final Debouncer atTargetVelocityDebounce =
       new Debouncer(AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
 
+  @AutoLogOutput(key = "Launcher/Shooter/TargetVelocity")
   private AngularVelocity targetVelocity = RadiansPerSecond.zero();
 
   public ShooterSubsystem(ShooterIO io) {
@@ -90,5 +92,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stop() {
     io.stop();
+    targetVelocity = RadiansPerSecond.zero();
   }
 }
