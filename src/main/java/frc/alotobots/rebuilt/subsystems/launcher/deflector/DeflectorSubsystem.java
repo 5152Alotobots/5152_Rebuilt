@@ -69,7 +69,7 @@ public class DeflectorSubsystem extends SubsystemBase {
     Angle adjustedAngle =
         Radians.of(MathUtil.clamp(angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)));
     targetAngle = adjustedAngle;
-    io.setDeflectorPosition(adjustedAngle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
+    io.setDeflectorPosition(LIMITS_ENABLED ? adjustedAngle: angle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
 
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.DEFAULT_POSITION);
   }
@@ -87,7 +87,7 @@ public class DeflectorSubsystem extends SubsystemBase {
                 velocity.in(RadiansPerSecond),
                 -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
                 MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
-    io.setDeflectorVelocity(adjustedVelocity);
+    io.setDeflectorVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.VELOCITY);
   }
 
@@ -104,7 +104,7 @@ public class DeflectorSubsystem extends SubsystemBase {
             -DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
             DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
 
-    io.setDeflectorOpenLoop(adjustedSpeed);
+    io.setDeflectorOpenLoop(LIMITS_ENABLED ? adjustedSpeed : percentOutput);
     Logger.recordOutput("Launcher/Deflector/ControlType", "PERCENT_OUTPUT");
   }
 

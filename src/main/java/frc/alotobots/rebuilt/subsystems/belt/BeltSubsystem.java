@@ -13,8 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.belt;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
-import static frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants.Limits.MAX_SPEED;
+import static frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants.Limits.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -51,14 +50,14 @@ public class BeltSubsystem extends SubsystemBase {
                 velocity.in(RadiansPerSecond),
                 -MAX_SPEED.in(RadiansPerSecond),
                 MAX_SPEED.in(RadiansPerSecond)));
-    io.setBeltVelocity(adjustedVelocity);
+    io.setBeltVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Belt/ControlType", BeltIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runBeltPercentOutput(double percentOutput) {
     double adjustedOutput =
         MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
-    io.setBeltOpenLoop(adjustedOutput);
+    io.setBeltOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
     Logger.recordOutput("Belt/ControlType", "PERCENT_OUTPUT");
   }
 

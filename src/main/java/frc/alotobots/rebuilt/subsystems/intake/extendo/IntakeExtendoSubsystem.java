@@ -67,7 +67,7 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
             MathUtil.clamp(
                 extension.in(Meters), MIN_EXTENSION.in(Meters), MAX_EXTENSION.in(Meters)));
     targetExtension = adjustedExtension;
-    io.setIntakeExtendoPosition(adjustedExtension, IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
+    io.setIntakeExtendoPosition(LIMITS_ENABLED ? adjustedExtension : extension, IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
     Logger.recordOutput(
         "Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
   }
@@ -80,7 +80,7 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
    */
   public void runToTargetVelocity(LinearVelocity velocity) {
     LinearVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
-    io.setIntakeExtendoVelocity(adjustedVelocity);
+    io.setIntakeExtendoVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.VELOCITY);
   }
 

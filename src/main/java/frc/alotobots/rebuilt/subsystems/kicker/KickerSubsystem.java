@@ -13,8 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.kicker;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
-import static frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants.Limits.MAX_SPEED;
+import static frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants.Limits.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -50,14 +49,14 @@ public class KickerSubsystem extends SubsystemBase {
                 velocity.in(RadiansPerSecond),
                 -MAX_SPEED.in(RadiansPerSecond),
                 MAX_SPEED.in(RadiansPerSecond)));
-    io.setKickerVelocity(adjustedVelocity);
+    io.setKickerVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Kicker/ControlType", KickerIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runAtPercentOutput(double percentOutput) {
     double adjustedOutput =
         MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
-    io.setKickerOpenLoop(adjustedOutput);
+    io.setKickerOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
     Logger.recordOutput("Kicker/ControlType", "PERCENT_OUTPUT");
   }
 

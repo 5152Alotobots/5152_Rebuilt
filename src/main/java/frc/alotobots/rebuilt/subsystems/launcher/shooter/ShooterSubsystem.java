@@ -13,8 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.shooter;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.MAX_SPEED;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -51,14 +50,14 @@ public class ShooterSubsystem extends SubsystemBase {
                 velocity.in(RadiansPerSecond),
                 -MAX_SPEED.in(RadiansPerSecond),
                 MAX_SPEED.in(RadiansPerSecond)));
-    io.setShooterVelocity(adjustedVelocity);
+    io.setShooterVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runShooterPercentOutput(double percentOutput) {
     double adjustedOutput =
         MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
-    io.setShooterOpenLoop(percentOutput);
+    io.setShooterOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
     Logger.recordOutput("Launcher/Shooter/ControlType", "PERCENT_OUTPUT");
   }
 
