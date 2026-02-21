@@ -92,7 +92,7 @@ public class DeflectorSubsystem extends SubsystemBase {
   }
 
   /**
-   * Runs the wrist using direct percent output (open-loop control).
+   * Runs the deflector using direct percent output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
