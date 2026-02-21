@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
@@ -23,7 +24,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.ShooterShootAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants;
 
-public class IndexIntoShooterAndShoot extends ParallelCommandGroup {
+public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
   public IndexIntoShooterAndShoot(
       BeltSubsystem beltSubsystem,
       KickerSubsystem kickerSubsystem,
