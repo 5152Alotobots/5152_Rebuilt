@@ -31,7 +31,6 @@ import edu.wpi.first.units.measure.*;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
-import org.dyn4j.exception.ArgumentNullException;
 
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private final CANBus canBus = new CANBus("rio");
@@ -158,7 +157,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.VELOCITY;
           case 1 -> PIDSlots.MOTION_MAGIC_POSITION;
-          default -> throw new ArgumentNullException(
+          default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
   }

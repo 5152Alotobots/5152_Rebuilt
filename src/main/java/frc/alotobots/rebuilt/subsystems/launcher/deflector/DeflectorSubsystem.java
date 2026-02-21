@@ -68,8 +68,8 @@ public class DeflectorSubsystem extends SubsystemBase {
   public void runToTargetAngle(Angle angle) {
     Angle adjustedAngle =
         Radians.of(MathUtil.clamp(angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)));
-    targetAngle = adjustedAngle;
-    io.setDeflectorPosition(LIMITS_ENABLED ? adjustedAngle: angle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
+    targetAngle = LIMITS_ENABLED ? adjustedAngle: angle;
+    io.setDeflectorPosition(targetAngle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
 
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.DEFAULT_POSITION);
   }

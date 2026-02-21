@@ -46,11 +46,11 @@ public class DefaultDeflectorRunAtVelocity extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    super.end(interrupted);
+    deflectorSubsystem.stop();
   }
 
   @Override
   public boolean isFinished() {
-    return super.isFinished();
+    return false;
   }
 }
