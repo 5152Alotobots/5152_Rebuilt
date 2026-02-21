@@ -32,7 +32,7 @@ public class KickerShooterManual extends SequentialCommandGroup {
       Trigger launchButton) {
     addCommands(
         new InstantCommand(() -> shooterSubsystem.runShooterPercentOutput(-1)),
-        new InstantCommand(() -> kickerSubsystem.runKickerPercentOutput(1)),
+        new InstantCommand(() -> kickerSubsystem.runAtPercentOutput(1)),
         new WaitUntilCommand(launchButton),
         new InstantCommand(() -> beltSubsystem.runBeltPercentOutput(.5)),
         new WaitCommand(1),

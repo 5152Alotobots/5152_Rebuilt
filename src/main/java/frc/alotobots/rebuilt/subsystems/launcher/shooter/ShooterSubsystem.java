@@ -13,7 +13,8 @@
 package frc.alotobots.rebuilt.subsystems.launcher.shooter;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.MAX_SPEED;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -34,31 +35,30 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Shooter", inputs);
+    Logger.processInputs("Launcher/Shooter", inputs);
   }
 
   /**
    * Controls the shooter to move to a specified velocity using closed-loop velocity control.
    *
    * @param velocity Target velocity in meters per second, automatically constrained between
-   *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
+   *     -MAX_SPEED and MAX_SPEED
    */
   public void runToTargetVelocity(AngularVelocity velocity) {
-    AngularVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
+    AngularVelocity adjustedVelocity = RadiansPerSecond.of(
+            MathUtil.clamp(
+                    velocity.in(RadiansPerSecond),
+                    -MAX_SPEED.in(RadiansPerSecond),
+                    MAX_SPEED.in(RadiansPerSecond)));
     io.setShooterVelocity(adjustedVelocity);
-    Logger.recordOutput("Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
+    Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runShooterPercentOutput(double percentOutput) {
+    double adjustedOutput =
+            MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
     io.setShooterOpenLoop(percentOutput);
-  }
-
-  private AngularVelocity applyVelocityLimitIfNeeded(AngularVelocity velocity) {
-    return RadiansPerSecond.of(
-        MathUtil.clamp(
-            velocity.in(RadiansPerSecond),
-            -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
-            MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
+    Logger.recordOutput("Launcher/Shooter/ControlType", "PERCENT_OUTPUT");
   }
 
   public void stop() {

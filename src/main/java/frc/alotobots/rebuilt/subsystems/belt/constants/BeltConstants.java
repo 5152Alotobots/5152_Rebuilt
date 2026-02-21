@@ -1,13 +1,14 @@
-package frc.alotobots.rebuilt.subsystems.launcher.shooter.constants;
+package frc.alotobots.rebuilt.subsystems.belt.constants;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import lombok.experimental.UtilityClass;
 
-import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
 
 @UtilityClass
-public class ShooterConstants {
+public class BeltConstants {
 
     /**
      * Contains threshold values for various wrist operations.
@@ -48,7 +49,7 @@ public class ShooterConstants {
      * Contains position setpoints for different wrist states.
      */
     public static final class Setpoints {
-        // Different setpoints would go here. 
-        public static final AngularVelocity SHOOTER_TEST_VELOCITY = DegreesPerSecond.of(90);
+        // Different setpoints would go here. Still coming up with a naming scheme
+        public static final AngularVelocity LOAD_INTO_SHOOTER_VELOCITY = DegreesPerSecond.of(90);
     }
 }

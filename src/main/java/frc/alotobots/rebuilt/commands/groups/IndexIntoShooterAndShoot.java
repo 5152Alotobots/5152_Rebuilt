@@ -1,0 +1,22 @@
+package frc.alotobots.rebuilt.commands.groups;
+
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
+import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
+import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
+import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
+import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVelocity;
+import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.ShooterShootAtVelocity;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants;
+
+public class IndexIntoShooterAndShoot extends ParallelCommandGroup {
+    public IndexIntoShooterAndShoot(BeltSubsystem beltSubsystem, KickerSubsystem kickerSubsystem, ShooterSubsystem shooterSubsystem) {
+        addCommands(
+                new DefaultBeltRunAtVelocity(beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+                new DefaultKickerRunAtVelocity(kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+                new ShooterShootAtVelocity(shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
+        );
+    }
+}

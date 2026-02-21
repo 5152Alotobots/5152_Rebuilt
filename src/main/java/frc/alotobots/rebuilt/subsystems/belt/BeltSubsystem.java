@@ -13,7 +13,8 @@
 package frc.alotobots.rebuilt.subsystems.belt;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
+import static frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants.Limits.MAX_SPEED;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -44,21 +45,19 @@ public class BeltSubsystem extends SubsystemBase {
    *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
    */
   public void runBeltToTargetVelocity(AngularVelocity velocity) {
-    AngularVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
+    AngularVelocity adjustedVelocity = RadiansPerSecond.of(
+            MathUtil.clamp(
+                    velocity.in(RadiansPerSecond),
+                    -MAX_SPEED.in(RadiansPerSecond),
+                    MAX_SPEED.in(RadiansPerSecond)));
     io.setBeltVelocity(adjustedVelocity);
     Logger.recordOutput("Belt/ControlType", BeltIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runBeltPercentOutput(double percentOutput) {
-    io.setBeltOpenLoop(percentOutput);
-  }
-
-  private AngularVelocity applyVelocityLimitIfNeeded(AngularVelocity velocity) {
-    return RadiansPerSecond.of(
-        MathUtil.clamp(
-            velocity.in(RadiansPerSecond),
-            -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
-            MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
+    double adjustedOutput = MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
+    io.setBeltOpenLoop(adjustedOutput);
+    Logger.recordOutput("Belt/ControlType", "PERCENT_OUTPUT");
   }
 
   public void stop() {

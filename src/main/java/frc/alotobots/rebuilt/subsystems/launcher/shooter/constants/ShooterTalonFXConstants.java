@@ -23,6 +23,4 @@ public class ShooterTalonFXConstants {
   public static final double VELOCITY_V_GAIN = 0.125;
   public static final double VELOCITY_S_GAIN = 0.0090433;
   public static final double CLOSED_LOOP_RAMP_RATE = 0.5;
-
-  public static final AngularVelocity MAX_OPERATOR_VELOCITY = RotationsPerSecond.of(100);
 }

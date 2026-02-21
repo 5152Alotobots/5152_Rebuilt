@@ -68,7 +68,7 @@ public class TurretSubsystem extends SubsystemBase {
     // Update hardware inputs
     io.updateInputs(inputs);
     Logger.recordOutput("Turret/TargetAngle", targetAngle.in(Degree));
-    Logger.processInputs("Turret", inputs);
+    Logger.processInputs("Launcher/Turret", inputs);
   }
 
   /**

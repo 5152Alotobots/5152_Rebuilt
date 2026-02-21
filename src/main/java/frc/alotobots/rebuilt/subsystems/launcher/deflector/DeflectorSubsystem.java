@@ -12,16 +12,21 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.deflector;
 
-import static edu.wpi.first.units.Units.*;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
+
+import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.*;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Thresholds.AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
 public class DeflectorSubsystem extends SubsystemBase {
   /** Hardware abstraction for the wrist */
@@ -32,7 +37,7 @@ public class DeflectorSubsystem extends SubsystemBase {
 
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
-      new Debouncer(DeflectorConstants.AT_TARGET_ANGLE_TIME_THRESHOLD);
+      new Debouncer(DeflectorConstants.Thresholds.AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
   /**
    * Angle object that tracks the currently selected position (maintains last position if not in
@@ -44,7 +49,6 @@ public class DeflectorSubsystem extends SubsystemBase {
    * Creates a new DeflectorSubsystem.
    *
    * @param io The hardware abstraction interface for the wrist
-   * @param elevatorHeightSupplier Supplier function that provides the current elevator height
    */
   public DeflectorSubsystem(DeflectorIO io) {
     this.io = io;
@@ -55,7 +59,7 @@ public class DeflectorSubsystem extends SubsystemBase {
     // Update hardware inputs
     io.updateInputs(inputs);
     Logger.recordOutput("Deflector/TargetAngle", targetAngle.in(Degree));
-    Logger.processInputs("Deflector", inputs);
+    Logger.processInputs("Launcher/Deflector", inputs);
   }
 
   /**
@@ -64,14 +68,37 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @param angle The target angle for the wrist
    */
   public void runToTargetAngle(Angle angle) {
-    io.setDeflectorPosition(angle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
+    Angle adjustedAngle = Radians.of(
+            MathUtil.clamp(
+                    angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)
+            )
+    );
+    targetAngle = adjustedAngle;
+    io.setDeflectorPosition(adjustedAngle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
 
-    Logger.recordOutput("Deflector/TargetAngle", angle.in(Degrees));
+    Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.DEFAULT_POSITION);
   }
 
   /**
-   * Runs the wrist using direct percent output (open-loop control). Dynamic limits based on current
-   * elevator height are passed to the IO layer.
+   * Controls the intake extendo to move to a specified velocity using closed-loop velocity control.
+   *
+   * @param velocity Target velocity in radians per second, automatically constrained between
+   *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
+   */
+  public void runToTargetVelocity(LinearVelocity velocity) {
+    AngularVelocity adjustedVelocity = 
+            RadiansPerSecond.of(
+            MathUtil.clamp(
+            velocity.in(MetersPerSecond),
+            -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
+            MAX_OPERATOR_VELOCITY.in(RadiansPerSecond))
+            );
+    io.setDeflectorVelocity(adjustedVelocity);
+    Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.VELOCITY);
+  }
+  
+  /**
+   * Runs the wrist using direct percent output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
@@ -80,11 +107,11 @@ public class DeflectorSubsystem extends SubsystemBase {
     double adjustedSpeed =
         MathUtil.clamp(
             percentOutput,
-            DeflectorConstants.MIN_OPEN_LOOP_PERCENTAGE,
-            DeflectorConstants.MAX_OPEN_LOOP_PERCENTAGE);
-
-    // Command the wrist with the adjusted output and dynamic limits
+            -DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
+            DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
+    
     io.setDeflectorOpenLoop(adjustedSpeed);
+    Logger.recordOutput("Launcher/Deflector/ControlType", "PERCENT_OUTPUT");
   }
 
   /** Stops all wrist movement. */
@@ -106,19 +133,13 @@ public class DeflectorSubsystem extends SubsystemBase {
    *
    * @return true if the turret has maintained its target angle within tolerance
    */
-  /*public boolean isAtTargetAngle() {
+  public boolean isAtTargetAngle() {
       // Check if current angle is within threshold of target
-
-      Angle error = targetAngle.minus(inputs.mechanismAngle);
-
-      Logger.recordOutput("Deflector/error", error);
-
       boolean inSetPointThreshold =
-              error.abs(Degree) < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Degrees);
-
-      Logger.recordOutput("Deflector/inSetPointThreshold", inSetPointThreshold);
-
+              targetAngle.minus(inputs.deflectorMotorPosition).abs(Radians)
+                < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
+      
       // Use debouncer to check if we've been at setpoint for the required duration
       return atTargetAngleDebounce.calculate(inSetPointThreshold);
-  }*/
+  }
 }

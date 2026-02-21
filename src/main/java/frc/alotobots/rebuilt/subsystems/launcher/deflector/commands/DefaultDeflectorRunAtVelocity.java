@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import static frc.alotobots.OI.AxisLimits.MAX_AXIS_LIMIT;
 import static frc.alotobots.OI.AxisLimits.MIN_AXIS_LIMIT;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MAX_SPEED;
 
 public class DefaultDeflectorRunAtVelocity extends Command {
     private final DeflectorSubsystem deflectorSubsystem;
@@ -30,7 +31,7 @@ public class DefaultDeflectorRunAtVelocity extends Command {
     public void execute() {
         double adjustedInput = MathUtil.clamp(input.getAsDouble(), MIN_AXIS_LIMIT, MAX_AXIS_LIMIT);
         AngularVelocity velocity = MAX_SPEED.times(adjustedInput);
-        wristSubsystem.runToTargetVelocity(velocity);
+        deflectorSubsystem.runToTargetVelocity(velocity);
     }
 
     @Override
