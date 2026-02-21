@@ -58,7 +58,7 @@ public final class Constants {
 
   public static final TunerConstants tunerConstants =
       switch (currentRobot) {
-        case COMPETITION -> RobotBase.isReal()
+        case COMPETITION -> RobotBase.isReal() || currentMode == Mode.REPLAY
             ? new TunerConstants2026()
             : new TunerConstants2025();
         case DEV -> new TunerConstants2023();
