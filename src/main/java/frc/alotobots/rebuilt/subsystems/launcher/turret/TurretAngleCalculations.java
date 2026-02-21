@@ -14,8 +14,10 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.rebuilt.FieldConstants.Hub;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -34,25 +36,26 @@ public class TurretAngleCalculations {
     double deltaX;
     double deltaY;
 
+    robotPose = robotPose.transformBy(new Transform2d(
+      TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_X, 
+      TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_Y, 
+      new Rotation2d()));
+
     if (DriverStation.getAlliance().isPresent()
         && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
       deltaX =
           hubLocationRed.getX()
-              - robotPose.getX()
-              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_X;
+              - robotPose.getX();
       deltaY =
           hubLocationRed.getY()
-              - robotPose.getY()
-              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_Y;
+              - robotPose.getY();
     } else {
       deltaX =
           hubLocationBlue.getX()
-              - robotPose.getX()
-              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_X;
+              - robotPose.getX();
       deltaY =
           hubLocationBlue.getY()
-              - robotPose.getY()
-              + TurretTalonFXSConstants.ROBOT_TO_TURRET_OFFSET_Y;
+              - robotPose.getY();
     }
 
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);
