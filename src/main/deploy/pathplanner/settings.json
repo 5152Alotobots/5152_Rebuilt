@@ -3,21 +3,12 @@
   "robotLength": 0.88,
   "holonomicMode": true,
   "pathFolders": [
-    "AutoDrive",
     "BasicMeters",
-    "Battle Creek",
-    "One Piece",
     "Positions",
-    "Test2025",
-    "Three Piece",
-    "TwoPiece"
+    "Test2026"
   ],
   "autoFolders": [
-    "Just Leave",
-    "BasicMeters",
-    "One Piece",
-    "Three Piece",
-    "Two Piece"
+    "BasicMeters"
   ],
   "defaultMaxVel": 5.0,
   "defaultMaxAccel": 3.0,
@@ -43,7 +34,5 @@
   "brModuleY": -0.275,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": [
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.48,\"y\":0.01},\"size\":{\"width\":0.19,\"length\":0.1},\"borderRadius\":0.0,\"strokeWidth\":0.02,\"filled\":true}}"
-  ]
+  "robotFeatures": []
 }
