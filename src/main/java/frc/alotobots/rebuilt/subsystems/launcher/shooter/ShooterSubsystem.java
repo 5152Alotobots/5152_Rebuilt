@@ -33,7 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final Debouncer atTargetVelocityDebounce =
       new Debouncer(AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
 
-  private final AngularVelocity targetVelocity = RadiansPerSecond.zero();
+  private AngularVelocity targetVelocity = RadiansPerSecond.zero();
 
   public ShooterSubsystem(ShooterIO io) {
     this.io = io;
@@ -58,7 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
                 velocity.in(RadiansPerSecond),
                 -MAX_SPEED.in(RadiansPerSecond),
                 MAX_SPEED.in(RadiansPerSecond)));
-    io.setShooterVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
+    targetVelocity = LIMITS_ENABLED ? adjustedVelocity : velocity;
+    io.setShooterVelocity(targetVelocity);
     Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
