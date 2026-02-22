@@ -18,18 +18,18 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class DeflectorVortexConstants {
   public static final CANBus DEFLECTOR_CAN_BUS = new CANBus("rio");
-  
+
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
 
-  public static final double POSITION_P_GAIN = .01;
-  public static final double POSITION_I_GAIN = 0.0;
-  public static final double POSITION_D_GAIN = 0.0;
+  public static final double POSITION_P_GAIN = .4;
+  public static final double POSITION_I_GAIN = 0.00001;
+  public static final double POSITION_D_GAIN = 0.00;
 
   // Gear ratio between the turret mechanism and the motor sensor 2 / 1 being a reduction
   public static final double SENSOR_TO_MECHANISM_RATIO = -0.0749254;
   public static final SensorDirectionValue ENCODER_SENSOR_DIRECTION =
       SensorDirectionValue.Clockwise_Positive;
-  public static final double ENCODER_MAGNET_OFFSET = -0.5578;
+  public static final double ENCODER_MAGNET_OFFSET = -.223877;
   public static final double ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
 }

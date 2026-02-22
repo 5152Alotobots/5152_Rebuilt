@@ -62,7 +62,7 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     var motorLeftConfig = new TalonFXConfiguration();
     motorLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorLeftConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    motorLeftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorLeftConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     motorLeftConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod =
         ShooterTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
@@ -78,7 +78,7 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     var motorRightConfig = new TalonFXConfiguration();
     motorRightConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorRightConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorRightConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     motorRightConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     motorRightConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod =
         ShooterTalonFXConstants.CLOSED_LOOP_RAMP_RATE;

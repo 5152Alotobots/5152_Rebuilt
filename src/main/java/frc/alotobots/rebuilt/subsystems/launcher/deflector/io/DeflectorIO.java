@@ -14,7 +14,6 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector.io;
 
 import static edu.wpi.first.units.Units.*;
 
-import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;

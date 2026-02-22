@@ -12,7 +12,6 @@
 */
 package frc.alotobots;
 
-import static edu.wpi.first.units.Units.Degrees;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -35,6 +34,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.A
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.library.subsystems.vision.questnav.io.*;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
+import frc.alotobots.rebuilt.commands.groups.IndexIntoShooterAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
@@ -50,7 +50,6 @@ import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
@@ -219,7 +218,7 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    shoot.whileTrue(new DeflectorRunToPosition(deflectorSubsystem, Degrees.of(45)));
+    shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
     // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem,
     // shooterSubsystem));
     // shoot

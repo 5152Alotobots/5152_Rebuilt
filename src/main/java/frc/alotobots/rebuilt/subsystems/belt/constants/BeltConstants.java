@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.belt.constants;
 
 import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -37,7 +38,7 @@ public class BeltConstants {
     public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;
 
     /** Max speed (magnitude) */
-    public static final AngularVelocity MAX_SPEED = DegreesPerSecond.of(90);
+    public static final AngularVelocity MAX_SPEED = RotationsPerSecond.of(90);
 
     /** Enable Limits */
     public static final boolean LIMITS_ENABLED = true;
@@ -46,6 +47,6 @@ public class BeltConstants {
   /** Contains position setpoints for different wrist states. */
   public static final class Setpoints {
     // Different setpoints would go here. Still coming up with a naming scheme
-    public static final AngularVelocity LOAD_INTO_SHOOTER_VELOCITY = DegreesPerSecond.of(90);
+    public static final AngularVelocity LOAD_INTO_SHOOTER_VELOCITY = RotationsPerSecond.of(90);
   }
 }
