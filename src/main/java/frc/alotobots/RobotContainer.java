@@ -12,6 +12,7 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -49,6 +50,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
@@ -217,6 +219,7 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
+    shoot.whileTrue(new DeflectorRunToPosition(deflectorSubsystem, Degrees.of(45)));
     // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem,
     // shooterSubsystem));
     // shoot

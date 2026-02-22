@@ -16,7 +16,7 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
-import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MIN_ANGLE;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MAX_ANGLE;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -74,7 +74,13 @@ public class DeflectorIOVortex implements DeflectorIO {
 
     deflectorMotorConfig.idleMode(IdleMode.kCoast).inverted(false);
 
-    // Write config to the motor controller
+    deflectorMotorConfig.closedLoop.p(
+        DeflectorVortexConstants.POSITION_P_GAIN, ClosedLoopSlot.kSlot0);
+    deflectorMotorConfig.closedLoop.i(
+        DeflectorVortexConstants.POSITION_I_GAIN, ClosedLoopSlot.kSlot0);
+    deflectorMotorConfig.closedLoop.d(
+        DeflectorVortexConstants.POSITION_D_GAIN, ClosedLoopSlot.kSlot0);
+
     deflectorMotor.configure(
         deflectorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -103,7 +109,7 @@ public class DeflectorIOVortex implements DeflectorIO {
         inputs
             .deflectorMotorPosition
             .times(DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO)
-            .plus(MIN_ANGLE);
+            .plus(MAX_ANGLE);
 
     inputs.deflectorMotorVolts =
         Volts.of(deflectorMotor.getAppliedOutput() * deflectorMotor.getBusVoltage());
