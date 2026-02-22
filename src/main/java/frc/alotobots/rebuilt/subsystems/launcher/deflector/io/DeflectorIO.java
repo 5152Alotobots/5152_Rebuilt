@@ -41,8 +41,6 @@ public interface DeflectorIO {
     public AngularAcceleration deflectorMotorAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage deflectorMotorVolts = Volts.zero();
     public Current deflectorMotorCurrent = Amps.zero();
-    public ControlModeValue deflectorMotorControlMode = null;
-
     public boolean backLimit = false;
   }
 
