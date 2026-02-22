@@ -12,6 +12,7 @@
 */
 package frc.alotobots;
 
+import com.ctre.phoenix6.CANBus;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2023.TunerConstants2023;
@@ -68,6 +69,8 @@ public final class Constants {
   @UtilityClass
   public static final class CanId {
 
+    public static final CANBus SWERVE_CAN_BUS = new CANBus("Swerve");
+    public static final CANBus RIO_CAN_BUS = new CANBus("rio");
     public static final int PDH_CAN_ID = 1;
 
     public static final int CANDLE_CAN_ID = 2;

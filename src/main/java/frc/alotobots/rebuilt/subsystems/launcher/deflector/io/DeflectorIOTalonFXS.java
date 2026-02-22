@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.io;
 
 import static edu.wpi.first.units.Units.Rotations;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
@@ -41,7 +42,6 @@ import org.littletonrobotics.junction.Logger;
 
 public class DeflectorIOTalonFXS implements DeflectorIO {
   private final TalonFXS deflectorMotor;
-  private final CANBus canBus = new CANBus("rio");
   private final PositionVoltage positionControl = new PositionVoltage(0);
   private final VelocityVoltage velocityControl = new VelocityVoltage(0);
 
@@ -58,7 +58,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
   private StatusSignal<ControlModeValue> deflectorMotorControlMode;
 
   public DeflectorIOTalonFXS() {
-    deflectorMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, canBus);
+    deflectorMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, RIO_CAN_BUS);
     deflectorMotorConnectedDebouncer = new Debouncer(0.5);
     backLimitDebouncer = new Debouncer(0.1);
     backLimitSwitch = new DigitalInput(0);

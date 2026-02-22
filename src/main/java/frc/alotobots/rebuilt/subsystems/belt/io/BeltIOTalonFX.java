@@ -33,8 +33,9 @@ import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
+
 public class BeltIOTalonFX implements BeltIO {
-  private final CANBus canBus = new CANBus("rio");
   private final TalonFX motorBelt;
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0.0);
@@ -48,7 +49,7 @@ public class BeltIOTalonFX implements BeltIO {
   private Debouncer beltConnectedDebounce = new Debouncer(0.1);
 
   public BeltIOTalonFX() {
-    motorBelt = new TalonFX(Constants.CanId.CONVEYOR_CAN_ID, canBus);
+    motorBelt = new TalonFX(Constants.CanId.CONVEYOR_CAN_ID, RIO_CAN_BUS);
 
     var motorBeltConfig = new TalonFXConfiguration();
     motorBeltConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;

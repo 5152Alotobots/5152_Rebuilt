@@ -17,8 +17,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class DeflectorVortexConstants {
-  public static final CANBus DEFLECTOR_CAN_BUS = new CANBus("rio");
-
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
 

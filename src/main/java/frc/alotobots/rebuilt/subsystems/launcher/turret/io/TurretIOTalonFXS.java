@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.Rotations;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
@@ -41,7 +42,6 @@ import org.littletonrobotics.junction.Logger;
 
 public class TurretIOTalonFXS implements TurretIO {
   private final TalonFXS turretMotor;
-  private final CANBus canBus = new CANBus("rio");
   private final DigitalInput cwLimitSwitch;
   private final DigitalInput ccwLimitSwitch;
 
@@ -61,7 +61,7 @@ public class TurretIOTalonFXS implements TurretIO {
   private StatusSignal<ControlModeValue> turretMotorControlMode;
 
   public TurretIOTalonFXS() {
-    turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, canBus);
+    turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, RIO_CAN_BUS);
     ccwLimitDebouncer = new Debouncer(0.1);
     cwLimitDebouncer = new Debouncer(0.1);
     turretMotorConnectedDebouncer = new Debouncer(0.5);

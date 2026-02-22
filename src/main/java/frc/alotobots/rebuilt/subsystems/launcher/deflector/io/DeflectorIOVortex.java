@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.io;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MAX_ANGLE;
 import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO;
 
@@ -54,7 +55,7 @@ public class DeflectorIOVortex implements DeflectorIO {
     deflectorMotor = new SparkFlex(Constants.CanId.DEFLECTOR_MOTOR_CAN_ID, MotorType.kBrushless);
     deflectorEncoder =
         new CANcoder(
-            Constants.CanId.DEFLECTOR_ENCODER_CAN_ID, DeflectorVortexConstants.DEFLECTOR_CAN_BUS);
+            Constants.CanId.DEFLECTOR_ENCODER_CAN_ID, RIO_CAN_BUS);
 
     deflectorMotorConnectedDebouncer = new Debouncer(0.5);
     backLimitDebouncer = new Debouncer(0.1);

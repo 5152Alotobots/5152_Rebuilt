@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.intake.extendo.io;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MIN_EXTENSION;
 import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants.EXTENSION_PER_ROTATION;
 
@@ -33,7 +34,6 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTa
 import frc.alotobots.util.PhoenixUtil;
 
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
-  private final CANBus canBus = new CANBus("rio");
   private final TalonFX intakeExtendoMotor;
   private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
@@ -47,7 +47,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private Debouncer intakeExtendoConnectedDebounce = new Debouncer(0.1);
 
   public IntakeExtendoIOTalonFX() {
-    intakeExtendoMotor = new TalonFX(Constants.CanId.INTAKE_EXTENDO_CAN_ID, canBus);
+    intakeExtendoMotor = new TalonFX(Constants.CanId.INTAKE_EXTENDO_CAN_ID, RIO_CAN_BUS);
 
     var intakeExtendoMotorConfig = new TalonFXConfiguration();
 

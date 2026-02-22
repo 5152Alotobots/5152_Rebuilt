@@ -35,8 +35,9 @@ import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
+
 public class ShooterIOTalonFX implements ShooterIO {
-  private final CANBus canBus = new CANBus("rio");
   private final TalonFX motorLeft;
   private final TalonFX motorRight;
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
@@ -57,8 +58,8 @@ public class ShooterIOTalonFX implements ShooterIO {
   private Debouncer rightConnectedDebounce = new Debouncer(0.1);
 
   public ShooterIOTalonFX() {
-    motorLeft = new TalonFX(Constants.CanId.SHOOTER_LEFT_CAN_ID, canBus);
-    motorRight = new TalonFX(Constants.CanId.SHOOTER_RIGHT_CAN_ID, canBus);
+    motorLeft = new TalonFX(Constants.CanId.SHOOTER_LEFT_CAN_ID, RIO_CAN_BUS);
+    motorRight = new TalonFX(Constants.CanId.SHOOTER_RIGHT_CAN_ID, RIO_CAN_BUS);
 
     var motorLeftConfig = new TalonFXConfiguration();
     motorLeftConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;

@@ -33,8 +33,9 @@ import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
 
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
+
 public class KickerIOTalonFX implements KickerIO {
-  private final CANBus canBus = new CANBus("rio");
   private final TalonFX motorKicker;
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0.0);
@@ -48,7 +49,7 @@ public class KickerIOTalonFX implements KickerIO {
   private Debouncer kickerConnectedDebounce = new Debouncer(0.1);
 
   public KickerIOTalonFX() {
-    motorKicker = new TalonFX(Constants.CanId.KICKER_CAN_ID, canBus);
+    motorKicker = new TalonFX(Constants.CanId.KICKER_CAN_ID, RIO_CAN_BUS);
 
     var motorKickerConfig = new TalonFXConfiguration();
     motorKickerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
