@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5082500000000003,
-        "y": 6.253910714285714
+        "x": 3.592004504504505,
+        "y": 4.045213963963964
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.14775,
-        "y": 5.541267857142857
+        "x": 3.1295476171007532,
+        "y": 4.045213963963964
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center Start"
     },
     {
       "anchor": {
-        "x": 2.14775,
-        "y": 5.039178571428572
+        "x": 2.8770270270270277,
+        "y": 4.035
       },
       "prevControl": {
-        "x": 2.186935566695354,
-        "y": 6.038410522160111
-      },
-      "nextControl": {
-        "x": 2.115357142857143,
-        "y": 4.213160714285714
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.5082500000000003,
-        "y": 3.9540178571428575
-      },
-      "prevControl": {
-        "x": 2.2935178571428567,
-        "y": 3.9540178571428575
+        "x": 3.1270270270270277,
+        "y": 4.035
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Shoot_Center"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Test2026",
+  "folder": "Preload_Only",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

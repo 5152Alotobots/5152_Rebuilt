@@ -3,12 +3,17 @@
   "robotLength": 0.88,
   "holonomicMode": true,
   "pathFolders": [
+    "AddNonCenter",
     "BasicMeters",
+    "PreloadWClimb",
     "Positions",
-    "Test2026"
+    "Preload_Only"
   ],
   "autoFolders": [
-    "BasicMeters"
+    "WithMiddle",
+    "BasicMeters",
+    "PreloadWClimb",
+    "Preload_Only"
   ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,
@@ -34,5 +39,7 @@
   "brModuleY": -0.25,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.44,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.355},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+  ]
 }

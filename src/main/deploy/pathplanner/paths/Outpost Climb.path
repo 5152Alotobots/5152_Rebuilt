@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.7646734234234236,
+        "y": 2.860394144144144
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.184414414414415,
+        "y": 4.045213963963964
+      },
+      "isLocked": false,
+      "linkedName": "Shoot_Outpost"
+    },
+    {
+      "anchor": {
+        "x": 1.0895833333333338,
+        "y": 3.7592229729729736
+      },
+      "prevControl": {
+        "x": 2.089583333333334,
+        "y": 3.7592229729729736
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Climb_2"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6525157232704433,
+      "rotationDegrees": 180.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "PreloadWClimb",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 31.328692867804087
+  },
+  "useDefaultConstraints": true
+}
