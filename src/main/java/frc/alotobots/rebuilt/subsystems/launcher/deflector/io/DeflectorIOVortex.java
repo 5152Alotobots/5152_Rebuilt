@@ -158,7 +158,7 @@ public class DeflectorIOVortex implements DeflectorIO {
 
   @Override
   public void setDeflectorOpenLoop(double percentOutput) {
-    Logger.recordOutput("deflector/openLoopPercentOut", percentOutput);
+    Logger.recordOutput("Launcher/Deflector/openLoopPercentOut", percentOutput);
     deflectorMotor.set(percentOutput);
   }
 
