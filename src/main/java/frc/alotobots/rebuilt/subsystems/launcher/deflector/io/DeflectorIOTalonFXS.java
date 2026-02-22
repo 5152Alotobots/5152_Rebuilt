@@ -120,7 +120,6 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
 
-    inputs.deflectorMotorControlMode = deflectorMotorControlMode.getValue();
     inputs.deflectorMotorConnected =
         deflectorMotorConnectedDebouncer.calculate(motorSignals.isOK());
     inputs.deflectorMotorVelocity = deflectorMotorVelocity.getValue();
