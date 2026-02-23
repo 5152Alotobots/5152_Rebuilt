@@ -20,12 +20,13 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ShooterIO {
   enum PIDSlots {
     DEFAULT_VELOCITY,
+    OPEN_LOOP
   }
 
   /** Data structure for inputs from shooter hardware. */
   @AutoLog
   public static class ShooterIOInputs {
-    public PIDSlots shooterMotorLeftPidSlot = PIDSlots.DEFAULT_VELOCITY;
+    public PIDSlots shooterMotorsPIDSlot = PIDSlots.DEFAULT_VELOCITY;
     public PIDSlots shooterMotorRightPidSlot = PIDSlots.DEFAULT_VELOCITY;
 
     public boolean shooterMotorLeftConnected = false;

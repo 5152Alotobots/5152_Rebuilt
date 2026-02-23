@@ -58,8 +58,8 @@ public class ShooterSubsystem extends SubsystemBase {
         RadiansPerSecond.of(
             MathUtil.clamp(
                 velocity.in(RadiansPerSecond),
-                -MAX_SPEED.in(RadiansPerSecond),
-                MAX_SPEED.in(RadiansPerSecond)));
+                -MAX_VELOCITY.in(RadiansPerSecond),
+                MAX_VELOCITY.in(RadiansPerSecond)));
     targetVelocity = LIMITS_ENABLED ? adjustedVelocity : velocity;
     io.setShooterVelocity(targetVelocity);
     Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
     double adjustedOutput =
         MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
     io.setShooterOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
-    Logger.recordOutput("Launcher/Shooter/ControlType", "PERCENT_OUTPUT");
+    Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.OPEN_LOOP);
   }
 
   /**
@@ -80,10 +80,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public boolean isAtTargetVelocity() {
     // Check if current velocity is within threshold of target
     boolean inSetPointThreshold =
-        targetVelocity
-                .minus(
-                    (inputs.shooterMotorLeftVelocity.plus(inputs.shooterMotorRightVelocity)).div(2))
-                .abs(RadiansPerSecond)
+        targetVelocity.minus(inputs.shooterMotorLeftVelocity).abs(RadiansPerSecond)
             < AT_TARGET_VELOCITY_SPEED_THRESHOLD.in(RadiansPerSecond);
 
     // Use debouncer to check if we've been at setpoint for the required duration

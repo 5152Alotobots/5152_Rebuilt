@@ -12,11 +12,54 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.shooter.constants;
 
+import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.units.measure.Current;
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class ShooterTalonFXConstants {
-  public static final double VELOCITY_P_GAIN = 0.2;
-  public static final double VELOCITY_I_GAIN = 0.0;
-  public static final double VELOCITY_D_GAIN = 0.0;
-  public static final double VELOCITY_V_GAIN = 0.11;
-  public static final double VELOCITY_S_GAIN = 0.195;
-  public static final double CLOSED_LOOP_RAMP_RATE = 0.5;
+  /** Contains PID and motion control constants for different control modes. */
+  public static final class PIDConstants {
+    /** TalonFX-specific PID and motion control constants for velocity (Velocity mode). */
+    public static final class VelocityPIDConstants {
+      /** Position control proportional gain */
+      public static final double KP = 0.1;
+
+      /** Position control integral gain */
+      public static final double KI = 0.0;
+
+      /** Position control derivative gain */
+      public static final double KD = 0.0;
+
+      /** Gravity compensation gain */
+      public static final double KG = 0.0;
+
+      /** Static friction compensation */
+      public static final double KS = 0.0;
+
+      /** Velocity feedforward gain */
+      public static final double KV = 0.05;
+    }
+  }
+
+  /** Contains safety limit constants for the motors. */
+  public static final class MotorSafetyLimits {
+    /** Maximum forward torque current limit in amperes */
+    public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(45);
+
+    /** Maximum reverse torque current limit in amperes */
+    public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-45);
+
+    /** Maximum stator current limit in amperes */
+    public static final Current STATOR_AMP_LIMIT = Amps.of(45);
+  }
+
+  /** Neutral mode (brake/coast) setting for the mechanism */
+  public static final NeutralModeValue MECHANISM_NEUTRAL_MODE = NeutralModeValue.Coast;
+
+  public static final InvertedValue MOTOR_DIRECTION = InvertedValue.CounterClockwise_Positive;
 }
