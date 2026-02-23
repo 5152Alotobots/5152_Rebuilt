@@ -22,8 +22,8 @@ import org.littletonrobotics.junction.AutoLogOutput;
 /**
  * Utility class that computes the desired turret angle based on robot pose and target geometry.
  *
- * <p>Contains both a stationary (odometry-only) angle calculation and a drive-adjusted variant
- * that compensates for robot rotation. All geometry is expressed in field-relative coordinates.
+ * <p>Contains both a stationary (odometry-only) angle calculation and a drive-adjusted variant that
+ * compensates for robot rotation. All geometry is expressed in field-relative coordinates.
  */
 public class TurretAngleCalculations {
   /**
@@ -58,8 +58,8 @@ public class TurretAngleCalculations {
   }
 
   /**
-   * Calculates the field-relative turret angle required to aim at the hub from the robot's
-   * current pose, assuming the robot is stationary.
+   * Calculates the field-relative turret angle required to aim at the hub from the robot's current
+   * pose, assuming the robot is stationary.
    *
    * <p>Applies a fixed offset to account for the turret's physical mounting position relative to
    * the robot center (15 cm forward, 5 cm right).
@@ -84,8 +84,8 @@ public class TurretAngleCalculations {
   /**
    * Returns the turret angle adjusted for the robot's current field-relative heading.
    *
-   * <p>Adds the robot's pose rotation to the current turret angle so that callers can reason
-   * about the turret direction in field-relative terms.
+   * <p>Adds the robot's pose rotation to the current turret angle so that callers can reason about
+   * the turret direction in field-relative terms.
    *
    * @return The drive-adjusted turret angle as a {@link Rotation2d}
    */
@@ -101,8 +101,8 @@ public class TurretAngleCalculations {
    *
    * @param x The x component of the Cartesian coordinate
    * @param y The y component of the Cartesian coordinate
-   * @return A {@link PolarCoordinates} record containing the radius and angle (in radians,
-   *     measured from the positive x-axis)
+   * @return A {@link PolarCoordinates} record containing the radius and angle (in radians, measured
+   *     from the positive x-axis)
    */
   @AutoLogOutput
   public PolarCoordinates cartesianToPolar(double x, double y) {

@@ -230,7 +230,7 @@ public class DeflectorIOVortex implements DeflectorIO {
 
   /**
    * Converts Vortex motor position to deflector angle. Uses regression formula y = SLOPE * x +
-   * MIN_ANGLE where x is motor position in radians and y is deflector angle in radians.
+   * MAX_ANGLE where x is motor position in radians and y is deflector angle in radians.
    *
    * @param motorPosition Vortex motor position as an Angle unit
    * @return Deflector angle as an Angle unit
@@ -243,7 +243,7 @@ public class DeflectorIOVortex implements DeflectorIO {
 
   /**
    * Converts Vortex motor velocity to deflector angular velocity. Uses the slope from the
-   * regression formula y = SLOPE * x + MIN_ANGLE as the conversion factor.
+   * regression formula y = SLOPE * x + MAX_ANGLE as the conversion factor.
    *
    * @param motorVelocity Vortex motor rotational velocity as an AngularVelocity unit
    * @return Deflector angular velocity as an AngularVelocity unit
@@ -255,7 +255,7 @@ public class DeflectorIOVortex implements DeflectorIO {
 
   /**
    * Converts deflector angle to Vortex motor position. Uses inverse of regression formula y = SLOPE
-   * * x + MIN_ANGLE, solving for x: x = (y - MIN_ANGLE) / SLOPE where y is deflector angle in
+   * * x + MAX_ANGLE, solving for x: x = (y - MAX_ANGLE) / SLOPE where y is deflector angle in
    * radians and x is motor position in radians.
    *
    * @param deflectorAngle Deflector angle as an Angle unit
@@ -269,7 +269,7 @@ public class DeflectorIOVortex implements DeflectorIO {
 
   /**
    * Converts deflector angular velocity to Vortex motor velocity. Uses inverse slope from
-   * regression formula y = SLOPE * x + MIN_ANGLE.
+   * regression formula y = SLOPE * x + MAX_ANGLE.
    *
    * @param deflectorAngularVelocity Deflector angular velocity as an AngularVelocity unit
    * @return Vortex motor rotational velocity as an AngularVelocity unit

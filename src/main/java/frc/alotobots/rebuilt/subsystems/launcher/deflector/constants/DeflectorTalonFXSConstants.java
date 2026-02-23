@@ -17,19 +17,22 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 /**
  * Hardware-specific constants for the deflector when driven by a TalonFXS motor controller.
  *
- * <p>Contains motor configuration values including neutral mode, encoder offset, PID gains, and
- * the sensor-to-mechanism gear ratio used by the TalonFXS onboard closed-loop controller.
+ * <p>Contains motor configuration values including neutral mode, encoder offset, PID gains, and the
+ * sensor-to-mechanism gear ratio used by the TalonFXS onboard closed-loop controller.
  */
 public class DeflectorTalonFXSConstants {
   /** Neutral mode applied to the TalonFXS when no output is commanded */
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
+
   /** Absolute encoder zero offset in rotations */
   public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
 
   /** Position closed-loop proportional gain */
   public static final double POSITION_P_GAIN = .01;
+
   /** Position closed-loop integral gain */
   public static final double POSITION_I_GAIN = 0.0;
+
   /** Position closed-loop derivative gain */
   public static final double POSITION_D_GAIN = 0.0;
 

@@ -40,9 +40,7 @@ public class TurretRunToPosition extends Command {
     addRequirements(turretSubsystem);
   }
 
-  /**
-   * Commands the turret to begin moving to the target angle.
-   */
+  /** Commands the turret to begin moving to the target angle. */
   @Override
   public void initialize() {
     turretSubsystem.runToTargetAngle(targetAngle);

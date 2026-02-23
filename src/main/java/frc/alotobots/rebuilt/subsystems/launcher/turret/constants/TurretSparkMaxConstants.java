@@ -23,6 +23,7 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 public class TurretSparkMaxConstants {
   /** Idle mode applied to the SPARK MAX when no output is commanded */
   public static final SparkBaseConfig.IdleMode NEUTRAL_MODE = SparkBaseConfig.IdleMode.kBrake;
+
   /** Absolute encoder zero offset in rotations */
   public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
 }

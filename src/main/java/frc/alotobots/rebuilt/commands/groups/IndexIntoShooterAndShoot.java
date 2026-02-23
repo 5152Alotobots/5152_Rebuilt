@@ -28,9 +28,9 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConsta
 /**
  * Command group that spins up the shooter and then feeds a game piece into it.
  *
- * <p>Starts the shooter flywheel at the configured test velocity and uses it as a deadline
- * command. Once the shooter reports that it has reached its target velocity, the belt and kicker
- * are run simultaneously to index the game piece into the shooter.
+ * <p>Starts the shooter flywheel at the configured test velocity and uses it as a deadline command.
+ * Once the shooter reports that it has reached its target velocity, the belt and kicker are run
+ * simultaneously to index the game piece into the shooter.
  */
 public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
   /**

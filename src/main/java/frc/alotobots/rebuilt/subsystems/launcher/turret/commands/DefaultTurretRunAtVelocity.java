@@ -26,10 +26,10 @@ import java.util.function.Supplier;
 /**
  * Default command that continuously rotates the turret at a target angular velocity.
  *
- * <p>Accepts either a typed {@link Supplier} of {@link AngularVelocity} for programmatic use or
- * a raw {@link DoubleSupplier} representing a controller axis, which is scaled to the maximum
- * turret velocity. This command never finishes on its own and is intended to be used as the
- * default command for the turret subsystem during manual velocity-controlled operation.
+ * <p>Accepts either a typed {@link Supplier} of {@link AngularVelocity} for programmatic use or a
+ * raw {@link DoubleSupplier} representing a controller axis, which is scaled to the maximum turret
+ * velocity. This command never finishes on its own and is intended to be used as the default
+ * command for the turret subsystem during manual velocity-controlled operation.
  */
 public class DefaultTurretRunAtVelocity extends Command {
   private final TurretSubsystem turretSubsystem;
@@ -52,8 +52,8 @@ public class DefaultTurretRunAtVelocity extends Command {
   /**
    * Creates a new DefaultTurretRunAtVelocity command using a controller axis input.
    *
-   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and
-   * scaled by {@code TURRET_MAX_VELOCITY} to produce the target angular velocity.
+   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and scaled
+   * by {@code TURRET_MAX_VELOCITY} to produce the target angular velocity.
    *
    * @param turretSubsystem The turret subsystem this command will control
    * @param controllerInput Supplier of a raw controller axis value in the range [-1.0, 1.0]

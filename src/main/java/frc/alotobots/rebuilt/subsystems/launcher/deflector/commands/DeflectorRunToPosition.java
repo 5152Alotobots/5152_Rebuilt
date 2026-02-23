@@ -20,9 +20,9 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
  * Command that moves the deflector to a fixed angle and finishes once it arrives.
  *
  * <p>The target angle is set once during {@link #initialize()} and the command completes when
- * {@link DeflectorSubsystem#isAtTargetAngle()} returns {@code true}, indicating the deflector
- * has been within the position tolerance for the required debounce duration. The deflector is
- * stopped if the command is interrupted before reaching the target.
+ * {@link DeflectorSubsystem#isAtTargetAngle()} returns {@code true}, indicating the deflector has
+ * been within the position tolerance for the required debounce duration. The deflector is stopped
+ * if the command is interrupted before reaching the target.
  */
 public class DeflectorRunToPosition extends Command {
   private final DeflectorSubsystem deflectorSubsystem;
@@ -41,9 +41,7 @@ public class DeflectorRunToPosition extends Command {
     addRequirements(deflectorSubsystem);
   }
 
-  /**
-   * Commands the deflector to begin moving to the target angle.
-   */
+  /** Commands the deflector to begin moving to the target angle. */
   @Override
   public void initialize() {
     deflectorSubsystem.runToTargetAngle(angle);

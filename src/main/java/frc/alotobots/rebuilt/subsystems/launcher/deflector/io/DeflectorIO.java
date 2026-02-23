@@ -66,7 +66,7 @@ public interface DeflectorIO {
   default void setDeflectorPosition(Angle position) {}
 
   /**
-   * Sets the wrist to run at a target velocity using closed-loop control.
+   * Sets the deflector to run at a target velocity using closed-loop control.
    *
    * @param velocity The target velocity to move at
    * @param pidSlot The PID slot to use

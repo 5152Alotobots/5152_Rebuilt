@@ -52,8 +52,8 @@ public class DefaultDeflectorRunAtVelocity extends Command {
   /**
    * Creates a new DefaultDeflectorRunAtVelocity command using a controller axis input.
    *
-   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and
-   * scaled by {@code DEFLECTOR_MAX_VELOCITY} to produce the target angular velocity.
+   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and scaled
+   * by {@code DEFLECTOR_MAX_VELOCITY} to produce the target angular velocity.
    *
    * @param deflectorSubsystem The deflector subsystem this command will control
    * @param controllerInput Supplier of a raw controller axis value in the range [-1.0, 1.0]

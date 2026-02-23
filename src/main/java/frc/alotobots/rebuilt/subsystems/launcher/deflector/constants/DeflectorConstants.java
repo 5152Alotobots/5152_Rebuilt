@@ -22,7 +22,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class DeflectorConstants {
 
-  /** Contains threshold values for various wrist operations. */
+  /** Contains threshold values for various deflector operations. */
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at position" */
     public static final Angle DEFLECTOR_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(3);

@@ -26,10 +26,10 @@ import java.util.function.Supplier;
 /**
  * Default command that continuously runs the shooter flywheels at a target angular velocity.
  *
- * <p>Accepts either a typed {@link Supplier} of {@link AngularVelocity} for programmatic use or
- * a raw {@link DoubleSupplier} representing a controller axis, which is scaled to the maximum
- * shooter velocity. This command never finishes on its own and is intended to be used as the
- * default command for the shooter subsystem during velocity-controlled operation.
+ * <p>Accepts either a typed {@link Supplier} of {@link AngularVelocity} for programmatic use or a
+ * raw {@link DoubleSupplier} representing a controller axis, which is scaled to the maximum shooter
+ * velocity. This command never finishes on its own and is intended to be used as the default
+ * command for the shooter subsystem during velocity-controlled operation.
  */
 public class DefaultShooterRunAtVelocity extends Command {
   private final ShooterSubsystem shooterSubsystem;
@@ -52,8 +52,8 @@ public class DefaultShooterRunAtVelocity extends Command {
   /**
    * Creates a new DefaultShooterRunAtVelocity command using a controller axis input.
    *
-   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and
-   * scaled by {@code SHOOTER_MAX_VELOCITY} to produce the target angular velocity.
+   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and scaled
+   * by {@code SHOOTER_MAX_VELOCITY} to produce the target angular velocity.
    *
    * @param shooterSubsystem The shooter subsystem this command will control
    * @param controllerInput Supplier of a raw controller axis value in the range [-1.0, 1.0]
