@@ -15,25 +15,27 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector.commands;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import java.util.function.Supplier;
 
-public class DeflectorRunToPosition extends Command {
+public class DeflectorFollowPosition extends Command {
   private final DeflectorSubsystem deflectorSubsystem;
-  private final Angle angle;
+  private final Supplier<Angle> angleSupplier;
 
-  public DeflectorRunToPosition(DeflectorSubsystem deflectorSubsystem, Angle angle) {
+  public DeflectorFollowPosition(
+      DeflectorSubsystem deflectorSubsystem, Supplier<Angle> angleSupplier) {
     this.deflectorSubsystem = deflectorSubsystem;
-    this.angle = angle;
+    this.angleSupplier = angleSupplier;
 
     addRequirements(deflectorSubsystem);
   }
 
   @Override
-  public void initialize() {
-    deflectorSubsystem.runToTargetAngle(angle);
-  }
+  public void initialize() {}
 
   @Override
-  public void execute() {}
+  public void execute() {
+    deflectorSubsystem.runToTargetAngle(angleSupplier.get());
+  }
 
   @Override
   public void end(boolean interrupted) {
@@ -42,6 +44,6 @@ public class DeflectorRunToPosition extends Command {
 
   @Override
   public boolean isFinished() {
-    return deflectorSubsystem.isAtTargetAngle();
+    return false;
   }
 }

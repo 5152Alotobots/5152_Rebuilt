@@ -12,38 +12,31 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.commands;
 
-import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretAngleCalculations;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
-import org.littletonrobotics.junction.Logger;
 
-public class RunTurretToTarget extends Command {
-  private TurretAngleCalculations turretAngleCalculations;
-  private TurretSubsystem turretSubsystem;
+public class TurretRunToPosition extends Command {
+  private final TurretSubsystem turretSubsystem;
+  private final Angle targetAngle;
 
-  public RunTurretToTarget(
-      TurretAngleCalculations turretAngleCalculations, TurretSubsystem turretSubsystem) {
-    this.turretAngleCalculations = turretAngleCalculations;
+  public TurretRunToPosition(TurretSubsystem turretSubsystem, Angle targetAngle) {
     this.turretSubsystem = turretSubsystem;
-
+    this.targetAngle = targetAngle;
     addRequirements(turretSubsystem);
   }
 
   @Override
-  public void execute() {
-    var targetAngle = turretAngleCalculations.stationaryTurretAngleCalculations();
-    turretSubsystem.runToTargetAngle(targetAngle.getMeasure());
-    Logger.recordOutput("Turret/calculatedTargetAngle", targetAngle);
+  public void initialize() {
+    turretSubsystem.runToTargetAngle(targetAngle);
   }
+
+  @Override
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {
     turretSubsystem.stop();
-
-    if (interrupted) {
-      DataLogManager.log("INFO: Turret Auto Position Command Interrupted");
-    }
   }
 
   @Override

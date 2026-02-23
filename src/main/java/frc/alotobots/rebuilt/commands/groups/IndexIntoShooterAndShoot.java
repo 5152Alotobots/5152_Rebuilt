@@ -21,7 +21,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.ShooterShootAtVelocity;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants;
 
 public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
@@ -30,7 +30,7 @@ public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
       KickerSubsystem kickerSubsystem,
       ShooterSubsystem shooterSubsystem) {
     addCommands(
-        new ShooterShootAtVelocity(
+        new DefaultShooterRunAtVelocity(
                 shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
             .until(shooterSubsystem::isAtTargetVelocity),
         new ParallelCommandGroup(
@@ -38,7 +38,7 @@ public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
                 beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
             new DefaultKickerRunAtVelocity(
                 kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-            new ShooterShootAtVelocity(
+            new DefaultShooterRunAtVelocity(
                 shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)));
   }
 }

@@ -12,20 +12,37 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.shooter.commands;
 
+import static frc.alotobots.OI.AxisLimits.MAX_AXIS_LIMIT;
+import static frc.alotobots.OI.AxisLimits.MIN_AXIS_LIMIT;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.MAX_VELOCITY;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-public class ShooterShootAtVelocity extends Command {
-
+public class DefaultShooterRunAtVelocity extends Command {
   private final ShooterSubsystem shooterSubsystem;
   private final Supplier<AngularVelocity> targetVelocity;
 
-  public ShooterShootAtVelocity(
+  public DefaultShooterRunAtVelocity(
       ShooterSubsystem shooterSubsystem, Supplier<AngularVelocity> targetVelocity) {
     this.shooterSubsystem = shooterSubsystem;
     this.targetVelocity = targetVelocity;
+
+    addRequirements(shooterSubsystem);
+  }
+
+  public DefaultShooterRunAtVelocity(
+      ShooterSubsystem shooterSubsystem, DoubleSupplier controllerInput) {
+    this.shooterSubsystem = shooterSubsystem;
+    this.targetVelocity =
+        () ->
+            MAX_VELOCITY.times(
+                MathUtil.clamp(controllerInput.getAsDouble(), MIN_AXIS_LIMIT, MAX_AXIS_LIMIT));
+
     addRequirements(shooterSubsystem);
   }
 

@@ -10,40 +10,40 @@
 *
 * Source code must be publicly available on GitHub or an alternative web accessible site
 */
-package frc.alotobots.rebuilt.subsystems.launcher.deflector.commands;
+package frc.alotobots.rebuilt.subsystems.launcher.turret.commands;
 
 import static frc.alotobots.OI.AxisLimits.MAX_AXIS_LIMIT;
 import static frc.alotobots.OI.AxisLimits.MIN_AXIS_LIMIT;
-import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MAX_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.MAX_VELOCITY;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-public class DefaultDeflectorRunAtVelocity extends Command {
-  private final DeflectorSubsystem deflectorSubsystem;
+public class DefaultTurretRunAtVelocity extends Command {
+  private final TurretSubsystem turretSubsystem;
   private final Supplier<AngularVelocity> targetVelocity;
 
-  public DefaultDeflectorRunAtVelocity(
-      DeflectorSubsystem deflectorSubsystem, Supplier<AngularVelocity> targetVelocity) {
-    this.deflectorSubsystem = deflectorSubsystem;
+  public DefaultTurretRunAtVelocity(
+      TurretSubsystem turretSubsystem, Supplier<AngularVelocity> targetVelocity) {
+    this.turretSubsystem = turretSubsystem;
     this.targetVelocity = targetVelocity;
 
-    addRequirements(deflectorSubsystem);
+    addRequirements(turretSubsystem);
   }
 
-  public DefaultDeflectorRunAtVelocity(
-      DeflectorSubsystem deflectorSubsystem, DoubleSupplier controllerInput) {
-    this.deflectorSubsystem = deflectorSubsystem;
+  public DefaultTurretRunAtVelocity(
+      TurretSubsystem turretSubsystem, DoubleSupplier controllerInput) {
+    this.turretSubsystem = turretSubsystem;
     this.targetVelocity =
         () ->
             MAX_VELOCITY.times(
                 MathUtil.clamp(controllerInput.getAsDouble(), MIN_AXIS_LIMIT, MAX_AXIS_LIMIT));
 
-    addRequirements(deflectorSubsystem);
+    addRequirements(turretSubsystem);
   }
 
   @Override
@@ -51,12 +51,12 @@ public class DefaultDeflectorRunAtVelocity extends Command {
 
   @Override
   public void execute() {
-    deflectorSubsystem.runToTargetVelocity(targetVelocity.get());
+    turretSubsystem.runToTargetVelocity(targetVelocity.get());
   }
 
   @Override
   public void end(boolean interrupted) {
-    deflectorSubsystem.stop();
+    turretSubsystem.stop();
   }
 
   @Override

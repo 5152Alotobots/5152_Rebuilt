@@ -12,32 +12,36 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.commands;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
-import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.Logger;
+import java.util.function.Supplier;
 
-public class TurretDefault extends Command {
+public class TurretFollowPosition extends Command {
   private final TurretSubsystem turretSubsystem;
-  private final DoubleSupplier input;
+  private final Supplier<Angle> angleSupplier;
 
-  public TurretDefault(TurretSubsystem turretSubsystem, DoubleSupplier input) {
-    // No requirements, runs when no other commands are running
-
+  public TurretFollowPosition(TurretSubsystem turretSubsystem, Supplier<Angle> angleSupplier) {
     this.turretSubsystem = turretSubsystem;
-    this.input = input;
-
+    this.angleSupplier = angleSupplier;
     addRequirements(turretSubsystem);
   }
 
   @Override
+  public void initialize() {}
+
+  @Override
   public void execute() {
-    turretSubsystem.runAtPercentOutput(-input.getAsDouble());
-    Logger.recordOutput("Turret/isRunning", "Going" + -input.getAsDouble());
+    turretSubsystem.runToTargetAngle(angleSupplier.get());
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    turretSubsystem.stop();
   }
 
   @Override
   public boolean isFinished() {
-    return false; // Never finishes on its own
+    return turretSubsystem.isAtTargetAngle();
   }
 }
