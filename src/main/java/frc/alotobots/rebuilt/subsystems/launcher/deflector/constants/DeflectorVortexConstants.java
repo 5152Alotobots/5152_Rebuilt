@@ -24,62 +24,62 @@ public class DeflectorVortexConstants {
     /** Vortex-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
       /** Position control proportional gain */
-      public static final double KP = 0.4;
+      public static final double DEFLECTOR_POSITION_KP = 0.4;
 
       /** Position control integral gain */
-      public static final double KI = 0.0;
+      public static final double DEFLECTOR_POSITION_KI = 0.0;
 
       /** Position control derivative gain */
-      public static final double KD = 0.0;
+      public static final double DEFLECTOR_POSITION_KD = 0.0;
 
       /** Gravity compensation gain */
-      public static final double KG = 0.0;
+      public static final double DEFLECTOR_POSITION_KG = 0.0;
 
       /** The allowed closed-loop error in rotations */
-      public static final double ALLOWED_CLOSED_LOOP_ERROR = 0.1;
+      public static final double DEFLECTOR_POSITION_ALLOWED_CLOSED_LOOP_ERROR = 0.1;
     }
 
     /** Vortex-specific PID and motion control constants for velocity (Velocity mode). */
     public static final class VelocityPIDConstants {
       /** Position control proportional gain */
-      public static final double KP = 0.0;
+      public static final double DEFLECTOR_VELOCITY_KP = 0.0;
 
       /** Position control integral gain */
-      public static final double KI = 0.0;
+      public static final double DEFLECTOR_VELOCITY_KI = 0.0;
 
       /** Position control derivative gain */
-      public static final double KD = 0.0;
+      public static final double DEFLECTOR_VELOCITY_KD = 0.0;
 
       /** Gravity compensation gain */
-      public static final double KG = 0.0;
+      public static final double DEFLECTOR_VELOCITY_KG = 0.0;
 
       /** Static friction compensation */
-      public static final double KS = 0.0;
+      public static final double DEFLECTOR_VELOCITY_KS = 0.0;
 
       /** Velocity feedforward gain */
-      public static final double KV = 0.0;
+      public static final double DEFLECTOR_VELOCITY_KV = 0.0;
 
       /** The allowed closed-loop error in rotations */
-      public static final double ALLOWED_CLOSED_LOOP_ERROR = 0.1;
+      public static final double DEFLECTOR_VELOCITY_ALLOWED_CLOSED_LOOP_ERROR = 0.1;
     }
   }
 
   /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
     /** Maximum torque current limit in amperes */
-    public static final Current TORQUE_AMP_LIMIT = Amps.of(45);
+    public static final Current DEFLECTOR_TORQUE_AMP_LIMIT = Amps.of(45);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */
-  public static final SparkBaseConfig.IdleMode MECHANISM_NEUTRAL_MODE =
+  public static final SparkBaseConfig.IdleMode DEFLECTOR_MECHANISM_NEUTRAL_MODE =
       SparkBaseConfig.IdleMode.kBrake;
 
-  public static final boolean MOTOR_DIRECTION_INVERTED = false;
-  public static final SensorDirectionValue ENCODER_SENSOR_DIRECTION =
+  public static final boolean DEFLECTOR_MOTOR_DIRECTION_INVERTED = false;
+  public static final SensorDirectionValue DEFLECTOR_ENCODER_SENSOR_DIRECTION =
       SensorDirectionValue.Clockwise_Positive;
 
-  public static final double ENCODER_MAGNET_OFFSET = -0.223877;
-  public static final double ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
+  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = -0.223877;
+  public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
 
   /**
    * Regression used to calculate how many radians the hood angle changes per motor rotation radian

@@ -14,7 +14,7 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.*;
-import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Thresholds.AT_TARGET_ANGLE_POSITION_THRESHOLD;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Thresholds.DEFLECTOR_AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
@@ -43,7 +43,7 @@ public class DeflectorSubsystem extends SubsystemBase {
 
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
-      new Debouncer(DeflectorConstants.Thresholds.AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(DeflectorConstants.Thresholds.DEFLECTOR_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
   /**
    * Creates a new DeflectorSubsystem.
@@ -68,8 +68,8 @@ public class DeflectorSubsystem extends SubsystemBase {
    */
   public void runToTargetAngle(Angle angle) {
     Angle adjustedAngle =
-        Radians.of(MathUtil.clamp(angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)));
-    targetAngle = LIMITS_ENABLED ? adjustedAngle : angle;
+        Radians.of(MathUtil.clamp(angle.in(Radians), DEFLECTOR_MIN_ANGLE.in(Radians), DEFLECTOR_MAX_ANGLE.in(Radians)));
+    targetAngle = DEFLECTOR_LIMITS_ENABLED ? adjustedAngle : angle;
     io.setDeflectorPosition(targetAngle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
 
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.DEFAULT_POSITION);
@@ -86,9 +86,9 @@ public class DeflectorSubsystem extends SubsystemBase {
         RadiansPerSecond.of(
             MathUtil.clamp(
                 velocity.in(RadiansPerSecond),
-                -MAX_VELOCITY.in(RadiansPerSecond),
-                MAX_VELOCITY.in(RadiansPerSecond)));
-    io.setDeflectorVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
+                -DEFLECTOR_MAX_VELOCITY.in(RadiansPerSecond),
+                DEFLECTOR_MAX_VELOCITY.in(RadiansPerSecond)));
+    io.setDeflectorVelocity(DEFLECTOR_LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.VELOCITY);
   }
 
@@ -102,10 +102,10 @@ public class DeflectorSubsystem extends SubsystemBase {
     double adjustedSpeed =
         MathUtil.clamp(
             percentOutput,
-            -DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
-            DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
+            -DeflectorConstants.Limits.DEFLECTOR_MAX_OPEN_LOOP_PERCENTAGE,
+            DeflectorConstants.Limits.DEFLECTOR_MAX_OPEN_LOOP_PERCENTAGE);
 
-    io.setDeflectorOpenLoop(LIMITS_ENABLED ? adjustedSpeed : percentOutput);
+    io.setDeflectorOpenLoop(DEFLECTOR_LIMITS_ENABLED ? adjustedSpeed : percentOutput);
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.OPEN_LOOP);
   }
 
@@ -132,7 +132,7 @@ public class DeflectorSubsystem extends SubsystemBase {
     // Check if current angle is within threshold of target
     boolean inSetPointThreshold =
         targetAngle.minus(inputs.deflectorAngle).abs(Radians)
-            < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
+            < DEFLECTOR_AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetAngleDebounce.calculate(inSetPointThreshold);
