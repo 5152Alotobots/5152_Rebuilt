@@ -14,8 +14,8 @@ package frc.alotobots.rebuilt.subsystems.launcher.shooter;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.*;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.AT_TARGET_VELOCITY_SPEED_THRESHOLD;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.AT_TARGET_VELOCITY_TIME_THRESHOLD;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
   private final Debouncer atTargetVelocityDebounce =
-      new Debouncer(AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
 
   @AutoLogOutput(key = "Launcher/Shooter/TargetVelocity")
   private AngularVelocity targetVelocity = RadiansPerSecond.zero();
@@ -58,17 +58,17 @@ public class ShooterSubsystem extends SubsystemBase {
         RadiansPerSecond.of(
             MathUtil.clamp(
                 velocity.in(RadiansPerSecond),
-                -MAX_VELOCITY.in(RadiansPerSecond),
-                MAX_VELOCITY.in(RadiansPerSecond)));
-    targetVelocity = LIMITS_ENABLED ? adjustedVelocity : velocity;
+                -SHOOTER_MAX_VELOCITY.in(RadiansPerSecond),
+                SHOOTER_MAX_VELOCITY.in(RadiansPerSecond)));
+    targetVelocity = SHOOTER_LIMITS_ENABLED ? adjustedVelocity : velocity;
     io.setShooterVelocity(targetVelocity);
     Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
   public void runShooterPercentOutput(double percentOutput) {
     double adjustedOutput =
-        MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
-    io.setShooterOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
+        MathUtil.clamp(percentOutput, -SHOOTER_MAX_OPEN_LOOP_PERCENTAGE, SHOOTER_MAX_OPEN_LOOP_PERCENTAGE);
+    io.setShooterOpenLoop(SHOOTER_LIMITS_ENABLED ? adjustedOutput : percentOutput);
     Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.OPEN_LOOP);
   }
 
@@ -81,7 +81,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Check if current velocity is within threshold of target
     boolean inSetPointThreshold =
         targetVelocity.minus(inputs.shooterMotorLeftVelocity).abs(RadiansPerSecond)
-            < AT_TARGET_VELOCITY_SPEED_THRESHOLD.in(RadiansPerSecond);
+            < SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD.in(RadiansPerSecond);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetVelocityDebounce.calculate(inSetPointThreshold);

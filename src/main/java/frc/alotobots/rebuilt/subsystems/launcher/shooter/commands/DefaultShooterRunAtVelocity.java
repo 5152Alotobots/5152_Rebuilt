@@ -14,7 +14,7 @@ package frc.alotobots.rebuilt.subsystems.launcher.shooter.commands;
 
 import static frc.alotobots.OI.AxisLimits.MAX_AXIS_LIMIT;
 import static frc.alotobots.OI.AxisLimits.MIN_AXIS_LIMIT;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.MAX_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_MAX_VELOCITY;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -40,7 +40,7 @@ public class DefaultShooterRunAtVelocity extends Command {
     this.shooterSubsystem = shooterSubsystem;
     this.targetVelocity =
         () ->
-            MAX_VELOCITY.times(
+            SHOOTER_MAX_VELOCITY.times(
                 MathUtil.clamp(controllerInput.getAsDouble(), MIN_AXIS_LIMIT, MAX_AXIS_LIMIT));
 
     addRequirements(shooterSubsystem);
