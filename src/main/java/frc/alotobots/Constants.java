@@ -71,6 +71,9 @@ public final class Constants {
 
     public static final CANBus SWERVE_CAN_BUS = new CANBus("Swerve");
     public static final CANBus RIO_CAN_BUS = new CANBus("rio");
+    
+    public static final double DEFAULT_CAN_FREQUENCY = 50.0;
+    
     public static final int PDH_CAN_ID = 1;
 
     public static final int CANDLE_CAN_ID = 2;

@@ -13,21 +13,22 @@
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.io;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.MAX_ANGLE;
-import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorVortexConstants.SENSOR_TO_MECHANISM_RATIO;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorVortexConstants.DEFLECTOR_ROTATION_PER_ROTATION;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
@@ -46,6 +47,7 @@ public class DeflectorIOVortex implements DeflectorIO {
   private final DigitalInput backLimitSwitch;
   private final Debouncer backLimitDebouncer;
   private final Debouncer deflectorMotorConnectedDebouncer;
+  private final Debouncer deflectorEncoderConnectedDebouncer;
 
   // CANcoder Signals
   private final StatusSignal<Angle> encoderPosition;
@@ -57,8 +59,9 @@ public class DeflectorIOVortex implements DeflectorIO {
         new CANcoder(
             Constants.CanId.DEFLECTOR_ENCODER_CAN_ID, RIO_CAN_BUS);
 
-    deflectorMotorConnectedDebouncer = new Debouncer(0.5);
-    backLimitDebouncer = new Debouncer(0.1);
+    deflectorMotorConnectedDebouncer = new Debouncer(0.1);
+    deflectorEncoderConnectedDebouncer = new Debouncer(0.1);
+    backLimitDebouncer = new Debouncer(0.5);
     backLimitSwitch = null;
 
     SparkFlexConfig deflectorMotorConfig = new SparkFlexConfig();
@@ -74,45 +77,85 @@ public class DeflectorIOVortex implements DeflectorIO {
     PhoenixUtil.tryUntilOk(
         5, () -> deflectorEncoder.getConfigurator().apply(deflectorEncoderConfig, 0.25));
 
-    deflectorMotorConfig.idleMode(IdleMode.kBrake).inverted(false);
-
+    deflectorMotorConfig.idleMode(DeflectorVortexConstants.MECHANISM_NEUTRAL_MODE);
+    deflectorMotorConfig.inverted(DeflectorVortexConstants.MOTOR_DIRECTION_INVERTED);
+    deflectorMotorConfig.smartCurrentLimit((int) DeflectorVortexConstants.MotorSafetyLimits.TORQUE_AMP_LIMIT.in(Amps));
+    
+    // Position (Slot 0)
     deflectorMotorConfig.closedLoop.p(
-        DeflectorVortexConstants.POSITION_P_GAIN, ClosedLoopSlot.kSlot0);
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.KP, ClosedLoopSlot.kSlot0);
     deflectorMotorConfig.closedLoop.i(
-        DeflectorVortexConstants.POSITION_I_GAIN, ClosedLoopSlot.kSlot0);
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.KI, ClosedLoopSlot.kSlot0);
     deflectorMotorConfig.closedLoop.d(
-        DeflectorVortexConstants.POSITION_D_GAIN, ClosedLoopSlot.kSlot0);
-    deflectorMotorConfig.closedLoop.allowedClosedLoopError(.1, ClosedLoopSlot.kSlot0);
-
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.KD, ClosedLoopSlot.kSlot0);
+    deflectorMotorConfig.closedLoop.feedForward.kG(
+            DeflectorVortexConstants.PIDConstants.PositionPIDConstants.KG,
+            ClosedLoopSlot.kSlot0
+    );
+    deflectorMotorConfig.closedLoop.allowedClosedLoopError(
+            DeflectorVortexConstants.PIDConstants.PositionPIDConstants.ALLOWED_CLOSED_LOOP_ERROR, ClosedLoopSlot.kSlot0
+    );
+    
+    // Velocity (Slot 1)
+    deflectorMotorConfig.closedLoop.p(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.KP, ClosedLoopSlot.kSlot1);
+    deflectorMotorConfig.closedLoop.i(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.KI, ClosedLoopSlot.kSlot1);
+    deflectorMotorConfig.closedLoop.d(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.KD, ClosedLoopSlot.kSlot1);
+    deflectorMotorConfig.closedLoop.feedForward.kG(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.KG,
+            ClosedLoopSlot.kSlot1
+    );
+    deflectorMotorConfig.closedLoop.feedForward.kS(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.KS,
+            ClosedLoopSlot.kSlot1
+    );
+    deflectorMotorConfig.closedLoop.feedForward.kV(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.KV,
+            ClosedLoopSlot.kSlot1
+    );
+    deflectorMotorConfig.closedLoop.allowedClosedLoopError(
+            DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.ALLOWED_CLOSED_LOOP_ERROR, ClosedLoopSlot.kSlot1
+    );
+    
+    
     deflectorMotor.configure(
         deflectorMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     encoderPosition = deflectorEncoder.getPosition();
     encoderVelocity = deflectorEncoder.getVelocity();
 
-    BaseStatusSignal.setUpdateFrequencyForAll(50.0, encoderPosition, encoderVelocity);
-    deflectorEncoder.optimizeBusUtilization();
-    seedInternalEncoder();
+    BaseStatusSignal.setUpdateFrequencyForAll(DEFAULT_CAN_FREQUENCY, encoderPosition, encoderVelocity);
+    ParentDevice.optimizeBusUtilizationForAll(deflectorEncoder);
+    
+    // Seed the internal encoder of the vortex using the CANCoder's absolute position
+    seedVortexInternalEncoder();
   }
 
   @Override
   public void updateInputs(DeflectorIOInputs inputs) {
-
+  var deflectorEncoderSignals = 
     BaseStatusSignal.refreshAll(encoderPosition, encoderVelocity);
 
     inputs.deflectorMotorConnected =
         deflectorMotorConnectedDebouncer.calculate(deflectorMotor.getBusVoltage() > 0);
-    inputs.deflectorMotorPosition = Rotations.of(deflectorMotor.getEncoder().getPosition());
-    inputs.deflectorEncoderPosition = encoderPosition.getValue();
+    inputs.deflectorEncoderConnected = deflectorEncoderConnectedDebouncer.calculate(deflectorEncoderSignals.isOK());
+    
+    inputs.deflectorMotorAngle = Rotations.of(deflectorMotor.getEncoder().getPosition());
+    inputs.deflectorEncoderAngle = encoderPosition.getValue();
     inputs.deflectorPosition =
-        vortexToHoodAngle(Rotations.of(deflectorMotor.getEncoder().getPosition()));
+        vortexToDeflectorAngle(Rotations.of(deflectorMotor.getEncoder().getPosition()));
+    
     inputs.deflectorEncoderVelocity = encoderVelocity.getValue();
     inputs.deflectorMotorVelocity =
         RotationsPerSecond.of(deflectorMotor.getEncoder().getVelocity());
     // No deflector motor acceleration because REV is shit
+    
     inputs.deflectorMotorVolts =
         Volts.of(deflectorMotor.getAppliedOutput() * deflectorMotor.getBusVoltage());
     inputs.deflectorMotorCurrent = Amps.of(deflectorMotor.getOutputCurrent());
+    
     // TODO: Limit switch goes here
   }
 
@@ -120,16 +163,20 @@ public class DeflectorIOVortex implements DeflectorIO {
   public void setDeflectorPosition(Angle position) {
     setDeflectorPosition(position, PIDSlots.DEFAULT_POSITION);
   }
-
-  // IMPORTANT Pos takes values from -6.28 - 0
+  
   @Override
   public void setDeflectorPosition(Angle position, PIDSlots pidSlot) {
     ClosedLoopSlot slot =
-        pidSlot == PIDSlots.VELOCITY ? ClosedLoopSlot.kSlot1 : ClosedLoopSlot.kSlot0;
+            switch (pidSlot) {
+              case DEFAULT_POSITION -> ClosedLoopSlot.kSlot0;
+              case VELOCITY -> ClosedLoopSlot.kSlot1;
+              default -> throw new IllegalArgumentException(
+                      "No defined PID slot for value: " + pidSlot.ordinal());
+            };
 
     deflectorMotor
         .getClosedLoopController()
-        .setSetpoint(hoodAngleToVortex(position).in(Rotations), ControlType.kPosition, slot);
+        .setSetpoint(deflectorAngleToVortex(position).in(Rotations), ControlType.kPosition, slot);
   }
 
   @Override
@@ -145,7 +192,7 @@ public class DeflectorIOVortex implements DeflectorIO {
     deflectorMotor
         .getClosedLoopController()
         .setSetpoint(
-            velocity.in(RotationsPerSecond), // Adjust time unit as needed
+            deflectorAngularVelocityToVortex(velocity).in(RotationsPerSecond),
             ControlType.kVelocity,
             slot);
   }
@@ -166,7 +213,7 @@ public class DeflectorIOVortex implements DeflectorIO {
     deflectorMotor.stopMotor();
   }
 
-  public void seedInternalEncoder() {
+  public void seedVortexInternalEncoder() {
     Angle absolutePosition = deflectorEncoder.getPosition().getValue();
 
     // Tell the Vortex internal encoder that its current position is the CANcoder's absolute
@@ -175,75 +222,75 @@ public class DeflectorIOVortex implements DeflectorIO {
   }
 
   /**
-   * Converts Vortex motor position to hood angle. Uses regression formula y = SLOPE * x + MIN_ANGLE
-   * where x is motor position in radians and y is hood angle in radians.
+   * Converts Vortex motor position to deflector angle. Uses regression formula y = SLOPE * x + MIN_ANGLE
+   * where x is motor position in radians and y is deflector angle in radians.
    *
    * @param motorPosition Vortex motor position as an Angle unit
-   * @return Hood angle as an Angle unit
+   * @return Deflector angle as an Angle unit
    */
-  private Angle vortexToHoodAngle(Angle motorPosition) {
+  private Angle vortexToDeflectorAngle(Angle motorPosition) {
     return Radians.of(
-        SENSOR_TO_MECHANISM_RATIO * motorPosition.in(Radians) + MAX_ANGLE.in(Radians));
+            DEFLECTOR_ROTATION_PER_ROTATION * motorPosition.in(Radians) + MAX_ANGLE.in(Radians));
   }
 
   /**
-   * Converts Vortex motor velocity to hood angular velocity. Uses the slope from the regression
+   * Converts Vortex motor velocity to deflector angular velocity. Uses the slope from the regression
    * formula y = SLOPE * x + MIN_ANGLE as the conversion factor.
    *
    * @param motorVelocity Vortex motor rotational velocity as an AngularVelocity unit
-   * @return Hood angular velocity as an AngularVelocity unit
+   * @return Deflector angular velocity as an AngularVelocity unit
    */
-  private AngularVelocity vortexToHoodAngularVelocity(AngularVelocity motorVelocity) {
-    return RadiansPerSecond.of(motorVelocity.in(RadiansPerSecond) * SENSOR_TO_MECHANISM_RATIO);
+  private AngularVelocity vortexToDeflectorAngularVelocity(AngularVelocity motorVelocity) {
+    return RadiansPerSecond.of(motorVelocity.in(RadiansPerSecond) * DEFLECTOR_ROTATION_PER_ROTATION);
   }
 
   /**
-   * Converts hood angle to Vortex motor position. Uses inverse of regression formula y = SLOPE * x
-   * + MIN_ANGLE, solving for x: x = (y - MIN_ANGLE) / SLOPE where y is hood angle in radians and x
+   * Converts deflector angle to Vortex motor position. Uses inverse of regression formula y = SLOPE * x
+   * + MIN_ANGLE, solving for x: x = (y - MIN_ANGLE) / SLOPE where y is deflector angle in radians and x
    * is motor position in radians.
    *
-   * @param hoodAngle Hood angle as an Angle unit
+   * @param deflectorAngle Deflector angle as an Angle unit
    * @return Vortex motor position as an Angle unit
    */
-  private Angle hoodAngleToVortex(Angle hoodAngle) {
-    return Radians.of((hoodAngle.in(Radians) - MAX_ANGLE.in(Radians)) / SENSOR_TO_MECHANISM_RATIO);
+  private Angle deflectorAngleToVortex(Angle deflectorAngle) {
+    return Radians.of((deflectorAngle.in(Radians) - MAX_ANGLE.in(Radians)) / DEFLECTOR_ROTATION_PER_ROTATION);
   }
 
   /**
-   * Converts hood angular velocity to Vortex motor velocity. Uses inverse slope from regression
+   * Converts deflector angular velocity to Vortex motor velocity. Uses inverse slope from regression
    * formula y = SLOPE * x + MIN_ANGLE.
    *
-   * @param hoodAngularVelocity Hood angular velocity as an AngularVelocity unit
+   * @param deflectorAngularVelocity Deflector angular velocity as an AngularVelocity unit
    * @return Vortex motor rotational velocity as an AngularVelocity unit
    */
-  private AngularVelocity hoodAngularVelocityToVortex(AngularVelocity hoodAngularVelocity) {
+  private AngularVelocity deflectorAngularVelocityToVortex(AngularVelocity deflectorAngularVelocity) {
     return RadiansPerSecond.of(
-        hoodAngularVelocity.in(RadiansPerSecond) / SENSOR_TO_MECHANISM_RATIO);
+        deflectorAngularVelocity.in(RadiansPerSecond) / DEFLECTOR_ROTATION_PER_ROTATION);
   }
 
   /**
-   * Converts hood angular acceleration to Vortex motor rotational acceleration. Uses the same
+   * Converts deflector angular acceleration to Vortex motor rotational acceleration. Uses the same
    * conversion factor as velocity since acceleration is the time derivative of velocity.
    *
-   * @param hoodAngularAcceleration Hood angular acceleration as an AngularAcceleration unit
+   * @param deflectorAngularAcceleration Deflector angular acceleration as an AngularAcceleration unit
    * @return Vortex motor rotational acceleration as an AngularAcceleration unit
    */
-  private AngularAcceleration hoodAngularAccelerationToVortex(
-      AngularAcceleration hoodAngularAcceleration) {
+  private AngularAcceleration deflectorAngularAccelerationToVortex(
+      AngularAcceleration deflectorAngularAcceleration) {
     return RadiansPerSecondPerSecond.of(
-        hoodAngularAcceleration.in(RadiansPerSecondPerSecond) / SENSOR_TO_MECHANISM_RATIO);
+        deflectorAngularAcceleration.in(RadiansPerSecondPerSecond) / DEFLECTOR_ROTATION_PER_ROTATION);
   }
 
   /**
-   * Converts Vortex motor rotational acceleration to hood angular acceleration. Uses the same
+   * Converts Vortex motor rotational acceleration to deflector angular acceleration. Uses the same
    * conversion factor as velocity since acceleration is the time derivative of velocity.
    *
    * @param motorAcceleration Vortex motor rotational acceleration as an AngularAcceleration unit
-   * @return Hood angular acceleration as an AngularAcceleration unit
+   * @return Deflector angular acceleration as an AngularAcceleration unit
    */
-  private AngularAcceleration vortexToHoodAngularAcceleration(
+  private AngularAcceleration vortexToDeflectorAngularAcceleration(
       AngularAcceleration motorAcceleration) {
     return RadiansPerSecondPerSecond.of(
-        motorAcceleration.in(RadiansPerSecondPerSecond) * SENSOR_TO_MECHANISM_RATIO);
+        motorAcceleration.in(RadiansPerSecondPerSecond) * DEFLECTOR_ROTATION_PER_ROTATION);
   }
 }

@@ -16,7 +16,6 @@ import static edu.wpi.first.units.Units.Rotations;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -126,7 +125,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     inputs.deflectorMotorAcceleration = deflectorMotorAcceleration.getValue();
     inputs.deflectorMotorVolts = deflectorMotorVoltage.getValue();
     inputs.deflectorMotorCurrent = deflectorMotorCurrent.getValue();
-    inputs.deflectorMotorPosition = deflectorMotorPosition.getValue();
+    inputs.deflectorMotorAngle = deflectorMotorPosition.getValue();
   }
 
   @Override

@@ -31,10 +31,14 @@ public interface DeflectorIO {
   @AutoLog
   public static class DeflectorIOInputs {
     public PIDSlots deflectorMotorPidSlot = PIDSlots.DEFAULT_POSITION;
+    
     public boolean deflectorMotorConnected = false;
-    public Angle deflectorMotorPosition = Rotations.zero();
-    public Angle deflectorEncoderPosition = Rotations.zero();
+    public boolean deflectorEncoderConnected = false;
+    
+    public Angle deflectorMotorAngle = Rotations.zero();
+    public Angle deflectorEncoderAngle = Rotations.zero();
     public Angle deflectorPosition = Rotations.zero();
+    
     public AngularVelocity deflectorEncoderVelocity = RotationsPerSecond.zero();
     public AngularVelocity deflectorMotorVelocity = RotationsPerSecond.zero();
     public AngularAcceleration deflectorMotorAcceleration = RotationsPerSecondPerSecond.zero();

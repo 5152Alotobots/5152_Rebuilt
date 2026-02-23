@@ -119,7 +119,7 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @return The current angle as an Angle object
    */
   public Angle getCurrentAngle() {
-    return inputs.deflectorMotorPosition;
+    return inputs.deflectorMotorAngle;
   }
 
   /**
@@ -130,7 +130,7 @@ public class DeflectorSubsystem extends SubsystemBase {
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target
     boolean inSetPointThreshold =
-        targetAngle.minus(inputs.deflectorMotorPosition).abs(Radians)
+        targetAngle.minus(inputs.deflectorMotorAngle).abs(Radians)
             < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration
