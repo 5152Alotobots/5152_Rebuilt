@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorSubsystem extends SubsystemBase {
@@ -37,6 +38,7 @@ public class DeflectorSubsystem extends SubsystemBase {
    * Angle object that tracks the currently selected position (maintains last position if not in
    * POSITION control mode)
    */
+  @AutoLogOutput(key = "Launcher/Shooter/TargetAngle")
   private Angle targetAngle = Degrees.zero();
 
   /** Debouncer for ensuring stability at a position */
@@ -56,7 +58,6 @@ public class DeflectorSubsystem extends SubsystemBase {
   public void periodic() {
     // Update hardware inputs
     io.updateInputs(inputs);
-    Logger.recordOutput("Deflector/TargetAngle", targetAngle.in(Degree));
     Logger.processInputs("Launcher/Deflector", inputs);
   }
 

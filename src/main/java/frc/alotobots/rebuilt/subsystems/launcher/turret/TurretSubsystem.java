@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class TurretSubsystem extends SubsystemBase {
@@ -33,6 +34,7 @@ public class TurretSubsystem extends SubsystemBase {
   /** Latest inputs from the turret hardware */
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
 
+  @AutoLogOutput(key = "Launcher/Turret/TargetAngle")
   private Angle targetAngle = Degrees.zero();
 
   /** Debouncer for ensuring stability at a position */
@@ -53,7 +55,6 @@ public class TurretSubsystem extends SubsystemBase {
     // Update hardware inputs
     io.updateInputs(inputs);
     Logger.processInputs("Launcher/Turret", inputs);
-    Logger.recordOutput("Launcher/Turret/TargetAngle", targetAngle.in(Degree));
   }
 
   /**
