@@ -12,11 +12,11 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 
+import static edu.wpi.first.units.Units.Amps;
+
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import edu.wpi.first.units.measure.Current;
-
-import static edu.wpi.first.units.Units.Amps;
 
 public class DeflectorVortexConstants {
   /** Contains PID and motion control constants for different control modes. */
@@ -34,11 +34,11 @@ public class DeflectorVortexConstants {
 
       /** Gravity compensation gain */
       public static final double KG = 0.0;
-      
+
       /** The allowed closed-loop error in rotations */
-      public static final double ALLOWED_CLOSED_LOOP_ERROR = 0.1; 
+      public static final double ALLOWED_CLOSED_LOOP_ERROR = 0.1;
     }
-  
+
     /** Vortex-specific PID and motion control constants for velocity (Velocity mode). */
     public static final class VelocityPIDConstants {
       /** Position control proportional gain */
@@ -71,12 +71,13 @@ public class DeflectorVortexConstants {
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */
-  public static final SparkBaseConfig.IdleMode MECHANISM_NEUTRAL_MODE = SparkBaseConfig.IdleMode.kBrake;
+  public static final SparkBaseConfig.IdleMode MECHANISM_NEUTRAL_MODE =
+      SparkBaseConfig.IdleMode.kBrake;
 
   public static final boolean MOTOR_DIRECTION_INVERTED = false;
   public static final SensorDirectionValue ENCODER_SENSOR_DIRECTION =
-          SensorDirectionValue.Clockwise_Positive;
-  
+      SensorDirectionValue.Clockwise_Positive;
+
   public static final double ENCODER_MAGNET_OFFSET = -0.223877;
   public static final double ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
 

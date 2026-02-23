@@ -38,7 +38,7 @@ public class DeflectorSubsystem extends SubsystemBase {
    * POSITION control mode)
    */
   private Angle targetAngle = Degrees.zero();
-  
+
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
       new Debouncer(DeflectorConstants.Thresholds.AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));

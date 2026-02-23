@@ -12,8 +12,9 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.shooter.io;
 
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
+
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -34,8 +35,6 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
-
-import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX motorLeft;
