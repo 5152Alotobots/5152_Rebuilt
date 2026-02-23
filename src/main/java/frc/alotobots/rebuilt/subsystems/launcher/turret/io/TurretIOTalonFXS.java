@@ -65,7 +65,6 @@ public class TurretIOTalonFXS implements TurretIO {
         TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KI;
     turretMotorConfig.Slot0.kD =
         TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
-    turretMotorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
     turretMotorConfig.Slot0.kG =
         TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KG;
 
@@ -76,7 +75,6 @@ public class TurretIOTalonFXS implements TurretIO {
         TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
     turretMotorConfig.Slot1.kD =
         TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
-    turretMotorConfig.Slot1.GravityType = GravityTypeValue.Elevator_Static;
     turretMotorConfig.Slot1.kG =
         TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
     turretMotorConfig.Slot1.kS =

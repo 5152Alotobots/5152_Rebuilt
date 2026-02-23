@@ -67,7 +67,6 @@ public class ShooterIOTalonFX implements ShooterIO {
         ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
     motorLeftConfig.Slot0.kD =
         ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
-    motorLeftConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
     motorLeftConfig.Slot0.kG =
         ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
     motorLeftConfig.Slot0.kS =

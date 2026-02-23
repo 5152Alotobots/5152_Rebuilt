@@ -38,7 +38,7 @@ public class DeflectorSubsystem extends SubsystemBase {
    * Angle object that tracks the currently selected position (maintains last position if not in
    * POSITION control mode)
    */
-  @AutoLogOutput(key = "Launcher/Shooter/TargetAngle")
+  @AutoLogOutput(key = "Launcher/Deflector/TargetAngle")
   private Angle targetAngle = Degrees.zero();
 
   /** Debouncer for ensuring stability at a position */

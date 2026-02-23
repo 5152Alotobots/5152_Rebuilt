@@ -57,7 +57,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
   private StatusSignal<ControlModeValue> deflectorMotorControlMode;
 
   public DeflectorIOTalonFXS() {
-    deflectorMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, RIO_CAN_BUS);
+    deflectorMotor = new TalonFXS(Constants.CanId.DEFLECTOR_MOTOR_CAN_ID, RIO_CAN_BUS);
     deflectorMotorConnectedDebouncer = new Debouncer(0.5);
     backLimitDebouncer = new Debouncer(0.1);
     backLimitSwitch = new DigitalInput(0);

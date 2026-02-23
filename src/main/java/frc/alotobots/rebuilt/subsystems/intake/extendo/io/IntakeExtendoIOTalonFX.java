@@ -58,7 +58,6 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
         IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
     intakeExtendoMotorConfig.Slot0.kD =
         IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
-    intakeExtendoMotorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
     intakeExtendoMotorConfig.Slot0.kG =
         IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
     intakeExtendoMotorConfig.Slot0.kS =
