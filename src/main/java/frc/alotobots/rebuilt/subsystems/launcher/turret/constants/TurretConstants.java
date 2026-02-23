@@ -23,16 +23,16 @@ public class TurretConstants {
     /** Acceptable PID error that will classify as "at position" */
     public static final Angle AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(2);
 
-    /** How long the extendo must be "at position" to classify as "at position" */
+    /** How long the turret must be "at position" to classify as "at position" */
     public static final Time AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
   }
 
-  /** Physical limits and safety thresholds */
+  /** Contains physical limits and safety thresholds for the turret. */
   public static final class Limits {
-    /** Maximum allowed extension */
+    /** Maximum allowed angle */
     public static final Angle MAX_ANGLE = Degrees.of(360);
 
-    /** Minimum allowed extension */
+    /** Minimum allowed angle */
     public static final Angle MIN_ANGLE = Degrees.of(0);
 
     /** Maximum open loop percent output */
@@ -45,7 +45,7 @@ public class TurretConstants {
     public static final boolean LIMITS_ENABLED = true;
   }
 
-  /** Position setpoints for different extendo states */
+  /** Contains position setpoints for different turret states. */
   public static final class Setpoints {
     // setpoints would go here, but I haven't figured them out yet
   }

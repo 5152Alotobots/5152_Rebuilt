@@ -82,8 +82,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Runs the turret using direct percent output (open-loop control). Dynamic limits based on
-   * current elevator height are passed to the IO layer.
+   * Runs the turret using direct percent output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */

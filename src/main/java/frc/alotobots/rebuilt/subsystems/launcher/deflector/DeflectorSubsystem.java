@@ -27,10 +27,10 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOInputsA
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorSubsystem extends SubsystemBase {
-  /** Hardware abstraction for the wrist */
+  /** Hardware abstraction for the deflector */
   private final DeflectorIO io;
 
-  /** Latest inputs from the wrist hardware */
+  /** Latest inputs from the deflector hardware */
   private final DeflectorIOInputsAutoLogged inputs = new DeflectorIOInputsAutoLogged();
 
   /**
@@ -46,7 +46,7 @@ public class DeflectorSubsystem extends SubsystemBase {
   /**
    * Creates a new DeflectorSubsystem.
    *
-   * @param io The hardware abstraction interface for the wrist
+   * @param io The hardware abstraction interface for the deflector
    */
   public DeflectorSubsystem(DeflectorIO io) {
     this.io = io;
@@ -61,9 +61,9 @@ public class DeflectorSubsystem extends SubsystemBase {
   }
 
   /**
-   * Commands the wrist to move to a target angle using closed-loop control.
+   * Commands the deflector to move to a target angle using closed-loop control.
    *
-   * @param angle The target angle for the wrist
+   * @param angle The target angle for the deflector
    */
   public void runToTargetAngle(Angle angle) {
     Angle adjustedAngle =
@@ -75,10 +75,10 @@ public class DeflectorSubsystem extends SubsystemBase {
   }
 
   /**
-   * Controls the intake extendo to move to a specified velocity using closed-loop velocity control.
+   * Controls the deflector to move to a specified velocity using closed-loop velocity control.
    *
    * @param velocity Target velocity in radians per second, automatically constrained between
-   *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
+   *     -MAX_VELOCITY and MAX_VELOCITY
    */
   public void runToTargetVelocity(AngularVelocity velocity) {
     AngularVelocity adjustedVelocity =
@@ -108,7 +108,7 @@ public class DeflectorSubsystem extends SubsystemBase {
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.OPEN_LOOP);
   }
 
-  /** Stops all wrist movement. */
+  /** Stops all deflector movement. */
   public void stop() {
     io.stop();
   }
@@ -123,9 +123,9 @@ public class DeflectorSubsystem extends SubsystemBase {
   }
 
   /**
-   * Checks if the turret is stably at its target angle for a minimum duration.
+   * Checks if the deflector is stably at its target angle for a minimum duration.
    *
-   * @return true if the turret has maintained its target angle within tolerance
+   * @return true if the deflector has maintained its target angle within tolerance
    */
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target

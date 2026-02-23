@@ -50,8 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
   /**
    * Controls the shooter to move to a specified velocity using closed-loop velocity control.
    *
-   * @param velocity Target velocity in meters per second, automatically constrained between
-   *     -MAX_SPEED and MAX_SPEED
+   * @param velocity Target velocity in radians per second, automatically constrained between
+   *     -MAX_VELOCITY and MAX_VELOCITY
    */
   public void runToTargetVelocity(AngularVelocity velocity) {
     AngularVelocity adjustedVelocity =

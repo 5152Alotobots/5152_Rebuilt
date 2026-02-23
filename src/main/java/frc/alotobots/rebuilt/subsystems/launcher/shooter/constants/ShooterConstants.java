@@ -21,7 +21,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ShooterConstants {
 
-  /** Contains threshold values for various wrist operations. */
+  /** Contains threshold values for various shooter operations. */
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at velocity" */
     public static final AngularVelocity AT_TARGET_VELOCITY_SPEED_THRESHOLD =
@@ -31,7 +31,7 @@ public class ShooterConstants {
     public static final Time AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.2);
   }
 
-  /** Contains physical limits and safety thresholds for the wrist. */
+  /** Contains physical limits and safety thresholds for the shooter. */
   public static final class Limits {
     /** Maximum open loop percent output */
     public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;
@@ -43,7 +43,7 @@ public class ShooterConstants {
     public static final boolean LIMITS_ENABLED = false;
   }
 
-  /** Contains position setpoints for different wrist states. */
+  /** Contains velocity setpoints for different shooter states. */
   public static final class Setpoints {
     // Different setpoints would go here.
     public static final AngularVelocity SHOOTER_TEST_VELOCITY = RotationsPerSecond.of(45);
