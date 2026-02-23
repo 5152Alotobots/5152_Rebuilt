@@ -17,24 +17,44 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import java.util.function.Supplier;
 
+/**
+ * Command that continuously rotates the turret to a dynamically supplied angle.
+ *
+ * <p>Unlike {@link TurretRunToPosition}, this command does not finish when the target is reached.
+ * Instead it re-evaluates the angle supplier every loop, making it suitable for continuously
+ * tracking a moving target such as the hub. The command runs indefinitely until interrupted.
+ */
 public class TurretFollowPosition extends Command {
   private final TurretSubsystem turretSubsystem;
   private final Supplier<Angle> angleSupplier;
 
+  /**
+   * Creates a new TurretFollowPosition command.
+   *
+   * @param turretSubsystem The turret subsystem this command will control
+   * @param angleSupplier Supplier that provides the desired turret angle each loop
+   */
   public TurretFollowPosition(TurretSubsystem turretSubsystem, Supplier<Angle> angleSupplier) {
     this.turretSubsystem = turretSubsystem;
     this.angleSupplier = angleSupplier;
     addRequirements(turretSubsystem);
   }
 
+  /** No initialization logic required for this command. */
   @Override
   public void initialize() {}
 
+  /** Continuously commands the turret to the angle returned by the supplier. */
   @Override
   public void execute() {
     turretSubsystem.runToTargetAngle(angleSupplier.get());
   }
 
+  /**
+   * Stops the turret when the command ends.
+   *
+   * @param interrupted Whether the command was interrupted
+   */
   @Override
   public void end(boolean interrupted) {
     turretSubsystem.stop();

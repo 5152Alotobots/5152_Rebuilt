@@ -23,10 +23,24 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+/**
+ * Default command that continuously runs the deflector at a target angular velocity.
+ *
+ * <p>Accepts either a typed {@link Supplier} of {@link AngularVelocity} for programmatic use or a
+ * raw {@link DoubleSupplier} representing a controller axis, which is scaled to the maximum
+ * deflector velocity. This command never finishes on its own and is intended to be used as the
+ * default command for the deflector subsystem.
+ */
 public class DefaultDeflectorRunAtVelocity extends Command {
   private final DeflectorSubsystem deflectorSubsystem;
   private final Supplier<AngularVelocity> targetVelocity;
 
+  /**
+   * Creates a new DefaultDeflectorRunAtVelocity command using a typed velocity supplier.
+   *
+   * @param deflectorSubsystem The deflector subsystem this command will control
+   * @param targetVelocity Supplier that provides the desired angular velocity each loop
+   */
   public DefaultDeflectorRunAtVelocity(
       DeflectorSubsystem deflectorSubsystem, Supplier<AngularVelocity> targetVelocity) {
     this.deflectorSubsystem = deflectorSubsystem;
@@ -35,6 +49,15 @@ public class DefaultDeflectorRunAtVelocity extends Command {
     addRequirements(deflectorSubsystem);
   }
 
+  /**
+   * Creates a new DefaultDeflectorRunAtVelocity command using a controller axis input.
+   *
+   * <p>The raw axis value is clamped to [{@code MIN_AXIS_LIMIT}, {@code MAX_AXIS_LIMIT}] and
+   * scaled by {@code DEFLECTOR_MAX_VELOCITY} to produce the target angular velocity.
+   *
+   * @param deflectorSubsystem The deflector subsystem this command will control
+   * @param controllerInput Supplier of a raw controller axis value in the range [-1.0, 1.0]
+   */
   public DefaultDeflectorRunAtVelocity(
       DeflectorSubsystem deflectorSubsystem, DoubleSupplier controllerInput) {
     this.deflectorSubsystem = deflectorSubsystem;
@@ -46,14 +69,21 @@ public class DefaultDeflectorRunAtVelocity extends Command {
     addRequirements(deflectorSubsystem);
   }
 
+  /** No initialization logic required for this command. */
   @Override
   public void initialize() {}
 
+  /** Continuously commands the deflector to the velocity provided by the supplier. */
   @Override
   public void execute() {
     deflectorSubsystem.runToTargetVelocity(targetVelocity.get());
   }
 
+  /**
+   * Stops the deflector when the command ends.
+   *
+   * @param interrupted Whether the command was interrupted
+   */
   @Override
   public void end(boolean interrupted) {
     deflectorSubsystem.stop();

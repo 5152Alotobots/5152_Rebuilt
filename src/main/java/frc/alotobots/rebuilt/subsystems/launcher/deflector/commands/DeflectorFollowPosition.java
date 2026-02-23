@@ -17,10 +17,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import java.util.function.Supplier;
 
+/**
+ * Command that continuously moves the deflector to a dynamically supplied angle.
+ *
+ * <p>Unlike {@link DeflectorRunToPosition}, this command does not finish when the target is
+ * reached. Instead it re-evaluates the angle supplier every loop, making it suitable for
+ * continuously tracking a moving target such as an interpolated shot angle. The command runs
+ * indefinitely until interrupted.
+ */
 public class DeflectorFollowPosition extends Command {
   private final DeflectorSubsystem deflectorSubsystem;
   private final Supplier<Angle> angleSupplier;
 
+  /**
+   * Creates a new DeflectorFollowPosition command.
+   *
+   * @param deflectorSubsystem The deflector subsystem this command will control
+   * @param angleSupplier Supplier that provides the desired deflector angle each loop
+   */
   public DeflectorFollowPosition(
       DeflectorSubsystem deflectorSubsystem, Supplier<Angle> angleSupplier) {
     this.deflectorSubsystem = deflectorSubsystem;
@@ -29,14 +43,21 @@ public class DeflectorFollowPosition extends Command {
     addRequirements(deflectorSubsystem);
   }
 
+  /** No initialization logic required for this command. */
   @Override
   public void initialize() {}
 
+  /** Continuously commands the deflector to the angle returned by the supplier. */
   @Override
   public void execute() {
     deflectorSubsystem.runToTargetAngle(angleSupplier.get());
   }
 
+  /**
+   * Stops the deflector when the command ends.
+   *
+   * @param interrupted Whether the command was interrupted
+   */
   @Override
   public void end(boolean interrupted) {
     deflectorSubsystem.stop();

@@ -14,7 +14,15 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
 import com.revrobotics.spark.config.SparkBaseConfig;
 
+/**
+ * Hardware-specific constants for the turret when driven by a SPARK MAX motor controller.
+ *
+ * <p>Contains motor configuration values including neutral (idle) mode and the absolute encoder
+ * zero offset used to home the turret on startup.
+ */
 public class TurretSparkMaxConstants {
+  /** Idle mode applied to the SPARK MAX when no output is commanded */
   public static final SparkBaseConfig.IdleMode NEUTRAL_MODE = SparkBaseConfig.IdleMode.kBrake;
+  /** Absolute encoder zero offset in rotations */
   public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
 }
