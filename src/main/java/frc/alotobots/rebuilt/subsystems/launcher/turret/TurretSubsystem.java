@@ -14,7 +14,7 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.*;
-import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.AT_TARGET_ANGLE_POSITION_THRESHOLD;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
@@ -39,7 +39,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
-      new Debouncer(TurretConstants.Thresholds.AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
   /**
    * Creates a new TurretSubsystem.
@@ -64,9 +64,9 @@ public class TurretSubsystem extends SubsystemBase {
    */
   public void runToTargetAngle(Angle angle) {
     Angle adjustedAngle =
-        Radians.of(MathUtil.clamp(angle.in(Radians), MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians)));
+        Radians.of(MathUtil.clamp(angle.in(Radians), TURRET_MIN_ANGLE.in(Radians), TURRET_MAX_ANGLE.in(Radians)));
 
-    targetAngle = LIMITS_ENABLED ? adjustedAngle : angle;
+    targetAngle = TURRET_LIMITS_ENABLED ? adjustedAngle : angle;
     io.setTurretPosition(targetAngle);
     Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.DEFAULT_POSITION);
   }
@@ -76,9 +76,9 @@ public class TurretSubsystem extends SubsystemBase {
         RadiansPerSecond.of(
             MathUtil.clamp(
                 velocity.in(RadiansPerSecond),
-                -MAX_VELOCITY.in(RadiansPerSecond),
-                MAX_VELOCITY.in(RadiansPerSecond)));
-    io.setTurretVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
+                -TURRET_MAX_VELOCITY.in(RadiansPerSecond),
+                TURRET_MAX_VELOCITY.in(RadiansPerSecond)));
+    io.setTurretVelocity(TURRET_LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.VELOCITY);
   }
 
@@ -92,8 +92,8 @@ public class TurretSubsystem extends SubsystemBase {
     double adjustedSpeed =
         MathUtil.clamp(
             percentOutput,
-            -TurretConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE,
-            TurretConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
+            -TurretConstants.Limits.TURRET_MAX_OPEN_LOOP_PERCENTAGE,
+            TurretConstants.Limits.TURRET_MAX_OPEN_LOOP_PERCENTAGE);
 
     io.setTurretOpenLoop(adjustedSpeed);
     Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.OPEN_LOOP);
@@ -122,7 +122,7 @@ public class TurretSubsystem extends SubsystemBase {
     // Check if current angle is within threshold of target
     boolean inSetPointThreshold =
         targetAngle.minus(inputs.turretAngle).abs(Radians)
-            < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
+            < TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetAngleDebounce.calculate(inSetPointThreshold);

@@ -68,8 +68,6 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     deflectorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     deflectorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Commutation;
-    deflectorMotorConfig.ExternalFeedback.SensorToMechanismRatio =
-        TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     deflectorMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
 
     // PID Slots config removed here. This is currently not in use. IF IT IS EVER USED THIS MUST BE

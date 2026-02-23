@@ -21,28 +21,28 @@ import lombok.experimental.UtilityClass;
 public class TurretConstants {
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at position" */
-    public static final Angle AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(2);
+    public static final Angle TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(2);
 
     /** How long the turret must be "at position" to classify as "at position" */
-    public static final Time AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
+    public static final Time TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
   }
 
   /** Contains physical limits and safety thresholds for the turret. */
   public static final class Limits {
     /** Maximum allowed angle */
-    public static final Angle MAX_ANGLE = Degrees.of(360);
+    public static final Angle TURRET_MAX_ANGLE = Degrees.of(360);
 
     /** Minimum allowed angle */
-    public static final Angle MIN_ANGLE = Degrees.of(0);
+    public static final Angle TURRET_MIN_ANGLE = Degrees.of(0);
 
     /** Maximum open loop percent output */
-    public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;
+    public static final double TURRET_MAX_OPEN_LOOP_PERCENTAGE = 0.5;
 
     /** Max speed (magnitude) */
-    public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(180);
+    public static final AngularVelocity TURRET_MAX_VELOCITY = DegreesPerSecond.of(180);
 
     /** Enable Limits */
-    public static final boolean LIMITS_ENABLED = true;
+    public static final boolean TURRET_LIMITS_ENABLED = true;
   }
 
   /** Contains position setpoints for different turret states. */
