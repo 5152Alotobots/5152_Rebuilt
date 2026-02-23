@@ -118,7 +118,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     currentPidSlot = motorLeft.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-            DEFAULT_CAN_FREQUENCY,
+        DEFAULT_CAN_FREQUENCY,
         leftPosition,
         rightPosition,
         leftVelocity,

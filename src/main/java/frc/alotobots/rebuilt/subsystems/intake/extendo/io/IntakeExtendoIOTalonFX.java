@@ -119,7 +119,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
     currentPidSlot = intakeExtendoMotor.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-            DEFAULT_CAN_FREQUENCY,
+        DEFAULT_CAN_FREQUENCY,
         intakeExtendoPosition,
         intakeExtendoVelocity,
         intakeExtendoAcceleration,

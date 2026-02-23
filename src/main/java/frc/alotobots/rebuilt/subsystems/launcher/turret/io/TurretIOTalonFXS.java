@@ -92,7 +92,7 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorControlMode = turretMotor.getControlMode();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-            DEFAULT_CAN_FREQUENCY,
+        DEFAULT_CAN_FREQUENCY,
         turretMotorPosition,
         turretMotorVelocity,
         turretMotorAcceleration,

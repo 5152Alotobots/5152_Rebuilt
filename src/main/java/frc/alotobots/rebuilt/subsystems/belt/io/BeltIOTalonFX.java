@@ -77,7 +77,7 @@ public class BeltIOTalonFX implements BeltIO {
     currentPidSlot = motorBelt.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-            DEFAULT_CAN_FREQUENCY,
+        DEFAULT_CAN_FREQUENCY,
         beltPosition,
         beltVelocity,
         beltAcceleration,

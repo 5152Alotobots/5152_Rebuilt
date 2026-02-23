@@ -88,7 +88,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     deflectorMotorControlMode = deflectorMotor.getControlMode();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-            DEFAULT_CAN_FREQUENCY,
+        DEFAULT_CAN_FREQUENCY,
         deflectorMotorPosition,
         deflectorMotorVelocity,
         deflectorMotorAcceleration,

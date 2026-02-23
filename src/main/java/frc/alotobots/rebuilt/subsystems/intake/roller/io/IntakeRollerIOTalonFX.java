@@ -62,7 +62,10 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
     intakeRollerAppliedCurrent = intakeRollerMotor.getStatorCurrent();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-            DEFAULT_CAN_FREQUENCY, intakeRollerVelocity, intakeRollerAppliedVoltage, intakeRollerAppliedCurrent);
+        DEFAULT_CAN_FREQUENCY,
+        intakeRollerVelocity,
+        intakeRollerAppliedVoltage,
+        intakeRollerAppliedCurrent);
 
     ParentDevice.optimizeBusUtilizationForAll(intakeRollerMotor);
   }
