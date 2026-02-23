@@ -82,32 +82,44 @@ public class DeflectorIOVortex implements DeflectorIO {
 
     // Position (Slot 0)
     deflectorMotorConfig.closedLoop.p(
-        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KP, ClosedLoopSlot.kSlot0);
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KP,
+        ClosedLoopSlot.kSlot0);
     deflectorMotorConfig.closedLoop.i(
-        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KI, ClosedLoopSlot.kSlot0);
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KI,
+        ClosedLoopSlot.kSlot0);
     deflectorMotorConfig.closedLoop.d(
-        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KD, ClosedLoopSlot.kSlot0);
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KD,
+        ClosedLoopSlot.kSlot0);
     deflectorMotorConfig.closedLoop.feedForward.kG(
-        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KG, ClosedLoopSlot.kSlot0);
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KG,
+        ClosedLoopSlot.kSlot0);
     deflectorMotorConfig.closedLoop.allowedClosedLoopError(
-        DeflectorVortexConstants.PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_ALLOWED_CLOSED_LOOP_ERROR,
+        DeflectorVortexConstants.PIDConstants.PositionPIDConstants
+            .DEFLECTOR_POSITION_ALLOWED_CLOSED_LOOP_ERROR,
         ClosedLoopSlot.kSlot0);
 
     // Velocity (Slot 1)
     deflectorMotorConfig.closedLoop.p(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KP, ClosedLoopSlot.kSlot1);
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KP,
+        ClosedLoopSlot.kSlot1);
     deflectorMotorConfig.closedLoop.i(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KI, ClosedLoopSlot.kSlot1);
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KI,
+        ClosedLoopSlot.kSlot1);
     deflectorMotorConfig.closedLoop.d(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KD, ClosedLoopSlot.kSlot1);
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KD,
+        ClosedLoopSlot.kSlot1);
     deflectorMotorConfig.closedLoop.feedForward.kG(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KG, ClosedLoopSlot.kSlot1);
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KG,
+        ClosedLoopSlot.kSlot1);
     deflectorMotorConfig.closedLoop.feedForward.kS(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KS, ClosedLoopSlot.kSlot1);
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KS,
+        ClosedLoopSlot.kSlot1);
     deflectorMotorConfig.closedLoop.feedForward.kV(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KV, ClosedLoopSlot.kSlot1);
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_KV,
+        ClosedLoopSlot.kSlot1);
     deflectorMotorConfig.closedLoop.allowedClosedLoopError(
-        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants.DEFLECTOR_VELOCITY_ALLOWED_CLOSED_LOOP_ERROR,
+        DeflectorVortexConstants.PIDConstants.VelocityPIDConstants
+            .DEFLECTOR_VELOCITY_ALLOWED_CLOSED_LOOP_ERROR,
         ClosedLoopSlot.kSlot1);
 
     deflectorMotor.configure(
@@ -225,7 +237,8 @@ public class DeflectorIOVortex implements DeflectorIO {
    */
   private Angle vortexToDeflectorAngle(Angle motorPosition) {
     return Radians.of(
-        DEFLECTOR_ROTATION_PER_ROTATION * motorPosition.in(Radians) + DEFLECTOR_MAX_ANGLE.in(Radians));
+        DEFLECTOR_ROTATION_PER_ROTATION * motorPosition.in(Radians)
+            + DEFLECTOR_MAX_ANGLE.in(Radians));
   }
 
   /**
@@ -250,7 +263,8 @@ public class DeflectorIOVortex implements DeflectorIO {
    */
   private Angle deflectorAngleToVortex(Angle deflectorAngle) {
     return Radians.of(
-        (deflectorAngle.in(Radians) - DEFLECTOR_MAX_ANGLE.in(Radians)) / DEFLECTOR_ROTATION_PER_ROTATION);
+        (deflectorAngle.in(Radians) - DEFLECTOR_MAX_ANGLE.in(Radians))
+            / DEFLECTOR_ROTATION_PER_ROTATION);
   }
 
   /**

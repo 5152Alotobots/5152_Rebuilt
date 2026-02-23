@@ -61,16 +61,24 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     var motorLeftConfig = new TalonFXConfiguration();
     var motorRightConfig = new TalonFXConfiguration();
-    motorLeftConfig.Slot0.kP = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
-    motorLeftConfig.Slot0.kI = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
-    motorLeftConfig.Slot0.kD = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
+    motorLeftConfig.Slot0.kP =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
+    motorLeftConfig.Slot0.kI =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
+    motorLeftConfig.Slot0.kD =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
     motorLeftConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-    motorLeftConfig.Slot0.kG = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
-    motorLeftConfig.Slot0.kS = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KS;
-    motorLeftConfig.Slot0.kV = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KV;
+    motorLeftConfig.Slot0.kG =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
+    motorLeftConfig.Slot0.kS =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KS;
+    motorLeftConfig.Slot0.kV =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KV;
 
-    motorLeftConfig.MotorOutput.NeutralMode = ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
-    motorRightConfig.MotorOutput.NeutralMode = ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
+    motorLeftConfig.MotorOutput.NeutralMode =
+        ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
+    motorRightConfig.MotorOutput.NeutralMode =
+        ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
 
     motorLeftConfig.MotorOutput.Inverted = ShooterTalonFXConstants.SHOOTER_MOTOR_DIRECTION;
     motorRightConfig.MotorOutput.Inverted =

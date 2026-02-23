@@ -43,7 +43,8 @@ public class DeflectorSubsystem extends SubsystemBase {
 
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
-      new Debouncer(DeflectorConstants.Thresholds.DEFLECTOR_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
+      new Debouncer(
+          DeflectorConstants.Thresholds.DEFLECTOR_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
   /**
    * Creates a new DeflectorSubsystem.
@@ -68,7 +69,11 @@ public class DeflectorSubsystem extends SubsystemBase {
    */
   public void runToTargetAngle(Angle angle) {
     Angle adjustedAngle =
-        Radians.of(MathUtil.clamp(angle.in(Radians), DEFLECTOR_MIN_ANGLE.in(Radians), DEFLECTOR_MAX_ANGLE.in(Radians)));
+        Radians.of(
+            MathUtil.clamp(
+                angle.in(Radians),
+                DEFLECTOR_MIN_ANGLE.in(Radians),
+                DEFLECTOR_MAX_ANGLE.in(Radians)));
     targetAngle = DEFLECTOR_LIMITS_ENABLED ? adjustedAngle : angle;
     io.setDeflectorPosition(targetAngle, DeflectorIO.PIDSlots.DEFAULT_POSITION);
 

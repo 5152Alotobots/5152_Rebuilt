@@ -59,22 +59,33 @@ public class TurretIOTalonFXS implements TurretIO {
     var turretMotorConfig = new TalonFXSConfiguration();
 
     // PID configuration for position mode (Slot 0)
-    turretMotorConfig.Slot0.kP = TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
-    turretMotorConfig.Slot0.kI = TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KI;
-    turretMotorConfig.Slot0.kD = TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
+    turretMotorConfig.Slot0.kP =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
+    turretMotorConfig.Slot0.kI =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KI;
+    turretMotorConfig.Slot0.kD =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
     turretMotorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
-    turretMotorConfig.Slot0.kG = TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KG;
+    turretMotorConfig.Slot0.kG =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KG;
 
     // PID configuration for velocity mode (Slot 1)
-    turretMotorConfig.Slot1.kP = TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
-    turretMotorConfig.Slot1.kI = TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
-    turretMotorConfig.Slot1.kD = TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
+    turretMotorConfig.Slot1.kP =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
+    turretMotorConfig.Slot1.kI =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
+    turretMotorConfig.Slot1.kD =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
     turretMotorConfig.Slot1.GravityType = GravityTypeValue.Elevator_Static;
-    turretMotorConfig.Slot1.kG = TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
-    turretMotorConfig.Slot1.kS = TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
-    turretMotorConfig.Slot1.kV = TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
+    turretMotorConfig.Slot1.kG =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
+    turretMotorConfig.Slot1.kS =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
+    turretMotorConfig.Slot1.kV =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
 
-    turretMotorConfig.MotorOutput.NeutralMode = TurretTalonFXSConstants.TURRET_MECHANISM_NEUTRAL_MODE;
+    turretMotorConfig.MotorOutput.NeutralMode =
+        TurretTalonFXSConstants.TURRET_MECHANISM_NEUTRAL_MODE;
     turretMotorConfig.MotorOutput.Inverted = TurretTalonFXSConstants.TURRET_MOTOR_DIRECTION;
     turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Commutation;

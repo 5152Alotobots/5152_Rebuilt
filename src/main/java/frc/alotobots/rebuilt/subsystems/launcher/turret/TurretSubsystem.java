@@ -64,7 +64,9 @@ public class TurretSubsystem extends SubsystemBase {
    */
   public void runToTargetAngle(Angle angle) {
     Angle adjustedAngle =
-        Radians.of(MathUtil.clamp(angle.in(Radians), TURRET_MIN_ANGLE.in(Radians), TURRET_MAX_ANGLE.in(Radians)));
+        Radians.of(
+            MathUtil.clamp(
+                angle.in(Radians), TURRET_MIN_ANGLE.in(Radians), TURRET_MAX_ANGLE.in(Radians)));
 
     targetAngle = TURRET_LIMITS_ENABLED ? adjustedAngle : angle;
     io.setTurretPosition(targetAngle);

@@ -60,5 +60,6 @@ public class ShooterTalonFXConstants {
   /** Neutral mode (brake/coast) setting for the mechanism */
   public static final NeutralModeValue SHOOTER_MECHANISM_NEUTRAL_MODE = NeutralModeValue.Coast;
 
-  public static final InvertedValue SHOOTER_MOTOR_DIRECTION = InvertedValue.CounterClockwise_Positive;
+  public static final InvertedValue SHOOTER_MOTOR_DIRECTION =
+      InvertedValue.CounterClockwise_Positive;
 }
