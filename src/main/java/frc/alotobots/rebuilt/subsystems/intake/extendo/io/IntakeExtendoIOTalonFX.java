@@ -138,7 +138,8 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
             intakeExtendoVelocity,
             intakeExtendoAcceleration,
             intakeExtendoAppliedVoltage,
-            intakeExtendoAppliedCurrent);
+            intakeExtendoAppliedCurrent,
+            currentPidSlot);
 
     inputs.intakeExtendoMotorConnected =
         intakeExtendoConnectedDebounce.calculate(intakeExtendoSignals.isOK());

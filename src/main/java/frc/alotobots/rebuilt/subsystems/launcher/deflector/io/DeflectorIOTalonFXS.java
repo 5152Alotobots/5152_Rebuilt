@@ -72,9 +72,8 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
         TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     deflectorMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
 
-    deflectorMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
-    deflectorMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
-    deflectorMotorConfig.Slot0.kD = TurretTalonFXSConstants.POSITION_D_GAIN;
+    // PID Slots config removed here. This is currently not in use. IF IT IS EVER USED THIS MUST BE
+    // CONFIGURED
 
     PhoenixUtil.tryUntilOk(
         5, () -> deflectorMotor.getConfigurator().apply(deflectorMotorConfig, 0.25));

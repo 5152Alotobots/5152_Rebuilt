@@ -12,13 +12,42 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
-import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.Meters;
 
-import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.*;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class TurretConstants {
-  public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds
-  public static final Angle AT_TARGET_ANGLE_THRESHOLD = Degrees.of(1); // degrees
-  public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.1;
-  public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.1;
+  public static final class Thresholds {
+    /** Acceptable PID error that will classify as "at position" */
+    public static final Distance AT_TARGET_ANGLE_POSITION_THRESHOLD = Meters.of(.02);
+
+    /** How long the extendo must be "at position" to classify as "at position" */
+    public static final Time AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
+  }
+
+  /** Physical limits and safety thresholds */
+  public static final class Limits {
+    /** Maximum allowed extension */
+    public static final Angle MAX_ANGLE = Degrees.of(360);
+
+    /** Minimum allowed extension */
+    public static final Angle MIN_ANGLE = Degrees.of(0);
+
+    /** Maximum open loop percent output */
+    public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.5;
+
+    /** Max speed (magnitude) */
+    public static final AngularVelocity MAX_VELOCITY = DegreesPerSecond.of(180);
+
+    /** Enable Limits */
+    public static final boolean LIMITS_ENABLED = true;
+  }
+
+  /** Position setpoints for different extendo states */
+  public static final class Setpoints {
+    // setpoints would go here, but I haven't figured them out yet
+  }
 }

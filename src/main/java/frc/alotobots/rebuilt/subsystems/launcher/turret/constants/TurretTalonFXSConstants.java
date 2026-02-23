@@ -12,16 +12,64 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.units.measure.Current;
 
 public class TurretTalonFXSConstants {
-  public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
-  public static final double ABSOLUTE_ENCODER_ZERO_OFFSET = 0.0;
+  /** Contains PID and motion control constants for different control modes. */
+  public static final class PIDConstants {
 
-  public static final double POSITION_P_GAIN = 24.0;
-  public static final double POSITION_I_GAIN = 0.0;
-  public static final double POSITION_D_GAIN = 0.0;
+    /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
+    public static final class PositionPIDConstants {
+      /** Position control proportional gain */
+      public static final double KP = 24.0;
 
-  // Gear ratio between the turret mechanism and the motor sensor 10 / 1 being a reduction
-  public static final double SENSOR_TO_MECHANISM_RATIO = 14.4 / 1;
+      /** Position control integral gain */
+      public static final double KI = 0.0;
+
+      /** Position control derivative gain */
+      public static final double KD = 0.0;
+
+      /** Gravity compensation gain */
+      public static final double KG = 0.0;
+    }
+
+    /** TalonFX-specific PID and motion control constants for velocity (Velocity mode). */
+    public static final class VelocityPIDConstants {
+      /** Position control proportional gain */
+      public static final double KP = 0.1;
+
+      /** Position control integral gain */
+      public static final double KI = 0.0;
+
+      /** Position control derivative gain */
+      public static final double KD = 0.0;
+
+      /** Gravity compensation gain */
+      public static final double KG = 0.0;
+
+      /** Static friction compensation */
+      public static final double KS = 0.0;
+
+      /** Velocity feedforward gain */
+      public static final double KV = 0.05;
+    }
+  }
+
+  /** Contains safety limit constants for the motors. */
+  public static final class MotorSafetyLimits {
+    /** Maximum stator current limit in amperes */
+    public static final Current STATOR_AMP_LIMIT = Amps.of(45);
+  }
+
+  /** Neutral mode (brake/coast) setting for the mechanism */
+  public static final NeutralModeValue MECHANISM_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+  public static final InvertedValue MOTOR_DIRECTION = InvertedValue.CounterClockwise_Positive;
+
+  // Gear ratio between the turret mechanism and the motor sensor 14.4 / 1 being a reduction
+  public static final double SENSOR_TO_MECHANISM_RATIO = 14.4;
 }

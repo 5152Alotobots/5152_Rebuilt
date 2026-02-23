@@ -85,8 +85,8 @@ public class DeflectorSubsystem extends SubsystemBase {
         RadiansPerSecond.of(
             MathUtil.clamp(
                 velocity.in(RadiansPerSecond),
-                -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
-                MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
+                -MAX_VELOCITY.in(RadiansPerSecond),
+                MAX_VELOCITY.in(RadiansPerSecond)));
     io.setDeflectorVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
     Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.VELOCITY);
   }

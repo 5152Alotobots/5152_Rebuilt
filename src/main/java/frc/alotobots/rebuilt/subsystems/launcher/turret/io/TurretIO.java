@@ -14,7 +14,6 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.*;
 
-import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -25,22 +24,22 @@ import org.littletonrobotics.junction.AutoLog;
 public interface TurretIO {
   enum PIDSlots {
     DEFAULT_POSITION,
+    VELOCITY,
+    OPEN_LOOP
   }
 
   /** Data structure for inputs from turret hardware. */
   @AutoLog
   public static class TurretIOInputs {
-    public PIDSlots turretMotorPidSlot = PIDSlots.DEFAULT_POSITION;
+    public PIDSlots turretMotorPIDSlot = PIDSlots.DEFAULT_POSITION;
     public boolean turretMotorConnected = false;
-    public Angle turretMotorPosition = Rotations.zero();
+    public Angle turretAngle = Rotations.zero();
     public AngularVelocity turretMotorVelocity = RotationsPerSecond.zero();
     public AngularAcceleration turretMotorAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage turretMotorVolts = Volts.zero();
     public Current turretMotorCurrent = Amps.zero();
-    public ControlModeValue turretMotorControlMode = null;
 
-    public boolean ccwLimit = false;
-    public boolean cwLimit = false;
+    public boolean resetLimit = false;
   }
 
   /**
@@ -60,14 +59,16 @@ public interface TurretIO {
 
   default void setTurretPosition(Angle position) {}
 
+  default void setTurretVelocity(AngularVelocity velocity, PIDSlots pidSlots) {}
+
+  default void setTurretVelocity(AngularVelocity velocity) {}
+
   /**
    * Runs the turret using direct percentage output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
   default void setTurretOpenLoop(double percentOutput) {}
-
-  default void setTurretVoltageOut(Voltage voltageOutput) {}
 
   /** Stops all turret motor movement. */
   default void stop() {}

@@ -91,4 +91,9 @@ public final class Constants {
     public static final int KICKER_CAN_ID = 38;
     public static final int DEFLECTOR_ENCODER_CAN_ID = 40;
   }
+
+  @UtilityClass
+  public static final class DIO {
+    public static final int TURRET_RESET_LIMIT_SWITCH_CHANNEL = 0;
+  }
 }
