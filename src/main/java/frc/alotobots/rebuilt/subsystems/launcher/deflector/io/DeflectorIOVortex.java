@@ -162,8 +162,7 @@ public class DeflectorIOVortex implements DeflectorIO {
           case DEFAULT_POSITION -> ClosedLoopSlot.kSlot0;
           case VELOCITY -> ClosedLoopSlot.kSlot1;
           case OPEN_LOOP -> throw new IllegalArgumentException(
-                  "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode"
-          );
+              "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + pidSlot.ordinal());
         };
@@ -180,8 +179,7 @@ public class DeflectorIOVortex implements DeflectorIO {
           case DEFAULT_POSITION -> ClosedLoopSlot.kSlot0;
           case VELOCITY -> ClosedLoopSlot.kSlot1;
           case OPEN_LOOP -> throw new IllegalArgumentException(
-                  "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode"
-          );
+              "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + pidSlot.ordinal());
         };
