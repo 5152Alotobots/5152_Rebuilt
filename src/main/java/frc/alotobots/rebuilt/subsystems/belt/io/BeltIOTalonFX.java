@@ -12,6 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.belt.io;
 
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -76,7 +77,7 @@ public class BeltIOTalonFX implements BeltIO {
     currentPidSlot = motorBelt.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+            DEFAULT_CAN_FREQUENCY,
         beltPosition,
         beltVelocity,
         beltAcceleration,

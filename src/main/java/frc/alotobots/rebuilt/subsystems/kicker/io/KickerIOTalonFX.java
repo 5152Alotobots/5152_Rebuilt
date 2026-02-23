@@ -12,6 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.kicker.io;
 
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -76,7 +77,7 @@ public class KickerIOTalonFX implements KickerIO {
     currentPidSlot = motorKicker.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+        DEFAULT_CAN_FREQUENCY,
         kickerPosition,
         kickerVelocity,
         kickerAcceleration,

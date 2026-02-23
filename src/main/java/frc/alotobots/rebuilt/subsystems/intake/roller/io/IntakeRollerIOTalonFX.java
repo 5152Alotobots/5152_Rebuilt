@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.intake.roller.io;
 
 import static edu.wpi.first.units.Units.Amps;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -61,7 +62,7 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
     intakeRollerAppliedCurrent = intakeRollerMotor.getStatorCurrent();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0, intakeRollerVelocity, intakeRollerAppliedVoltage, intakeRollerAppliedCurrent);
+            DEFAULT_CAN_FREQUENCY, intakeRollerVelocity, intakeRollerAppliedVoltage, intakeRollerAppliedCurrent);
 
     ParentDevice.optimizeBusUtilizationForAll(intakeRollerMotor);
   }

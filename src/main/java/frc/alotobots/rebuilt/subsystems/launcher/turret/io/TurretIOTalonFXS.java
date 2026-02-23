@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.Rotations;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -91,7 +92,7 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorControlMode = turretMotor.getControlMode();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+            DEFAULT_CAN_FREQUENCY,
         turretMotorPosition,
         turretMotorVelocity,
         turretMotorAcceleration,

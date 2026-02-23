@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.intake.extendo.io;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MIN_EXTENSION;
 import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants.EXTENSION_PER_ROTATION;
@@ -118,7 +119,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
     currentPidSlot = intakeExtendoMotor.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+            DEFAULT_CAN_FREQUENCY,
         intakeExtendoPosition,
         intakeExtendoVelocity,
         intakeExtendoAcceleration,
