@@ -33,15 +33,15 @@ public class DeflectorSubsystem extends SubsystemBase {
   /** Latest inputs from the wrist hardware */
   private final DeflectorIOInputsAutoLogged inputs = new DeflectorIOInputsAutoLogged();
 
-  /** Debouncer for ensuring stability at a position */
-  private final Debouncer atTargetAngleDebounce =
-      new Debouncer(DeflectorConstants.Thresholds.AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
-
   /**
    * Angle object that tracks the currently selected position (maintains last position if not in
    * POSITION control mode)
    */
   private Angle targetAngle = Degrees.zero();
+  
+  /** Debouncer for ensuring stability at a position */
+  private final Debouncer atTargetAngleDebounce =
+      new Debouncer(DeflectorConstants.Thresholds.AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
   /**
    * Creates a new DeflectorSubsystem.
@@ -105,7 +105,7 @@ public class DeflectorSubsystem extends SubsystemBase {
             DeflectorConstants.Limits.MAX_OPEN_LOOP_PERCENTAGE);
 
     io.setDeflectorOpenLoop(LIMITS_ENABLED ? adjustedSpeed : percentOutput);
-    Logger.recordOutput("Launcher/Deflector/ControlType", "PERCENT_OUTPUT");
+    Logger.recordOutput("Launcher/Deflector/ControlType", DeflectorIO.PIDSlots.OPEN_LOOP);
   }
 
   /** Stops all wrist movement. */
@@ -119,7 +119,7 @@ public class DeflectorSubsystem extends SubsystemBase {
    * @return The current angle as an Angle object
    */
   public Angle getCurrentAngle() {
-    return inputs.deflectorMotorAngle;
+    return inputs.deflectorAngle;
   }
 
   /**
@@ -130,7 +130,7 @@ public class DeflectorSubsystem extends SubsystemBase {
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target
     boolean inSetPointThreshold =
-        targetAngle.minus(inputs.deflectorMotorAngle).abs(Radians)
+        targetAngle.minus(inputs.deflectorAngle).abs(Radians)
             < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration

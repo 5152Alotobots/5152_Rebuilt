@@ -24,7 +24,8 @@ import org.littletonrobotics.junction.AutoLog;
 public interface DeflectorIO {
   enum PIDSlots {
     DEFAULT_POSITION,
-    VELOCITY
+    VELOCITY,
+    OPEN_LOOP
   }
 
   /** Data structure for inputs from turret hardware. */
@@ -37,7 +38,7 @@ public interface DeflectorIO {
     
     public Angle deflectorMotorAngle = Rotations.zero();
     public Angle deflectorEncoderAngle = Rotations.zero();
-    public Angle deflectorPosition = Rotations.zero();
+    public Angle deflectorAngle = Rotations.zero();
     
     public AngularVelocity deflectorEncoderVelocity = RotationsPerSecond.zero();
     public AngularVelocity deflectorMotorVelocity = RotationsPerSecond.zero();

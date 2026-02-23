@@ -144,7 +144,7 @@ public class DeflectorIOVortex implements DeflectorIO {
     
     inputs.deflectorMotorAngle = Rotations.of(deflectorMotor.getEncoder().getPosition());
     inputs.deflectorEncoderAngle = encoderPosition.getValue();
-    inputs.deflectorPosition =
+    inputs.deflectorAngle =
         vortexToDeflectorAngle(Rotations.of(deflectorMotor.getEncoder().getPosition()));
     
     inputs.deflectorEncoderVelocity = encoderVelocity.getValue();
