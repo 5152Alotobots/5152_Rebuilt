@@ -122,7 +122,7 @@ public class TurretSubsystem extends SubsystemBase {
     // Check if current angle is within threshold of target
     boolean inSetPointThreshold =
         targetAngle.minus(inputs.turretAngle).abs(Radians)
-            < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Meters);
+            < AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetAngleDebounce.calculate(inSetPointThreshold);

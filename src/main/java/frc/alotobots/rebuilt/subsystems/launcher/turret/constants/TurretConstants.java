@@ -13,7 +13,6 @@
 package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
 import static edu.wpi.first.units.Units.*;
-import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.units.measure.*;
 import lombok.experimental.UtilityClass;
@@ -22,7 +21,7 @@ import lombok.experimental.UtilityClass;
 public class TurretConstants {
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at position" */
-    public static final Distance AT_TARGET_ANGLE_POSITION_THRESHOLD = Meters.of(.02);
+    public static final Angle AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(2);
 
     /** How long the extendo must be "at position" to classify as "at position" */
     public static final Time AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);

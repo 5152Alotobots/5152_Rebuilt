@@ -60,6 +60,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorRight = new TalonFX(Constants.CanId.SHOOTER_RIGHT_CAN_ID, RIO_CAN_BUS);
 
     var motorLeftConfig = new TalonFXConfiguration();
+    var motorRightConfig = new TalonFXConfiguration();
     motorLeftConfig.Slot0.kP = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
     motorLeftConfig.Slot0.kI = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
     motorLeftConfig.Slot0.kD = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
@@ -69,21 +70,35 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorLeftConfig.Slot0.kV = ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
 
     motorLeftConfig.MotorOutput.NeutralMode = ShooterTalonFXConstants.MECHANISM_NEUTRAL_MODE;
+    motorRightConfig.MotorOutput.NeutralMode = ShooterTalonFXConstants.MECHANISM_NEUTRAL_MODE;
 
     motorLeftConfig.MotorOutput.Inverted = ShooterTalonFXConstants.MOTOR_DIRECTION;
+    motorRightConfig.MotorOutput.Inverted =
+        ShooterTalonFXConstants.MOTOR_DIRECTION == InvertedValue.Clockwise_Positive
+            ? InvertedValue.CounterClockwise_Positive
+            : InvertedValue.Clockwise_Positive;
 
     motorLeftConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+    motorRightConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
 
     motorLeftConfig.TorqueCurrent.PeakForwardTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     motorLeftConfig.TorqueCurrent.PeakReverseTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+    motorRightConfig.TorqueCurrent.PeakForwardTorqueCurrent =
+        ShooterTalonFXConstants.MotorSafetyLimits.TORQUE_FORWARD_AMP_LIMIT.in(Amps);
+    motorRightConfig.TorqueCurrent.PeakReverseTorqueCurrent =
+        ShooterTalonFXConstants.MotorSafetyLimits.TORQUE_REVERSE_AMP_LIMIT.in(Amps);
 
     motorLeftConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
     motorLeftConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+    motorRightConfig.CurrentLimits.StatorCurrentLimit =
+        ShooterTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
+    motorRightConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
 
     PhoenixUtil.tryUntilOk(5, () -> motorLeft.getConfigurator().apply(motorLeftConfig, 0.25));
+    PhoenixUtil.tryUntilOk(5, () -> motorRight.getConfigurator().apply(motorRightConfig, 0.25));
     PhoenixUtil.tryUntilOk(
         5,
         () ->

@@ -27,7 +27,6 @@ public interface ShooterIO {
   @AutoLog
   public static class ShooterIOInputs {
     public PIDSlots shooterMotorsPIDSlot = PIDSlots.DEFAULT_VELOCITY;
-    public PIDSlots shooterMotorRightPidSlot = PIDSlots.DEFAULT_VELOCITY;
 
     public boolean shooterMotorLeftConnected = false;
     public boolean shooterMotorRightConnected = false;
