@@ -26,7 +26,7 @@ public class BeltConstants {
   /** Contains threshold values for various wrist operations. */
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at velocity" */
-    public static final AngularVelocity AT_TARGET_VELOCITY_SPEED_THRESHOLD = DegreesPerSecond.of(3);
+    public static final AngularVelocity AT_TARGET_VELOCITY_SPEED_THRESHOLD = RotationsPerSecond.of(3);
 
     /** How long the flywheel must be "at velocity" to classify as "at velocity" */
     public static final Time AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.2);

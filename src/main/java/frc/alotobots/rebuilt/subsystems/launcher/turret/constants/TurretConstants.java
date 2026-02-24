@@ -30,10 +30,10 @@ public class TurretConstants {
   /** Contains physical limits and safety thresholds for the turret. */
   public static final class Limits {
     /** Maximum allowed angle */
-    public static final Angle TURRET_MAX_ANGLE = Degrees.of(360);
+    public static final Angle TURRET_MAX_ANGLE = Degrees.of(180);
 
     /** Minimum allowed angle */
-    public static final Angle TURRET_MIN_ANGLE = Degrees.of(0);
+    public static final Angle TURRET_MIN_ANGLE = Degrees.of(-180);
 
     /** Maximum open loop percent output */
     public static final double TURRET_MAX_OPEN_LOOP_PERCENTAGE = 0.5;

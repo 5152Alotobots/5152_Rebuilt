@@ -220,7 +220,7 @@ public class DeflectorIOVortex implements DeflectorIO {
     deflectorMotor.stopMotor();
   }
 
-  public void seedVortexInternalEncoder() {
+  private void seedVortexInternalEncoder() {
     Angle absolutePosition = deflectorEncoder.getPosition().getValue();
 
     // Tell the Vortex internal encoder that its current position is the CANcoder's absolute
