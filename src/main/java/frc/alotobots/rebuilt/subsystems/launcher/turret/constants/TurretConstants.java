@@ -12,13 +12,41 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
-import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.*;
 
-import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.*;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class TurretConstants {
-  public static final double AT_TARGET_ANGLE_TIME_THRESHOLD = 0.1; // seconds
-  public static final Angle AT_TARGET_ANGLE_THRESHOLD = Degrees.of(1); // degrees
-  public static final double MAX_OPEN_LOOP_PERCENTAGE = 0.1;
-  public static final double MIN_OPEN_LOOP_PERCENTAGE = -0.1;
+  public static final class Thresholds {
+    /** Acceptable PID error that will classify as "at position" */
+    public static final Angle TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(2);
+
+    /** How long the turret must be "at position" to classify as "at position" */
+    public static final Time TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
+  }
+
+  /** Contains physical limits and safety thresholds for the turret. */
+  public static final class Limits {
+    /** Maximum allowed angle */
+    public static final Angle TURRET_MAX_ANGLE = Degrees.of(180);
+
+    /** Minimum allowed angle */
+    public static final Angle TURRET_MIN_ANGLE = Degrees.of(-180);
+
+    /** Maximum open loop percent output */
+    public static final double TURRET_MAX_OPEN_LOOP_PERCENTAGE = 0.5;
+
+    /** Max speed (magnitude) */
+    public static final AngularVelocity TURRET_MAX_VELOCITY = DegreesPerSecond.of(180);
+
+    /** Enable Limits */
+    public static final boolean TURRET_LIMITS_ENABLED = true;
+  }
+
+  /** Contains position setpoints for different turret states. */
+  public static final class Setpoints {
+    // setpoints would go here, but I haven't figured them out yet
+  }
 }

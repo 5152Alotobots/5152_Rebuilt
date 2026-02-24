@@ -14,7 +14,6 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector.io;
 
 import static edu.wpi.first.units.Units.*;
 
-import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -25,20 +24,27 @@ import org.littletonrobotics.junction.AutoLog;
 public interface DeflectorIO {
   enum PIDSlots {
     DEFAULT_POSITION,
+    VELOCITY,
+    OPEN_LOOP
   }
 
   /** Data structure for inputs from turret hardware. */
   @AutoLog
   public static class DeflectorIOInputs {
     public PIDSlots deflectorMotorPidSlot = PIDSlots.DEFAULT_POSITION;
+
     public boolean deflectorMotorConnected = false;
-    public Angle deflectorMotorPosition = Rotations.zero();
+    public boolean deflectorEncoderConnected = false;
+
+    public Angle deflectorMotorAngle = Rotations.zero();
+    public Angle deflectorEncoderAngle = Rotations.zero();
+    public Angle deflectorAngle = Rotations.zero();
+
+    public AngularVelocity deflectorEncoderVelocity = RotationsPerSecond.zero();
     public AngularVelocity deflectorMotorVelocity = RotationsPerSecond.zero();
     public AngularAcceleration deflectorMotorAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage deflectorMotorVolts = Volts.zero();
     public Current deflectorMotorCurrent = Amps.zero();
-    public ControlModeValue deflectorMotorControlMode = null;
-
     public boolean backLimit = false;
   }
 
@@ -53,11 +59,21 @@ public interface DeflectorIO {
    * Sets the Deflector to run to a target position using closed-loop control.
    *
    * @param position The target angle to move to
-   * @param pidSlot The PID slot to use (0 for velocity, 1 for position)
+   * @param pidSlot The PID slot to use
    */
   default void setDeflectorPosition(Angle position, PIDSlots pidSlot) {}
 
   default void setDeflectorPosition(Angle position) {}
+
+  /**
+   * Sets the deflector to run at a target velocity using closed-loop control.
+   *
+   * @param velocity The target velocity to move at
+   * @param pidSlot The PID slot to use
+   */
+  default void setDeflectorVelocity(AngularVelocity velocity, PIDSlots pidSlot) {}
+
+  default void setDeflectorVelocity(AngularVelocity velocity) {}
 
   /**
    * Runs the Deflector using direct percentage output (open-loop control).

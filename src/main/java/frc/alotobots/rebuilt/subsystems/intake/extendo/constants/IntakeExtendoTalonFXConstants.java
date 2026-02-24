@@ -75,7 +75,7 @@ public class IntakeExtendoTalonFXConstants {
     public static final double JERK = 0;
   }
 
-  /** Contains safety limit constants for the elevator motors. */
+  /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
     /** Maximum forward torque current limit in amperes */
     public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(45);
