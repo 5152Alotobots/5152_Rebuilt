@@ -12,7 +12,6 @@
 */
 package frc.alotobots.rebuilt.subsystems.kicker.constants;
 
-import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
@@ -26,7 +25,8 @@ public class KickerConstants {
   /** Contains threshold values for various wrist operations. */
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at velocity" */
-    public static final AngularVelocity AT_TARGET_VELOCITY_SPEED_THRESHOLD = RotationsPerSecond.of(3);
+    public static final AngularVelocity AT_TARGET_VELOCITY_SPEED_THRESHOLD =
+        RotationsPerSecond.of(3);
 
     /** How long the flywheel must be "at velocity" to classify as "at velocity" */
     public static final Time AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.2);
