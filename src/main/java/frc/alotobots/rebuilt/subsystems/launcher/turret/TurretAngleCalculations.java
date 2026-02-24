@@ -13,8 +13,12 @@
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
 import static edu.wpi.first.units.Units.Radians;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants.ROBOT_TO_TURRET;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.FieldConstants.Hub;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -67,18 +71,30 @@ public class TurretAngleCalculations {
    * @return The target turret angle as a {@link Rotation2d}
    */
   @AutoLogOutput
-  public Rotation2d stationaryTurretAngleCalculations() {
-    // TODO implement side flipping
-    // TODO implement better offset adjustment
-    var hubLocation = Hub.topCenterPoint;
-    var robotPose = swerveDriveSubsystem.getPose();
-    var deltaX = hubLocation.getX() - robotPose.getX() - .05;
-    var deltaY = hubLocation.getY() - robotPose.getY() + .15;
+  public static Rotation2d stationaryTurretAngleCalculations(Pose2d robotPose) {
+    var hubLocationBlue = Hub.topCenterPoint;
+    var hubLocationRed = Hub.oppTopCenterPoint;
+
+    double deltaX;
+    double deltaY;
+
+    robotPose = robotPose.transformBy(new Transform2d(ROBOT_TO_TURRET, Rotation2d.kZero));
+
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      deltaX = hubLocationRed.getX() - robotPose.getX();
+      deltaY = hubLocationRed.getY() - robotPose.getY();
+    } else {
+      deltaX = hubLocationBlue.getX() - robotPose.getX();
+      deltaY = hubLocationBlue.getY() - robotPose.getY();
+    }
 
     var polarCoordinates = cartesianToPolar(deltaX, deltaY);
-    var targetAngle = new Rotation2d(polarCoordinates.angle);
 
-    return targetAngle;
+    var targetAngle = new Rotation2d(polarCoordinates.angle);
+    var targetAngleAdjusted = targetAngle.minus(robotPose.getRotation());
+
+    return targetAngleAdjusted;
   }
 
   /**
@@ -105,7 +121,7 @@ public class TurretAngleCalculations {
    *     from the positive x-axis)
    */
   @AutoLogOutput
-  public PolarCoordinates cartesianToPolar(double x, double y) {
+  public static PolarCoordinates cartesianToPolar(double x, double y) {
     double radius = Math.hypot(x, y);
     double angle = Math.atan2(y, x);
 

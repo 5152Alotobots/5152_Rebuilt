@@ -120,6 +120,7 @@ public class TurretSubsystem extends SubsystemBase {
    *
    * @return true if the turret has maintained its target angle within tolerance
    */
+  @AutoLogOutput
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target
     boolean inSetPointThreshold =

@@ -16,6 +16,7 @@ import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Current;
 
 public class TurretTalonFXSConstants {
@@ -73,4 +74,7 @@ public class TurretTalonFXSConstants {
 
   // Gear ratio between the turret mechanism and the motor sensor 14.4 / 1 being a reduction
   public static final double TURRET_SENSOR_TO_MECHANISM_RATIO = 14.4;
+  public static final Translation2d ROBOT_TO_TURRET = new Translation2d(-.05, .15);
+  public static final double MOMENT_OF_INERTIA =
+      .3; // TODO: Placeholder value, should be calculated based on the actual turret design
 }

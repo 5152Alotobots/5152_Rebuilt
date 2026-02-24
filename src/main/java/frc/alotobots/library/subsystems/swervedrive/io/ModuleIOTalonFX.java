@@ -153,7 +153,7 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     // Configure periodic frames
     BaseStatusSignal.setUpdateFrequencyForAll(
-        Constants.tunerConstants.getOdometryFrequency(), turnAbsolutePosition, drivePosition);
+        Constants.tunerConstants.getOdometryFrequency(), turnPosition, drivePosition);
     BaseStatusSignal.setUpdateFrequencyForAll(
         DEFAULT_CAN_FREQUENCY,
         driveVelocity,

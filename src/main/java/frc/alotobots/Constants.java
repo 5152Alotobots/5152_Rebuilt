@@ -16,6 +16,7 @@ import com.ctre.phoenix6.CANBus;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2023.TunerConstants2023;
+import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2025.TunerConstants2025;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk5i2026.TunerConstants2026;
 import lombok.experimental.UtilityClass;
 
@@ -58,7 +59,9 @@ public final class Constants {
 
   public static final TunerConstants tunerConstants =
       switch (currentRobot) {
-        case COMPETITION -> new TunerConstants2026();
+        case COMPETITION -> RobotBase.isReal() || currentMode == Mode.REPLAY
+            ? new TunerConstants2026()
+            : new TunerConstants2025();
         case DEV -> new TunerConstants2023();
       };
 
