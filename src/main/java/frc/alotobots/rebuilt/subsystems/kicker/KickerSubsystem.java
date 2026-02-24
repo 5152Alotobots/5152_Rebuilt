@@ -13,7 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.kicker;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterTalonFXConstants.MAX_OPERATOR_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants.Limits.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -34,32 +34,30 @@ public class KickerSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Shooter", inputs);
+    Logger.processInputs("Kicker", inputs);
   }
 
   /**
    * Controls the kicker to move to a specified velocity using closed-loop velocity control.
    *
-   * @param velocity Target velocity in radians per second, automatically constrained between
-   *     -MAX_OPERATOR_VELOCITY and MAX_OPERATOR_VELOCITY
+   * @param velocity Target velocity in radians per second, automatically constrained
    */
-  public void runKickerToTargetVelocity(AngularVelocity velocity) {
-    AngularVelocity adjustedVelocity = applyVelocityLimitIfNeeded(velocity);
-    io.setKickerVelocity(adjustedVelocity);
-    Logger.recordOutput("Hopper/ControlType", KickerIO.PIDSlots.DEFAULT_VELOCITY);
+  public void runToTargetVelocity(AngularVelocity velocity) {
+    AngularVelocity adjustedVelocity =
+        RadiansPerSecond.of(
+            MathUtil.clamp(
+                velocity.in(RadiansPerSecond),
+                -MAX_SPEED.in(RadiansPerSecond),
+                MAX_SPEED.in(RadiansPerSecond)));
+    io.setKickerVelocity(LIMITS_ENABLED ? adjustedVelocity : velocity);
+    Logger.recordOutput("Kicker/ControlType", KickerIO.PIDSlots.DEFAULT_VELOCITY);
   }
 
-  // todo fix io method name
-  public void runKickerPercentOutput(double percentOutput) {
-    io.setKickerOpenLoop(percentOutput);
-  }
-
-  private AngularVelocity applyVelocityLimitIfNeeded(AngularVelocity velocity) {
-    return RadiansPerSecond.of(
-        MathUtil.clamp(
-            velocity.in(RadiansPerSecond),
-            -MAX_OPERATOR_VELOCITY.in(RadiansPerSecond),
-            MAX_OPERATOR_VELOCITY.in(RadiansPerSecond)));
+  public void runAtPercentOutput(double percentOutput) {
+    double adjustedOutput =
+        MathUtil.clamp(percentOutput, -MAX_OPEN_LOOP_PERCENTAGE, MAX_OPEN_LOOP_PERCENTAGE);
+    io.setKickerOpenLoop(LIMITS_ENABLED ? adjustedOutput : percentOutput);
+    Logger.recordOutput("Kicker/ControlType", "PERCENT_OUTPUT");
   }
 
   public void stop() {

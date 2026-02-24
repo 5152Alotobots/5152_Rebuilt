@@ -20,10 +20,23 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerIntake;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 
+/**
+ * Command group that simultaneously deploys the intake mechanism and runs the intake rollers.
+ *
+ * <p>Runs the extendo to the deployed setpoint and spins the intake rollers at the configured
+ * intake percentage concurrently, so the robot is ready to collect game pieces as soon as the
+ * intake reaches its extended position.
+ */
 public class DeployIntakeAndIntake extends ParallelCommandGroup {
   IntakeExtendoSubsystem intakeExtendoSubsystem;
   IntakeRollerSubsystem intakeRollerSubsystem;
 
+  /**
+   * Creates a new DeployIntakeAndIntake command group.
+   *
+   * @param intakeExtendoSubsystem The intake extendo subsystem used to deploy the intake
+   * @param intakeRollerSubsystem The intake roller subsystem used to spin the rollers
+   */
   public DeployIntakeAndIntake(
       IntakeExtendoSubsystem intakeExtendoSubsystem, IntakeRollerSubsystem intakeRollerSubsystem) {
     this.intakeExtendoSubsystem = intakeExtendoSubsystem;

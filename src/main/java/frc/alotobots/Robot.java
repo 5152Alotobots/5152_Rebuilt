@@ -12,8 +12,6 @@
 */
 package frc.alotobots;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -107,11 +105,7 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
-  public void robotInit() {
-    CameraServer.startAutomaticCapture();
-    CameraServer.startAutomaticCapture(
-        new HttpCamera("QuestNav", "http://10.51.52.200:5809/stream"));
-  }
+  public void robotInit() {}
 
   /** Called once when the robot is disabled. */
   @Override

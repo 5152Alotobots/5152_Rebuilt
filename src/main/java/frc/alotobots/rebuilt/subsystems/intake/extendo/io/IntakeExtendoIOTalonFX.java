@@ -13,11 +13,12 @@
 package frc.alotobots.rebuilt.subsystems.intake.extendo.io;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants.Limits.MIN_EXTENSION;
 import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants.EXTENSION_PER_ROTATION;
 
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -31,10 +32,8 @@ import edu.wpi.first.units.measure.*;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoTalonFXConstants;
 import frc.alotobots.util.PhoenixUtil;
-import org.dyn4j.exception.ArgumentNullException;
 
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
-  private final CANBus canBus = new CANBus("rio");
   private final TalonFX intakeExtendoMotor;
   private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
@@ -48,7 +47,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private Debouncer intakeExtendoConnectedDebounce = new Debouncer(0.1);
 
   public IntakeExtendoIOTalonFX() {
-    intakeExtendoMotor = new TalonFX(Constants.CanId.INTAKE_EXTENDO_CAN_ID, canBus);
+    intakeExtendoMotor = new TalonFX(Constants.CanId.INTAKE_EXTENDO_CAN_ID, RIO_CAN_BUS);
 
     var intakeExtendoMotorConfig = new TalonFXConfiguration();
 
@@ -59,7 +58,6 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
         IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
     intakeExtendoMotorConfig.Slot0.kD =
         IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
-    intakeExtendoMotorConfig.Slot0.GravityType = GravityTypeValue.Elevator_Static;
     intakeExtendoMotorConfig.Slot0.kG =
         IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
     intakeExtendoMotorConfig.Slot0.kS =
@@ -120,7 +118,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
     currentPidSlot = intakeExtendoMotor.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+        DEFAULT_CAN_FREQUENCY,
         intakeExtendoPosition,
         intakeExtendoVelocity,
         intakeExtendoAcceleration,
@@ -139,7 +137,8 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
             intakeExtendoVelocity,
             intakeExtendoAcceleration,
             intakeExtendoAppliedVoltage,
-            intakeExtendoAppliedCurrent);
+            intakeExtendoAppliedCurrent,
+            currentPidSlot);
 
     inputs.intakeExtendoMotorConnected =
         intakeExtendoConnectedDebounce.calculate(intakeExtendoSignals.isOK());
@@ -158,7 +157,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.VELOCITY;
           case 1 -> PIDSlots.MOTION_MAGIC_POSITION;
-          default -> throw new ArgumentNullException(
+          default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
   }

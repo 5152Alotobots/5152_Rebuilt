@@ -12,104 +12,80 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
-import static edu.wpi.first.units.Units.Degree;
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Radian;
-import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.*;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.*;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOInputsAutoLogged;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
-import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
-import org.littletonrobotics.junction.mechanism.LoggedMechanismRoot2d;
 
 public class TurretSubsystem extends SubsystemBase {
-  /** Hardware abstraction for the wrist */
+  /** Hardware abstraction for the turret */
   private final TurretIO io;
 
-  /** Latest inputs from the wrist hardware */
+  /** Latest inputs from the turret hardware */
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
+
+  @AutoLogOutput(key = "Launcher/Turret/TargetAngle")
+  private Angle targetAngle = Degrees.zero();
 
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
-      new Debouncer(TurretConstants.AT_TARGET_ANGLE_TIME_THRESHOLD);
-
-  private final SysIdRoutine sysIdRoutine;
-  private Angle targetAngle = Degrees.zero();
-
-  private final LoggedMechanism2d mech = new LoggedMechanism2d(3, 3);
-  private final LoggedMechanismRoot2d root = mech.getRoot("TurretRoot", 1.5, 1.5);
-  private final LoggedMechanismLigament2d turretLigament =
-      root.append(new LoggedMechanismLigament2d("Turret", 1, 0, 6, new Color8Bit(Color.kYellow)));
+      new Debouncer(TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
   /**
    * Creates a new TurretSubsystem.
    *
-   * @param io The hardware abstraction interface for the wrist
-   * @param elevatorHeightSupplier Supplier function that provides the current elevator height
+   * @param io The hardware abstraction interface for the turret
    */
   public TurretSubsystem(TurretIO io) {
     this.io = io;
-
-    sysIdRoutine =
-        new SysIdRoutine(
-            new SysIdRoutine.Config(
-                null,
-                null,
-                null,
-                (state) -> Logger.recordOutput("Turret/SysIdState", state.toString())),
-            new SysIdRoutine.Mechanism(
-                (voltage) -> this.runAtVoltage(voltage),
-                null, // No log consumer, since data is recorded by AdvantageKit
-                this));
   }
 
   @Override
   public void periodic() {
     // Update hardware inputs
     io.updateInputs(inputs);
-    Logger.recordOutput("Turret/TargetAngle", targetAngle.in(Degree));
-    turretLigament.setAngle(inputs.turretMotorPosition.in(Degrees));
-    Logger.processInputs("Turret", inputs);
+    Logger.processInputs("Launcher/Turret", inputs);
   }
 
   /**
-   * Commands the wrist to move to a target angle using closed-loop control.
+   * Commands the turret to move to a target angle using closed-loop control.
    *
-   * @param angle The target angle for the wrist
+   * @param angle The target angle for the turret
    */
   public void runToTargetAngle(Angle angle) {
+    Angle adjustedAngle =
+        Radians.of(
+            MathUtil.clamp(
+                angle.in(Radians), TURRET_MIN_ANGLE.in(Radians), TURRET_MAX_ANGLE.in(Radians)));
 
-    var adjustedAngle =
-        MathUtil.clamp(angle.in(Radian), Degrees.of(-90).in(Radian), Degrees.of(90).in(Radians));
+    targetAngle = TURRET_LIMITS_ENABLED ? adjustedAngle : angle;
+    io.setTurretPosition(targetAngle);
+    Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.DEFAULT_POSITION);
+  }
 
-    try {
-      io.setTurretPosition(Radians.of(adjustedAngle), TurretIO.PIDSlots.DEFAULT_POSITION);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-
-    Logger.recordOutput("Turret/TargetAngle", angle);
-    Logger.recordOutput("Turret/AdjustedTargetAngle", targetAngle);
-    Logger.recordOutput("Turret/Mech", mech);
+  public void runToTargetVelocity(AngularVelocity velocity) {
+    AngularVelocity adjustedVelocity =
+        RadiansPerSecond.of(
+            MathUtil.clamp(
+                velocity.in(RadiansPerSecond),
+                -TURRET_MAX_VELOCITY.in(RadiansPerSecond),
+                TURRET_MAX_VELOCITY.in(RadiansPerSecond)));
+    io.setTurretVelocity(TURRET_LIMITS_ENABLED ? adjustedVelocity : velocity);
+    Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.VELOCITY);
   }
 
   /**
-   * Runs the wrist using direct percent output (open-loop control). Dynamic limits based on current
-   * elevator height are passed to the IO layer.
+   * Runs the turret using direct percent output (open-loop control).
    *
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
@@ -118,18 +94,14 @@ public class TurretSubsystem extends SubsystemBase {
     double adjustedSpeed =
         MathUtil.clamp(
             percentOutput,
-            TurretConstants.MIN_OPEN_LOOP_PERCENTAGE,
-            TurretConstants.MAX_OPEN_LOOP_PERCENTAGE);
+            -TurretConstants.Limits.TURRET_MAX_OPEN_LOOP_PERCENTAGE,
+            TurretConstants.Limits.TURRET_MAX_OPEN_LOOP_PERCENTAGE);
 
-    // Command the wrist with the adjusted output and dynamic limits
     io.setTurretOpenLoop(adjustedSpeed);
+    Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.OPEN_LOOP);
   }
 
-  public void runAtVoltage(Voltage voltageOutput) {
-    io.setTurretVoltageOut(voltageOutput);
-  }
-
-  /** Stops all wrist movement. */
+  /** Stops all turret movement. */
   public void stop() {
     io.stop();
   }
@@ -140,23 +112,7 @@ public class TurretSubsystem extends SubsystemBase {
    * @return The current angle as an Angle object
    */
   public Angle getCurrentAngle() {
-    return inputs.turretMotorPosition;
-  }
-
-  public Command sysIDQuasistaticForward() {
-    return sysIdRoutine.quasistatic(Direction.kForward);
-  }
-
-  public Command sysIDQuasistaticReverse() {
-    return sysIdRoutine.quasistatic(Direction.kReverse);
-  }
-
-  public Command sysIDDynamicForward() {
-    return sysIdRoutine.dynamic(Direction.kForward);
-  }
-
-  public Command sysIDDynamicReverse() {
-    return sysIdRoutine.dynamic(Direction.kReverse);
+    return inputs.turretAngle;
   }
 
   /**
@@ -167,15 +123,9 @@ public class TurretSubsystem extends SubsystemBase {
   @AutoLogOutput
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target
-
-    Angle error = targetAngle.minus(inputs.turretMotorPosition);
-
-    Logger.recordOutput("Turret/error", error);
-
     boolean inSetPointThreshold =
-        error.abs(Degree) < TurretConstants.AT_TARGET_ANGLE_THRESHOLD.in(Degrees);
-
-    Logger.recordOutput("Turret/inSetPointThreshold", inSetPointThreshold);
+        targetAngle.minus(inputs.turretAngle).abs(Radians)
+            < TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration
     return atTargetAngleDebounce.calculate(inSetPointThreshold);

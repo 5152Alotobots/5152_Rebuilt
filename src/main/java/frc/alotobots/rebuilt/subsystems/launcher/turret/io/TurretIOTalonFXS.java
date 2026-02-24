@@ -12,21 +12,19 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
-import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.Amps;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
+import static frc.alotobots.Constants.DIO.TURRET_RESET_LIMIT_SWITCH_CHANNEL;
 
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFXS;
-import com.ctre.phoenix6.signals.ControlModeValue;
-import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorArrangementValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.*;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
@@ -37,49 +35,65 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import frc.alotobots.util.PhoenixUtil;
-import org.littletonrobotics.junction.Logger;
 
 public class TurretIOTalonFXS implements TurretIO {
   private final TalonFXS turretMotor;
-  private final CANBus canBus = new CANBus("rio");
-  private final DigitalInput cwLimitSwitch;
-  private final DigitalInput ccwLimitSwitch;
+  private final DigitalInput resetLimitSwitch = new DigitalInput(TURRET_RESET_LIMIT_SWITCH_CHANNEL);
 
   private final PositionVoltage positionControl = new PositionVoltage(0);
-  private final VoltageOut voltageControl = new VoltageOut(0);
+  private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
-  private final Debouncer cwLimitDebouncer;
-  private final Debouncer ccwLimitDebouncer;
-  private final Debouncer turretMotorConnectedDebouncer;
+  private final Debouncer resetLimitDebouncer = new Debouncer(0.5);
+  private final Debouncer turretMotorConnectedDebouncer = new Debouncer(0.1);
 
   private StatusSignal<Angle> turretMotorPosition;
   private StatusSignal<AngularVelocity> turretMotorVelocity;
   private StatusSignal<AngularAcceleration> turretMotorAcceleration;
   private StatusSignal<Voltage> turretMotorVoltage;
   private StatusSignal<Current> turretMotorCurrent;
-  private StatusSignal<Integer> turretMotorPidSlot;
-  private StatusSignal<ControlModeValue> turretMotorControlMode;
+  private StatusSignal<Integer> currentPidSlot;
 
   public TurretIOTalonFXS() {
-    turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, canBus);
-    ccwLimitDebouncer = new Debouncer(0.1);
-    cwLimitDebouncer = new Debouncer(0.1);
-    turretMotorConnectedDebouncer = new Debouncer(0.5);
-    ccwLimitSwitch = new DigitalInput(0);
-    cwLimitSwitch = new DigitalInput(1);
+    turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, RIO_CAN_BUS);
 
     var turretMotorConfig = new TalonFXSConfiguration();
-    turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    turretMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+    // PID configuration for position mode (Slot 0)
+    turretMotorConfig.Slot0.kP =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
+    turretMotorConfig.Slot0.kI =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KI;
+    turretMotorConfig.Slot0.kD =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
+    turretMotorConfig.Slot0.kG =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KG;
+
+    // PID configuration for velocity mode (Slot 1)
+    turretMotorConfig.Slot1.kP =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
+    turretMotorConfig.Slot1.kI =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
+    turretMotorConfig.Slot1.kD =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
+    turretMotorConfig.Slot1.kG =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
+    turretMotorConfig.Slot1.kS =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
+    turretMotorConfig.Slot1.kV =
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
+
+    turretMotorConfig.MotorOutput.NeutralMode =
+        TurretTalonFXSConstants.TURRET_MECHANISM_NEUTRAL_MODE;
+    turretMotorConfig.MotorOutput.Inverted = TurretTalonFXSConstants.TURRET_MOTOR_DIRECTION;
     turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.Commutation;
-    turretMotorConfig.ExternalFeedback.SensorToMechanismRatio =
-        TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     turretMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+    turretMotorConfig.ExternalFeedback.SensorToMechanismRatio =
+        TurretTalonFXSConstants.TURRET_SENSOR_TO_MECHANISM_RATIO;
 
-    turretMotorConfig.Slot0.kP = TurretTalonFXSConstants.POSITION_P_GAIN;
-    turretMotorConfig.Slot0.kI = TurretTalonFXSConstants.POSITION_I_GAIN;
-    turretMotorConfig.Slot0.kD = TurretTalonFXSConstants.POSITION_D_GAIN;
+    turretMotorConfig.CurrentLimits.StatorCurrentLimit =
+        TurretTalonFXSConstants.MotorSafetyLimits.TURRET_STATOR_AMP_LIMIT.in(Amps);
+    turretMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     PhoenixUtil.tryUntilOk(5, () -> turretMotor.getConfigurator().apply(turretMotorConfig, 0.25));
 
@@ -88,48 +102,49 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorAcceleration = turretMotor.getAcceleration();
     turretMotorVoltage = turretMotor.getMotorVoltage();
     turretMotorCurrent = turretMotor.getStatorCurrent();
-    turretMotorPidSlot = turretMotor.getClosedLoopSlot();
-    turretMotorControlMode = turretMotor.getControlMode();
+    currentPidSlot = turretMotor.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+        DEFAULT_CAN_FREQUENCY,
         turretMotorPosition,
         turretMotorVelocity,
         turretMotorAcceleration,
         turretMotorVoltage,
         turretMotorCurrent,
-        turretMotorPidSlot,
-        turretMotorControlMode);
+        currentPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(turretMotor);
   }
 
   @Override
   public void updateInputs(TurretIOInputs inputs) {
-    var motorSignals =
+    var turretSignals =
         BaseStatusSignal.refreshAll(
             turretMotorPosition,
             turretMotorVelocity,
             turretMotorAcceleration,
             turretMotorVoltage,
             turretMotorCurrent,
-            turretMotorControlMode);
+            currentPidSlot);
 
-    inputs.turretMotorPidSlot =
-        switch (turretMotorPidSlot.getValue()) {
-          case 0 -> PIDSlots.DEFAULT_POSITION;
-          default -> throw new IllegalStateException(
-              "Bad things happened in Shooter and You check if you set the PID SLOTS RIGHT"
-                  + turretMotorPidSlot.getValue());
-        };
+    inputs.turretMotorConnected = turretMotorConnectedDebouncer.calculate(turretSignals.isOK());
 
-    inputs.turretMotorControlMode = turretMotorControlMode.getValue();
-    inputs.turretMotorConnected = turretMotorConnectedDebouncer.calculate(motorSignals.isOK());
+    inputs.turretAngle = turretMotorPosition.getValue();
+
     inputs.turretMotorVelocity = turretMotorVelocity.getValue();
+
     inputs.turretMotorAcceleration = turretMotorAcceleration.getValue();
+
     inputs.turretMotorVolts = turretMotorVoltage.getValue();
     inputs.turretMotorCurrent = turretMotorCurrent.getValue();
-    inputs.turretMotorPosition = turretMotorPosition.getValue();
+
+    inputs.turretMotorPIDSlot =
+        switch (currentPidSlot.getValue()) {
+          case 0 -> PIDSlots.DEFAULT_POSITION;
+          case 1 -> PIDSlots.VELOCITY;
+          default -> throw new IllegalArgumentException(
+              "No defined PID slot for value: " + currentPidSlot.getValue());
+        };
   }
 
   @Override
@@ -146,36 +161,31 @@ public class TurretIOTalonFXS implements TurretIO {
    */
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
-    if (position == null) {
-      throw new IllegalArgumentException("Position cannot be null");
-    }
+    if (pidSlot == PIDSlots.OPEN_LOOP)
+      throw new IllegalArgumentException(
+          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
 
-    if (pidSlot == null) {
-      throw new IllegalArgumentException("PID Slot cannot be null");
-    }
+    turretMotor.setControl(positionControl.withPosition(position).withSlot(pidSlot.ordinal()));
+  }
 
-    if (pidSlot != PIDSlots.DEFAULT_POSITION) {
-      throw new IllegalArgumentException("Invalid PID Slot for Turret, Got " + pidSlot.toString());
-    }
+  @Override
+  public void setTurretVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
+    if (pidSlot == PIDSlots.OPEN_LOOP)
+      throw new IllegalArgumentException(
+          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
 
-    Logger.recordOutput("Turret/setpoint", position.in(Rotations));
+    turretMotor.setControl(velocityVoltage.withVelocity(velocity).withSlot(pidSlot.ordinal()));
+  }
 
-    turretMotor.setControl(
-        positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));
+  @Override
+  public void setTurretVelocity(AngularVelocity velocity) {
+    setTurretVelocity(velocity, PIDSlots.VELOCITY);
   }
 
   @Override
   public void setTurretOpenLoop(double percentOutput) {
-    Logger.recordOutput("Turret/openLoopPercentOut", percentOutput);
 
     turretMotor.set(percentOutput);
-  }
-
-  @Override
-  public void setTurretVoltageOut(Voltage voltageOutput) {
-    Logger.recordOutput("Turret/voltageOutput", voltageOutput);
-
-    voltageControl.withOutput(voltageOutput);
   }
 
   @Override
