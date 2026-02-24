@@ -44,6 +44,7 @@ public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
       BeltSubsystem beltSubsystem,
       KickerSubsystem kickerSubsystem,
       ShooterSubsystem shooterSubsystem) {
+    addCommands(
     new DefaultShooterRunAtVelocity(
             shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
         .deadlineFor(
@@ -56,6 +57,7 @@ public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
                         beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
                     new DefaultKickerRunAtVelocity(
                         kickerSubsystem,
-                        () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))));
+                        () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))))
+    );
   }
 }
