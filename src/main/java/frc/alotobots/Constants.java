@@ -13,12 +13,15 @@
 package frc.alotobots;
 
 import com.ctre.phoenix6.CANBus;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2023.TunerConstants2023;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2025.TunerConstants2025;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk5i2026.TunerConstants2026;
 import lombok.experimental.UtilityClass;
+
+import static edu.wpi.first.units.Units.Milliseconds;
 
 /**
  * Robot-wide constants class that defines runtime modes and device configurations. This class
@@ -65,6 +68,7 @@ public final class Constants {
         case DEV -> new TunerConstants2023();
       };
 
+  public static final Time LOOP_PERIOD = Milliseconds.of(20);
   /**
    * CAN bus device ID assignments. This class maps CAN IDs for all motors, sensors and other
    * CAN-connected devices.

@@ -33,6 +33,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.A
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
 import frc.alotobots.rebuilt.commands.groups.IndexIntoShooterAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetHub;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
@@ -47,6 +48,7 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
@@ -79,6 +81,7 @@ public class RobotContainer {
   private final DeflectorSubsystem deflectorSubsystem;
   private final IntakeExtendoSubsystem intakeExtendoSubsystem;
   private final IntakeRollerSubsystem intakeRollerSubsystem;
+  private final LaunchCalculator launchCalculator;
   private LoggedDashboardChooser<Command> autoChooser;
   private SwerveDriveSimulation driveSimulation;
 
@@ -115,6 +118,7 @@ public class RobotContainer {
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIOTalonFX());
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIOTalonFX());
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOVortex());
+        launchCalculator = new LaunchCalculator(swerveDriveSubsystem::getPose, swerveDriveSubsystem::getChassisSpeeds, swerveDriveSubsystem::getFieldChassisSpeeds);
         break;
 
       case SIM:
@@ -162,6 +166,7 @@ public class RobotContainer {
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
+        launchCalculator = new LaunchCalculator(swerveDriveSubsystem::getPose, swerveDriveSubsystem::getChassisSpeeds, swerveDriveSubsystem::getFieldChassisSpeeds);
         break;
 
       default:
@@ -192,6 +197,7 @@ public class RobotContainer {
         turretSubsystem = new TurretSubsystem(new TurretIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
+        launchCalculator = new LaunchCalculator(swerveDriveSubsystem::getPose, swerveDriveSubsystem::getChassisSpeeds, swerveDriveSubsystem::getFieldChassisSpeeds);
         break;
     }
     configureDefaultCommands();
@@ -219,7 +225,7 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
+    shoot.whileTrue(new LauncherTargetHub(deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
     // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem,
     // shooterSubsystem));
     // shoot
