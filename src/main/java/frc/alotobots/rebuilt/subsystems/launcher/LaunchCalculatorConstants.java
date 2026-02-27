@@ -14,6 +14,8 @@ package frc.alotobots.rebuilt.subsystems.launcher;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.*;
 import edu.wpi.first.units.measure.Distance;
@@ -30,17 +32,12 @@ public final class LaunchCalculatorConstants {
   public static final Distance MINIMUM_SHOOTING_DISTANCE = Meters.of(1);
   public static final Distance MAXIMUM_SHOOTING_DISTANCE = Meters.of(5);
 
-  /**
-   * The minimum distance change (in meters) between consecutive lookahead iterations before the
-   * solution is considered converged and the loop exits early.
-   */
-  public static final Distance CONVERGED_DISTANCE_ESTIMATE_THRESHOLD = Millimeters.of(1);
-
   /** How long the subsystem and code takes to respond to a command. Should be empirically tuned. */
   public static final Time LAUNCH_CALCULATOR_SUBSYSTEM_DELAY = Milliseconds.of(30);
 
   // FORWARD: +, LEFT: +, UP: +
-  public static final Translation2d ROBOT_TO_TURRET = new Translation2d(-.14, 0);
+  public static final Transform2d ROBOT_TO_TURRET =
+      new Transform2d(new Translation2d(-.14, 0), Rotation2d.kZero);
 
   public final class Maps {
     public static final UnitInterpolatingMap<DistanceUnit, AngleUnit> LAUNCHER_DEFLECTOR_ANGLE_MAP =

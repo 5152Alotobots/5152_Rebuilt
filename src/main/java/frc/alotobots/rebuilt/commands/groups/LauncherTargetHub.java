@@ -46,7 +46,7 @@ public class LauncherTargetHub extends SequentialCommandGroup {
                     shooterSubsystem, () -> launchCalculator.getParameters().shooterVelocity()),
                 new TurretFollowPositionAtVelocity(
                     turretSubsystem,
-                    () -> launchCalculator.getParameters().turretAngle().getMeasure(),
+                    () -> launchCalculator.getParameters().turretAngleFieldRelative().getMeasure(),
                     () -> launchCalculator.getParameters().turretVelocity()),
                 new RunCommand(launchCalculator::clearLaunchingParameters))
             .deadlineFor(

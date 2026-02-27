@@ -70,7 +70,7 @@ public class LaunchCalculator {
 
   public record LaunchingParameters(
       boolean isValid,
-      Rotation2d turretAngle,
+      Rotation2d turretAngleFieldRelative,
       AngularVelocity turretVelocity,
       Angle deflectorAngle,
       AngularVelocity deflectorVelocity,
@@ -123,7 +123,7 @@ public class LaunchCalculator {
     }
 
     // Calculate where the turret will be in the future and its distance from the hub
-    Pose2d turretPosition = forwardEstimatedPose.transformBy(ROBOT_TO_TURRET.toTransform2d());
+    Pose2d turretPosition = forwardEstimatedPose.transformBy(ROBOT_TO_TURRET);
     Distance turretToTargetDistance =
         Meters.of(target.getDistance(turretPosition.getTranslation()));
 
@@ -155,8 +155,6 @@ public class LaunchCalculator {
     // flight
     // to estimate where the robot will be, giving a better distance, giving a better time of
     // flight, etc.
-    // We exit early once the distance change between iterations has converged.
-    Distance previousDistance = turretToTargetDistance;
     for (int i = 0; i < 20; i++) {
       timeOfFlight = (Time) FUEL_TIME_OF_FLIGHT_MAP.get(lookaheadTurretToTargetDistance);
       Translation2d turretOffsetToLookahead =
@@ -170,24 +168,20 @@ public class LaunchCalculator {
               turretPosition.getRotation());
       lookaheadTurretToTargetDistance =
           Meters.of(target.getDistance(lookaheadPose.getTranslation()));
-
-      // Exit early here if converged
-      if (lookaheadTurretToTargetDistance.minus(previousDistance).abs(Meters)
-          < CONVERGED_DISTANCE_ESTIMATE_THRESHOLD.in(Meters)) {
-        break;
-      }
-
-      previousDistance = lookaheadTurretToTargetDistance;
     }
 
-    // Calculate parameters accounted for imparted velocity
-    Rotation2d turretAngle = target.minus(lookaheadPose.getTranslation()).getAngle();
+    // Calculate parameters accounted for imparted velocity and rotate to field relative
+    Rotation2d turretFieldRelativeAngle =
+        target
+            .minus(lookaheadPose.getTranslation())
+                .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
+            .getAngle();
     Angle deflectorAngle =
         (Angle) LAUNCHER_DEFLECTOR_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
 
     // Store historical values
     if (lastTurretAngle == null) {
-      lastTurretAngle = turretAngle;
+      lastTurretAngle = turretFieldRelativeAngle;
     }
 
     if (lastHoodAngle == null) {
@@ -197,13 +191,13 @@ public class LaunchCalculator {
     AngularVelocity turretVelocity =
         RadiansPerSecond.of(
             turretAngleFilter.calculate(
-                turretAngle.minus(lastTurretAngle).getRadians() / LOOP_PERIOD.in(Seconds)));
+                turretFieldRelativeAngle.minus(lastTurretAngle).getRadians() / LOOP_PERIOD.in(Seconds)));
     AngularVelocity deflectorVelocity =
         RadiansPerSecond.of(
             hoodAngleFilter.calculate(
                 (deflectorAngle.minus(lastHoodAngle)).in(Radians) / LOOP_PERIOD.in(Seconds)));
 
-    lastTurretAngle = turretAngle;
+    lastTurretAngle = turretFieldRelativeAngle;
     lastHoodAngle = deflectorAngle;
 
     AngularVelocity shooterVelocity =
@@ -213,7 +207,7 @@ public class LaunchCalculator {
         new LaunchingParameters(
             lookaheadTurretToTargetDistance.gte(MINIMUM_SHOOTING_DISTANCE)
                 && lookaheadTurretToTargetDistance.lte(MAXIMUM_SHOOTING_DISTANCE),
-            turretAngle,
+            turretFieldRelativeAngle,
             turretVelocity,
             deflectorAngle,
             deflectorVelocity,
