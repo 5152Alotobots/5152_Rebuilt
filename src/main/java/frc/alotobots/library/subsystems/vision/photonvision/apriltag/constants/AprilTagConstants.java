@@ -31,11 +31,11 @@ public class AprilTagConstants {
   // FORWARD: +, LEFT: +, UP: + (USED FOR APRILTAGS)
   private static final Transform3d[] CAMERA_OFFSETS =
       new Transform3d[] {
-        // Front Left (Back for now)
+        // Front Left (front for now)
         new Transform3d(
-            new Translation3d(-.2648, .2198, 0.26),
-            new Rotation3d(0, Math.toRadians(-10), Math.toRadians(0))),
-        // Front Right (Front for now)
+            new Translation3d(0.381, 0.3048, 0.534),
+            new Rotation3d(Math.toRadians(-1), Math.toRadians(-6.5), Math.toRadians(-1))),
+        // Front Right (back for now)
         new Transform3d(
             new Translation3d(0.048, 0.31, 0.34),
             new Rotation3d(Math.toRadians(-10), Math.toRadians(-14), Math.toRadians(3.9)))

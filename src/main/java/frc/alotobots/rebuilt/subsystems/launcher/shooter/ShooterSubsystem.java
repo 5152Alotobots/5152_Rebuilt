@@ -88,6 +88,11 @@ public class ShooterSubsystem extends SubsystemBase {
     return atTargetVelocityDebounce.calculate(inSetPointThreshold);
   }
 
+  public AngularVelocity getCurrentVelocity() {
+    // Return only the left as they are physically linked
+    return inputs.shooterMotorLeftVelocity;
+  }
+
   public void stop() {
     io.stop();
     targetVelocity = RadiansPerSecond.zero();

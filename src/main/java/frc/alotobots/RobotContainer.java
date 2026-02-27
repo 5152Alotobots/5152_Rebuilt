@@ -12,11 +12,13 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.*;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -50,6 +52,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
@@ -64,6 +67,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -118,7 +122,11 @@ public class RobotContainer {
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIOTalonFX());
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIOTalonFX());
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOVortex());
-        launchCalculator = new LaunchCalculator(swerveDriveSubsystem::getPose, swerveDriveSubsystem::getChassisSpeeds, swerveDriveSubsystem::getFieldChassisSpeeds);
+        launchCalculator =
+            new LaunchCalculator(
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem::getChassisSpeeds,
+                swerveDriveSubsystem::getFieldChassisSpeeds);
         break;
 
       case SIM:
@@ -166,7 +174,11 @@ public class RobotContainer {
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
-        launchCalculator = new LaunchCalculator(swerveDriveSubsystem::getPose, swerveDriveSubsystem::getChassisSpeeds, swerveDriveSubsystem::getFieldChassisSpeeds);
+        launchCalculator =
+            new LaunchCalculator(
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem::getChassisSpeeds,
+                swerveDriveSubsystem::getFieldChassisSpeeds);
         break;
 
       default:
@@ -197,7 +209,11 @@ public class RobotContainer {
         turretSubsystem = new TurretSubsystem(new TurretIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
-        launchCalculator = new LaunchCalculator(swerveDriveSubsystem::getPose, swerveDriveSubsystem::getChassisSpeeds, swerveDriveSubsystem::getFieldChassisSpeeds);
+        launchCalculator =
+            new LaunchCalculator(
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem::getChassisSpeeds,
+                swerveDriveSubsystem::getFieldChassisSpeeds);
         break;
     }
     configureDefaultCommands();
@@ -216,8 +232,13 @@ public class RobotContainer {
     // turretSubsystem));
   }
 
+  // TODO: remove this
+  @AutoLogOutput(key = "DataCollection/targetrpm")
+  private AngularVelocity shooterVelocity = RotationsPerSecond.of(30);
+
   /** Contains button based commands */
   private void configureLogicCommands() {
+
     // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // Intake Extendo
     intakeOut.onTrue(
@@ -225,15 +246,54 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    shoot.whileTrue(new LauncherTargetHub(deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem,
-    // shooterSubsystem));
-    // shoot
-    //     .whileTrue(
-    //         new DefaultShooterRunAtVelocity(
-    //             shooterSubsystem, () ->
-    // RadiansPerSecond.of(300).times(OI.getTurboSpeedTrigger())))
-    //     .onFalse(new InstantCommand(shooterSubsystem::stop));
+    // Launcher
+    turretAimShoot.whileTrue(
+        new LauncherTargetHub(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            launchCalculator));
+    shoot.whileTrue(
+        new IndexIntoShooterAndShoot(
+            beltSubsystem, kickerSubsystem, shooterSubsystem, () -> shooterVelocity));
+    logData.onTrue(
+        new InstantCommand(launchCalculator::clearLaunchingParameters)
+            .andThen(
+                new InstantCommand(
+                    () ->
+                        Logger.recordOutput(
+                            "DataCollection/data",
+                            String.format(
+                                "Turret Deg: %f, Deflector Deg: %f, RPS: %f, Distance: %f",
+                                turretSubsystem.getCurrentAngle().in(Degrees),
+                                deflectorSubsystem.getCurrentAngle().in(Degrees),
+                                shooterVelocity.in(RotationsPerSecond),
+                                launchCalculator
+                                    .getParameters()
+                                    .dataCollectionDebugDistance()
+                                    .in(Meters))))));
+    deflectorDown.onTrue(
+        new InstantCommand(
+            () ->
+                new DeflectorRunToPosition(
+                        deflectorSubsystem,
+                        deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5)))
+                    .schedule()));
+    deflectorUp.onTrue(
+        new InstantCommand(
+            () ->
+                new DeflectorRunToPosition(
+                        deflectorSubsystem,
+                        deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5)))
+                    .schedule()));
+    rpmDown.onTrue(
+        new InstantCommand(
+            () -> shooterVelocity = shooterVelocity.minus(RotationsPerSecond.of(2.5))));
+    rpmUp.onTrue(
+        new InstantCommand(
+            () -> shooterVelocity = shooterVelocity.plus(RotationsPerSecond.of(2.5))));
 
     // TEMPORARY!!
     resetGyroButton.onTrue(

@@ -355,8 +355,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    */
   @AutoLogOutput(key = "SwerveChassisSpeeds/MeasuredFieldRelative")
   public ChassisSpeeds getFieldChassisSpeeds() {
-    return ChassisSpeeds.fromRobotRelativeSpeeds(getFieldChassisSpeeds(), getRotation());
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), getRotation());
   }
+
   /**
    * Gets wheel positions for radius characterization.
    *

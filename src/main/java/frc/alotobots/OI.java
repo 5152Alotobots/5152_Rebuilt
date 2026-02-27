@@ -122,20 +122,30 @@ public class OI {
   // public static final Trigger testButton = codriverController.a();
 
   // Climber Controls
-  public static final Trigger retractClimber = driverController.x();
+  // TODO: add these back
+  // public static final Trigger retractClimber = driverController.x();
 
-  public static final Trigger extendClimber = driverController.y();
+  // public static final Trigger extendClimber = driverController.y();
   // public static final Trigger climbAction = driverController.a(); // Might be unnessecary?
 
   // Intake Controls
   public static final Trigger intakeOut = driverController.povUp();
+
   public static final Trigger intakeIn = driverController.povDown();
   public static final Trigger intake = driverController.leftTrigger();
   // Reverse intake wheels?
 
   // Turret Controls
   // TODO CHANGE BACK TO RIGHT STICK
-  public static final Trigger shoot = driverController.a();
+  public static final Trigger shoot = driverController.rightStick();
+  public static final Trigger logData = driverController.back();
+  // TODO: remove this
+  public static final Trigger rpmDown = driverController.x();
+  public static final Trigger rpmUp = driverController.b();
+  // TODO: remove this
+  public static final Trigger deflectorDown = driverController.y();
+  public static final Trigger deflectorUp = driverController.a();
+
   public static final Trigger rotateTurretRight = driverController.povRight();
   public static final Trigger rotateTurretLeft = driverController.povLeft();
 

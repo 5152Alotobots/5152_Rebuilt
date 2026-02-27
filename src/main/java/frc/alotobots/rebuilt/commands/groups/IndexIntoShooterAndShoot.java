@@ -12,6 +12,7 @@
 */
 package frc.alotobots.rebuilt.commands.groups;
 
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -23,7 +24,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVeloci
 import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
-import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants;
+import java.util.function.Supplier;
 
 /**
  * Command group that spins up the shooter and then feeds a game piece into it.
@@ -43,10 +44,11 @@ public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
   public IndexIntoShooterAndShoot(
       BeltSubsystem beltSubsystem,
       KickerSubsystem kickerSubsystem,
-      ShooterSubsystem shooterSubsystem) {
+      ShooterSubsystem shooterSubsystem,
+      // TODO: remove this
+      Supplier<AngularVelocity> shooterVelocitySupplier) {
     addCommands(
-        new DefaultShooterRunAtVelocity(
-                shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
+        new DefaultShooterRunAtVelocity(shooterSubsystem, shooterVelocitySupplier)
             .deadlineFor(
                 new SequentialCommandGroup(
                     // Wait for shooter to spin up
