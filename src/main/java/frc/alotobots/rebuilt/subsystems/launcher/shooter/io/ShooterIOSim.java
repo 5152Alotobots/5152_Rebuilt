@@ -67,8 +67,7 @@ public class ShooterIOSim implements ShooterIO {
     previousVelocityRadPerSec = currentVelocityRadPerSec;
 
     // 3. Populate Inputs
-    inputs.shooterMotorLeftPidSlot = currentPidSlot;
-    inputs.shooterMotorRightPidSlot = currentPidSlot;
+    inputs.shooterMotorsPIDSlot = currentPidSlot;
 
     inputs.shooterMotorLeftConnected = true;
     inputs.shooterMotorRightConnected = true;

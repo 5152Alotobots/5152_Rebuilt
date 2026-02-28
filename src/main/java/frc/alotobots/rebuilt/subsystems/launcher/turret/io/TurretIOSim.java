@@ -24,8 +24,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXSConstants;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -52,11 +52,11 @@ public class TurretIOSim implements TurretIO {
   private final SingleJointedArmSim turretSim =
       new SingleJointedArmSim(
           turretMotorSim,
-          TurretTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO,
+          TurretTalonFXSConstants.TURRET_SENSOR_TO_MECHANISM_RATIO,
           TurretTalonFXSConstants.MOMENT_OF_INERTIA,
           0.33, // Arm length (approximate radius of turret)
-          TurretTalonFXSConstants.MIN_ANGLE.in(Radian),
-          TurretTalonFXSConstants.MAX_ANGLE.in(Radian),
+          TurretConstants.Limits.TURRET_MIN_ANGLE.in(Radian),
+          TurretConstants.Limits.TURRET_MAX_ANGLE.in(Radian),
           false, // Simulate gravity (false for a standard upright turret)
           0.0 // Starting angle
           );
@@ -64,9 +64,9 @@ public class TurretIOSim implements TurretIO {
   /** Internal PID controller to mimic hardware PID behavior. */
   private final PIDController pid =
       new PIDController(
-          TurretTalonFXSConstants.POSITION_P_GAIN,
-          TurretTalonFXSConstants.POSITION_I_GAIN,
-          TurretTalonFXSConstants.POSITION_D_GAIN);
+          TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP,
+          TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KI,
+          TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD);
 
   // --- State Variables ---
 
@@ -111,23 +111,21 @@ public class TurretIOSim implements TurretIO {
     turretSim.update(0.02); // Standard loop time of 20ms
 
     // 3. Update Inputs
-    inputs.turretMotorPidSlot =
+    inputs.turretMotorPIDSlot =
         switch (currentPidSlot.ordinal()) {
           case 0 -> PIDSlots.DEFAULT_POSITION;
           default -> throw new IllegalStateException(
               "Invalid PID Slot in Turret Sim: " + currentPidSlot);
         };
 
-    inputs.ccwLimit = turretSim.hasHitUpperLimit();
-    inputs.cwLimit = turretSim.hasHitLowerLimit();
-    inputs.turretMotorControlMode = turretMotorControlMode;
+    inputs.resetLimit = turretSim.hasHitUpperLimit();
     inputs.turretMotorConnected = true;
 
     // Sensor Data
     inputs.turretMotorVelocity = RadiansPerSecond.of(turretSim.getVelocityRadPerSec());
     inputs.turretMotorVolts = Volts.of(appliedVolts);
     inputs.turretMotorCurrent = Amps.of(turretSim.getCurrentDrawAmps());
-    inputs.turretMotorPosition = Radian.of(turretSim.getAngleRads());
+    inputs.turretAngle = Radian.of(turretSim.getAngleRads());
   }
 
   /**
@@ -173,21 +171,6 @@ public class TurretIOSim implements TurretIO {
     this.turretMotorControlMode = ControlModeValue.DutyCycleOut;
     // Calculate torque required for this percent output for simulation
     this.currentOutput = percentOutput * turretMotorSim.stallTorqueNewtonMeters;
-  }
-
-  /**
-   * Runs the turret motor at a specified voltage output.
-   *
-   * @param voltageOutput The voltage to apply to the motor.
-   */
-  @Override
-  public void setTurretVoltageOut(Voltage voltageOutput) {
-    Logger.recordOutput("Turret/voltageOutput", voltageOutput);
-
-    this.currentControl = true;
-    this.turretMotorControlMode = ControlModeValue.VoltageOut;
-    // Convert voltage to simulated torque
-    this.currentOutput = voltageOutput.in(Volts) * turretMotorSim.stallTorqueNewtonMeters / 12.0;
   }
 
   /** Stops the turret motor and disables control. */

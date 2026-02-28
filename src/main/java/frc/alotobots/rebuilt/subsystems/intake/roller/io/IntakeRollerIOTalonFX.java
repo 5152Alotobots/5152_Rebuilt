@@ -13,9 +13,10 @@
 package frc.alotobots.rebuilt.subsystems.intake.roller.io;
 
 import static edu.wpi.first.units.Units.Amps;
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
+import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.ParentDevice;
@@ -28,7 +29,6 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerTalo
 import frc.alotobots.util.PhoenixUtil;
 
 public class IntakeRollerIOTalonFX implements IntakeRollerIO {
-  private final CANBus canBus = new CANBus("rio");
   private final TalonFX intakeRollerMotor;
 
   private StatusSignal<AngularVelocity> intakeRollerVelocity;
@@ -37,7 +37,7 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
   private Debouncer intakeRollerConnectedDebounce = new Debouncer(0.1);
 
   public IntakeRollerIOTalonFX() {
-    intakeRollerMotor = new TalonFX(Constants.CanId.INTAKE_ROLLER_CAN_ID, canBus);
+    intakeRollerMotor = new TalonFX(Constants.CanId.INTAKE_ROLLER_CAN_ID, RIO_CAN_BUS);
 
     var intakeRollerMotorConfig = new TalonFXConfiguration();
     intakeRollerMotorConfig.MotorOutput.NeutralMode =
@@ -62,7 +62,10 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
     intakeRollerAppliedCurrent = intakeRollerMotor.getStatorCurrent();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0, intakeRollerVelocity, intakeRollerAppliedVoltage, intakeRollerAppliedCurrent);
+        DEFAULT_CAN_FREQUENCY,
+        intakeRollerVelocity,
+        intakeRollerAppliedVoltage,
+        intakeRollerAppliedCurrent);
 
     ParentDevice.optimizeBusUtilizationForAll(intakeRollerMotor);
   }

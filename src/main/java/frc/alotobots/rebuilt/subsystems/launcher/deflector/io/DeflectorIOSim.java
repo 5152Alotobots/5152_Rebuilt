@@ -69,8 +69,7 @@ public class DeflectorIOSim implements DeflectorIO {
 
     inputs.deflectorMotorConnected = true;
     inputs.deflectorMotorPidSlot = currentPidSlot;
-    inputs.deflectorMotorControlMode = currentControlMode;
-    inputs.deflectorMotorPosition = Radian.of(deflectorSim.getAngleRads());
+    inputs.deflectorMotorAngle = Radian.of(deflectorSim.getAngleRads());
     inputs.deflectorMotorVelocity = RadiansPerSecond.of(currentVelocity);
     inputs.deflectorMotorAcceleration = RadiansPerSecondPerSecond.of(currentAccel);
     inputs.deflectorMotorVolts = Volts.of(appliedVolts);

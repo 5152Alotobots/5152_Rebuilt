@@ -12,6 +12,7 @@
 */
 package frc.alotobots.library.subsystems.swervedrive.io;
 
+import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.util.PhoenixUtil.tryUntilOk;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -152,9 +153,9 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     // Configure periodic frames
     BaseStatusSignal.setUpdateFrequencyForAll(
-        Constants.tunerConstants.getOdometryFrequency(), turnAbsolutePosition, drivePosition);
+        Constants.tunerConstants.getOdometryFrequency(), turnPosition, drivePosition);
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+        DEFAULT_CAN_FREQUENCY,
         driveVelocity,
         driveAppliedVolts,
         driveCurrent,
