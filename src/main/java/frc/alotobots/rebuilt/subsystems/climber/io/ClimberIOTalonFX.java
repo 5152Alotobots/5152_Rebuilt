@@ -1,3 +1,15 @@
+/*
+* ALOTOBOTS - FRC Team 5152
+  https://github.com/5152Alotobots
+* Copyright (C) 2026 ALOTOBOTS
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Source code must be publicly available on GitHub or an alternative web accessible site
+*/
 package frc.alotobots.rebuilt.subsystems.climber.io;
 
 import static edu.wpi.first.units.Units.Amps;
@@ -7,10 +19,6 @@ import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecondPerSecond;
-
-import java.io.ObjectInputFilter.Status;
-
-import org.littletonrobotics.junction.AutoLogOutput;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -22,7 +30,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
@@ -39,12 +46,12 @@ import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.PIDSlots;
 import frc.alotobots.util.PhoenixUtil;
 
 public class ClimberIOTalonFX implements ClimberIO {
-     private final TalonFX climberMotor;
+  private final TalonFX climberMotor;
   private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
   private final MotionMagicVoltage positionVoltage = new MotionMagicVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
 
-  private StatusSignal<Angle> climberPosition;
+  private StatusSignal<Angle> climberMotorAngle;
   private StatusSignal<AngularVelocity> climberVelocity;
   private StatusSignal<AngularAcceleration> climberAcceleration;
   private StatusSignal<Voltage> climberAppliedVoltage;
@@ -58,50 +65,30 @@ public class ClimberIOTalonFX implements ClimberIO {
 
     var climberMotorConfig = new TalonFXConfiguration();
 
-    climberMotorConfig.Slot0.kP =
-        ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
-    climberMotorConfig.Slot0.kI =
-        ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
-    climberMotorConfig.Slot0.kD =
-        ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
-    climberMotorConfig.Slot0.kG =
-        ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
-    climberMotorConfig.Slot0.kS =
-        ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KS;
-    climberMotorConfig.Slot0.kV =
-        ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
+    climberMotorConfig.Slot0.kP = ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
+    climberMotorConfig.Slot0.kI = ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
+    climberMotorConfig.Slot0.kD = ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
+    climberMotorConfig.Slot0.kG = ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
+    climberMotorConfig.Slot0.kS = ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KS;
+    climberMotorConfig.Slot0.kV = ClimberTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
     // PID configuration for position mode (Slot 1)
-    climberMotorConfig.Slot1.kP =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
-    climberMotorConfig.Slot1.kI =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
-    climberMotorConfig.Slot1.kD =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
+    climberMotorConfig.Slot1.kP = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
+    climberMotorConfig.Slot1.kI = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
+    climberMotorConfig.Slot1.kD = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
     climberMotorConfig.Slot1.GravityType = GravityTypeValue.Elevator_Static;
-    climberMotorConfig.Slot1.kG =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
-    climberMotorConfig.Slot1.kS =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
-    climberMotorConfig.Slot1.kV =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
+    climberMotorConfig.Slot1.kG = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
+    climberMotorConfig.Slot1.kS = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
+    climberMotorConfig.Slot1.kV = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
     // PID configuration for position MM (Slot 1)
-    climberMotorConfig.Slot2.kP =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
-    climberMotorConfig.Slot2.kI =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
-    climberMotorConfig.Slot2.kD =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
+    climberMotorConfig.Slot2.kP = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
+    climberMotorConfig.Slot2.kI = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
+    climberMotorConfig.Slot2.kD = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
     climberMotorConfig.Slot2.GravityType = GravityTypeValue.Elevator_Static;
-    climberMotorConfig.Slot2.kG =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
-    climberMotorConfig.Slot2.kS =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
-    climberMotorConfig.Slot2.kV =
-        ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
+    climberMotorConfig.Slot2.kG = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
+    climberMotorConfig.Slot2.kS = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
+    climberMotorConfig.Slot2.kV = ClimberTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
 
- 
-    climberMotorConfig.MotorOutput.NeutralMode =
-        ClimberTalonFXConstants.MECHANISM_NEUTRAL_MODE;
+    climberMotorConfig.MotorOutput.NeutralMode = ClimberTalonFXConstants.MECHANISM_NEUTRAL_MODE;
 
     climberMotorConfig.MotorOutput.Inverted = ClimberTalonFXConstants.MOTOR_DIRECTION;
 
@@ -115,7 +102,7 @@ public class ClimberIOTalonFX implements ClimberIO {
     climberMotorConfig.CurrentLimits.StatorCurrentLimit =
         ClimberTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
     climberMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
-        ClimberTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
+    ClimberTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
     climberMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
 
     climberMotorConfig.MotionMagic.MotionMagicCruiseVelocity =
@@ -126,23 +113,25 @@ public class ClimberIOTalonFX implements ClimberIO {
             .in(RotationsPerSecondPerSecond);
     climberMotorConfig.MotionMagic.MotionMagicJerk =
         ClimberTalonFXConstants.MotionMagicConstants.JERK;
-    PhoenixUtil.tryUntilOk(
-        5, () -> climberMotor.getConfigurator().apply(climberMotorConfig, 0.25));
+    PhoenixUtil.tryUntilOk(5, () -> climberMotor.getConfigurator().apply(climberMotorConfig, 0.25));
 
-    climberPosition = climberMotor.getPosition();
+    climberMotorAngle = climberMotor.getPosition();
     climberVelocity = climberMotor.getVelocity();
     climberAcceleration = climberMotor.getAcceleration();
     climberAppliedVoltage = climberMotor.getMotorVoltage();
     climberAppliedCurrent = climberMotor.getStatorCurrent();
     currentPidSlot = climberMotor.getClosedLoopSlot();
+    climberControlMode = climberMotor.getControlMode();
+
     BaseStatusSignal.setUpdateFrequencyForAll(
         Constants.CanId.DEFAULT_CAN_FREQUENCY,
-        climberPosition,
+        climberMotorAngle,
         climberVelocity,
         climberAcceleration,
         climberAppliedVoltage,
         climberAppliedCurrent,
-        currentPidSlot);
+        currentPidSlot,
+        climberControlMode);
 
     ParentDevice.optimizeBusUtilizationForAll(climberMotor);
   }
@@ -151,18 +140,17 @@ public class ClimberIOTalonFX implements ClimberIO {
   public void updateInputs(ClimberIOInputs inputs) {
     var climberSignals =
         BaseStatusSignal.refreshAll(
-            climberPosition,
+            climberMotorAngle,
             climberVelocity,
             climberAcceleration,
             climberAppliedVoltage,
             climberAppliedCurrent,
             currentPidSlot);
 
-    inputs.climberMotorConnected =
-        climberConnectedDebounce.calculate(climberSignals.isOK());
+    inputs.climberMotorConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
 
-    inputs.climberDistance = talonFXToExtension(climberPosition.getValue());
-    inputs.climberMotorAngle = climberPosition.getValue();
+    inputs.climberDistance = talonFXToExtension(climberMotorAngle.getValue());
+    inputs.climberMotorAngle = climberMotorAngle.getValue();
 
     inputs.climberMotorVelocity = climberVelocity.getValue();
 
@@ -179,7 +167,7 @@ public class ClimberIOTalonFX implements ClimberIO {
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
-   
+
     talonFXToLinearVelocity(inputs.climberMotorVelocity);
     talonFXToLinearAcceleration(inputs.climberMotorAcceleration);
   }
@@ -193,10 +181,8 @@ public class ClimberIOTalonFX implements ClimberIO {
               .withSlot(pidSlot.ordinal()));
       return;
     } else {
-    climberMotor.setControl(
-        positionVoltage
-            .withPosition(extensionToTalonFX(position))
-            .withSlot(pidSlot.ordinal()));
+      climberMotor.setControl(
+          positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(pidSlot.ordinal()));
     }
   }
 
@@ -237,7 +223,9 @@ public class ClimberIOTalonFX implements ClimberIO {
    * @return Extension as a Distance unit
    */
   private Distance talonFXToExtension(Angle rotations) {
-    return Meters.of(ClimberTalonFXConstants.EXTENSION_PER_ROTATION * rotations.in(Rotations) + ClimberTalonFXConstants.MIN_EXTENSION.in(Meters));
+    return Meters.of(
+        ClimberTalonFXConstants.EXTENSION_PER_ROTATION * rotations.in(Rotations)
+            + ClimberTalonFXConstants.MIN_EXTENSION.in(Meters));
   }
 
   /**
@@ -249,7 +237,8 @@ public class ClimberIOTalonFX implements ClimberIO {
    * @return Linear velocity as a LinearVelocity unit
    */
   private LinearVelocity talonFXToLinearVelocity(AngularVelocity rotationsPerSecond) {
-    return MetersPerSecond.of(rotationsPerSecond.in(RotationsPerSecond) * ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+    return MetersPerSecond.of(
+        rotationsPerSecond.in(RotationsPerSecond) * ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -262,7 +251,9 @@ public class ClimberIOTalonFX implements ClimberIO {
    * @return TalonFX motor rotations as an Angle unit
    */
   private Angle extensionToTalonFX(Distance extension) {
-    return Rotations.of((extension.minus(ClimberTalonFXConstants.MIN_EXTENSION).in(Meters)) / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+    return Rotations.of(
+        (extension.minus(ClimberTalonFXConstants.MIN_EXTENSION).in(Meters))
+            / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -274,7 +265,8 @@ public class ClimberIOTalonFX implements ClimberIO {
    * @return TalonFX motor rotational velocity as an AngularVelocity unit
    */
   private AngularVelocity linearVelocityToTalonFX(LinearVelocity linearVelocity) {
-    return RotationsPerSecond.of(linearVelocity.in(MetersPerSecond) / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+    return RotationsPerSecond.of(
+        linearVelocity.in(MetersPerSecond) / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -287,7 +279,8 @@ public class ClimberIOTalonFX implements ClimberIO {
    */
   private AngularAcceleration linearAccelerationToTalonFX(LinearAcceleration linearAcceleration) {
     return RotationsPerSecondPerSecond.of(
-        linearAcceleration.in(MetersPerSecondPerSecond) / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+        linearAcceleration.in(MetersPerSecondPerSecond)
+            / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -302,7 +295,7 @@ public class ClimberIOTalonFX implements ClimberIO {
   private LinearAcceleration talonFXToLinearAcceleration(
       AngularAcceleration rotationalAcceleration) {
     return MetersPerSecondPerSecond.of(
-        rotationalAcceleration.in(RotationsPerSecondPerSecond) * ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+        rotationalAcceleration.in(RotationsPerSecondPerSecond)
+            * ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
   }
 }
-

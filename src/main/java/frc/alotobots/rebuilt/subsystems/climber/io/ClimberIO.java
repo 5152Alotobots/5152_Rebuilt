@@ -1,11 +1,22 @@
+/*
+* ALOTOBOTS - FRC Team 5152
+  https://github.com/5152Alotobots
+* Copyright (C) 2026 ALOTOBOTS
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Source code must be publicly available on GitHub or an alternative web accessible site
+*/
 package frc.alotobots.rebuilt.subsystems.climber.io;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.units.measure.*;
 import org.littletonrobotics.junction.AutoLog;
-
-import com.ctre.phoenix6.signals.ControlModeValue;
 
 public interface ClimberIO {
   enum PIDSlots {
@@ -34,6 +45,7 @@ public interface ClimberIO {
    * @param inputs The input object to update with the latest hardware state
    */
   default void updateInputs(ClimberIOInputs inputs) {}
+
   /**
    * Sets the target position for the climber using closed-loop motion-magic control.
    *
@@ -47,6 +59,7 @@ public interface ClimberIO {
    * @param position The desired position for the climber
    */
   public default void setClimberPosition(Distance position) {}
+
   /**
    * Sets the climber to run at a target velocity using closed-loop control.
    *
@@ -68,6 +81,7 @@ public interface ClimberIO {
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
   default void setClimberOpenLoop(double percentOutput) {}
+
   /** Stops all climber motor movement. */
   default void stop() {}
 }
