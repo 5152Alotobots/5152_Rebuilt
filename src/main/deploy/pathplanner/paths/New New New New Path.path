@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6299549549549555,
-        "y": 0.6235360360360369
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.629954954954953,
-        "y": 0.6235360360360369
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.632860360360361,
-        "y": 0.8584572072072081
+        "x": 2.8770270270270277,
+        "y": 4.035
       },
       "prevControl": {
-        "x": 2.632860360360361,
-        "y": 0.8584572072072081
+        "x": 1.8770270270270277,
+        "y": 4.035
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "OutpostStart"
+      "linkedName": "Shoot_Center"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Positions",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
