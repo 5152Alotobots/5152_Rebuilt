@@ -24,6 +24,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -49,7 +50,7 @@ import frc.alotobots.util.PhoenixUtil;
 public class ClimberIOTalonFX implements ClimberIO {
   private final TalonFX climberMotor;
   private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
-  private final MotionMagicVoltage positionVoltage = new MotionMagicVoltage(0.0);
+  private final PositionVoltage positionVoltage = new PositionVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
 
   private StatusSignal<Angle> climberMotorAngle;
@@ -175,16 +176,16 @@ public class ClimberIOTalonFX implements ClimberIO {
 
   @Override
   public void setClimberPosition(Distance position, PIDSlots pidSlot) {
-    if (pidSlot.equals(PIDSlots.MOTION_MAGIC_POSITION)) {
-      climberMotor.setControl(
-          magicPositionVoltage
-              .withPosition(extensionToTalonFX(position))
-              .withSlot(pidSlot.ordinal()));
-      return;
-    } else {
-      climberMotor.setControl(
-          positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(pidSlot.ordinal()));
-    }
+    // if (pidSlot.equals(PIDSlots.MOTION_MAGIC_POSITION)) {
+    //   climberMotor.setControl(
+    //       magicPositionVoltage
+    //           .withPosition(extensionToTalonFX(position))
+    //           .withSlot(pidSlot.ordinal()));
+    //   return;
+    // } else {
+    climberMotor.setControl(positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(1));
+
+    // }
   }
 
   @Override

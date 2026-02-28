@@ -40,8 +40,8 @@ import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
-import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunOpenLoop;
 import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
+import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.IntakeExtendoSubsystem;
@@ -67,7 +67,6 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.DefaultTurretRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretRunPercentOut;
-import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
@@ -237,8 +236,8 @@ public class RobotContainer {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(
         new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretAxis));
-    climberSubsystem.setDefaultCommand(
-        new ClimberRunOpenLoop(climberSubsystem, OI::getClimberAxis));
+    // climberSubsystem.setDefaultCommand(
+    // new ClimberRunOpenLoop(climberSubsystem, OI::getClimberAxis));
     // turretSubsystem.setDefaultCommand(
     //     new RunTurretToTarget(
     //         new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem),
@@ -256,7 +255,6 @@ public class RobotContainer {
     // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // Intake Extendo
 
-    testButton.whileTrue(new ClimberRunToExtension(climberSubsystem, Meters.of(.55)));
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
     intakeIn.onTrue(
@@ -311,8 +309,10 @@ public class RobotContainer {
         new InstantCommand(
             () -> shooterVelocity = shooterVelocity.plus(RotationsPerSecond.of(2.5))));
 
-    testButton.whileTrue(new TurretRunToPosition(turretSubsystem, Degrees.of(45)));
-    testButton2.whileTrue(new TurretRunToPosition(turretSubsystem, Degrees.of(-45)));
+    testButton.whileTrue(
+        new ClimberRunToExtension(climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION));
+    testButton2.whileTrue(
+        new ClimberRunToExtension(climberSubsystem, ClimberConstants.Limits.MIN_CLIMB_EXTENSION));
     // sysIDDynamicFwd.whileTrue(
     //     turretSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(turretSubsystem::stop)));
     // sysIDDynamicRev.whileTrue(

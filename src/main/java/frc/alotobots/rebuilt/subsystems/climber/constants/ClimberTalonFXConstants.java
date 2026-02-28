@@ -37,7 +37,7 @@ public class ClimberTalonFXConstants {
 
     public static final class PositionPIDConstants {
       // TODO tune
-      public static final double KP = 5;
+      public static final double KP = 10;
       public static final double KI = 0.0;
       public static final double KD = 0.0;
       public static final double KF = 0.0;
