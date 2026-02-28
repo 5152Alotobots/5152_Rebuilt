@@ -40,11 +40,10 @@ import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
-import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
-import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.IntakeExtendoSubsystem;
+import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.DefaultIntakeExtendoRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.IntakeExtendoRunToExtension;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
@@ -236,6 +235,8 @@ public class RobotContainer {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(
         new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretAxis));
+    intakeExtendoSubsystem.setDefaultCommand(
+        new DefaultIntakeExtendoRunAtVelocity(intakeExtendoSubsystem, OI::getClimberAxis));
     // climberSubsystem.setDefaultCommand(
     // new ClimberRunOpenLoop(climberSubsystem, OI::getClimberAxis));
     // turretSubsystem.setDefaultCommand(
@@ -309,10 +310,14 @@ public class RobotContainer {
         new InstantCommand(
             () -> shooterVelocity = shooterVelocity.plus(RotationsPerSecond.of(2.5))));
 
-    testButton.whileTrue(
-        new ClimberRunToExtension(climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION));
-    testButton2.whileTrue(
-        new ClimberRunToExtension(climberSubsystem, ClimberConstants.Limits.MIN_CLIMB_EXTENSION));
+    // TODO WE NEED RIGHT BUTTONS BUT THIS WORKS
+    // testButton.whileTrue(
+    //     new ClimberRunToExtension(climberSubsystem,
+    // ClimberConstants.Limits.MAX_CLIMB_EXTENSION));
+    // testButton2.whileTrue(
+    //     new ClimberRunToExtension(climberSubsystem,
+    // ClimberConstants.Limits.MIN_CLIMB_EXTENSION));
+
     // sysIDDynamicFwd.whileTrue(
     //     turretSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(turretSubsystem::stop)));
     // sysIDDynamicRev.whileTrue(

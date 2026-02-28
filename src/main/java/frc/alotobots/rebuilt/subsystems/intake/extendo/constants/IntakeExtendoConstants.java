@@ -60,6 +60,6 @@ public class IntakeExtendoConstants {
     public static final Distance STOWED = Meters.of(0.0);
 
     /** Extension when the extendo is fully deployed */
-    public static final Distance DEPLOYED = Meters.of(0.254);
+    public static final Distance DEPLOYED = Meters.of(0.2374);
   }
 }
