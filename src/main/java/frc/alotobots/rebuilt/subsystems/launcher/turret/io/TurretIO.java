@@ -63,6 +63,8 @@ public interface TurretIO {
 
   default void setTurretVelocity(AngularVelocity velocity) {}
 
+  default void setTurretVoltage(Voltage voltage) {}
+
   /**
    * Runs the turret using direct percentage output (open-loop control).
    *

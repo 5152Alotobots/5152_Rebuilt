@@ -35,16 +35,13 @@ public class OI {
    * unintended movement from controller drift and provides a stable neutral position for the
    * controls.
    */
-  public static final double DEADBAND = 0.1;
+  public static final double DEADBAND = 0.05;
 
   /** Controller port ID for the primary driver's Xbox controller. */
   private static final int DRIVER_CONTROLLER_ID = 0;
 
   /** Controller port ID for the co-driver's primary Xbox controller. */
   private static final int CO_DRIVER_CONTROLLER_ID = 1;
-
-  /** Controller port ID for the co-driver's backup Xbox controller. */
-  private static final int CO_DRIVER_BACKUP_CONTROLLER_ID = 2;
 
   /** Xbox controller instance for the primary driver's control functions. */
   private static final CommandXboxController driverController =
@@ -119,7 +116,9 @@ public class OI {
 
   // DRIVER CONTROLS-----------------------------------------------------------(Single Driver Only
   // atm)
-  // public static final Trigger testButton = codriverController.a();
+  public static final Trigger testButton = codriverController.a();
+
+  public static final Trigger testButton2 = codriverController.b();
 
   // Climber Controls
   // TODO: add these back
@@ -136,7 +135,6 @@ public class OI {
   // Reverse intake wheels?
 
   // Turret Controls
-  // TODO CHANGE BACK TO RIGHT STICK
   public static final Trigger shoot = driverController.rightStick();
   public static final Trigger logData = driverController.back();
   // TODO: remove this
@@ -155,6 +153,11 @@ public class OI {
   /** Turret Auto Aim for shooting */
   public static final Trigger turretAimShoot = driverController.rightBumper();
 
+  public static final Trigger sysIDQuasistaticFwd = codriverController.a();
+  public static final Trigger sysIDQuasistaticRev = codriverController.b();
+  public static final Trigger sysIDDynamicFwd = codriverController.x();
+  public static final Trigger sysIDDynamicRev = codriverController.y();
+
   /**
    * Gets the manual turret control input, Applies deadband after selection.
    *
@@ -162,7 +165,7 @@ public class OI {
    */
   public static double getTurretAxis() {
     double primary = codriverController.getRightX();
-    return MathUtil.applyDeadband(primary, DEADBAND);
+    return MathUtil.applyDeadband(primary, DEADBAND) * .2;
   }
 
   /** Contains defined limits for controller axis inputs. */

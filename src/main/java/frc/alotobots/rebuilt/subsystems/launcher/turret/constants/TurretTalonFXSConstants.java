@@ -25,23 +25,16 @@ public class TurretTalonFXSConstants {
 
     /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
-      /** Position control proportional gain */
-      public static final double TURRET_POSITION_KP = 24.0;
+      public static final double TURRET_POSITION_KP = 68.878;
+      public static final double TURRET_POSITION_KD = 4.8991;
 
-      /** Position control integral gain */
-      public static final double TURRET_POSITION_KI = 0.0;
-
-      /** Position control derivative gain */
-      public static final double TURRET_POSITION_KD = 0.0;
-
-      /** Gravity compensation gain */
-      public static final double TURRET_POSITION_KG = 0.0;
+      public static final double TURRET_POSITION_KS = TURRET_KS;
     }
 
     /** TalonFX-specific PID and motion control constants for velocity (Velocity mode). */
     public static final class VelocityPIDConstants {
       /** Position control proportional gain */
-      public static final double TURRET_VELOCITY_KP = 0.1;
+      public static final double TURRET_VELOCITY_KP = .772;
 
       /** Position control integral gain */
       public static final double TURRET_VELOCITY_KI = 0.0;
@@ -53,10 +46,10 @@ public class TurretTalonFXSConstants {
       public static final double TURRET_VELOCITY_KG = 0.0;
 
       /** Static friction compensation */
-      public static final double TURRET_VELOCITY_KS = 0.0;
+      public static final double TURRET_VELOCITY_KS = 0.36;
 
       /** Velocity feedforward gain */
-      public static final double TURRET_VELOCITY_KV = 0.05;
+      public static final double TURRET_VELOCITY_KV = 0.00;
     }
   }
 
@@ -76,4 +69,8 @@ public class TurretTalonFXSConstants {
   public static final Translation2d ROBOT_TO_TURRET = new Translation2d(-.5, .15);
   public static final double MOMENT_OF_INERTIA =
       .3; // TODO: Placeholder value, should be calculated based on the actual turret design
+
+  public static final double TURRET_KV = 0.16432;
+  public static final double TURRET_KA = .17292;
+  public static final double TURRET_KS = .36805;
 }

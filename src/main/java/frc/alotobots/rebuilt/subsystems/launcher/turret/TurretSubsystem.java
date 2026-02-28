@@ -12,15 +12,27 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.turret;
 
-import static edu.wpi.first.units.Units.*;
-import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.*;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_LIMITS_ENABLED;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_MAX_ANGLE;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_MAX_VELOCITY;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_MIN_ANGLE;
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOInputsAutoLogged;
@@ -41,12 +53,26 @@ public class TurretSubsystem extends SubsystemBase {
   private final Debouncer atTargetAngleDebounce =
       new Debouncer(TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
 
+  private final SysIdRoutine sysIdRoutine;
+
   /**
    * Creates a new TurretSubsystem.
    *
    * @param io The hardware abstraction interface for the turret
    */
   public TurretSubsystem(TurretIO io) {
+    sysIdRoutine =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                Volts.of(.3).per(Second),
+                Volts.of(1.2),
+                null,
+                (state) -> Logger.recordOutput("SysId/State", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> this.runAtVoltage(voltage),
+                null, // No log consumer, since data is recorded by AdvantageKit
+                this));
+
     this.io = io;
   }
 
@@ -98,7 +124,47 @@ public class TurretSubsystem extends SubsystemBase {
             TurretConstants.Limits.TURRET_MAX_OPEN_LOOP_PERCENTAGE);
 
     io.setTurretOpenLoop(adjustedSpeed);
-    Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.OPEN_LOOP);
+    Logger.recordOutput("Launcher/Turret/ControlType", "OPEN_LOOP");
+  }
+
+  private void runAtVoltage(Voltage voltage) {
+    Voltage adjustedVoltage =
+        Volts.of(
+            MathUtil.clamp(
+                voltage.in(Volts),
+                -TurretConstants.Limits.TURRET_MAX_VOLTAGE.in(Volts),
+                TurretConstants.Limits.TURRET_MAX_VOLTAGE.in(Volts)));
+
+    io.setTurretVoltage(TurretConstants.Limits.TURRET_LIMITS_ENABLED ? adjustedVoltage : voltage);
+    Logger.recordOutput("Launcher/Turret/ControlType", "OPEN_LOOP_VOLTAGE");
+  }
+
+  /**
+   * @return the SysId forward quasi-static command
+   */
+  public Command sysIdFwdQuasiStatic() {
+    return sysIdRoutine.quasistatic(Direction.kForward);
+  }
+
+  /**
+   * @return the SysId reverse quasi-static command
+   */
+  public Command sysIdRevQuasiStatic() {
+    return sysIdRoutine.quasistatic(Direction.kReverse);
+  }
+
+  /**
+   * @return the SysId dynamic forward command
+   */
+  public Command sysIdFwdDynamic() {
+    return sysIdRoutine.dynamic(Direction.kForward);
+  }
+
+  /**
+   * @return the SysId dynamic reverse command
+   */
+  public Command sysIdRevDynamic() {
+    return sysIdRoutine.dynamic(Direction.kReverse);
   }
 
   /** Stops all turret movement. */
