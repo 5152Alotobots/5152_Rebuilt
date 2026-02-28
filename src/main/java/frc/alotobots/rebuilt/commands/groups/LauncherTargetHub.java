@@ -28,7 +28,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorFol
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretFollowPosition;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretFollowPositionAtVelocity;
 
 public class LauncherTargetHub extends SequentialCommandGroup {
   public LauncherTargetHub(
@@ -44,9 +44,10 @@ public class LauncherTargetHub extends SequentialCommandGroup {
                     deflectorSubsystem, () -> launchCalculator.getParameters().deflectorAngle()),
                 new DefaultShooterRunAtVelocity(
                     shooterSubsystem, () -> launchCalculator.getParameters().shooterVelocity()),
-                new TurretFollowPosition(
+                new TurretFollowPositionAtVelocity(
                     turretSubsystem,
-                    () -> launchCalculator.getParameters().turretAngle().getMeasure()),
+                    () -> launchCalculator.getParameters().turretAngleFieldRelative().getMeasure(),
+                    () -> launchCalculator.getParameters().turretVelocity()),
                 new RunCommand(launchCalculator::clearLaunchingParameters))
             .deadlineFor(
                 new SequentialCommandGroup(

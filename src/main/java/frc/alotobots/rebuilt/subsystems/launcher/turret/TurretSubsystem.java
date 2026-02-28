@@ -49,6 +49,9 @@ public class TurretSubsystem extends SubsystemBase {
   @AutoLogOutput(key = "Launcher/Turret/TargetAngle")
   private Angle targetAngle = Degrees.zero();
 
+  @AutoLogOutput(key = "Launcher/Turret/TargetVelocity")
+  private AngularVelocity targetVelocity = DegreesPerSecond.zero();
+
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
       new Debouncer(TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
@@ -96,6 +99,31 @@ public class TurretSubsystem extends SubsystemBase {
 
     targetAngle = TURRET_LIMITS_ENABLED ? adjustedAngle : angle;
     io.setTurretPosition(targetAngle);
+    Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.DEFAULT_POSITION);
+  }
+
+  /**
+   * Commands the turret to move to a target angle with respect to a certain using closed-loop
+   * control. Used for motion profiling
+   *
+   * @param angle The target angle for the turret
+   */
+  public void runToTargetAngleAtVelocity(Angle angle, AngularVelocity velocity) {
+    Angle adjustedAngle =
+        Radians.of(
+            MathUtil.clamp(
+                angle.in(Radians), TURRET_MIN_ANGLE.in(Radians), TURRET_MAX_ANGLE.in(Radians)));
+    AngularVelocity adjustedVelocity =
+        RadiansPerSecond.of(
+            MathUtil.clamp(
+                velocity.in(RadiansPerSecond),
+                -TURRET_MAX_VELOCITY.in(RadiansPerSecond),
+                TURRET_MAX_VELOCITY.in(RadiansPerSecond)));
+
+    targetAngle = TURRET_LIMITS_ENABLED ? adjustedAngle : angle;
+    targetVelocity = TURRET_LIMITS_ENABLED ? adjustedVelocity : velocity;
+
+    io.setTurretPosition(targetAngle, targetVelocity);
     Logger.recordOutput("Launcher/Turret/ControlType", TurretIO.PIDSlots.DEFAULT_POSITION);
   }
 

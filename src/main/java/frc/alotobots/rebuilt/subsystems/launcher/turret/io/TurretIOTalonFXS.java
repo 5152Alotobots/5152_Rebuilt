@@ -170,6 +170,21 @@ public class TurretIOTalonFXS implements TurretIO {
   }
 
   @Override
+  public void setTurretPosition(Angle position, AngularVelocity velocity, PIDSlots pidSlot) {
+    if (pidSlot == PIDSlots.OPEN_LOOP)
+      throw new IllegalArgumentException(
+          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
+
+    turretMotor.setControl(
+        positionControl.withPosition(position).withVelocity(velocity).withSlot(pidSlot.ordinal()));
+  }
+
+  @Override
+  public void setTurretPosition(Angle position, AngularVelocity velocity) {
+    setTurretPosition(position, velocity, PIDSlots.DEFAULT_POSITION);
+  }
+
+  @Override
   public void setTurretVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
     if (pidSlot == PIDSlots.OPEN_LOOP)
       throw new IllegalArgumentException(

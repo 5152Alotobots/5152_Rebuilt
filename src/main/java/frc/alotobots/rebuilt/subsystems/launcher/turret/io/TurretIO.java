@@ -49,6 +49,10 @@ public interface TurretIO {
    */
   default void updateInputs(TurretIOInputs inputs) {}
 
+  default void setTurretPosition(Angle position, AngularVelocity velocity, PIDSlots pidSlot) {}
+
+  default void setTurretPosition(Angle position, AngularVelocity velocity) {}
+
   /**
    * Sets the turret to run to a target position using closed-loop control.
    *
