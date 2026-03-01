@@ -189,7 +189,7 @@ public class ClimberIOTalonFX implements ClimberIO {
 
   @Override
   public void setClimberPosition(Distance position) {
-    setClimberPosition(position, PIDSlots.MOTION_MAGIC_POSITION);
+    setClimberPosition(position, PIDSlots.POSITION);
   }
 
   @Override
