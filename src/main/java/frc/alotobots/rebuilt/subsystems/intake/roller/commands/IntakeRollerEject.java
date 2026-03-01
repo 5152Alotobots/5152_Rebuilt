@@ -35,7 +35,8 @@ public class IntakeRollerEject extends Command {
    */
   @Override
   public void execute() {
-    double adjustedOutput = MathUtil.clamp(-input.getAsDouble(), 0, MAX_OPEN_LOOP_EJECT_PERCENTAGE);
+    double adjustedOutput =
+        MathUtil.clamp(-input.getAsDouble(), -MAX_OPEN_LOOP_EJECT_PERCENTAGE, 0);
     intakeRollerSubsystem.runAtPercentOutput(adjustedOutput);
   }
 

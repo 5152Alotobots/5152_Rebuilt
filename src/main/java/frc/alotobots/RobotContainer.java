@@ -40,10 +40,10 @@ import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
+import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunOpenLoop;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.IntakeExtendoSubsystem;
-import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.DefaultIntakeExtendoRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.IntakeExtendoRunToExtension;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
@@ -272,10 +272,10 @@ public class RobotContainer {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(
         new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretAxis));
-    intakeExtendoSubsystem.setDefaultCommand(
-        new DefaultIntakeExtendoRunAtVelocity(intakeExtendoSubsystem, OI::getClimberAxis));
-    // climberSubsystem.setDefaultCommand(
-    // new ClimberRunOpenLoop(climberSubsystem, OI::getClimberAxis));
+    // intakeExtendoSubsystem.setDefaultCommand(
+    //     new DefaultIntakeExtendoRunAtVelocity(intakeExtendoSubsystem, OI::getClimberAxis));
+    climberSubsystem.setDefaultCommand(
+        new ClimberRunOpenLoop(climberSubsystem, OI::getClimberAxis));
     // turretSubsystem.setDefaultCommand(
     //     new RunTurretToTarget(
     //         new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem),

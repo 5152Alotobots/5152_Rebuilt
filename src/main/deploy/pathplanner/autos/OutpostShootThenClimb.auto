@@ -11,9 +11,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "LauncherTargetHubDynamicAndShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 6.0
+                }
+              }
+            ]
           }
         },
         {
