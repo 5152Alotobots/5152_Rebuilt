@@ -125,7 +125,7 @@ public class OI {
   // public static final Trigger retractClimber = driverController.x();
 
   // public static final Trigger extendClimber = driverController.y();
-  // public static final Trigger climbAction = driverController.a(); // Might be unnessecary?
+  // public static final Trigger climbAction = driverController.a(); // Might be unnecessary?
 
   // Intake Controls
   public static final Trigger intakeOut = driverController.povUp();

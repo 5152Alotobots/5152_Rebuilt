@@ -90,7 +90,9 @@
     "Extendo",
     "Feedforward",
     "Quasistatic",
-    "RGBW"
+    "RGBW",
+    "Setpoints",
+    "targetrpm"
   ],
   "wpilib.selectDefaultSimulateExtension": true,
   "java.debug.settings.onBuildFailureProceed": true
