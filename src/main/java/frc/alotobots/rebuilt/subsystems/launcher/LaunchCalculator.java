@@ -174,7 +174,7 @@ public class LaunchCalculator {
     Rotation2d turretFieldRelativeAngle =
         target
             .minus(lookaheadPose.getTranslation())
-                .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
+            .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
             .getAngle();
     Angle deflectorAngle =
         (Angle) LAUNCHER_DEFLECTOR_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
@@ -191,7 +191,8 @@ public class LaunchCalculator {
     AngularVelocity turretVelocity =
         RadiansPerSecond.of(
             turretAngleFilter.calculate(
-                turretFieldRelativeAngle.minus(lastTurretAngle).getRadians() / LOOP_PERIOD.in(Seconds)));
+                turretFieldRelativeAngle.minus(lastTurretAngle).getRadians()
+                    / LOOP_PERIOD.in(Seconds)));
     AngularVelocity deflectorVelocity =
         RadiansPerSecond.of(
             hoodAngleFilter.calculate(
