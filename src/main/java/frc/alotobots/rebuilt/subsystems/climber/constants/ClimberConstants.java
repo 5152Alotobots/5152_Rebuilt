@@ -22,9 +22,11 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
 
 public class ClimberConstants {
+  public static final double EXTENSION_PER_ROTATION = 0.00731707;
+
   public static class Limits {
-    public static final Distance MIN_CLIMB_EXTENSION = Meters.of(0.0);
-    public static final Distance MAX_CLIMB_EXTENSION = Meters.of(0.5); // Example value
+    public static final Distance MIN_CLIMB_EXTENSION = Meters.of(0.48);
+    public static final Distance MAX_CLIMB_EXTENSION = Meters.of(0.69); // Example value
 
     public static final Distance DISTANCE_FROM_LIMIT = Centimeters.of(2.0);
     public static final LinearVelocity MAX_VELOCITY_NEAR_LIMIT = MetersPerSecond.of(0.1);

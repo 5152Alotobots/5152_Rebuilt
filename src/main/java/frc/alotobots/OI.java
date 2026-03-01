@@ -119,7 +119,7 @@ public class OI {
 
   // DRIVER CONTROLS-----------------------------------------------------------(Single Driver Only
   // atm)
-  // public static final Trigger testButton = codriverController.a();
+  public static final Trigger testButton = codriverController.a();
 
   // Climber Controls
   public static final Trigger retractClimber = driverController.x();
@@ -152,6 +152,11 @@ public class OI {
    */
   public static double getTurretAxis() {
     double primary = codriverController.getRightX();
+    return MathUtil.applyDeadband(primary, DEADBAND);
+  }
+
+  public static double getClimberAxis() {
+    double primary = codriverController.getLeftY();
     return MathUtil.applyDeadband(primary, DEADBAND);
   }
 

@@ -50,7 +50,7 @@ public class ClimberSubsystem extends SubsystemBase {
     Logger.processInputs("Climber", inputs);
 
     Logger.recordOutput("Climber/TargetPosition", targetPosition);
-    Logger.recordOutput("Climber/AtTarget", isAtTarget());
+    Logger.recordOutput("Climber/AtTarget", isAtTargetExtension());
   }
 
   /**
@@ -59,7 +59,7 @@ public class ClimberSubsystem extends SubsystemBase {
    *
    * @param position The target position
    */
-  public void setTargetPosition(Distance position) {
+  public void runClimberToTargetPosition(Distance position) {
     targetPosition =
         Meters.of(
             MathUtil.clamp(
@@ -83,7 +83,7 @@ public class ClimberSubsystem extends SubsystemBase {
    *
    * @return true if at target, false otherwise
    */
-  public boolean isAtTarget() {
+  public boolean isAtTargetExtension() {
     return atTargetDebouncer.calculate(
         Math.abs(inputs.climberDistance.minus(targetPosition).in(Meters))
             < AT_TARGET_CLIMB_POSITION_THRESHOLD.in(Meters));

@@ -40,6 +40,7 @@ import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
+import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
 import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberTalonFXConstants;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.ClimberIOInputs;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.PIDSlots;
@@ -224,8 +225,8 @@ public class ClimberIOTalonFX implements ClimberIO {
    */
   private Distance talonFXToExtension(Angle rotations) {
     return Meters.of(
-        ClimberTalonFXConstants.EXTENSION_PER_ROTATION * rotations.in(Rotations)
-            + ClimberTalonFXConstants.MIN_EXTENSION.in(Meters));
+        ClimberConstants.EXTENSION_PER_ROTATION * rotations.in(Rotations)
+            + ClimberConstants.Limits.MIN_CLIMB_EXTENSION.in(Meters));
   }
 
   /**
@@ -238,7 +239,7 @@ public class ClimberIOTalonFX implements ClimberIO {
    */
   private LinearVelocity talonFXToLinearVelocity(AngularVelocity rotationsPerSecond) {
     return MetersPerSecond.of(
-        rotationsPerSecond.in(RotationsPerSecond) * ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+        rotationsPerSecond.in(RotationsPerSecond) * ClimberConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -252,8 +253,8 @@ public class ClimberIOTalonFX implements ClimberIO {
    */
   private Angle extensionToTalonFX(Distance extension) {
     return Rotations.of(
-        (extension.minus(ClimberTalonFXConstants.MIN_EXTENSION).in(Meters))
-            / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+        (extension.minus(ClimberConstants.Limits.MIN_CLIMB_EXTENSION).in(Meters))
+            / ClimberConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -266,7 +267,7 @@ public class ClimberIOTalonFX implements ClimberIO {
    */
   private AngularVelocity linearVelocityToTalonFX(LinearVelocity linearVelocity) {
     return RotationsPerSecond.of(
-        linearVelocity.in(MetersPerSecond) / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+        linearVelocity.in(MetersPerSecond) / ClimberConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -279,8 +280,7 @@ public class ClimberIOTalonFX implements ClimberIO {
    */
   private AngularAcceleration linearAccelerationToTalonFX(LinearAcceleration linearAcceleration) {
     return RotationsPerSecondPerSecond.of(
-        linearAcceleration.in(MetersPerSecondPerSecond)
-            / ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+        linearAcceleration.in(MetersPerSecondPerSecond) / ClimberConstants.EXTENSION_PER_ROTATION);
   }
 
   /**
@@ -296,6 +296,6 @@ public class ClimberIOTalonFX implements ClimberIO {
       AngularAcceleration rotationalAcceleration) {
     return MetersPerSecondPerSecond.of(
         rotationalAcceleration.in(RotationsPerSecondPerSecond)
-            * ClimberTalonFXConstants.EXTENSION_PER_ROTATION);
+            * ClimberConstants.EXTENSION_PER_ROTATION);
   }
 }
