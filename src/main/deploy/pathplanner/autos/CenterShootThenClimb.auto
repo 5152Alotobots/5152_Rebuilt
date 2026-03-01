@@ -13,7 +13,13 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "LauncherTargetHubDynamicAndShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbDown"
           }
         },
         {
@@ -25,7 +31,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "ClimbUp"
           }
         }
       ]

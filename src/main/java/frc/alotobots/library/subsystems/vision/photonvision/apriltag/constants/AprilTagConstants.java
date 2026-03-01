@@ -33,15 +33,15 @@ public class AprilTagConstants {
       new Transform3d[] {
         // Front Left
         new Transform3d(
-            new Translation3d(0.345, 0.24, 0.515),
+            new Translation3d(0.34, 0.24, 0.495),
             new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(-15))),
         // Back Left
         new Transform3d(
-            new Translation3d(-0.3, 0.29, 0.2),
-            new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(75))),
+            new Translation3d(-0.305, 0.29, 0.19),
+            new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(73.5))),
         // Back Right
         new Transform3d(
-            new Translation3d(-0.345, -0.235, 0.2),
+            new Translation3d(-0.335, -0.245, 0.19),
             new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(165)))
       };
 

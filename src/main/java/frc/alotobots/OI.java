@@ -136,7 +136,8 @@ public class OI {
 
   // Turret Controls
   public static final Trigger shoot = driverController.rightStick();
-  public static final Trigger logData = driverController.back();
+  // public static final Trigger logData = driverController.back();
+  public static final Trigger dumpBalls = driverController.back();
   // TODO: remove this
   public static final Trigger rpmDown = driverController.x();
   public static final Trigger rpmUp = driverController.b();

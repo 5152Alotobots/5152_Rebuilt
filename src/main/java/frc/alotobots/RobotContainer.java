@@ -49,6 +49,7 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoCo
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
@@ -108,8 +109,6 @@ public class RobotContainer {
                 new ModuleIOTalonFXReal(ModulePosition.BACK_LEFT.index),
                 new ModuleIOTalonFXReal(ModulePosition.BACK_RIGHT.index));
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
-        autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
-        configureAutoChooser();
         // questNavSubsystem =
         //     new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
         // QuestNavIOReal());
@@ -119,7 +118,9 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[0], swerveDriveSubsystem::getRotation),
                 new AprilTagIOPhotonVision(
-                    AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
+                    AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation),
+                new AprilTagIOPhotonVision(
+                    AprilTagConstants.CAMERA_CONFIGS[2], swerveDriveSubsystem::getRotation));
         climberSubsystem = new ClimberSubsystem(new ClimberIOTalonFX());
         blingSubsystem = new BlingSubsystem(new BlingIOReal());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
@@ -134,6 +135,20 @@ public class RobotContainer {
                 swerveDriveSubsystem::getPose,
                 swerveDriveSubsystem::getChassisSpeeds,
                 swerveDriveSubsystem::getFieldChassisSpeeds);
+
+        autoNamedCommands =
+            new AutoNamedCommands(
+                swerveDriveSubsystem,
+                deflectorSubsystem,
+                intakeExtendoSubsystem,
+                intakeRollerSubsystem,
+                turretSubsystem,
+                shooterSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                climberSubsystem,
+                launchCalculator);
+        configureAutoChooser();
         break;
 
       case SIM:
@@ -161,7 +176,6 @@ public class RobotContainer {
                     driveSimulation.getModules()[ModulePosition.BACK_RIGHT.index]));
         swerveDriveSubsystem.setPose(simStartPose);
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
-        autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
         climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
         configureAutoChooser();
 
@@ -187,6 +201,18 @@ public class RobotContainer {
                 swerveDriveSubsystem::getPose,
                 swerveDriveSubsystem::getChassisSpeeds,
                 swerveDriveSubsystem::getFieldChassisSpeeds);
+        autoNamedCommands =
+            new AutoNamedCommands(
+                swerveDriveSubsystem,
+                deflectorSubsystem,
+                intakeExtendoSubsystem,
+                intakeRollerSubsystem,
+                turretSubsystem,
+                shooterSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                climberSubsystem,
+                launchCalculator);
         break;
 
       default:
@@ -199,7 +225,6 @@ public class RobotContainer {
                 new ModuleIO() {});
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
-        autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
         configureAutoChooser();
 
         // questNavSubsystem =
@@ -223,6 +248,18 @@ public class RobotContainer {
                 swerveDriveSubsystem::getPose,
                 swerveDriveSubsystem::getChassisSpeeds,
                 swerveDriveSubsystem::getFieldChassisSpeeds);
+        autoNamedCommands =
+            new AutoNamedCommands(
+                swerveDriveSubsystem,
+                deflectorSubsystem,
+                intakeExtendoSubsystem,
+                intakeRollerSubsystem,
+                turretSubsystem,
+                shooterSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                climberSubsystem,
+                launchCalculator);
         break;
     }
     configureDefaultCommands();
@@ -278,22 +315,23 @@ public class RobotContainer {
             deflectorSubsystem,
             turretSubsystem,
             LauncherTargetHubFixedAndShoot.FIXED_SHOOTING_POSITION_CENTER));
-    logData.onTrue(
-        new InstantCommand(launchCalculator::clearLaunchingParameters)
-            .andThen(
-                new InstantCommand(
-                    () ->
-                        Logger.recordOutput(
-                            "DataCollection/data",
-                            String.format(
-                                "Turret Deg: %f, Deflector Deg: %f, RPS: %f, Distance: %f",
-                                turretSubsystem.getCurrentAngle().in(Degrees),
-                                deflectorSubsystem.getCurrentAngle().in(Degrees),
-                                shooterVelocity.in(RotationsPerSecond),
-                                launchCalculator
-                                    .getParameters()
-                                    .dataCollectionDebugDistance()
-                                    .in(Meters))))));
+    // logData.onTrue(
+    //     new InstantCommand(launchCalculator::clearLaunchingParameters)
+    //         .andThen(
+    //             new InstantCommand(
+    //                 () ->
+    //                     Logger.recordOutput(
+    //                         "DataCollection/data",
+    //                         String.format(
+    //                             "Turret Deg: %f, Deflector Deg: %f, RPS: %f, Distance: %f",
+    //                             turretSubsystem.getCurrentAngle().in(Degrees),
+    //                             deflectorSubsystem.getCurrentAngle().in(Degrees),
+    //                             shooterVelocity.in(RotationsPerSecond),
+    //                             launchCalculator
+    //                                 .getParameters()
+    //                                 .dataCollectionDebugDistance()
+    //                                 .in(Meters))))));
+    dumpBalls.whileTrue(new IntakeRollerEject(intakeRollerSubsystem, () -> 1.0));
     deflectorDown.onTrue(
         new InstantCommand(
             () ->
