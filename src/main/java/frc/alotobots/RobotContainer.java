@@ -34,8 +34,8 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
-import frc.alotobots.rebuilt.commands.groups.IndexIntoShooterAndShoot;
-import frc.alotobots.rebuilt.commands.groups.LauncherTargetHub;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubFixedAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
@@ -263,7 +263,7 @@ public class RobotContainer {
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
     // Launcher
     turretAimShoot.whileTrue(
-        new LauncherTargetHub(
+        new LauncherTargetHubDynamicAndShoot(
             deflectorSubsystem,
             shooterSubsystem,
             turretSubsystem,
@@ -271,8 +271,13 @@ public class RobotContainer {
             beltSubsystem,
             launchCalculator));
     shoot.whileTrue(
-        new IndexIntoShooterAndShoot(
-            beltSubsystem, kickerSubsystem, shooterSubsystem, () -> shooterVelocity));
+        new LauncherTargetHubFixedAndShoot(
+            beltSubsystem,
+            kickerSubsystem,
+            shooterSubsystem,
+            deflectorSubsystem,
+            turretSubsystem,
+            LauncherTargetHubFixedAndShoot.FIXED_SHOOTING_POSITION_CENTER));
     logData.onTrue(
         new InstantCommand(launchCalculator::clearLaunchingParameters)
             .andThen(

@@ -50,5 +50,11 @@ public class TurretConstants {
   /** Contains position setpoints for different turret states. */
   public static final class Setpoints {
     // setpoints would go here, but I haven't figured them out yet
+    public static final class Fixed {
+      // TODO: real data
+      public static final Angle FIXED_TURRET_ANGLE_LEFT_TRENCH = Degrees.of(45);
+      public static final Angle FIXED_TURRET_ANGLE_CENTER = Degrees.of(0);
+      public static final Angle FIXED_TURRET_ANGLE_RIGHT_TRENCH = Degrees.of(-45);
+    }
   }
 }

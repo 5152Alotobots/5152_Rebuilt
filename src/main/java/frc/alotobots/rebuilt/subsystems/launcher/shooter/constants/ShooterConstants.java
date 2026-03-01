@@ -46,6 +46,13 @@ public class ShooterConstants {
   /** Contains velocity setpoints for different shooter states. */
   public static final class Setpoints {
     // Different setpoints would go here.
-    public static final AngularVelocity SHOOTER_TEST_VELOCITY = RotationsPerSecond.of(45);
+    public static final class Fixed {
+      // TODO: real data
+      public static final AngularVelocity FIXED_SHOOTER_VELOCITY_LEFT_TRENCH =
+          RotationsPerSecond.of(50);
+      public static final AngularVelocity FIXED_SHOOTER_VELOCITY_CENTER = RotationsPerSecond.of(50);
+      public static final AngularVelocity FIXED_SHOOTER_VELOCITY_RIGHT_TRENCH =
+          RotationsPerSecond.of(50);
+    }
   }
 }
