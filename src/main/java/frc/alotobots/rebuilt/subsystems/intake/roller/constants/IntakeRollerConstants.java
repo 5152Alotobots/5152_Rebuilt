@@ -33,14 +33,14 @@ public class IntakeRollerConstants {
     public static final double MAX_OPEN_LOOP_INTAKE_PERCENTAGE = 1;
 
     /** Maximum open loop intake percent output */
-    public static final double MAX_OPEN_LOOP_EJECT_PERCENTAGE = 0.75;
+    public static final double MAX_OPEN_LOOP_EJECT_PERCENTAGE = 1;
   }
 
   /** Setpoints for different roller states */
   public static final class Setpoints {
     public static final class OpenLoop {
-      public static final double INTAKE_PERCENTAGE = 0.75;
-      public static final double EJECT_PERCENTAGE = 0.75;
+      public static final double INTAKE_PERCENTAGE = 1;
+      public static final double EJECT_PERCENTAGE = 1;
     }
   }
 }

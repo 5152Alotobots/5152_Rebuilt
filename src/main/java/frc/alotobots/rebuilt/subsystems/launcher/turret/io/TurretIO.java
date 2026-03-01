@@ -49,6 +49,10 @@ public interface TurretIO {
    */
   default void updateInputs(TurretIOInputs inputs) {}
 
+  default void setTurretPosition(Angle position, AngularVelocity velocity, PIDSlots pidSlot) {}
+
+  default void setTurretPosition(Angle position, AngularVelocity velocity) {}
+
   /**
    * Sets the turret to run to a target position using closed-loop control.
    *
@@ -62,6 +66,8 @@ public interface TurretIO {
   default void setTurretVelocity(AngularVelocity velocity, PIDSlots pidSlots) {}
 
   default void setTurretVelocity(AngularVelocity velocity) {}
+
+  default void setTurretVoltage(Voltage voltage) {}
 
   /**
    * Runs the turret using direct percentage output (open-loop control).

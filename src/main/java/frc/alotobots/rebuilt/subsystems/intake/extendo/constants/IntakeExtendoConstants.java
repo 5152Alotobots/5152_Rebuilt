@@ -33,7 +33,7 @@ public class IntakeExtendoConstants {
   /** Physical limits and safety thresholds */
   public static final class Limits {
     /** Maximum allowed extension */
-    public static final Distance MAX_EXTENSION = Meters.of(0.245);
+    public static final Distance MAX_EXTENSION = Meters.of(0.224);
 
     /** Minimum allowed extension */
     public static final Distance MIN_EXTENSION = Meters.of(0.0);
@@ -60,6 +60,6 @@ public class IntakeExtendoConstants {
     public static final Distance STOWED = Meters.of(0.0);
 
     /** Extension when the extendo is fully deployed */
-    public static final Distance DEPLOYED = Meters.of(0.254);
+    public static final Distance DEPLOYED = Meters.of(0.224);
   }
 }

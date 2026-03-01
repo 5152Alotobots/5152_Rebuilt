@@ -30,23 +30,31 @@ public class TurretConstants {
   /** Contains physical limits and safety thresholds for the turret. */
   public static final class Limits {
     /** Maximum allowed angle */
-    public static final Angle TURRET_MAX_ANGLE = Degrees.of(180);
+    public static final Angle TURRET_MAX_ANGLE = Degrees.of(115);
 
     /** Minimum allowed angle */
-    public static final Angle TURRET_MIN_ANGLE = Degrees.of(-180);
+    public static final Angle TURRET_MIN_ANGLE = Degrees.of(-122);
 
     /** Maximum open loop percent output */
-    public static final double TURRET_MAX_OPEN_LOOP_PERCENTAGE = 0.5;
+    public static final double TURRET_MAX_OPEN_LOOP_PERCENTAGE = 0.2;
 
     /** Max speed (magnitude) */
     public static final AngularVelocity TURRET_MAX_VELOCITY = DegreesPerSecond.of(180);
 
     /** Enable Limits */
     public static final boolean TURRET_LIMITS_ENABLED = true;
+
+    public static final Voltage TURRET_MAX_VOLTAGE = Volts.of(12);
   }
 
   /** Contains position setpoints for different turret states. */
   public static final class Setpoints {
     // setpoints would go here, but I haven't figured them out yet
+    public static final class Fixed {
+      // TODO: real data
+      public static final Angle FIXED_TURRET_ANGLE_LEFT_TRENCH = Degrees.of(45);
+      public static final Angle FIXED_TURRET_ANGLE_CENTER = Degrees.of(0);
+      public static final Angle FIXED_TURRET_ANGLE_RIGHT_TRENCH = Degrees.of(-45);
+    }
   }
 }

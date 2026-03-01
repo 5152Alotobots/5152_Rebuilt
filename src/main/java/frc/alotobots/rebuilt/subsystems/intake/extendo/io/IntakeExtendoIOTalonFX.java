@@ -22,6 +22,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -36,6 +37,7 @@ import frc.alotobots.util.PhoenixUtil;
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private final TalonFX intakeExtendoMotor;
   private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
+  private final PositionVoltage positionVoltage = new PositionVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
 
   private StatusSignal<Angle> intakeExtendoPosition;
@@ -165,9 +167,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   @Override
   public void setIntakeExtendoPosition(Distance position, PIDSlots pidSlot) {
     intakeExtendoMotor.setControl(
-        magicPositionVoltage
-            .withPosition(extensionToTalonFX(position))
-            .withSlot(pidSlot.ordinal()));
+        positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(pidSlot.ordinal()));
   }
 
   @Override

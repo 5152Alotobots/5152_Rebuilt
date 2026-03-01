@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
@@ -21,32 +22,33 @@ import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorFollowPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
-import frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretFollowPositionAtVelocity;
 
-/**
- * Command group that spins up the shooter and then feeds a game piece into it.
- *
- * <p>Starts the shooter flywheel at the configured test velocity and uses it as a deadline command.
- * Once the shooter reports that it has reached its target velocity, the belt and kicker are run
- * simultaneously to index the game piece into the shooter.
- */
-public class IndexIntoShooterAndShoot extends SequentialCommandGroup {
-  /**
-   * Creates a new IndexIntoShooterAndShoot command group.
-   *
-   * @param beltSubsystem The belt subsystem used to move the game piece toward the shooter
-   * @param kickerSubsystem The kicker subsystem used to feed the game piece into the shooter
-   * @param shooterSubsystem The shooter subsystem used to launch the game piece
-   */
-  public IndexIntoShooterAndShoot(
-      BeltSubsystem beltSubsystem,
+public class LauncherTargetHubDynamicAndShoot extends SequentialCommandGroup {
+  public LauncherTargetHubDynamicAndShoot(
+      DeflectorSubsystem deflectorSubsystem,
+      ShooterSubsystem shooterSubsystem,
+      TurretSubsystem turretSubsystem,
       KickerSubsystem kickerSubsystem,
-      ShooterSubsystem shooterSubsystem) {
+      BeltSubsystem beltSubsystem,
+      LaunchCalculator launchCalculator) {
     addCommands(
-        new DefaultShooterRunAtVelocity(
-                shooterSubsystem, () -> ShooterConstants.Setpoints.SHOOTER_TEST_VELOCITY)
+        new ParallelCommandGroup(
+                new DeflectorFollowPosition(
+                    deflectorSubsystem, () -> launchCalculator.getParameters().deflectorAngle()),
+                new DefaultShooterRunAtVelocity(
+                    shooterSubsystem, () -> launchCalculator.getParameters().shooterVelocity()),
+                new TurretFollowPositionAtVelocity(
+                    turretSubsystem,
+                    () -> launchCalculator.getParameters().turretAngleFieldRelative().getMeasure(),
+                    () -> launchCalculator.getParameters().turretVelocity()),
+                new RunCommand(launchCalculator::clearLaunchingParameters))
             .deadlineFor(
                 new SequentialCommandGroup(
                     // Wait for shooter to spin up

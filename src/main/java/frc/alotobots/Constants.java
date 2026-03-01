@@ -12,7 +12,10 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.Milliseconds;
+
 import com.ctre.phoenix6.CANBus;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.alotobots.library.subsystems.swervedrive.constants.TunerConstants;
 import frc.alotobots.library.subsystems.swervedrive.constants.mk4i2023.TunerConstants2023;
@@ -64,6 +67,8 @@ public final class Constants {
             : new TunerConstants2025();
         case DEV -> new TunerConstants2023();
       };
+
+  public static final Time LOOP_PERIOD = Milliseconds.of(20);
 
   /**
    * CAN bus device ID assignments. This class maps CAN IDs for all motors, sensors and other
