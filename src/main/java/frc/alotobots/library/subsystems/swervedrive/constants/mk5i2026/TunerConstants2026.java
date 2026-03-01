@@ -110,7 +110,7 @@ public class TunerConstants2026 implements TunerConstants {
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus
-    public static final CANBus kCANBus = new CANBus("Swerve", "./logs/example.hoot");
+    public static final CANBus kCANBus = new CANBus("Swerve");
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot

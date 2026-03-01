@@ -70,6 +70,8 @@ public final class Constants {
 
   public static final Time LOOP_PERIOD = Milliseconds.of(20);
 
+  public static final Time LOOP_PERIOD_WATCHDOG = Milliseconds.of(200);
+
   /**
    * CAN bus device ID assignments. This class maps CAN IDs for all motors, sensors and other
    * CAN-connected devices.
