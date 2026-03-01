@@ -3,16 +3,16 @@
   "robotLength": 0.88,
   "holonomicMode": true,
   "pathFolders": [
-    "AddNonCenter",
     "BasicMeters",
-    "PreloadWClimb",
     "Positions",
+    "PreloadWClimb",
+    "PreloadWNeutral",
     "Preload_Only"
   ],
   "autoFolders": [
-    "WithMiddle",
     "BasicMeters",
     "PreloadWClimb",
+    "PreloadWNeutral",
     "Preload_Only"
   ],
   "defaultMaxVel": 2.0,
