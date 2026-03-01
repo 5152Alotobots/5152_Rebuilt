@@ -22,9 +22,11 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFXS;
-import com.ctre.phoenix6.signals.*;
+import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
@@ -37,11 +39,12 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretTalonFXS
 import frc.alotobots.util.PhoenixUtil;
 
 public class TurretIOTalonFXS implements TurretIO {
-  private final TalonFXS turretMotor;
+  protected final TalonFXS turretMotor;
   private final DigitalInput resetLimitSwitch = new DigitalInput(TURRET_RESET_LIMIT_SWITCH_CHANNEL);
 
   private final PositionVoltage positionControl = new PositionVoltage(0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
+  private final VoltageOut voltageControl = new VoltageOut(0);
 
   private final Debouncer resetLimitDebouncer = new Debouncer(0.5);
   private final Debouncer turretMotorConnectedDebouncer = new Debouncer(0.1);
@@ -61,12 +64,10 @@ public class TurretIOTalonFXS implements TurretIO {
     // PID configuration for position mode (Slot 0)
     turretMotorConfig.Slot0.kP =
         TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
-    turretMotorConfig.Slot0.kI =
-        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KI;
     turretMotorConfig.Slot0.kD =
         TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
-    turretMotorConfig.Slot0.kG =
-        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KG;
+    turretMotorConfig.Slot0.kS =
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KS;
 
     // PID configuration for velocity mode (Slot 1)
     turretMotorConfig.Slot1.kP =
@@ -195,6 +196,11 @@ public class TurretIOTalonFXS implements TurretIO {
   @Override
   public void setTurretVelocity(AngularVelocity velocity) {
     setTurretVelocity(velocity, PIDSlots.VELOCITY);
+  }
+
+  @Override
+  public void setTurretVoltage(Voltage voltage) {
+    turretMotor.setControl(voltageControl.withOutput(voltage));
   }
 
   @Override

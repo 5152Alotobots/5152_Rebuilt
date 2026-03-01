@@ -66,6 +66,8 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.DefaultTurretRunAtVelocity;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretRunPercentOut;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
@@ -241,6 +243,7 @@ public class RobotContainer {
     //     new RunTurretToTarget(
     //         new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem),
     // turretSubsystem));
+    turretSubsystem.setDefaultCommand(new TurretRunPercentOut(turretSubsystem, OI::getTurretAxis));
   }
 
   // TODO: remove this
@@ -307,6 +310,19 @@ public class RobotContainer {
     rpmUp.onTrue(
         new InstantCommand(
             () -> shooterVelocity = shooterVelocity.plus(RotationsPerSecond.of(2.5))));
+
+    testButton.whileTrue(new TurretRunToPosition(turretSubsystem, Degrees.of(45)));
+    testButton2.whileTrue(new TurretRunToPosition(turretSubsystem, Degrees.of(-45)));
+    // sysIDDynamicFwd.whileTrue(
+    //     turretSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(turretSubsystem::stop)));
+    // sysIDDynamicRev.whileTrue(
+    //     turretSubsystem.sysIdRevDynamic().andThen(new InstantCommand(turretSubsystem::stop)));
+    // sysIDQuasistaticFwd.whileTrue(
+    //     turretSubsystem.sysIdFwdQuasiStatic().andThen(new
+    // InstantCommand(turretSubsystem::stop)));
+    // sysIDQuasistaticRev.whileTrue(
+    //     turretSubsystem.sysIdRevQuasiStatic().andThen(new
+    // InstantCommand(turretSubsystem::stop)));
 
     // TEMPORARY!!
     resetGyroButton.onTrue(
