@@ -39,6 +39,11 @@ import frc.alotobots.rebuilt.commands.groups.LauncherTargetHub;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
+import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunOpenLoop;
+import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
+import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
+import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.IntakeExtendoSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.IntakeExtendoRunToExtension;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
@@ -86,6 +91,7 @@ public class RobotContainer {
   private final IntakeExtendoSubsystem intakeExtendoSubsystem;
   private final IntakeRollerSubsystem intakeRollerSubsystem;
   private final LaunchCalculator launchCalculator;
+  private final ClimberSubsystem climberSubsystem;
   private LoggedDashboardChooser<Command> autoChooser;
   private SwerveDriveSimulation driveSimulation;
 
@@ -114,6 +120,7 @@ public class RobotContainer {
                     AprilTagConstants.CAMERA_CONFIGS[0], swerveDriveSubsystem::getRotation),
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
+        climberSubsystem = new ClimberSubsystem(new ClimberIOTalonFX());
         blingSubsystem = new BlingSubsystem(new BlingIOReal());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOTalonFX());
@@ -155,6 +162,7 @@ public class RobotContainer {
         swerveDriveSubsystem.setPose(simStartPose);
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
         autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
         configureAutoChooser();
 
         // questNavSubsystem =
@@ -206,6 +214,7 @@ public class RobotContainer {
         shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
         turretSubsystem = new TurretSubsystem(new TurretIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
@@ -226,6 +235,8 @@ public class RobotContainer {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
     turretSubsystem.setDefaultCommand(
         new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretAxis));
+    climberSubsystem.setDefaultCommand(
+        new ClimberRunOpenLoop(climberSubsystem, OI::getClimberAxis));
     // turretSubsystem.setDefaultCommand(
     //     new RunTurretToTarget(
     //         new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem),
@@ -241,6 +252,8 @@ public class RobotContainer {
 
     // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     // Intake Extendo
+
+    testButton.whileTrue(new ClimberRunToExtension(climberSubsystem, Meters.of(.55)));
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
     intakeIn.onTrue(
