@@ -26,6 +26,8 @@ public interface TurretIO {
   enum PIDSlots {
     DEFAULT_POSITION,
     VELOCITY,
+    // TODO
+    // MOTION_MAGIC_POSITION,
   }
 
   /** Data structure for inputs from turret hardware. */

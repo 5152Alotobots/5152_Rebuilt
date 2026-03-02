@@ -43,6 +43,9 @@ public class OI {
   /** Controller port ID for the co-driver's primary Xbox controller. */
   private static final int CO_DRIVER_CONTROLLER_ID = 1;
 
+  private static final int TEST_CONTROLLER_ID = 2;
+  private static final int DATA_COLLECTION_CONTROLLER_ID = 3;
+
   /** Xbox controller instance for the primary driver's control functions. */
   private static final CommandXboxController driverController =
       new CommandXboxController(DRIVER_CONTROLLER_ID);
@@ -51,58 +54,57 @@ public class OI {
   private static final CommandXboxController codriverController =
       new CommandXboxController(CO_DRIVER_CONTROLLER_ID);
 
+  private static final CommandXboxController testController =
+      new CommandXboxController(TEST_CONTROLLER_ID);
+  private static final CommandXboxController dataController =
+      new CommandXboxController(DATA_COLLECTION_CONTROLLER_ID);
+
   /**
    * Trigger that activates when the driver is using the chassis control sticks. Combines X/Y
    * translation and rotation inputs with deadband application to detect intentional driver input.
    */
   public static final Trigger hasDriverInput =
       new Trigger(
-          () ->
-              MathUtil.applyDeadband(driverController.getLeftX(), DEADBAND) != 0
-                  || MathUtil.applyDeadband(driverController.getLeftY(), DEADBAND) != 0
-                  || MathUtil.applyDeadband(driverController.getRightX(), DEADBAND) != 0);
+              () ->
+                  MathUtil.applyDeadband(driverController.getLeftX(), DEADBAND) != 0
+                      || MathUtil.applyDeadband(driverController.getLeftY(), DEADBAND) != 0
+                      || MathUtil.applyDeadband(driverController.getRightX(), DEADBAND) != 0)
+          .or(
+              () ->
+                  MathUtil.applyDeadband(dataController.getLeftX(), DEADBAND) != 0
+                      || MathUtil.applyDeadband(dataController.getLeftY(), DEADBAND) != 0
+                      || MathUtil.applyDeadband(dataController.getRightX(), DEADBAND) != 0);
 
   /**
-   * Gets the forward/backward translation input from the driver's left stick.
-   *
    * @return Value between -1.0 (backward) and 1.0 (forward)
    */
   public static double getTranslateForwardAxis() {
-    return driverController.getLeftY();
+    return MathUtil.clamp(driverController.getLeftY() + dataController.getLeftY(), -1.0, 1.0);
   }
 
   /**
-   * Gets the left/right translation input from the driver's left stick.
-   *
    * @return Value between -1.0 (left) and 1.0 (right)
    */
   public static double getTranslateStrafeAxis() {
-    return driverController.getLeftX();
+    return MathUtil.clamp(driverController.getLeftX() + dataController.getLeftX(), -1.0, 1.0);
   }
 
   /**
-   * Gets the rotation input from the driver's right stick.
-   *
    * @return Value between -1.0 (counter-clockwise) and 1.0 (clockwise)
    */
   public static double getRotationAxis() {
-    return driverController.getRightX();
+    return MathUtil.clamp(driverController.getRightX() + dataController.getRightX(), -1.0, 1.0);
   }
 
   /**
-   * Gets the turtle (slow) speed control input from the driver's left trigger. Used to enable
-   * precise, slow movement for delicate operations.
-   *
    * @return Value between 0.0 (not pressed) and 1.0 (fully pressed)
    */
   public static double getTurtleSpeedTrigger() {
-    return driverController.getLeftTriggerAxis();
+    return MathUtil.clamp(
+        driverController.getLeftTriggerAxis() + dataController.getLeftTriggerAxis(), 0.0, 1.0);
   }
 
   /**
-   * Gets the turbo (fast) speed control input from the driver's right trigger. Used to enable
-   * maximum speed movement for quick traversal.
-   *
    * @return Value between 0.0 (not pressed) and 1.0 (fully pressed)
    */
   public static double getTurboSpeedTrigger() {
@@ -110,43 +112,18 @@ public class OI {
   }
 
   /* State-based play control triggers */
+
+  // DRIVER CONTROLLER --------------------------------------------------
   public static final Trigger resetGyroButton = driverController.start();
-
-  /** Temporary test button */
-
-  // DRIVER CONTROLS-----------------------------------------------------------(Single Driver Only
-  // atm)
-  public static final Trigger testButton = codriverController.a();
-
-  public static final Trigger testButton2 = codriverController.b();
-
-  // Climber Controls
-  // TODO: add these back
-  // public static final Trigger retractClimber = driverController.x();
-
-  // public static final Trigger extendClimber = driverController.y();
-  // public static final Trigger climbAction = driverController.a(); // Might be unnecessary?
-
-  // Intake Controls
-  public static final Trigger intakeOut = driverController.povUp();
-
-  public static final Trigger intakeIn = driverController.povDown();
   public static final Trigger intake = driverController.leftTrigger();
-  // Reverse intake wheels?
-
-  // Turret Controls
-  public static final Trigger shoot = driverController.rightStick();
-  // public static final Trigger logData = driverController.back();
   public static final Trigger dumpBalls = driverController.back();
-  // TODO: remove this
-  public static final Trigger rpmDown = driverController.x();
-  public static final Trigger rpmUp = driverController.b();
-  // TODO: remove this
-  public static final Trigger deflectorDown = driverController.y();
-  public static final Trigger deflectorUp = driverController.a();
-
-  public static final Trigger rotateTurretRight = driverController.povRight();
-  public static final Trigger rotateTurretLeft = driverController.povLeft();
+  public static final Trigger shoot = driverController.rightStick();
+  public static final Trigger intakeOut = driverController.povUp();
+  public static final Trigger intakeIn = driverController.povDown();
+  public static final Trigger toggleClimber = driverController.y();
+  public static final Trigger lockWheels = driverController.x();
+  // TODO MAKE THIS
+  public static final Trigger zoneAutoTarget = driverController.b();
 
   /** Turret Auto Aim for passing */
   public static final Trigger turretAimPass = driverController.leftBumper();
@@ -154,24 +131,48 @@ public class OI {
   /** Turret Auto Aim for shooting */
   public static final Trigger turretAimShoot = driverController.rightBumper();
 
-  public static final Trigger sysIDQuasistaticFwd = codriverController.a();
-  public static final Trigger sysIDQuasistaticRev = codriverController.b();
-  public static final Trigger sysIDDynamicFwd = codriverController.x();
-  public static final Trigger sysIDDynamicRev = codriverController.y();
+  // CO DRIVER CONTEROLLER --------------------------------------------
+  public static final Trigger rotateTurretRight = codriverController.povRight();
+  public static final Trigger rotateTurretLeft = codriverController.povLeft();
+  public static final Trigger spinShooterWheels = codriverController.b();
+
+  // TEST CONTROLLER --------------------------------------------------
+  public static final Trigger sysIDQuasistaticFwd = testController.a();
+  public static final Trigger sysIDQuasistaticRev = testController.b();
+  public static final Trigger sysIDDynamicFwd = testController.x();
+  public static final Trigger sysIDDynamicRev = testController.y();
+
+  public static final Trigger testButton = testController.a();
+  public static final Trigger testButton2 = testController.b();
+
+  // DATA CONTROLLER --------------------------------------------------
+  public static final Trigger shootData = dataController.rightStick();
+  public static final Trigger logData = dataController.back();
+  public static final Trigger rpmDownData = dataController.x();
+  public static final Trigger rpmUpData = dataController.b();
+  public static final Trigger deflectorDownData = dataController.y();
+  public static final Trigger deflectorUpData = dataController.a();
+  public static final Trigger intakeOutData = dataController.povUp();
+  public static final Trigger intakeInData = dataController.povDown();
 
   /**
-   * Gets the manual turret control input, Applies deadband after selection.
+   * Gets the manual turret control input, Applies deadband.
    *
-   * @return Value between -1.0 (left) and 1.0 (right)
+   * @return Value between -.2 (left) and .2 (right)
    */
-  public static double getTurretAxis() {
-    double primary = codriverController.getRightX();
+  public static double getTestingTurretAxis() {
+    double primary = testController.getRightX();
     return MathUtil.applyDeadband(primary, DEADBAND) * .2;
   }
 
-  public static double getClimberAxis() {
-    double primary = codriverController.getLeftY();
-    return MathUtil.applyDeadband(primary, DEADBAND);
+  public static double getTestingClimberAxis() {
+    double primary = testController.getLeftY();
+    return MathUtil.applyDeadband(primary, DEADBAND) * .7;
+  }
+
+  public static double getTestingIntakeAxis() {
+    double primary = testController.getRightY();
+    return MathUtil.applyDeadband(primary, DEADBAND) * .2;
   }
 
   /** Contains defined limits for controller axis inputs. */

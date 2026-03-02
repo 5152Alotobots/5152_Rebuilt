@@ -21,7 +21,6 @@ import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeEx
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
@@ -36,7 +35,7 @@ import frc.alotobots.util.PhoenixUtil;
 
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private final TalonFX intakeExtendoMotor;
-  private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
+  // private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
   private final PositionVoltage positionVoltage = new PositionVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
 
