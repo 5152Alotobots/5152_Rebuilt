@@ -70,7 +70,6 @@ public class ShooterSubsystem extends SubsystemBase {
         MathUtil.clamp(
             percentOutput, -SHOOTER_MAX_OPEN_LOOP_PERCENTAGE, SHOOTER_MAX_OPEN_LOOP_PERCENTAGE);
     io.setShooterOpenLoop(SHOOTER_LIMITS_ENABLED ? adjustedOutput : percentOutput);
-    Logger.recordOutput("Launcher/Shooter/ControlType", ShooterIO.PIDSlots.OPEN_LOOP);
   }
 
   /**

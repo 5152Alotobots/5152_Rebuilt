@@ -51,6 +51,8 @@ public class ShooterIOTalonFX implements ShooterIO {
   private StatusSignal<Voltage> rightAppliedVoltage;
   private StatusSignal<Current> leftAppliedCurrent;
   private StatusSignal<Current> rightAppliedCurrent;
+  private StatusSignal<ControlModeValue> leftControlMode;
+  private StatusSignal<ControlModeValue> rightControlMode;
   private StatusSignal<Integer> currentPidSlot;
   private Debouncer leftConnectedDebounce = new Debouncer(0.1);
   private Debouncer rightConnectedDebounce = new Debouncer(0.1);
@@ -60,38 +62,20 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorRight = new TalonFX(Constants.CanId.SHOOTER_RIGHT_CAN_ID, RIO_CAN_BUS);
 
     var motorLeftConfig = new TalonFXConfiguration();
-    var motorRightConfig = new TalonFXConfiguration();
-    motorLeftConfig.Slot0.kP =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
-    motorLeftConfig.Slot0.kI =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
-    motorLeftConfig.Slot0.kD =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
-    motorLeftConfig.Slot0.kG =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
-    motorLeftConfig.Slot0.kS =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KS;
-    motorLeftConfig.Slot0.kV =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KV;
+    configurePID(motorLeftConfig);
 
     motorLeftConfig.MotorOutput.NeutralMode =
         ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
-    motorRightConfig.MotorOutput.NeutralMode =
-        ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
-
     motorLeftConfig.MotorOutput.Inverted = ShooterTalonFXConstants.SHOOTER_MOTOR_DIRECTION;
-    motorRightConfig.MotorOutput.Inverted =
-        ShooterTalonFXConstants.SHOOTER_MOTOR_DIRECTION == InvertedValue.Clockwise_Positive
-            ? InvertedValue.CounterClockwise_Positive
-            : InvertedValue.Clockwise_Positive;
-
     motorLeftConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    motorRightConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+
+    var motorRightConfig = new TalonFXConfiguration();
 
     motorLeftConfig.TorqueCurrent.PeakForwardTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     motorLeftConfig.TorqueCurrent.PeakReverseTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+
     motorRightConfig.TorqueCurrent.PeakForwardTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     motorRightConfig.TorqueCurrent.PeakReverseTorqueCurrent =
@@ -100,6 +84,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorLeftConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_STATOR_AMP_LIMIT.in(Amps);
     motorLeftConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+
     motorRightConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_STATOR_AMP_LIMIT.in(Amps);
     motorRightConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
@@ -127,6 +112,9 @@ public class ShooterIOTalonFX implements ShooterIO {
     leftAppliedCurrent = motorLeft.getStatorCurrent();
     rightAppliedCurrent = motorRight.getStatorCurrent();
 
+    leftControlMode = motorLeft.getControlMode();
+    rightControlMode = motorRight.getControlMode();
+
     currentPidSlot = motorLeft.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
@@ -141,9 +129,26 @@ public class ShooterIOTalonFX implements ShooterIO {
         rightAppliedVoltage,
         leftAppliedCurrent,
         rightAppliedCurrent,
+        leftControlMode,
+        rightControlMode,
         currentPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(motorLeft, motorRight);
+  }
+
+  private void configurePID(TalonFXConfiguration motorLeftConfig) {
+    motorLeftConfig.Slot0.kP =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
+    motorLeftConfig.Slot0.kI =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
+    motorLeftConfig.Slot0.kD =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
+    motorLeftConfig.Slot0.kG =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
+    motorLeftConfig.Slot0.kS =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KS;
+    motorLeftConfig.Slot0.kV =
+        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KV;
   }
 
   @Override
@@ -155,6 +160,7 @@ public class ShooterIOTalonFX implements ShooterIO {
             leftAcceleration,
             leftAppliedVoltage,
             leftAppliedCurrent,
+            leftControlMode,
             currentPidSlot);
     var rightSignals =
         BaseStatusSignal.refreshAll(
@@ -162,7 +168,8 @@ public class ShooterIOTalonFX implements ShooterIO {
             rightVelocity,
             rightAcceleration,
             rightAppliedVoltage,
-            rightAppliedCurrent);
+            rightAppliedCurrent,
+            rightControlMode);
 
     inputs.shooterMotorsPIDSlot =
         switch (currentPidSlot.getValue()) {
@@ -181,13 +188,12 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.shooterMotorRightVolts = rightAppliedVoltage.getValue();
     inputs.shooterMotorLeftCurrent = leftAppliedCurrent.getValue();
     inputs.shooterMotorRightCurrent = rightAppliedCurrent.getValue();
+    inputs.shooterMotorLeftControlMode = leftControlMode.getValue();
+    inputs.shooterMotorRightControlMode = rightControlMode.getValue();
   }
 
   @Override
   public void setShooterVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    if (pidSlot == PIDSlots.OPEN_LOOP)
-      throw new IllegalArgumentException(
-          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
     motorLeft.setControl(velocityVoltage.withVelocity(velocity).withSlot(pidSlot.ordinal()));
   }
 
