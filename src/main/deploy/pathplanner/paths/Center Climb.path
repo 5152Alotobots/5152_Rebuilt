@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.0610805139443666,
-        "y": 2.9
+        "x": 1.058941441441442,
+        "y": 3.6775112612612615
       },
       "prevControl": {
-        "x": 0.8110805139443666,
-        "y": 2.9
+        "x": 0.808941441441442,
+        "y": 3.6775112612612615
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb_2"
+      "linkedName": "Center Climb"
     }
   ],
   "rotationTargets": [

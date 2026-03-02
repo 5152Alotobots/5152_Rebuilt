@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7943468468468473,
-        "y": 4.004358108108108
+        "x": 2.8770270270270277,
+        "y": 5.526238738738739
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5443468468468473,
-        "y": 4.004358108108108
+        "x": 1.9884121621621629,
+        "y": 4.729549549549549
       },
       "isLocked": false,
-      "linkedName": "Climb_1"
+      "linkedName": "Shoot_Depot"
     },
     {
       "anchor": {
@@ -25,10 +25,15 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb_2 Outpost"
+      "linkedName": "Depot climb 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -45,10 +50,10 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "PreloadWClimb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -33.69006752597973
   },
   "useDefaultConstraints": true
 }

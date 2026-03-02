@@ -3,53 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8770270270270277,
-        "y": 5.526238738738739
+        "x": 1.0385135135135142,
+        "y": 2.748040540540541
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0905518018018023,
-        "y": 4.586554054054054
+        "x": 1.0385135135135142,
+        "y": 2.998040540540541
       },
       "isLocked": false,
-      "linkedName": "Shoot_Depot"
-    },
-    {
-      "anchor": {
-        "x": 1.610495495495496,
-        "y": 3.7592229729729736
-      },
-      "prevControl": {
-        "x": 4.317195945945947,
-        "y": 3.6570833333333335
-      },
-      "nextControl": {
-        "x": 1.3606733049063262,
-        "y": 3.7686502254480367
-      },
-      "isLocked": false,
-      "linkedName": "Climb_1"
+      "linkedName": "Outpost Climb 1"
     },
     {
       "anchor": {
         "x": 1.0610805139443666,
-        "y": 2.9
+        "y": 2.90125
       },
       "prevControl": {
-        "x": 1.3110805139443666,
-        "y": 2.9
+        "x": 1.0610805139443666,
+        "y": 2.65125
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb_2"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -69,7 +48,7 @@
   "folder": "PreloadWClimb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -33.69006752597973
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

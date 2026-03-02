@@ -38,7 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Outpost Climb"
+            "pathName": "Outpost Climb 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost Climb 2"
           }
         },
         {
