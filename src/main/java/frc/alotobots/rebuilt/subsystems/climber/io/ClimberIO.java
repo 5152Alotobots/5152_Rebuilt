@@ -28,9 +28,9 @@ public interface ClimberIO {
   /** Data structure for inputs from intake extendo hardware. */
   @AutoLog
   public static class ClimberIOInputs {
-    public PIDSlots climberPIDSlot = PIDSlots.VELOCITY;
-    public ControlModeValue climberControlMode = ControlModeValue.DisabledOutput;
-    public boolean climberConnected = false;
+    public boolean climberMotorConnected = false;
+    public PIDSlots climberMotorPIDSlot = PIDSlots.VELOCITY;
+    public ControlModeValue climberMotorControlMode = ControlModeValue.DisabledOutput;
     public Angle climberMotorAngle = Rotations.zero();
     public Distance climberDistance = Meters.zero();
     public LinearVelocity climberVelocity = MetersPerSecond.zero();

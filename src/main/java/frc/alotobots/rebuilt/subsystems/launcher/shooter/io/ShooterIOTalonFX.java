@@ -63,7 +63,18 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorRight = new TalonFX(Constants.CanId.SHOOTER_RIGHT_CAN_ID, RIO_CAN_BUS);
 
     var motorLeftConfig = new TalonFXConfiguration();
-    configurePID(motorLeftConfig);
+    motorLeftConfig.Slot0.kP =
+            ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
+    motorLeftConfig.Slot0.kI =
+            ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
+    motorLeftConfig.Slot0.kD =
+            ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
+    motorLeftConfig.Slot0.kG =
+            ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
+    motorLeftConfig.Slot0.kS =
+            ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KS;
+    motorLeftConfig.Slot0.kV =
+            ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KV;
 
     motorLeftConfig.MotorOutput.NeutralMode =
         ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
@@ -136,18 +147,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   private void configurePID(TalonFXConfiguration motorLeftConfig) {
-    motorLeftConfig.Slot0.kP =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
-    motorLeftConfig.Slot0.kI =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KI;
-    motorLeftConfig.Slot0.kD =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KD;
-    motorLeftConfig.Slot0.kG =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KG;
-    motorLeftConfig.Slot0.kS =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KS;
-    motorLeftConfig.Slot0.kV =
-        ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KV;
+
   }
 
   @Override

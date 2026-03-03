@@ -43,8 +43,6 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
 import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberTalonFXConstants;
-import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.ClimberIOInputs;
-import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.PIDSlots;
 import frc.alotobots.util.PhoenixUtil;
 
 public class ClimberIOTalonFX implements ClimberIO {
@@ -150,8 +148,9 @@ public class ClimberIOTalonFX implements ClimberIO {
             currentPidSlot,
             climberMotorControlMode);
 
-    inputs.climberConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
-
+    inputs.climberMotorConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
+    inputs.climberMotorControlMode = climberMotorControlMode.getValue();
+    
     inputs.climberDistance = talonFXToExtension(climberMotorAngle.getValue());
     inputs.climberMotorAngle = climberMotorAngle.getValue();
 
@@ -161,7 +160,7 @@ public class ClimberIOTalonFX implements ClimberIO {
     inputs.climberMotorVolts = climberMotorAppliedVoltage.getValue();
     inputs.climberMotorCurrent = climberMotorAppliedCurrent.getValue();
 
-    inputs.climberPIDSlot =
+    inputs.climberMotorPIDSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.VELOCITY;
           case 1 -> PIDSlots.POSITION;

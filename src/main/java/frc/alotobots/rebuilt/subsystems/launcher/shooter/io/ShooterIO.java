@@ -44,7 +44,6 @@ public interface ShooterIO {
     public Current shooterMotorRightCurrent = Amps.zero();
 
     public ControlModeValue shooterMotorLeftControlMode = ControlModeValue.DisabledOutput;
-    public ControlModeValue shooterMotorRightControlMode = ControlModeValue.DisabledOutput;
   }
 
   /**
