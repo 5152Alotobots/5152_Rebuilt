@@ -22,6 +22,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.*;
@@ -40,6 +41,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX motorRight;
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0.0);
+  private final VoltageOut voltageOut = new VoltageOut(0.0);
 
   private StatusSignal<Angle> leftPosition;
   private StatusSignal<Angle> rightPosition;
@@ -205,6 +207,11 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void setShooterOpenLoop(double percentOutput) {
     motorLeft.setControl(dutyCycleOut.withOutput(percentOutput));
+  }
+
+  @Override
+  public void setShooterVoltage(Voltage voltage) {
+    motorLeft.setControl(voltageOut.withOutput(voltage));
   }
 
   @Override

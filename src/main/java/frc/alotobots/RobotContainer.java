@@ -340,7 +340,7 @@ public class RobotContainer {
               double minPos = ClimberConstants.Limits.MIN_CLIMB_EXTENSION.in(Meters);
               return Math.abs(currentPos - minPos) <= .05;
             }));
-    
+    // Sys id for turret 
     /*
     sysIDDynamicFwd.whileTrue(
         turretSubsystem.sysIdFwdDynamic()
@@ -353,7 +353,11 @@ public class RobotContainer {
     InstantCommand(turretSubsystem::stop)));
     sysIDQuasistaticRev.whileTrue(
         turretSubsystem.sysIdRevQuasiStatic().andThen(new
-    InstantCommand(turretSubsystem::stop))); */
+    InstantCommand(turretSubsystem::stop))); 
+    */
+    //Sys id for shooter
+    /* 
+     * TODO */
     // TEMPORARY!!
     resetGyroButton.onTrue(
         new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));

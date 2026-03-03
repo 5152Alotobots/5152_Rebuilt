@@ -76,6 +76,11 @@ public interface ShooterIO {
    */
   default void setShooterOpenLoop(double percentOutput) {}
 
+  /**
+   * Set Shooter Voltage
+   */
+  default void setShooterVoltage(Voltage voltage) {}
+
   /** Stops all shooter motor movement. */
   default void stop() {}
 }

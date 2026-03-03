@@ -25,6 +25,9 @@ import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretC
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_MIN_ANGLE;
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
@@ -37,8 +40,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOInputsAutoLogged;
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
 
 public class TurretSubsystem extends SubsystemBase {
   /** Hardware abstraction for the turret */
@@ -71,7 +72,7 @@ public class TurretSubsystem extends SubsystemBase {
                 Volts.of(.3).per(Second),
                 Volts.of(1.2),
                 null,
-                (state) -> Logger.recordOutput("SysId/State", state.toString())),
+                (state) -> Logger.recordOutput("SysId/Turret/State", state.toString())),
             new SysIdRoutine.Mechanism(
                 (voltage) -> this.runAtVoltage(voltage),
                 null, // No log consumer, since data is recorded by AdvantageKit

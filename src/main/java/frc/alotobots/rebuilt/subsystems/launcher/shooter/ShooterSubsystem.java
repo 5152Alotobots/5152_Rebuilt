@@ -12,19 +12,27 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.shooter;
 
-import static edu.wpi.first.units.Units.*;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.*;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_LIMITS_ENABLED;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_MAX_OPEN_LOOP_PERCENTAGE;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_MAX_VELOCITY;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD;
+
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOInputsAutoLogged;
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -36,8 +44,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @AutoLogOutput(key = "Launcher/Shooter/TargetVelocity")
   private AngularVelocity targetVelocity = RadiansPerSecond.zero();
+  private SysIdRoutine sysIdRoutine;
 
   public ShooterSubsystem(ShooterIO io) {
+    sysIdRoutine =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                Volts.of(.7).per(Second),
+                Volts.of(5),
+                null,
+                (state) -> Logger.recordOutput("SysId/Shooter/State", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> this.runAtVoltage(voltage),
+                null, 
+                this));
     this.io = io;
   }
 
@@ -70,6 +90,10 @@ public class ShooterSubsystem extends SubsystemBase {
         MathUtil.clamp(
             percentOutput, -SHOOTER_MAX_OPEN_LOOP_PERCENTAGE, SHOOTER_MAX_OPEN_LOOP_PERCENTAGE);
     io.setShooterOpenLoop(SHOOTER_LIMITS_ENABLED ? adjustedOutput : percentOutput);
+  }
+
+  private void runAtVoltage(Voltage voltageOut) {
+    io.setShooterVoltage(voltageOut);
   }
 
   /**
