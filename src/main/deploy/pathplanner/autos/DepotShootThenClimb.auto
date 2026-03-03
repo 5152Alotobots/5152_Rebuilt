@@ -7,13 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OutpostStart_Shoot"
+            "pathName": "DepotStart_Shoot"
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "LauncherTargetHubDynamicAndShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 6.0
+                }
+              }
+            ]
           }
         },
         {
@@ -25,7 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Outpost Climb"
+            "pathName": "Depot Climb 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot Climb 2"
           }
         },
         {

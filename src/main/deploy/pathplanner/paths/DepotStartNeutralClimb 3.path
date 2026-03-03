@@ -3,51 +3,51 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8770270270270277,
-        "y": 5.526238738738739
+        "x": 7.7184459459459465,
+        "y": 5.904636233951498
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0905518018018023,
-        "y": 4.586554054054054
+        "x": 7.7184459459459465,
+        "y": 6.904636233951498
       },
       "isLocked": false,
-      "linkedName": "Shoot_Depot"
+      "linkedName": "Neutral Zone Depot 2"
     },
     {
       "anchor": {
-        "x": 1.610495495495496,
-        "y": 3.7592229729729736
+        "x": 4.466034236804564,
+        "y": 7.586661911554922
       },
       "prevControl": {
-        "x": 4.317195945945947,
-        "y": 3.6570833333333335
+        "x": 7.0667047075606275,
+        "y": 7.573723252496434
       },
       "nextControl": {
-        "x": 1.3606733049063262,
-        "y": 3.7686502254480367
+        "x": 3.3400874321188674,
+        "y": 7.592263636951368
       },
       "isLocked": false,
-      "linkedName": "Climb_1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0610805139443666,
-        "y": 2.9
+        "x": 2.8770270270270277,
+        "y": 5.526238738738739
       },
       "prevControl": {
-        "x": 1.3110805139443666,
-        "y": 2.9
+        "x": 2.0594436519258195,
+        "y": 7.094992867332382
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb_2"
+      "linkedName": "Shoot_Depot"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 1.0243902439024353,
+      "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],
@@ -63,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -33.69006752597973
   },
   "reversed": false,
-  "folder": "PreloadWClimb",
+  "folder": "NeutralWThenClimb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -33.69006752597973
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

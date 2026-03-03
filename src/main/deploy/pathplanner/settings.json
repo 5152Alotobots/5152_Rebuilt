@@ -4,6 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [
     "BasicMeters",
+    "NeutralWThenClimb",
+    "Related to Outpost Specifically",
     "Positions",
     "PreloadWClimb",
     "PreloadWNeutral",
@@ -11,6 +13,8 @@
   ],
   "autoFolders": [
     "BasicMeters",
+    "NeutralWOutpostWClimbCOOL",
+    "NeutralWThenClimb",
     "PreloadWClimb",
     "PreloadWNeutral",
     "Preload_Only"

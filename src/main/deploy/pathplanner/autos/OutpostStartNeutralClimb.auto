@@ -7,7 +7,38 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OutpostStart_Shoot"
+            "pathName": "OutpostStartNeutralClimb"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "OutpostStartNeutralClimb 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DeployIntakeAndIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RetractIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OutpostStartNeutralClimb 3"
           }
         },
         {
@@ -23,7 +54,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 6.0
+                  "waitTime": 9.0
                 }
               }
             ]
@@ -38,13 +69,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Outpost Climb 1"
+            "pathName": "OutpostStartNeutralClimb 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Outpost Climb 2"
+            "pathName": "OutpostStartNeutralClimb 5"
           }
         },
         {
@@ -57,6 +88,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "PreloadWClimb",
+  "folder": "NeutralWThenClimb",
   "choreoAuto": false
 }

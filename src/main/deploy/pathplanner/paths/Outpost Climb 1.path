@@ -3,38 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7184459459459465,
-        "y": 5.904636233951498
+        "x": 2.7646734234234236,
+        "y": 2.860394144144144
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.7184459459459465,
-        "y": 4.904636233951498
+        "x": 1.9614635068034638,
+        "y": 2.860394144144144
       },
       "isLocked": false,
-      "linkedName": "Neutral Zone Depot 2"
+      "linkedName": "Shoot_Outpost"
     },
     {
       "anchor": {
-        "x": 7.7184459459459465,
-        "y": 7.15025900900901
+        "x": 1.0385135135135142,
+        "y": 2.748040540540541
       },
       "prevControl": {
-        "x": 7.7184459459459465,
-        "y": 6.15025900900901
+        "x": 1.5675005671367157,
+        "y": 2.818648648648649
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Neutral Zone Depot 1"
+      "linkedName": "Outpost Climb 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 0.5,
+    "maxAcceleration": 0.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "PreloadWClimb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 31.328692867804087
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
