@@ -1,0 +1,87 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OutpostStartNeutralClimb"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "OutpostStartNeutralClimb 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OutpostStartNeutralClimb 3"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 9.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OutpostStartNeutralClimb 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OutpostStartNeutralClimb 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbUp"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "NeutralWThenClimb",
+  "choreoAuto": false
+}

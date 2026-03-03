@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7943468468468473,
-        "y": 4.004358108108108
+        "x": 3.592004504504505,
+        "y": 7.221756756756756
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5443468468468473,
-        "y": 4.004358108108108
+        "x": 4.947144444444445,
+        "y": 7.562488888888888
       },
       "isLocked": false,
-      "linkedName": "Climb_1"
+      "linkedName": "DepotStart"
     },
     {
       "anchor": {
-        "x": 1.0385135135135142,
-        "y": 2.894899999999999
+        "x": 7.7184459459459465,
+        "y": 7.15025900900901
       },
       "prevControl": {
-        "x": 1.2885135135135142,
-        "y": 2.894899999999999
+        "x": 6.7184459459459465,
+        "y": 7.15025900900901
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Climb_2 Outpost"
+      "linkedName": "Neutral Zone Depot 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.264294282287087,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,10 +47,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "NeutralWThenClimb",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

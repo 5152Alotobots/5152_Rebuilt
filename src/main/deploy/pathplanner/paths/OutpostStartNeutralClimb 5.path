@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7943468468468473,
-        "y": 4.004358108108108
+        "x": 1.0385135135135142,
+        "y": 2.748040540540541
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5443468468468473,
-        "y": 4.004358108108108
+        "x": 1.0385135135135142,
+        "y": 2.998040540540541
       },
       "isLocked": false,
-      "linkedName": "Climb_1"
+      "linkedName": "Outpost Climb 1"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 2.894899999999999
       },
       "prevControl": {
-        "x": 1.2885135135135142,
-        "y": 2.894899999999999
+        "x": 1.0385135135135142,
+        "y": 2.644899999999999
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "NeutralWThenClimb",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
