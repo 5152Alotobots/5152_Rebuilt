@@ -31,12 +31,12 @@ public interface ClimberIO {
     public PIDSlots climberPIDSlot = PIDSlots.VELOCITY;
     public ControlModeValue climberControlMode = ControlModeValue.DisabledOutput;
     public boolean climberConnected = false;
+    public Angle climberMotorAngle = Rotations.zero();
     public Distance climberDistance = Meters.zero();
-    public Angle climberAngle = Rotations.zero();
-    public AngularVelocity climberVelocity = RotationsPerSecond.zero();
-    public AngularAcceleration climberAcceleration = RotationsPerSecondPerSecond.zero();
-    public Voltage climberVolts = Volts.zero();
-    public Current climberCurrent = Amps.zero();
+    public LinearVelocity climberVelocity = MetersPerSecond.zero();
+    public LinearAcceleration climberAcceleration = MetersPerSecondPerSecond.zero();
+    public Voltage climberMotorVolts = Volts.zero();
+    public Current climberMotorCurrent = Amps.zero();
   }
 
   /**

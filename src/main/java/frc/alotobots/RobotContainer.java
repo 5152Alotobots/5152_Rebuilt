@@ -74,6 +74,7 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
+import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
@@ -327,7 +328,7 @@ public class RobotContainer {
             deflectorSubsystem,
             turretSubsystem,
             LauncherTargetHubFixedAndShoot.FIXED_SHOOTING_POSITION_CENTER));
-    dumpBalls.whileTrue(new IntakeRollerEject(intakeRollerSubsystem, () -> 1.0));
+    dumpBalls.whileTrue(new IntakeRollerEject(intakeRollerSubsystem, () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
     lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     toggleClimber.onTrue(
         new ConditionalCommand(

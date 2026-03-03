@@ -152,14 +152,13 @@ public class ClimberIOTalonFX implements ClimberIO {
     inputs.climberConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
 
     inputs.climberDistance = talonFXToExtension(climberMotorAngle.getValue());
-    inputs.climberAngle = climberMotorAngle.getValue();
+    inputs.climberMotorAngle = climberMotorAngle.getValue();
 
-    inputs.climberVelocity = climberMotorVelocity.getValue();
+    inputs.climberVelocity = talonFXToLinearVelocity(climberMotorVelocity.getValue());
+    inputs.climberAcceleration = talonFXToLinearAcceleration(climberMotorAcceleration.getValue());
 
-    inputs.climberAcceleration = climberMotorAcceleration.getValue();
-
-    inputs.climberVolts = climberMotorAppliedVoltage.getValue();
-    inputs.climberCurrent = climberMotorAppliedCurrent.getValue();
+    inputs.climberMotorVolts = climberMotorAppliedVoltage.getValue();
+    inputs.climberMotorCurrent = climberMotorAppliedCurrent.getValue();
 
     inputs.climberPIDSlot =
         switch (currentPidSlot.getValue()) {
@@ -170,8 +169,6 @@ public class ClimberIOTalonFX implements ClimberIO {
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
 
-    talonFXToLinearVelocity(inputs.climberVelocity);
-    talonFXToLinearAcceleration(inputs.climberAcceleration);
   }
 
   @Override
