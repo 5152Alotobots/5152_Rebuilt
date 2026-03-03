@@ -54,7 +54,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 1.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
@@ -66,7 +66,7 @@
     "rotation": -33.69006752597973
   },
   "reversed": false,
-  "folder": "NeutralWThenClimb",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0
