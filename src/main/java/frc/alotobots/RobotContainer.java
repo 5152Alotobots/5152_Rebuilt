@@ -22,13 +22,7 @@ import static frc.alotobots.OI.shoot;
 import static frc.alotobots.OI.toggleClimber;
 import static frc.alotobots.OI.turretAimShoot;
 
-import org.ironmaple.simulation.SimulatedArena;
-import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -89,12 +83,15 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.DefaultTurretRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretRunPercentOut;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
 import frc.alotobots.util.NotificationPresets;
+import org.ironmaple.simulation.SimulatedArena;
+import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
   private final SwerveDriveSubsystem swerveDriveSubsystem;
@@ -287,7 +284,7 @@ public class RobotContainer {
   /** Commands that run when nothing else is */
   private void configureDefaultCommands() {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
-    
+
     // TODO !important SHOULD BE REMOVED BEFORE COMP
     intakeExtendoSubsystem.setDefaultCommand(
         new DefaultIntakeExtendoRunAtVelocity(intakeExtendoSubsystem, OI::getTestingClimberAxis));
@@ -310,7 +307,8 @@ public class RobotContainer {
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
     intakeIn.onTrue(
-        new IntakeExtendoRunToExtension(intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
+        new IntakeExtendoRunToExtension(
+            intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
     // Launcher
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
@@ -328,7 +326,10 @@ public class RobotContainer {
             deflectorSubsystem,
             turretSubsystem,
             LauncherTargetHubFixedAndShoot.FIXED_SHOOTING_POSITION_CENTER));
-    dumpBalls.whileTrue(new IntakeRollerEject(intakeRollerSubsystem, () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
+    dumpBalls.whileTrue(
+        new IntakeRollerEject(
+            intakeRollerSubsystem,
+            () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
     lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     toggleClimber.onTrue(
         new ConditionalCommand(
@@ -341,7 +342,7 @@ public class RobotContainer {
               double minPos = ClimberConstants.Limits.MIN_CLIMB_EXTENSION.in(Meters);
               return Math.abs(currentPos - minPos) <= .05;
             }));
-    // Sys id for turret 
+    // Sys id for turret
     /*
     sysIDDynamicFwd.whileTrue(
         turretSubsystem.sysIdFwdDynamic()
@@ -354,10 +355,10 @@ public class RobotContainer {
     InstantCommand(turretSubsystem::stop)));
     sysIDQuasistaticRev.whileTrue(
         turretSubsystem.sysIdRevQuasiStatic().andThen(new
-    InstantCommand(turretSubsystem::stop))); 
+    InstantCommand(turretSubsystem::stop)));
     */
-    //Sys id for shooter
-    /* 
+    // Sys id for shooter
+    /*
      * TODO */
     // TEMPORARY!!
     resetGyroButton.onTrue(

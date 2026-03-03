@@ -22,9 +22,6 @@ import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.Shoote
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -33,6 +30,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -44,6 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @AutoLogOutput(key = "Launcher/Shooter/TargetVelocity")
   private AngularVelocity targetVelocity = RadiansPerSecond.zero();
+
   private SysIdRoutine sysIdRoutine;
 
   public ShooterSubsystem(ShooterIO io) {
@@ -54,10 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 Volts.of(5),
                 null,
                 (state) -> Logger.recordOutput("SysId/Shooter/State", state.toString())),
-            new SysIdRoutine.Mechanism(
-                (voltage) -> this.runAtVoltage(voltage),
-                null, 
-                this));
+            new SysIdRoutine.Mechanism((voltage) -> this.runAtVoltage(voltage), null, this));
     this.io = io;
   }
 

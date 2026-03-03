@@ -54,7 +54,6 @@ public class ShooterIOTalonFX implements ShooterIO {
   private StatusSignal<Current> leftAppliedCurrent;
   private StatusSignal<Current> rightAppliedCurrent;
   private StatusSignal<ControlModeValue> leftControlMode;
-  private StatusSignal<ControlModeValue> rightControlMode;
   private StatusSignal<Integer> currentPidSlot;
   private Debouncer leftConnectedDebounce = new Debouncer(0.1);
   private Debouncer rightConnectedDebounce = new Debouncer(0.1);
@@ -115,7 +114,6 @@ public class ShooterIOTalonFX implements ShooterIO {
     rightAppliedCurrent = motorRight.getStatorCurrent();
 
     leftControlMode = motorLeft.getControlMode();
-    rightControlMode = motorRight.getControlMode();
 
     currentPidSlot = motorLeft.getClosedLoopSlot();
 
@@ -132,7 +130,6 @@ public class ShooterIOTalonFX implements ShooterIO {
         leftAppliedCurrent,
         rightAppliedCurrent,
         leftControlMode,
-        rightControlMode,
         currentPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(motorLeft, motorRight);
@@ -170,8 +167,7 @@ public class ShooterIOTalonFX implements ShooterIO {
             rightVelocity,
             rightAcceleration,
             rightAppliedVoltage,
-            rightAppliedCurrent,
-            rightControlMode);
+            rightAppliedCurrent);
 
     inputs.shooterMotorsPIDSlot =
         switch (currentPidSlot.getValue()) {
@@ -191,7 +187,6 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.shooterMotorLeftCurrent = leftAppliedCurrent.getValue();
     inputs.shooterMotorRightCurrent = rightAppliedCurrent.getValue();
     inputs.shooterMotorLeftControlMode = leftControlMode.getValue();
-    inputs.shooterMotorRightControlMode = rightControlMode.getValue();
   }
 
   @Override

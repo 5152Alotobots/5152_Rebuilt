@@ -20,6 +20,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface IntakeExtendoIO {
   enum PIDSlots {
     VELOCITY,
+    POSITION,
     MOTION_MAGIC_POSITION,
   }
 

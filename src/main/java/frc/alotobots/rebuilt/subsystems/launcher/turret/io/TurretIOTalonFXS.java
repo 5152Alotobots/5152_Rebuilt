@@ -74,8 +74,6 @@ public class TurretIOTalonFXS implements TurretIO {
         TurretTalonFXSConstants.TURRET_SENSOR_TO_MECHANISM_RATIO;
     turretMotorConfig.CurrentLimits.StatorCurrentLimit =
         TurretTalonFXSConstants.MotorSafetyLimits.TURRET_STATOR_AMP_LIMIT.in(Amps);
-    turretMotorConfig.CurrentLimits.StatorCurrentLimitEnable =
-        TurretTalonFXSConstants.MotorSafetyLimits.TURRET_STATOR_AMP_LIMIT_ENABLED;
 
     PhoenixUtil.tryUntilOk(5, () -> turretMotor.getConfigurator().apply(turretMotorConfig, 0.25));
 

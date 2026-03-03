@@ -147,7 +147,8 @@ public class ClimberIOTalonFX implements ClimberIO {
             climberMotorAcceleration,
             climberMotorAppliedVoltage,
             climberMotorAppliedCurrent,
-            currentPidSlot);
+            currentPidSlot,
+            climberMotorControlMode);
 
     inputs.climberConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
 
@@ -168,21 +169,11 @@ public class ClimberIOTalonFX implements ClimberIO {
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
-
   }
 
   @Override
   public void setClimberPosition(Distance position, PIDSlots pidSlot) {
-    // if (pidSlot.equals(PIDSlots.MOTION_MAGIC_POSITION)) {
-    //   climberMotor.setControl(
-    //       magicPositionVoltage
-    //           .withPosition(extensionToTalonFX(position))
-    //           .withSlot(pidSlot.ordinal()));
-    //   return;
-    // } else {
     climberMotor.setControl(positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(1));
-
-    // }
   }
 
   @Override

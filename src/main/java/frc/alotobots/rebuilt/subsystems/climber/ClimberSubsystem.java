@@ -32,7 +32,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
 
   private Distance targetPosition = Meters.of(0.0);
-  private Distance climberPosition = Meters.of(0.0);
   private final Debouncer atTargetDebouncer =
       new Debouncer(AT_TARGET_CLIMB_TIME_THRESHOLD.in(Seconds), Debouncer.DebounceType.kRising);
 
@@ -46,7 +45,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public Distance getClimberPosition() {
-    return climberPosition;
+    return inputs.climberDistance;
   }
 
   @Override
@@ -56,7 +55,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     Logger.recordOutput("Climber/TargetPosition", targetPosition);
     Logger.recordOutput("Climber/AtTarget", isAtTargetExtension());
-    climberPosition = inputs.climberDistance;
   }
 
   /**

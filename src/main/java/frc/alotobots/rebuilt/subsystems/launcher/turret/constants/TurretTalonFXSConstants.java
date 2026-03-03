@@ -59,8 +59,6 @@ public class TurretTalonFXSConstants {
   public static final class MotorSafetyLimits {
     /** Maximum stator current limit in amperes */
     public static final Current TURRET_STATOR_AMP_LIMIT = Amps.of(45);
-
-    public static final boolean TURRET_STATOR_AMP_LIMIT_ENABLED = true;
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */
