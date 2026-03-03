@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.7184459459459465,
-        "y": 5.403671171171172
+        "y": 5.904636233951498
       },
       "prevControl": null,
       "nextControl": {
         "x": 7.7184459459459465,
-        "y": 4.403671171171172
+        "y": 4.904636233951498
       },
       "isLocked": false,
       "linkedName": "Neutral Zone Depot 2"

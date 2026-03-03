@@ -23,10 +23,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "LauncherTargetHubDynamicAndShoot"
+                  "name": "DeployIntakeAndIntake"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RetractIntake"
           }
         },
         {
@@ -55,15 +61,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "OutpostStartNeutralClimb 4"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "ClimbDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OutpostStartNeutralClimb 4"
           }
         },
         {

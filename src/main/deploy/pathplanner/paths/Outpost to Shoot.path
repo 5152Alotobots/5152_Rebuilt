@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7184459459459465,
-        "y": 7.15025900900901
+        "x": 0.4809272467902993,
+        "y": 0.6515406562054205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.7184459459459465,
-        "y": 6.150259009009011
+        "x": 1.8136091298145507,
+        "y": 1.4149215406562061
       },
       "isLocked": false,
-      "linkedName": "Neutral Zone Depot 1"
+      "linkedName": "Outpost"
     },
     {
       "anchor": {
-        "x": 7.7184459459459465,
-        "y": 5.904636233951498
+        "x": 2.7646734234234236,
+        "y": 2.860394144144144
       },
       "prevControl": {
-        "x": 7.7184459459459465,
-        "y": 6.904636233951498
+        "x": 1.9559343794579167,
+        "y": 1.9583452211126975
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Neutral Zone Depot 2"
+      "linkedName": "Shoot_Outpost"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 31.328692867804087
   },
   "reversed": false,
-  "folder": "NeutralWThenClimb",
+  "folder": "Related to Outpost Specifically",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
