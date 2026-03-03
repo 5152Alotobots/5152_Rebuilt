@@ -54,34 +54,34 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
 
     // PID configuration for velocity mode (Slot 0)
     intakeExtendoMotorConfig.Slot0.kP =
-            IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KP;
     intakeExtendoMotorConfig.Slot0.kI =
-            IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KI;
     intakeExtendoMotorConfig.Slot0.kD =
-            IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KD;
     intakeExtendoMotorConfig.Slot0.kG =
-            IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KG;
     intakeExtendoMotorConfig.Slot0.kS =
-            IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KS;
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KS;
     intakeExtendoMotorConfig.Slot0.kV =
-            IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
+        IntakeExtendoTalonFXConstants.PIDConstants.VelocityPIDConstants.KV;
 
     // PID configuration for position mode (motion magic voltage) (Slot 1)
     intakeExtendoMotorConfig.Slot1.kP =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KP;
     intakeExtendoMotorConfig.Slot1.kI =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KI;
     intakeExtendoMotorConfig.Slot1.kD =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KD;
     intakeExtendoMotorConfig.Slot1.kA =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KA;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KA;
     intakeExtendoMotorConfig.Slot1.GravityType = GravityTypeValue.Elevator_Static;
     intakeExtendoMotorConfig.Slot1.kG =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KG;
     intakeExtendoMotorConfig.Slot1.kS =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KS;
     intakeExtendoMotorConfig.Slot1.kV =
-            IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
+        IntakeExtendoTalonFXConstants.PIDConstants.PositionPIDConstants.KV;
 
     intakeExtendoMotorConfig.MotorOutput.NeutralMode =
         IntakeExtendoTalonFXConstants.MECHANISM_NEUTRAL_MODE;
@@ -129,7 +129,7 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
 
     ParentDevice.optimizeBusUtilizationForAll(intakeExtendoMotor);
   }
-  
+
   @Override
   public void updateInputs(IntakeExtendoIOInputs inputs) {
     var intakeExtendoSignals =

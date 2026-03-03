@@ -34,6 +34,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @AutoLogOutput(key = "Climber/TargetPosition")
   private Distance targetPosition = Meters.of(0.0);
+
   private final Debouncer atTargetDebouncer =
       new Debouncer(AT_TARGET_CLIMB_TIME_THRESHOLD.in(Seconds), Debouncer.DebounceType.kRising);
 
@@ -45,7 +46,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem(ClimberIO io) {
     this.io = io;
   }
-  
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);

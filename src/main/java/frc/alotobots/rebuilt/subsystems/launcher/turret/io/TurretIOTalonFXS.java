@@ -63,25 +63,25 @@ public class TurretIOTalonFXS implements TurretIO {
 
     // PID configuration for position mode (Slot 0)
     turretMotorConfig.Slot0.kP =
-            TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
     turretMotorConfig.Slot0.kD =
-            TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
     turretMotorConfig.Slot0.kS =
-            TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KS;
+        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KS;
 
     // PID configuration for velocity mode (Slot 1)
     turretMotorConfig.Slot1.kP =
-            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
     turretMotorConfig.Slot1.kI =
-            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
     turretMotorConfig.Slot1.kD =
-            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
     turretMotorConfig.Slot1.kG =
-            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
     turretMotorConfig.Slot1.kS =
-            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
     turretMotorConfig.Slot1.kV =
-            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
+        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
 
     turretMotorConfig.MotorOutput.NeutralMode =
         TurretTalonFXSConstants.TURRET_MECHANISM_NEUTRAL_MODE;

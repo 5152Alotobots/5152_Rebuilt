@@ -150,7 +150,7 @@ public class ClimberIOTalonFX implements ClimberIO {
 
     inputs.climberMotorConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
     inputs.climberMotorControlMode = climberMotorControlMode.getValue();
-    
+
     inputs.climberDistance = talonFXToExtension(climberMotorAngle.getValue());
     inputs.climberMotorAngle = climberMotorAngle.getValue();
 
