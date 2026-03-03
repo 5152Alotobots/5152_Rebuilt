@@ -43,8 +43,6 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
 import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberTalonFXConstants;
-import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.ClimberIOInputs;
-import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO.PIDSlots;
 import frc.alotobots.util.PhoenixUtil;
 
 public class ClimberIOTalonFX implements ClimberIO {
@@ -54,12 +52,12 @@ public class ClimberIOTalonFX implements ClimberIO {
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
 
   private StatusSignal<Angle> climberMotorAngle;
-  private StatusSignal<AngularVelocity> climberVelocity;
-  private StatusSignal<AngularAcceleration> climberAcceleration;
-  private StatusSignal<Voltage> climberAppliedVoltage;
-  private StatusSignal<Current> climberAppliedCurrent;
+  private StatusSignal<AngularVelocity> climberMotorVelocity;
+  private StatusSignal<AngularAcceleration> climberMotorAcceleration;
+  private StatusSignal<Voltage> climberMotorAppliedVoltage;
+  private StatusSignal<Current> climberMotorAppliedCurrent;
   private StatusSignal<Integer> currentPidSlot;
-  private StatusSignal<ControlModeValue> climberControlMode;
+  private StatusSignal<ControlModeValue> climberMotorControlMode;
   private Debouncer climberConnectedDebounce = new Debouncer(0.1);
 
   public ClimberIOTalonFX() {
@@ -118,22 +116,22 @@ public class ClimberIOTalonFX implements ClimberIO {
     PhoenixUtil.tryUntilOk(5, () -> climberMotor.getConfigurator().apply(climberMotorConfig, 0.25));
 
     climberMotorAngle = climberMotor.getPosition();
-    climberVelocity = climberMotor.getVelocity();
-    climberAcceleration = climberMotor.getAcceleration();
-    climberAppliedVoltage = climberMotor.getMotorVoltage();
-    climberAppliedCurrent = climberMotor.getStatorCurrent();
+    climberMotorVelocity = climberMotor.getVelocity();
+    climberMotorAcceleration = climberMotor.getAcceleration();
+    climberMotorAppliedVoltage = climberMotor.getMotorVoltage();
+    climberMotorAppliedCurrent = climberMotor.getStatorCurrent();
     currentPidSlot = climberMotor.getClosedLoopSlot();
-    climberControlMode = climberMotor.getControlMode();
+    climberMotorControlMode = climberMotor.getControlMode();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         Constants.CanId.DEFAULT_CAN_FREQUENCY,
         climberMotorAngle,
-        climberVelocity,
-        climberAcceleration,
-        climberAppliedVoltage,
-        climberAppliedCurrent,
+        climberMotorVelocity,
+        climberMotorAcceleration,
+        climberMotorAppliedVoltage,
+        climberMotorAppliedCurrent,
         currentPidSlot,
-        climberControlMode);
+        climberMotorControlMode);
 
     ParentDevice.optimizeBusUtilizationForAll(climberMotor);
   }
@@ -143,23 +141,24 @@ public class ClimberIOTalonFX implements ClimberIO {
     var climberSignals =
         BaseStatusSignal.refreshAll(
             climberMotorAngle,
-            climberVelocity,
-            climberAcceleration,
-            climberAppliedVoltage,
-            climberAppliedCurrent,
-            currentPidSlot);
+            climberMotorVelocity,
+            climberMotorAcceleration,
+            climberMotorAppliedVoltage,
+            climberMotorAppliedCurrent,
+            currentPidSlot,
+            climberMotorControlMode);
 
     inputs.climberMotorConnected = climberConnectedDebounce.calculate(climberSignals.isOK());
-
+    inputs.climberMotorControlMode = climberMotorControlMode.getValue();
+    
     inputs.climberDistance = talonFXToExtension(climberMotorAngle.getValue());
     inputs.climberMotorAngle = climberMotorAngle.getValue();
 
-    inputs.climberMotorVelocity = climberVelocity.getValue();
+    inputs.climberVelocity = talonFXToLinearVelocity(climberMotorVelocity.getValue());
+    inputs.climberAcceleration = talonFXToLinearAcceleration(climberMotorAcceleration.getValue());
 
-    inputs.climberMotorAcceleration = climberAcceleration.getValue();
-
-    inputs.climberMotorVolts = climberAppliedVoltage.getValue();
-    inputs.climberMotorCurrent = climberAppliedCurrent.getValue();
+    inputs.climberMotorVolts = climberMotorAppliedVoltage.getValue();
+    inputs.climberMotorCurrent = climberMotorAppliedCurrent.getValue();
 
     inputs.climberMotorPIDSlot =
         switch (currentPidSlot.getValue()) {
@@ -169,23 +168,11 @@ public class ClimberIOTalonFX implements ClimberIO {
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
-
-    talonFXToLinearVelocity(inputs.climberMotorVelocity);
-    talonFXToLinearAcceleration(inputs.climberMotorAcceleration);
   }
 
   @Override
   public void setClimberPosition(Distance position, PIDSlots pidSlot) {
-    // if (pidSlot.equals(PIDSlots.MOTION_MAGIC_POSITION)) {
-    //   climberMotor.setControl(
-    //       magicPositionVoltage
-    //           .withPosition(extensionToTalonFX(position))
-    //           .withSlot(pidSlot.ordinal()));
-    //   return;
-    // } else {
     climberMotor.setControl(positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(1));
-
-    // }
   }
 
   @Override

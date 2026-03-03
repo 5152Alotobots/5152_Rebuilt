@@ -25,8 +25,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFXS;
-import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.MotorArrangementValue;
+import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
@@ -55,6 +54,7 @@ public class TurretIOTalonFXS implements TurretIO {
   private StatusSignal<Voltage> turretMotorVoltage;
   private StatusSignal<Current> turretMotorCurrent;
   private StatusSignal<Integer> currentPidSlot;
+  private StatusSignal<ControlModeValue> turretMotorControlMode;
 
   public TurretIOTalonFXS() {
     turretMotor = new TalonFXS(Constants.CanId.TURRET_CAN_ID, RIO_CAN_BUS);
@@ -63,38 +63,37 @@ public class TurretIOTalonFXS implements TurretIO {
 
     // PID configuration for position mode (Slot 0)
     turretMotorConfig.Slot0.kP =
-        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
+            TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KP;
     turretMotorConfig.Slot0.kD =
-        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
+            TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KD;
     turretMotorConfig.Slot0.kS =
-        TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KS;
+            TurretTalonFXSConstants.PIDConstants.PositionPIDConstants.TURRET_POSITION_KS;
 
     // PID configuration for velocity mode (Slot 1)
     turretMotorConfig.Slot1.kP =
-        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
+            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KP;
     turretMotorConfig.Slot1.kI =
-        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
+            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KI;
     turretMotorConfig.Slot1.kD =
-        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
+            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KD;
     turretMotorConfig.Slot1.kG =
-        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
+            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KG;
     turretMotorConfig.Slot1.kS =
-        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
+            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KS;
     turretMotorConfig.Slot1.kV =
-        TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
+            TurretTalonFXSConstants.PIDConstants.VelocityPIDConstants.TURRET_VELOCITY_KV;
 
     turretMotorConfig.MotorOutput.NeutralMode =
         TurretTalonFXSConstants.TURRET_MECHANISM_NEUTRAL_MODE;
     turretMotorConfig.MotorOutput.Inverted = TurretTalonFXSConstants.TURRET_MOTOR_DIRECTION;
     turretMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
-        ExternalFeedbackSensorSourceValue.Commutation;
-    turretMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        TurretTalonFXSConstants.TURRET_SENSOR_TYPE;
+    turretMotorConfig.Commutation.MotorArrangement =
+        TurretTalonFXSConstants.TURRET_MOTOR_ARRANGEMENT;
     turretMotorConfig.ExternalFeedback.SensorToMechanismRatio =
         TurretTalonFXSConstants.TURRET_SENSOR_TO_MECHANISM_RATIO;
-
     turretMotorConfig.CurrentLimits.StatorCurrentLimit =
         TurretTalonFXSConstants.MotorSafetyLimits.TURRET_STATOR_AMP_LIMIT.in(Amps);
-    turretMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     PhoenixUtil.tryUntilOk(5, () -> turretMotor.getConfigurator().apply(turretMotorConfig, 0.25));
 
@@ -103,6 +102,7 @@ public class TurretIOTalonFXS implements TurretIO {
     turretMotorAcceleration = turretMotor.getAcceleration();
     turretMotorVoltage = turretMotor.getMotorVoltage();
     turretMotorCurrent = turretMotor.getStatorCurrent();
+    turretMotorControlMode = turretMotor.getControlMode();
     currentPidSlot = turretMotor.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
@@ -112,6 +112,7 @@ public class TurretIOTalonFXS implements TurretIO {
         turretMotorAcceleration,
         turretMotorVoltage,
         turretMotorCurrent,
+        turretMotorControlMode,
         currentPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(turretMotor);
@@ -126,16 +127,14 @@ public class TurretIOTalonFXS implements TurretIO {
             turretMotorAcceleration,
             turretMotorVoltage,
             turretMotorCurrent,
+            turretMotorControlMode,
             currentPidSlot);
 
     inputs.turretMotorConnected = turretMotorConnectedDebouncer.calculate(turretSignals.isOK());
-
+    inputs.turretMotorControlMode = turretMotorControlMode.getValue();
     inputs.turretAngle = turretMotorPosition.getValue();
-
     inputs.turretMotorVelocity = turretMotorVelocity.getValue();
-
     inputs.turretMotorAcceleration = turretMotorAcceleration.getValue();
-
     inputs.turretMotorVolts = turretMotorVoltage.getValue();
     inputs.turretMotorCurrent = turretMotorCurrent.getValue();
 
@@ -162,18 +161,18 @@ public class TurretIOTalonFXS implements TurretIO {
    */
   @Override
   public void setTurretPosition(Angle position, PIDSlots pidSlot) {
-    if (pidSlot == PIDSlots.OPEN_LOOP)
+    if (pidSlot == PIDSlots.VELOCITY)
       throw new IllegalArgumentException(
-          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
+          "PIDSlots value VELOCITY cannot be used in a position control mode");
 
     turretMotor.setControl(positionControl.withPosition(position).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setTurretPosition(Angle position, AngularVelocity velocity, PIDSlots pidSlot) {
-    if (pidSlot == PIDSlots.OPEN_LOOP)
+    if (pidSlot == PIDSlots.VELOCITY)
       throw new IllegalArgumentException(
-          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
+          "PIDSlots value VELOCITY cannot be used in a position control mode");
 
     turretMotor.setControl(
         positionControl.withPosition(position).withVelocity(velocity).withSlot(pidSlot.ordinal()));
@@ -186,9 +185,9 @@ public class TurretIOTalonFXS implements TurretIO {
 
   @Override
   public void setTurretVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    if (pidSlot == PIDSlots.OPEN_LOOP)
+    if (pidSlot == PIDSlots.DEFAULT_POSITION)
       throw new IllegalArgumentException(
-          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
+          "PIDSlots value DEFAULT_POSITION cannot be used in a velocity control mode");
 
     turretMotor.setControl(velocityVoltage.withVelocity(velocity).withSlot(pidSlot.ordinal()));
   }

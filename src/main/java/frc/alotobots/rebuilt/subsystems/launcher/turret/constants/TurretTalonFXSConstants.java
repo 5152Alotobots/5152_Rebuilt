@@ -14,7 +14,9 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
 import static edu.wpi.first.units.Units.Amps;
 
+import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Current;
@@ -61,6 +63,11 @@ public class TurretTalonFXSConstants {
 
   /** Neutral mode (brake/coast) setting for the mechanism */
   public static final NeutralModeValue TURRET_MECHANISM_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+  public static final ExternalFeedbackSensorSourceValue TURRET_SENSOR_TYPE =
+      ExternalFeedbackSensorSourceValue.Commutation;
+  public static final MotorArrangementValue TURRET_MOTOR_ARRANGEMENT =
+      MotorArrangementValue.Minion_JST;
 
   public static final InvertedValue TURRET_MOTOR_DIRECTION = InvertedValue.Clockwise_Positive;
 
