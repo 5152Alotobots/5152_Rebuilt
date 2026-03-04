@@ -58,7 +58,7 @@ public class TurretTalonFXSConstants {
   /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
     /** Maximum stator current limit in amperes */
-    public static final Current TURRET_STATOR_AMP_LIMIT = Amps.of(45);
+    public static final Current TURRET_STATOR_AMP_LIMIT = Amps.of(35);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */

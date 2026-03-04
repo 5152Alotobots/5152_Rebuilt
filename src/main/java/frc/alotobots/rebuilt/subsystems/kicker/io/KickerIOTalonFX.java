@@ -12,6 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.kicker.io;
 
+import static edu.wpi.first.units.Units.Amps;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
@@ -66,6 +67,16 @@ public class KickerIOTalonFX implements KickerIO {
     motorKickerConfig.Slot0.kD = KickerTalonFXConstants.VELOCITY_D_GAIN;
     motorKickerConfig.Slot0.kV = KickerTalonFXConstants.VELOCITY_V_GAIN;
     motorKickerConfig.Slot0.kS = KickerTalonFXConstants.VELOCITY_S_GAIN;
+
+
+    motorKickerConfig.TorqueCurrent.PeakForwardTorqueCurrent =
+        KickerTalonFXConstants.MotorSafetyLimits.KICKER_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
+    motorKickerConfig.TorqueCurrent.PeakReverseTorqueCurrent =
+        KickerTalonFXConstants.MotorSafetyLimits.KICKER_TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+    motorKickerConfig.CurrentLimits.StatorCurrentLimit =
+        KickerTalonFXConstants.MotorSafetyLimits.KICKER_STATOR_AMP_LIMIT.in(Amps);
+    motorKickerConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+
 
     PhoenixUtil.tryUntilOk(5, () -> motorKicker.getConfigurator().apply(motorKickerConfig, 0.25));
 
