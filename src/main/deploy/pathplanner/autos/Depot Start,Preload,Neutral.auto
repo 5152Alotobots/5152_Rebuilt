@@ -36,7 +36,7 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
@@ -46,9 +46,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "DeployIntakeAndIntake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "DeployIntakeAndIntake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 5.0
+                      }
+                    }
+                  ]
                 }
               }
             ]

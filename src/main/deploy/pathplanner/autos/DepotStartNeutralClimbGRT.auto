@@ -5,13 +5,32 @@
     "data": {
       "commands": [
         {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "DepotStartNeutralClimb"
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
@@ -30,15 +49,16 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "RetractIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "DepotStartNeutralClimb 3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "DepotStartNeutralClimb 3"
+                }
+              }
+            ]
           }
         },
         {
@@ -54,7 +74,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 9.0
+                  "waitTime": 6.0
                 }
               }
             ]
