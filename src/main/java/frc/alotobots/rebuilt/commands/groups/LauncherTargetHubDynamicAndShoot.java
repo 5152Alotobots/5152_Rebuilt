@@ -41,14 +41,20 @@ public class LauncherTargetHubDynamicAndShoot extends SequentialCommandGroup {
     addCommands(
         new ParallelCommandGroup(
                 new DeflectorFollowPosition(
-                    deflectorSubsystem, () -> launchCalculator.getParameters().deflectorAngle()),
+                    deflectorSubsystem,
+                    () -> launchCalculator.getHubTargetParameters().deflectorAngle()),
                 new DefaultShooterRunAtVelocity(
-                    shooterSubsystem, () -> launchCalculator.getParameters().shooterVelocity()),
+                    shooterSubsystem,
+                    () -> launchCalculator.getHubTargetParameters().shooterVelocity()),
                 new TurretFollowPositionAtVelocity(
                     turretSubsystem,
-                    () -> launchCalculator.getParameters().turretAngleFieldRelative().getMeasure(),
-                    () -> launchCalculator.getParameters().turretVelocity()),
-                new RunCommand(launchCalculator::clearLaunchingParameters))
+                    () ->
+                        launchCalculator
+                            .getHubTargetParameters()
+                            .turretAngleFieldRelative()
+                            .getMeasure(),
+                    () -> launchCalculator.getHubTargetParameters().turretVelocity()),
+                new RunCommand(launchCalculator::clearHubLaunchingParameters))
             .deadlineFor(
                 new SequentialCommandGroup(
                     // Wait for shooter to spin up

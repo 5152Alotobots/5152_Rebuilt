@@ -61,7 +61,7 @@ public class DataCollection {
         new InstantCommand(
             () -> shooterVelocity = shooterVelocity.plus(RotationsPerSecond.of(2.5))));
     OI.logData.onTrue(
-        new InstantCommand(launchCalculator::clearLaunchingParameters)
+        new InstantCommand(launchCalculator::clearHubLaunchingParameters)
             .andThen(
                 new InstantCommand(
                     () ->
@@ -73,7 +73,7 @@ public class DataCollection {
                                 deflectorSubsystem.getCurrentAngle().in(Degrees),
                                 shooterVelocity.in(RotationsPerSecond),
                                 launchCalculator
-                                    .getParameters()
+                                    .getHubTargetParameters()
                                     .dataCollectionDebugDistance()
                                     .in(Meters))))));
   }

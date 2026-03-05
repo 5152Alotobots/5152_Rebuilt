@@ -78,8 +78,8 @@ public class DeflectorVortexConstants {
   public static final SensorDirectionValue DEFLECTOR_ENCODER_SENSOR_DIRECTION =
       SensorDirectionValue.Clockwise_Positive;
 
-  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = -0.411865;
-  public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
+  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = -0.4091796875;
+  public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 0.5;
 
   /**
    * Regression used to calculate how many radians the hood angle changes per motor rotation radian

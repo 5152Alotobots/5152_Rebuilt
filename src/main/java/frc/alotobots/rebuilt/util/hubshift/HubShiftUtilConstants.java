@@ -21,8 +21,8 @@ public final class HubShiftUtilConstants {
   public static final Time MIN_FUEL_COUNT_DELAY = Seconds.of(1.0);
   public static final Time MAX_FUEL_COUNT_DELAY = Seconds.of(2.0);
   public static final Time SHIFT_END_FUEL_COUNT_EXTENSION = Seconds.of(3.0);
-  public static final Time MIN_FUEL_TIME_OF_FLIGHT = LaunchCalculator.getMinFuelTimeOfFlight();
-  public static final Time MAX_FUEL_TIME_OF_FLIGHT = LaunchCalculator.getMaxFuelTimeOfFlight();
+  public static final Time MIN_FUEL_TIME_OF_FLIGHT = LaunchCalculator.getMinHubFuelTimeOfFlight();
+  public static final Time MAX_FUEL_TIME_OF_FLIGHT = LaunchCalculator.getMaxHubFuelTimeOfFlight();
   public static final Time APPROACHING_ACTIVE_FUDGE =
       MIN_FUEL_TIME_OF_FLIGHT.plus(MIN_FUEL_COUNT_DELAY).times(-1);
   public static final Time ENDING_ACTIVE_FUDGE =
