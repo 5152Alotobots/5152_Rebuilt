@@ -49,37 +49,7 @@ public class BlingConstants {
             .withSlot(ANIMATION_SLOT)
             .withColor(new RGBWColor(255, 0, 0, 0))
             .withDirection(AnimationDirectionValue.Forward);
-
-    /** Count down timer for endgame - Red slowly disappearing (30s) */
-    public static final LarsonAnimation ENDGAME_COUNTDOWN_RED_ANIMATION =
-        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
-            .withSlot(ANIMATION_SLOT)
-            .withColor(new RGBWColor(255, 0, 0, 0));
-
-    /** Count down timer for endgame - Blue slowly disappearing (30s) */
-    public static final LarsonAnimation ENDGAME_COUNTDOWN_BLUE_ANIMATION =
-        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
-            .withSlot(ANIMATION_SLOT)
-            .withColor(new RGBWColor(0, 0, 255, 0));
-
-    /** Time to climb animation (triggers like 5s before end of match) - Blink red rapidly (2s) */
-    public static final StrobeAnimation TIME_TO_CLIMB_RED_ANIMATION =
-        new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
-            .withSlot(ANIMATION_SLOT)
-            .withColor(new RGBWColor(255, 0, 0, 0));
-
-    /** Time to climb animation (triggers like 5s before end of match) - Blink blue rapidly (2s) */
-    public static final StrobeAnimation TIME_TO_CLIMB_BLUE_ANIMATION =
-        new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
-            .withSlot(ANIMATION_SLOT)
-            .withColor(new RGBWColor(0, 0, 255, 0));
-
-    /** Climber ready (to take down elevator) - White strobing (2s) */
-    public static final StrobeAnimation CLIMBER_READY_ANIMATION =
-        new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
-            .withSlot(ANIMATION_SLOT)
-            .withColor(new RGBWColor(255, 255, 255, 0));
-
+    
     public static final ColorFlowAnimation HUB_ACTIVE_ANIMATION_BLUE =
         new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
@@ -95,21 +65,27 @@ public class BlingConstants {
     public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_BLUE =
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
+            .withSize(25)
+                .withFrameRate(Hertz.of(50))    
             .withColor(new RGBWColor(0, 0, 255));
 
     public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_RED =
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
+            .withSize(25)    
+                .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(255, 0, 0));
 
-    public static final LarsonAnimation HUB_APPROACHING_ACTIVE_ANIMATION_BLUE =
-        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
+    public static final StrobeAnimation HUB_APPROACHING_ACTIVE_ANIMATION_BLUE =
+        new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
+                .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(0, 0, 255));
 
-    public static final LarsonAnimation HUB_APPROACHING_ACTIVE_ANIMATION_RED =
-        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
+    public static final StrobeAnimation HUB_APPROACHING_ACTIVE_ANIMATION_RED =
+        new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
+                .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(255, 0, 0));
   }
 

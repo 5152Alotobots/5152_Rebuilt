@@ -22,6 +22,7 @@ import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.EmptyAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.hardware.CANdle;
+import com.ctre.phoenix6.signals.LossOfSignalBehaviorValue;
 import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.signals.StatusLedWhenActiveValue;
 import com.ctre.phoenix6.signals.StripTypeValue;
@@ -51,6 +52,7 @@ public class BlingIOCANdle implements BlingIO {
     CANdleConfig.LED.StripType = StripTypeValue.GRB;
     CANdleConfig.LED.BrightnessScalar = MAX_LED_BRIGHTNESS;
     CANdleConfig.CANdleFeatures.StatusLedWhenActive = StatusLedWhenActiveValue.Disabled;
+    CANdleConfig.LED.LossOfSignalBehavior = LossOfSignalBehaviorValue.KeepRunning;
 
     candle.getConfigurator().apply(CANdleConfig);
 
