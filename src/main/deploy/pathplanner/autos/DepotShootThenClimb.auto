@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Climb 1"
+            "pathName": "DepotStartNeutralClimb 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Climb 2"
+            "pathName": "DepotStartNeutralClimb 5"
           }
         },
         {

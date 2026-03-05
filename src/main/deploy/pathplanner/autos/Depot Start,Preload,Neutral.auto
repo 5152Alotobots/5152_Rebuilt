@@ -46,31 +46,12 @@
                 }
               },
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "DeployIntakeAndIntake"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 5.0
-                      }
-                    }
-                  ]
+                  "name": "DeployIntakeAndIntake"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RetractIntake"
           }
         },
         {
