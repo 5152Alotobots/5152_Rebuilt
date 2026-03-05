@@ -5,11 +5,12 @@
   "pathFolders": [
     "BasicMeters",
     "NeutralWThenClimb",
-    "Related to Outpost Specifically",
+    "DepotStartNeutralClimbGRT",
     "Positions",
     "PreloadWClimb",
     "PreloadWNeutral",
-    "Preload_Only"
+    "Preload_Only",
+    "Related to Outpost Specifically"
   ],
   "autoFolders": [
     "BasicMeters",
@@ -19,8 +20,8 @@
     "PreloadWNeutral",
     "Preload_Only"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 2.0,
+  "defaultMaxVel": 4.0,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 460.0,
   "defaultNominalVoltage": 12.0,
@@ -44,6 +45,7 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.44,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.355},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.44,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.355},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":-0.45},\"size\":{\"width\":0.05,\"length\":0.1},\"borderRadius\":0.011,\"strokeWidth\":0.01,\"filled\":false}}"
   ]
 }

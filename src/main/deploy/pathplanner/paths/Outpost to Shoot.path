@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
@@ -45,7 +45,7 @@
     "rotation": 31.328692867804087
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Related to Outpost Specifically",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
