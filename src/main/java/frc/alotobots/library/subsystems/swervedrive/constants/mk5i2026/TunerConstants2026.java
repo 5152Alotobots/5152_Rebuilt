@@ -58,17 +58,17 @@ public class TunerConstants2026 implements TunerConstants {
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs steerGains =
         new Slot0Configs()
-            .withKP(100)
+            .withKP(95)
             .withKI(0)
             .withKD(0.5)
-            .withKS(0.1)
+            .withKS(0.06)
             .withKV(2.49)
             .withKA(0)
             .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains =
-        new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0.17754).withKV(0.59350);
+        new Slot0Configs().withKP(0.075).withKI(0).withKD(0.012).withKS(0.19282).withKV(0.59945);
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
@@ -90,7 +90,7 @@ public class TunerConstants2026 implements TunerConstants {
 
     // The stator current at which the wheels start to slip;
     // This needs to be tuned to your individual robot
-    private static final Current kSlipCurrent = Amps.of(120);
+    private static final Current kSlipCurrent = Amps.of(98);
 
     // Initial configs for the drive and steer motors and the azimuth encoder; these cannot be null.
     // Some configs will be overwritten; check the `with*InitialConfigs()` API documentation.
@@ -110,11 +110,11 @@ public class TunerConstants2026 implements TunerConstants {
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus
-    public static final CANBus kCANBus = new CANBus("Swerve", "./logs/example.hoot");
+    public static final CANBus kCANBus = new CANBus("Swerve");
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(5.85);
+    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(6.02);
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
@@ -122,7 +122,7 @@ public class TunerConstants2026 implements TunerConstants {
 
     private static final double kDriveGearRatio = 5.2734375;
     private static final double kSteerGearRatio = 26;
-    private static final Distance kWheelRadius = Inches.of(2);
+    private static final Distance kWheelRadius = Inches.of(1.94);
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
@@ -270,7 +270,7 @@ public class TunerConstants2026 implements TunerConstants {
     // Custom constants go here
     // Pathfinding PID constants
     public static final PIDConstants translationPid = new PIDConstants(2.5, 0, 0.04);
-    public static final PIDConstants rotationPid = new PIDConstants(11.8, 0, 0.015);
+    public static final PIDConstants rotationPid = new PIDConstants(3.0, 0, 0.0);
     public static final PPHolonomicDriveController PP_HOLONOMIC_DRIVE_CONTROLLER =
         new PPHolonomicDriveController(translationPid, rotationPid);
     public static final PathConstraints PATHFINDING_CONSTRAINTS =
@@ -300,7 +300,7 @@ public class TunerConstants2026 implements TunerConstants {
     public static final LinearVelocity NOMINAL_SPEED = MetersPerSecond.of(3.5);
     public static final LinearVelocity TURBO_SPEED = MetersPerSecond.of(5.2);
     public static final double MAX_MODULAR_ROTATIONAL_RATE = Units.rotationsToRadians(12);
-    public static final double ROBOT_MASS_KG = 59.1;
+    public static final double ROBOT_MASS_KG = 51.65;
     public static final double ROBOT_MOI = 6.79453;
     public static final double WHEEL_COF = 1.2;
 

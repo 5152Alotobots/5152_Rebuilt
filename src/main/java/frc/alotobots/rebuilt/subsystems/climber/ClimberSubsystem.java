@@ -25,13 +25,16 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final ClimberIO io;
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
 
+  @AutoLogOutput(key = "Climber/TargetPosition")
   private Distance targetPosition = Meters.of(0.0);
+
   private final Debouncer atTargetDebouncer =
       new Debouncer(AT_TARGET_CLIMB_TIME_THRESHOLD.in(Seconds), Debouncer.DebounceType.kRising);
 
@@ -48,9 +51,6 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Climber", inputs);
-
-    Logger.recordOutput("Climber/TargetPosition", targetPosition);
-    Logger.recordOutput("Climber/AtTarget", isAtTargetExtension());
   }
 
   /**
@@ -83,10 +83,15 @@ public class ClimberSubsystem extends SubsystemBase {
    *
    * @return true if at target, false otherwise
    */
+  @AutoLogOutput(key = "Climber/AtTarget")
   public boolean isAtTargetExtension() {
     return atTargetDebouncer.calculate(
         Math.abs(inputs.climberDistance.minus(targetPosition).in(Meters))
             < AT_TARGET_CLIMB_POSITION_THRESHOLD.in(Meters));
+  }
+
+  public Distance getClimberPosition() {
+    return inputs.climberDistance;
   }
 
   /**

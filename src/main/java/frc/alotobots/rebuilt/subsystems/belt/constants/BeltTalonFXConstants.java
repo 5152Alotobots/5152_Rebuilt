@@ -12,6 +12,10 @@
 */
 package frc.alotobots.rebuilt.subsystems.belt.constants;
 
+import static edu.wpi.first.units.Units.Amps;
+
+import edu.wpi.first.units.measure.Current;
+
 public class BeltTalonFXConstants {
   public static final double VELOCITY_P_GAIN = 2.5;
   public static final double VELOCITY_I_GAIN = 0.0;
@@ -19,4 +23,11 @@ public class BeltTalonFXConstants {
   public static final double VELOCITY_V_GAIN = 0.125;
   public static final double VELOCITY_S_GAIN = 0.0090433;
   public static final double CLOSED_LOOP_RAMP_RATE = 0.5;
+
+  /** Contains safety limit constants for the motors. */
+  public static final class MotorSafetyLimits {
+    public static final Current BELT_TORQUE_FORWARD_AMP_LIMIT = Amps.of(30);
+    public static final Current BELT_TORQUE_REVERSE_AMP_LIMIT = Amps.of(-30);
+    public static final Current BELT_STATOR_AMP_LIMIT = Amps.of(30);
+  }
 }

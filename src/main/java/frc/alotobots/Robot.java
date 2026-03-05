@@ -12,9 +12,23 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.Seconds;
+import static frc.alotobots.Constants.LOOP_PERIOD_WATCHDOG;
+
+import com.ctre.phoenix6.SignalLogger;
+import com.revrobotics.util.StatusLogger;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.IterativeRobotBase;
 import edu.wpi.first.wpilibj.Threads;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
+
+import frc.alotobots.rebuilt.util.HubShiftUtil;
 import org.ironmaple.simulation.SimulatedArena;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -84,6 +98,42 @@ public class Robot extends LoggedRobot {
     // Start AdvantageKit logger
     Logger.start();
 
+    // Disable hardware loggers
+    StatusLogger.disableAutoLogging();
+    SignalLogger.enableAutoLogging(false);
+
+    // Adjust loop overrun warning timeout
+    try {
+      Field watchdogField = IterativeRobotBase.class.getDeclaredField("m_watchdog");
+      watchdogField.setAccessible(true);
+      Watchdog watchdog = (Watchdog) watchdogField.get(this);
+      watchdog.setTimeout(LOOP_PERIOD_WATCHDOG.in(Seconds));
+    } catch (Exception e) {
+      DriverStation.reportWarning("Failed to disable loop overrun warnings.", false);
+    }
+    CommandScheduler.getInstance().setPeriod(LOOP_PERIOD_WATCHDOG.in(Seconds));
+
+    // Silence joystick alerts
+    DriverStation.silenceJoystickConnectionWarning(true);
+
+    // Log active commands
+    Map<String, Integer> commandCounts = new HashMap<>();
+    BiConsumer<Command, Boolean> logCommandFunction =
+        (Command command, Boolean active) -> {
+          String name = command.getName();
+          int count = commandCounts.getOrDefault(name, 0) + (active ? 1 : -1);
+          commandCounts.put(name, count);
+          Logger.recordOutput(
+              "CommandsUnique/" + name + "_" + Integer.toHexString(command.hashCode()), active);
+          Logger.recordOutput("CommandsAll/" + name, count > 0);
+        };
+    CommandScheduler.getInstance()
+        .onCommandInitialize((Command command) -> logCommandFunction.accept(command, true));
+    CommandScheduler.getInstance()
+        .onCommandFinish((Command command) -> logCommandFunction.accept(command, false));
+    CommandScheduler.getInstance()
+        .onCommandInterrupt((Command command) -> logCommandFunction.accept(command, false));
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
@@ -137,6 +187,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void teleopInit() {
+    HubShiftUtil.initialize();
     CommandScheduler.getInstance().cancelAll();
     if (autonomousCommand != null) {
       autonomousCommand.cancel();

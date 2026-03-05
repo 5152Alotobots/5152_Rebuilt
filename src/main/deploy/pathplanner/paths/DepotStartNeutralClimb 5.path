@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0487274774774782,
-        "y": 4.770405405405406
+        "x": 1.0,
+        "y": 4.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0487274774774782,
-        "y": 4.520405405405406
+        "x": 1.0,
+        "y": 4.4
       },
       "isLocked": false,
       "linkedName": "Depot climb 1"
     },
     {
       "anchor": {
-        "x": 1.0487274774774782,
-        "y": 4.637623873873874
+        "x": 1.1,
+        "y": 4.558
       },
       "prevControl": {
-        "x": 1.0487274774774782,
-        "y": 4.887623873873874
+        "x": 1.1,
+        "y": 4.808
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "NeutralWThenClimb",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

@@ -71,7 +71,7 @@ public class TurretSubsystem extends SubsystemBase {
                 Volts.of(.3).per(Second),
                 Volts.of(1.2),
                 null,
-                (state) -> Logger.recordOutput("SysId/State", state.toString())),
+                (state) -> Logger.recordOutput("SysId/Turret/State", state.toString())),
             new SysIdRoutine.Mechanism(
                 (voltage) -> this.runAtVoltage(voltage),
                 null, // No log consumer, since data is recorded by AdvantageKit

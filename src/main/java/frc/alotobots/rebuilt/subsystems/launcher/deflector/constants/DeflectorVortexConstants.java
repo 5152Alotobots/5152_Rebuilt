@@ -78,7 +78,7 @@ public class DeflectorVortexConstants {
   public static final SensorDirectionValue DEFLECTOR_ENCODER_SENSOR_DIRECTION =
       SensorDirectionValue.Clockwise_Positive;
 
-  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = -0.223877;
+  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = -0.411865;
   public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 1;
 
   /**

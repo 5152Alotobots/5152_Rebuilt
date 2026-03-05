@@ -46,7 +46,11 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0243902439024353,
+      "waypointRelativePos": 0.7109156337465051,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.2738904438224705,
       "rotationDegrees": 0.0
     }
   ],
@@ -54,7 +58,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
@@ -66,7 +70,7 @@
     "rotation": -33.69006752597973
   },
   "reversed": false,
-  "folder": "NeutralWThenClimb",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

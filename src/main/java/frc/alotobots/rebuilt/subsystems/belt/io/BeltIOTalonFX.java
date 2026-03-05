@@ -12,6 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.belt.io;
 
+import static edu.wpi.first.units.Units.Amps;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
@@ -61,11 +62,20 @@ public class BeltIOTalonFX implements BeltIO {
         BeltTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
     motorBeltConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod =
         BeltTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
+
     motorBeltConfig.Slot0.kP = BeltTalonFXConstants.VELOCITY_P_GAIN;
     motorBeltConfig.Slot0.kI = BeltTalonFXConstants.VELOCITY_I_GAIN;
     motorBeltConfig.Slot0.kD = BeltTalonFXConstants.VELOCITY_D_GAIN;
     motorBeltConfig.Slot0.kV = BeltTalonFXConstants.VELOCITY_V_GAIN;
     motorBeltConfig.Slot0.kS = BeltTalonFXConstants.VELOCITY_S_GAIN;
+
+    motorBeltConfig.TorqueCurrent.PeakForwardTorqueCurrent =
+        BeltTalonFXConstants.MotorSafetyLimits.BELT_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
+    motorBeltConfig.TorqueCurrent.PeakReverseTorqueCurrent =
+        BeltTalonFXConstants.MotorSafetyLimits.BELT_TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+    motorBeltConfig.CurrentLimits.StatorCurrentLimit =
+        BeltTalonFXConstants.MotorSafetyLimits.BELT_STATOR_AMP_LIMIT.in(Amps);
+    motorBeltConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
 
     PhoenixUtil.tryUntilOk(5, () -> motorBelt.getConfigurator().apply(motorBeltConfig, 0.25));
 
