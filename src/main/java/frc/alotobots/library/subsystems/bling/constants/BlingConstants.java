@@ -12,14 +12,12 @@
 */
 package frc.alotobots.library.subsystems.bling.constants;
 
+import static edu.wpi.first.units.Units.Hertz;
 import static edu.wpi.first.units.Units.Seconds;
 
-import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.signals.AnimationDirectionValue;
 import com.ctre.phoenix6.signals.RGBWColor;
-import com.ctre.phoenix6.signals.StatusLedWhenActiveValue;
-import com.ctre.phoenix6.signals.StripTypeValue;
 import edu.wpi.first.units.measure.Time;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
 
@@ -52,14 +50,6 @@ public class BlingConstants {
             .withColor(new RGBWColor(255, 0, 0, 0))
             .withDirection(AnimationDirectionValue.Forward);
 
-    /** Coral intake has piece - Purple (2s) */
-    public static final ColorFlowAnimation CORAL_HAS_PIECE_ANIMATION =
-        new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
-            .withSlot(ANIMATION_SLOT)
-            .withColor(new RGBWColor(128, 0, 128, 0))
-            .withDirection(AnimationDirectionValue.Forward);
-    
-
     /** Count down timer for endgame - Red slowly disappearing (30s) */
     public static final LarsonAnimation ENDGAME_COUNTDOWN_RED_ANIMATION =
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
@@ -89,6 +79,38 @@ public class BlingConstants {
         new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
             .withColor(new RGBWColor(255, 255, 255, 0));
+
+    public static final ColorFlowAnimation HUB_ACTIVE_ANIMATION_BLUE =
+        new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withColor(new RGBWColor(0, 0, 255))
+            .withFrameRate(Hertz.of(50));
+
+    public static final ColorFlowAnimation HUB_ACTIVE_ANIMATION_RED =
+        new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withColor(new RGBWColor(255, 0, 0))
+            .withFrameRate(Hertz.of(50));
+
+    public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_BLUE =
+        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withColor(new RGBWColor(0, 0, 255));
+
+    public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_RED =
+        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withColor(new RGBWColor(255, 0, 0));
+
+    public static final LarsonAnimation HUB_APPROACHING_ACTIVE_ANIMATION_BLUE =
+        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withColor(new RGBWColor(0, 0, 255));
+
+    public static final LarsonAnimation HUB_APPROACHING_ACTIVE_ANIMATION_RED =
+        new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withColor(new RGBWColor(255, 0, 0));
   }
 
   /** Pre-defined color configurations. */

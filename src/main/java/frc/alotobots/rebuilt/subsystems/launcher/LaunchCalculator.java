@@ -28,8 +28,6 @@ import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.rebuilt.FieldConstants;
 import frc.alotobots.util.GeomUtil;
-
-import java.util.Timer;
 import java.util.function.Supplier;
 import lombok.experimental.ExtensionMethod;
 import org.littletonrobotics.junction.Logger;
@@ -231,11 +229,11 @@ public class LaunchCalculator {
   public void clearLaunchingParameters() {
     latestParameters = null;
   }
-  
+
   public static Time getMinFuelTimeOfFlight() {
     return (Time) FUEL_TIME_OF_FLIGHT_MAP.get(MINIMUM_SHOOTING_DISTANCE);
   }
-  
+
   public static Time getMaxFuelTimeOfFlight() {
     return (Time) FUEL_TIME_OF_FLIGHT_MAP.get(MAXIMUM_SHOOTING_DISTANCE);
   }

@@ -28,8 +28,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.library.subsystems.bling.BlingSubsystem;
+import frc.alotobots.library.subsystems.bling.commands.DefaultBlingHubShift;
 import frc.alotobots.library.subsystems.bling.commands.NoAllianceWaiting;
 import frc.alotobots.library.subsystems.bling.commands.SetToAllianceColor;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
@@ -89,6 +91,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretRunPercen
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
+import frc.alotobots.rebuilt.util.hubshift.HubShiftUtil;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -98,7 +101,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   private final SwerveDriveSubsystem swerveDriveSubsystem;
   private final AprilTagSubsystem aprilTagSubsystem;
-    private final BlingSubsystem blingSubsystem;
+  private final BlingSubsystem blingSubsystem;
   private final PathPlannerManager pathPlannerManager;
   private final AutoNamedCommands autoNamedCommands;
   private final TurretSubsystem turretSubsystem;
@@ -139,7 +142,7 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[2], swerveDriveSubsystem::getRotation));
         climberSubsystem = new ClimberSubsystem(new ClimberIOTalonFX());
-                blingSubsystem = new BlingSubsystem(new BlingIOCANdle());
+        blingSubsystem = new BlingSubsystem(new BlingIOCANdle());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOTalonFX());
         beltSubsystem = new BeltSubsystem(new BeltIOTalonFX());
@@ -206,7 +209,7 @@ public class RobotContainer {
                 new AprilTagIO() {});
 
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
-                blingSubsystem = new BlingSubsystem(new BlingIOSim());
+        blingSubsystem = new BlingSubsystem(new BlingIOSim());
         turretSubsystem = new TurretSubsystem(new TurretIOSim());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOSim());
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
@@ -252,7 +255,7 @@ public class RobotContainer {
                 swerveDriveSubsystem::addVisionMeasurement,
                 new AprilTagIO() {},
                 new AprilTagIO() {});
-                blingSubsystem = new BlingSubsystem(new BlingIO() {});
+        blingSubsystem = new BlingSubsystem(new BlingIO() {});
         shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
@@ -286,9 +289,8 @@ public class RobotContainer {
   /** Commands that run when nothing else is */
   private void configureDefaultCommands() {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
-    blingSubsystem.setDefaultCommand(
-            new NoAllianceWaiting(blingSubsystem).andThen(new SetToAllianceColor(blingSubsystem)));
-    
+    blingSubsystem.setDefaultCommand(new DefaultBlingHubShift(blingSubsystem));
+
     // TODO !important SHOULD BE REMOVED BEFORE COMP
     intakeExtendoSubsystem.setDefaultCommand(
         new DefaultIntakeExtendoRunAtVelocity(intakeExtendoSubsystem, OI::getTestingClimberAxis));
@@ -307,6 +309,11 @@ public class RobotContainer {
     kickerSubsystem,
     beltSubsystem,
     launchCalculator); */
+
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(HubShiftUtil::initialize));
+    RobotModeTriggers.disabled()
+        .whileTrue(
+            new NoAllianceWaiting(blingSubsystem).andThen(new SetToAllianceColor(blingSubsystem)));
 
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
@@ -364,7 +371,6 @@ public class RobotContainer {
     // Sys id for shooter
     /*
      * TODO */
-    // TEMPORARY!!
     resetGyroButton.onTrue(
         new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
   }

@@ -46,12 +46,12 @@ public class BlingIOCANdle implements BlingIO {
    */
   public BlingIOCANdle() {
     this.candle = new CANdle(CANDLE_CAN_ID, RIO_CAN_BUS);
-    
+
     var CANdleConfig = new CANdleConfiguration();
     CANdleConfig.LED.StripType = StripTypeValue.GRB;
     CANdleConfig.LED.BrightnessScalar = MAX_LED_BRIGHTNESS;
     CANdleConfig.CANdleFeatures.StatusLedWhenActive = StatusLedWhenActiveValue.Disabled;
-    
+
     candle.getConfigurator().apply(CANdleConfig);
 
     // Clear all animation slots on startup

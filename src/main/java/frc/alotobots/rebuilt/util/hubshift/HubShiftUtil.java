@@ -1,11 +1,19 @@
-// Copyright (c) 2025-2026 Littleton Robotics
-// http://github.com/Mechanical-Advantage
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file at
-// the root directory of this project.
+/*
+* ALOTOBOTS - FRC Team 5152
+  https://github.com/5152Alotobots
+* Copyright (C) 2026 ALOTOBOTS
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Source code must be publicly available on GitHub or an alternative web accessible site
+*/
+package frc.alotobots.rebuilt.util.hubshift;
 
-package frc.alotobots.rebuilt.util;
+import static edu.wpi.first.units.Units.Seconds;
+import static frc.alotobots.rebuilt.util.hubshift.HubShiftUtilConstants.*;
 
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -13,16 +21,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import java.util.Optional;
 import java.util.function.Supplier;
-
-import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import lombok.Setter;
 
-import static edu.wpi.first.units.Units.Seconds;
-
 /**
- * @author 6328 Mechanical Advantage
- * Adapted by 5152 Alotobots
- * */
+ * @author 6328 Mechanical Advantage Adapted by 5152 Alotobots
+ */
 public class HubShiftUtil {
   public enum ShiftEnum {
     TRANSITION,
@@ -36,28 +39,15 @@ public class HubShiftUtil {
   }
 
   public record ShiftInfo(
-      ShiftEnum currentShift, Time elapsedTime, Time remainingTime, boolean active) {}
+      ShiftEnum currentShift,
+      Time elapsedTime,
+      Time remainingTime,
+      boolean active,
+      boolean approachingActive,
+      boolean approachingInactive) {}
 
   private static Timer shiftTimer = new Timer();
   private static final ShiftEnum[] shiftsEnums = ShiftEnum.values();
-
-  private static final Time[] shiftStartTimes = {Seconds.of(0.0), Seconds.of(10.0), Seconds.of(35.0), Seconds.of(60.0), Seconds.of(85.0), Seconds.of(110.0)};
-  private static final Time[] shiftEndTimes = {Seconds.of(10.0), Seconds.of(35.0), Seconds.of(60.0), Seconds.of(85.0), Seconds.of(110.0), Seconds.of(140.0)};
-
-  private static final Time minFuelCountDelay = Seconds.of(1.0);
-  private static final Time maxFuelCountDelay = Seconds.of(2.0);
-  private static final Time shiftEndFuelCountExtension = Seconds.of(3.0);
-  private static final Time minTimeOfFlight = LaunchCalculator.getMinFuelTimeOfFlight();
-  private static final Time maxTimeOfFlight = LaunchCalculator.getMaxFuelTimeOfFlight();
-  private static final Time approachingActiveFudge =
-          minTimeOfFlight.plus(minFuelCountDelay).times(-1);
-  private static final Time endingActiveFudge =
-          shiftEndFuelCountExtension.plus(maxTimeOfFlight.plus(maxFuelCountDelay).times(-1));
-
-  public static final Time autoEndTime = Seconds.of(20.0);
-  public static final Time teleopDuration = Seconds.of(140.0);
-  private static final boolean[] activeSchedule = {true, true, false, true, false, true};
-  private static final boolean[] inactiveSchedule = {true, false, true, false, true, true};
 
   @Setter private static Supplier<Optional<Boolean>> allianceWinOverride = Optional::empty;
 
@@ -101,8 +91,8 @@ public class HubShiftUtil {
     Alliance startAlliance = getFirstActiveAlliance();
     currentSchedule =
         startAlliance == DriverStation.getAlliance().orElse(Alliance.Blue)
-            ? activeSchedule
-            : inactiveSchedule;
+            ? ACTIVE_SCHEDULE
+            : INACTIVE_SCHEDULE;
     return currentSchedule;
   }
 
@@ -112,11 +102,13 @@ public class HubShiftUtil {
     Time stateTimeElapsed = Seconds.of(shiftTimer.get());
     Time stateTimeRemaining = Seconds.of(0.0);
     boolean active = false;
+    boolean approachingActive = false;
+    boolean approachingInactive = false;
     ShiftEnum currentShift = ShiftEnum.DISABLED;
 
     if (DriverStation.isAutonomousEnabled()) {
       stateTimeElapsed = currentTime;
-      stateTimeRemaining = autoEndTime.minus(currentTime);
+      stateTimeRemaining = AUTO_END_TIME.minus(currentTime);
       active = true;
       currentShift = ShiftEnum.AUTO;
     } else if (DriverStation.isEnabled()) {
@@ -151,48 +143,26 @@ public class HubShiftUtil {
       }
 
       active = currentSchedule[currentShiftIndex];
+      approachingActive =
+          (!currentSchedule[currentShiftIndex]
+              && stateTimeRemaining.lte(APPROACHING_ACTIVE_NOTIFICAITON_TIME));
+      approachingInactive =
+          (currentSchedule[currentShiftIndex]
+              && stateTimeRemaining.lte(APPROACHING_INACTIVE_NOTIFICATION_TIME));
       currentShift = shiftsEnums[currentShiftIndex];
     }
-    ShiftInfo shiftInfo = new ShiftInfo(currentShift, stateTimeElapsed, stateTimeRemaining, active);
-    return shiftInfo;
+    return new ShiftInfo(
+        currentShift,
+        stateTimeElapsed,
+        stateTimeRemaining,
+        active,
+        approachingActive,
+        approachingInactive);
   }
 
   public static ShiftInfo getOfficialShiftInfo() {
-    return getShiftInfo(getSchedule(), shiftStartTimes, shiftEndTimes);
+    return getShiftInfo(getSchedule(), SHIFT_START_TIMES, SHIFT_END_TIMES);
   }
-
-  private static final Time[] STARTING_ACTIVE_START_TIMES = new Time[] {
-          Seconds.of(0.0),
-          Seconds.of(10.0),
-          Seconds.of(35.0).plus(endingActiveFudge),
-          Seconds.of(60.0).plus(approachingActiveFudge),
-          Seconds.of(85.0).plus(endingActiveFudge),
-          Seconds.of(110.0).plus(approachingActiveFudge)
-  };
-  private static final Time[] STARTING_ACTIVE_END_TIMES = new Time[] {
-          Seconds.of(10.0),
-          Seconds.of(35.0).plus(endingActiveFudge),
-          Seconds.of(60.0).plus(approachingActiveFudge),
-          Seconds.of(85.0).plus(endingActiveFudge),
-          Seconds.of(110.0).plus(approachingActiveFudge),
-          Seconds.of(140.0)
-  };
-  private static final Time[] STARTING_INACTIVE_START_TIMES = new Time[] {
-          Seconds.of(0.0),
-          Seconds.of(10.0).plus(endingActiveFudge),
-          Seconds.of(35.0).plus(approachingActiveFudge),
-          Seconds.of(60.0).plus(endingActiveFudge),
-          Seconds.of(85.0).plus(approachingActiveFudge),
-          Seconds.of(110.0)
-  };
-  private static final Time[] STARTING_INACTIVE_END_TIMES = new Time[] {
-          Seconds.of(10.0).plus(endingActiveFudge),
-          Seconds.of(35.0).plus(approachingActiveFudge),
-          Seconds.of(60.0).plus(endingActiveFudge),
-          Seconds.of(85.0).plus(approachingActiveFudge),
-          Seconds.of(110.0),
-          Seconds.of(140.0)
-  };
 
   public static ShiftInfo getShiftedShiftInfo() {
     boolean[] shiftSchedule = getSchedule();
