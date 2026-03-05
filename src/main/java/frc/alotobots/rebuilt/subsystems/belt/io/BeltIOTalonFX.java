@@ -69,7 +69,6 @@ public class BeltIOTalonFX implements BeltIO {
     motorBeltConfig.Slot0.kV = BeltTalonFXConstants.VELOCITY_V_GAIN;
     motorBeltConfig.Slot0.kS = BeltTalonFXConstants.VELOCITY_S_GAIN;
 
-
     motorBeltConfig.TorqueCurrent.PeakForwardTorqueCurrent =
         BeltTalonFXConstants.MotorSafetyLimits.BELT_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     motorBeltConfig.TorqueCurrent.PeakReverseTorqueCurrent =
@@ -77,7 +76,6 @@ public class BeltIOTalonFX implements BeltIO {
     motorBeltConfig.CurrentLimits.StatorCurrentLimit =
         BeltTalonFXConstants.MotorSafetyLimits.BELT_STATOR_AMP_LIMIT.in(Amps);
     motorBeltConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
-
 
     PhoenixUtil.tryUntilOk(5, () -> motorBelt.getConfigurator().apply(motorBeltConfig, 0.25));
 

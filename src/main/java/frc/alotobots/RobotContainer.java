@@ -29,6 +29,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.alotobots.library.subsystems.bling.BlingSubsystem;
+import frc.alotobots.library.subsystems.bling.commands.NoAllianceWaiting;
+import frc.alotobots.library.subsystems.bling.commands.SetToAllianceColor;
+import frc.alotobots.library.subsystems.bling.io.BlingIO;
+import frc.alotobots.library.subsystems.bling.io.BlingIOCANdle;
+import frc.alotobots.library.subsystems.bling.io.BlingIOSim;
 import frc.alotobots.library.subsystems.swervedrive.ModulePosition;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.library.subsystems.swervedrive.commands.DefaultDrive;
@@ -92,7 +98,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   private final SwerveDriveSubsystem swerveDriveSubsystem;
   private final AprilTagSubsystem aprilTagSubsystem;
-  //  private final BlingSubsystem blingSubsystem;
+    private final BlingSubsystem blingSubsystem;
   private final PathPlannerManager pathPlannerManager;
   private final AutoNamedCommands autoNamedCommands;
   private final TurretSubsystem turretSubsystem;
@@ -133,7 +139,7 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[2], swerveDriveSubsystem::getRotation));
         climberSubsystem = new ClimberSubsystem(new ClimberIOTalonFX());
-        //        blingSubsystem = new BlingSubsystem(new BlingIOReal());
+                blingSubsystem = new BlingSubsystem(new BlingIOCANdle());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOTalonFX());
         beltSubsystem = new BeltSubsystem(new BeltIOTalonFX());
@@ -200,7 +206,7 @@ public class RobotContainer {
                 new AprilTagIO() {});
 
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
-        //        blingSubsystem = new BlingSubsystem(new BlingIOSim());
+                blingSubsystem = new BlingSubsystem(new BlingIOSim());
         turretSubsystem = new TurretSubsystem(new TurretIOSim());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOSim());
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
@@ -246,7 +252,7 @@ public class RobotContainer {
                 swerveDriveSubsystem::addVisionMeasurement,
                 new AprilTagIO() {},
                 new AprilTagIO() {});
-        //        blingSubsystem = new BlingSubsystem(new BlingIO() {});
+                blingSubsystem = new BlingSubsystem(new BlingIO() {});
         shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
@@ -280,7 +286,9 @@ public class RobotContainer {
   /** Commands that run when nothing else is */
   private void configureDefaultCommands() {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
-
+    blingSubsystem.setDefaultCommand(
+            new NoAllianceWaiting(blingSubsystem).andThen(new SetToAllianceColor(blingSubsystem)));
+    
     // TODO !important SHOULD BE REMOVED BEFORE COMP
     intakeExtendoSubsystem.setDefaultCommand(
         new DefaultIntakeExtendoRunAtVelocity(intakeExtendoSubsystem, OI::getTestingClimberAxis));
