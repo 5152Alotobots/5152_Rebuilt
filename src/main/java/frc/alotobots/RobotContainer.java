@@ -316,7 +316,7 @@ public class RobotContainer {
     // Swerve
     lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     resetGyroButton.onTrue(
-        new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
+        new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(swerveDriveSubsystem.getPose().getTranslation(), Rotation2d.kZero))));
 
     // Intake
     intakeOut.onTrue(
