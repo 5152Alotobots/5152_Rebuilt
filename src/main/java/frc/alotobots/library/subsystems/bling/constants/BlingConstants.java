@@ -49,7 +49,7 @@ public class BlingConstants {
             .withSlot(ANIMATION_SLOT)
             .withColor(new RGBWColor(255, 0, 0, 0))
             .withDirection(AnimationDirectionValue.Forward);
-    
+
     public static final ColorFlowAnimation HUB_ACTIVE_ANIMATION_BLUE =
         new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
@@ -66,26 +66,26 @@ public class BlingConstants {
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
             .withSize(25)
-                .withFrameRate(Hertz.of(50))    
+            .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(0, 0, 255));
 
     public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_RED =
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
-            .withSize(25)    
-                .withFrameRate(Hertz.of(50))
+            .withSize(25)
+            .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(255, 0, 0));
 
     public static final StrobeAnimation HUB_APPROACHING_ACTIVE_ANIMATION_BLUE =
         new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
-                .withFrameRate(Hertz.of(50))
+            .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(0, 0, 255));
 
     public static final StrobeAnimation HUB_APPROACHING_ACTIVE_ANIMATION_RED =
         new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
-                .withFrameRate(Hertz.of(50))
+            .withFrameRate(Hertz.of(50))
             .withColor(new RGBWColor(255, 0, 0));
   }
 
