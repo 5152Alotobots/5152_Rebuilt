@@ -55,8 +55,8 @@ import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
-import frc.alotobots.rebuilt.subsystems.climber.commands.DefaultClimberRunOpenLoop;
 import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
+import frc.alotobots.rebuilt.subsystems.climber.commands.DefaultClimberRunOpenLoop;
 import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
 import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOTalonFX;
@@ -297,16 +297,13 @@ public class RobotContainer {
     // --- BACKUPS ---
     // Shooter
     shooterSubsystem.setDefaultCommand(
-            new DefaultShooterRunAtVelocity(shooterSubsystem, OI::getShooterManualAxis)
-    );
+        new DefaultShooterRunAtVelocity(shooterSubsystem, OI::getShooterManualAxis));
     // Climber
     climberSubsystem.setDefaultCommand(
-            new DefaultClimberRunOpenLoop(climberSubsystem, OI::getClimberManualAxis)
-    );
+        new DefaultClimberRunOpenLoop(climberSubsystem, OI::getClimberManualAxis));
     // Turret
     turretSubsystem.setDefaultCommand(
-            new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretManualAxis)
-    );
+        new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretManualAxis));
   }
 
   /** Contains button based commands */
@@ -320,19 +317,19 @@ public class RobotContainer {
     // Swerve
     lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
     resetGyroButton.onTrue(
-            new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
+        new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
 
-    //Intake
+    // Intake
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
     dumpBalls.whileTrue(
-            new IntakeRollerEject(
-                    intakeRollerSubsystem,
-                    () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
-    
+        new IntakeRollerEject(
+            intakeRollerSubsystem,
+            () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
+
     // Launcher
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
@@ -350,7 +347,7 @@ public class RobotContainer {
             deflectorSubsystem,
             turretSubsystem,
             LauncherTargetHubFixedAndShoot.FIXED_SHOOTING_POSITION_CENTER));
-    
+
     // Climber
     toggleClimber.onTrue(
         new ConditionalCommand(
@@ -363,16 +360,21 @@ public class RobotContainer {
               double minPos = ClimberConstants.Limits.MIN_CLIMB_EXTENSION.in(Meters);
               return Math.abs(currentPos - minPos) <= .05;
             }));
-    
+
     // --- BACKUPS ---
-    runKickerAndBeltManual.whileTrue(new DefaultKickerRunAtVelocity(kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY).alongWith(new DefaultBeltRunAtVelocity(beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
+    runKickerAndBeltManual.whileTrue(
+        new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)
+            .alongWith(
+                new DefaultBeltRunAtVelocity(
+                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
     deflectorDownManual.onTrue(
-            new DeflectorFollowPosition(
-                    deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5))));
+        new DeflectorFollowPosition(
+            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5))));
     deflectorUpManual.onTrue(
-            new DeflectorFollowPosition(
-                    deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5))));
-    
+        new DeflectorFollowPosition(
+            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5))));
+
     /*  new DataCollection(
     deflectorSubsystem,
     shooterSubsystem,
@@ -381,7 +383,6 @@ public class RobotContainer {
     beltSubsystem,
     launchCalculator); */
 
-    
     // Sys id for turret
     /*
     sysIDDynamicFwd.whileTrue(

@@ -19,10 +19,9 @@ import edu.wpi.first.units.*;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import frc.alotobots.util.UnitInterpolatingMap;
-import lombok.experimental.UtilityClass;
-
 import java.util.LinkedList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
 /**
  * @see LaunchCalculator
@@ -45,16 +44,19 @@ public final class LaunchCalculatorConstants {
 
   public static final Translation3d PASSING_TARGET_DEPOT = new Translation3d(4, 7, 0);
   public static final Translation3d PASSING_TARGET_OUTPOST = new Translation3d(4, 1, 0);
-  public static final List<Translation2d> PASSING_TARGET_OPTIONS = new LinkedList<>() {{
-    add(PASSING_TARGET_DEPOT.toTranslation2d());
-    add(PASSING_TARGET_OUTPOST.toTranslation2d());
-  }}; 
-  
+  public static final List<Translation2d> PASSING_TARGET_OPTIONS =
+      new LinkedList<>() {
+        {
+          add(PASSING_TARGET_DEPOT.toTranslation2d());
+          add(PASSING_TARGET_OUTPOST.toTranslation2d());
+        }
+      };
+
   public final class Maps {
-    public static final UnitInterpolatingMap<DistanceUnit, AngleUnit> LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP =
-        new UnitInterpolatingMap<>(Units.Meters, Units.Radians);
+    public static final UnitInterpolatingMap<DistanceUnit, AngleUnit>
+        LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP = new UnitInterpolatingMap<>(Units.Meters, Units.Radians);
     public static final UnitInterpolatingMap<DistanceUnit, AngularVelocityUnit>
-            LAUNCHER_SHOOTER_HUB_VELOCITY_MAP =
+        LAUNCHER_SHOOTER_HUB_VELOCITY_MAP =
             new UnitInterpolatingMap<>(Units.Meters, Units.RevolutionsPerSecond);
     public static final UnitInterpolatingMap<DistanceUnit, TimeUnit> FUEL_HUB_TIME_OF_FLIGHT_MAP =
         new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
@@ -151,15 +153,16 @@ public final class LaunchCalculatorConstants {
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(4.399), Seconds.of(0.5));
     }
 
-    public static final UnitInterpolatingMap<DistanceUnit, AngleUnit> LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP =
+    public static final UnitInterpolatingMap<DistanceUnit, AngleUnit>
+        LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP =
             new UnitInterpolatingMap<>(Units.Meters, Units.Radians);
     public static final UnitInterpolatingMap<DistanceUnit, AngularVelocityUnit>
-            LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP =
+        LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP =
             new UnitInterpolatingMap<>(Units.Meters, Units.RevolutionsPerSecond);
-    public static final UnitInterpolatingMap<DistanceUnit, TimeUnit> FUEL_PASSING_TIME_OF_FLIGHT_MAP =
-            new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
+    public static final UnitInterpolatingMap<DistanceUnit, TimeUnit>
+        FUEL_PASSING_TIME_OF_FLIGHT_MAP = new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
 
-    //TODO: get real data
+    // TODO: get real data
     static {
       // Data collected from testing. TOF is estimated at 0.5s for all points.
       // Points sorted by distance ascending.
@@ -175,7 +178,6 @@ public final class LaunchCalculatorConstants {
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(2.033), Degrees.of(63.04));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(2.033), RotationsPerSecond.of(35.0));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(2.033), Seconds.of(0.5));
-      
     }
   }
 }

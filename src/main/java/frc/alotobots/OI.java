@@ -158,7 +158,6 @@ public class OI {
   public static double getShooterManualAxis() {
     return codriverController.getRightTriggerAxis();
   }
-  
 
   // TEST CONTROLLER --------------------------------------------------
   // FOR WHATEVER YOU WANT

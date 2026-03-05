@@ -27,9 +27,8 @@ import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.rebuilt.FieldConstants;
 import frc.alotobots.util.GeomUtil;
-import java.util.function.Supplier;
-
 import frc.alotobots.util.UnitInterpolatingMap;
+import java.util.function.Supplier;
 import lombok.experimental.ExtensionMethod;
 import org.littletonrobotics.junction.Logger;
 
@@ -47,9 +46,9 @@ public class LaunchCalculator {
 
   /** Constructs a LaunchCalculator with suppliers for robot pose and velocity. */
   public LaunchCalculator(
-          Supplier<Pose2d> robotPoseSupplier,
-          Supplier<ChassisSpeeds> robotRelativeVelocitySupplier,
-          Supplier<ChassisSpeeds> robotFieldVelocitySupplier) {
+      Supplier<Pose2d> robotPoseSupplier,
+      Supplier<ChassisSpeeds> robotRelativeVelocitySupplier,
+      Supplier<ChassisSpeeds> robotFieldVelocitySupplier) {
     this.robotPoseSupplier = robotPoseSupplier;
     this.robotRelativeVelocitySupplier = robotRelativeVelocitySupplier;
     this.robotFieldVelocitySupplier = robotFieldVelocitySupplier;
@@ -58,20 +57,20 @@ public class LaunchCalculator {
   // ── Hub filters ──
   /** Filters hub turret angle derivative to smooth velocity estimation. */
   private final LinearFilter hubTurretAngleFilter =
-          LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
+      LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
 
   /** Filters hub deflector angle derivative to smooth velocity estimation. */
   private final LinearFilter hubDeflectorAngleFilter =
-          LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
+      LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
 
   // ── Passing filters ──
   /** Filters passing turret angle derivative to smooth velocity estimation. */
   private final LinearFilter passingTurretAngleFilter =
-          LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
+      LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
 
   /** Filters passing deflector angle derivative to smooth velocity estimation. */
   private final LinearFilter passingDeflectorAngleFilter =
-          LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
+      LinearFilter.movingAverage((int) (0.1 / LOOP_PERIOD.in(Seconds)));
 
   // ── Hub historical state ──
   /** Hub turret angle from the previous loop cycle, used for velocity estimation. */
@@ -88,14 +87,14 @@ public class LaunchCalculator {
   private Angle lastPassingDeflectorAngle = null;
 
   public record LaunchingParameters(
-          boolean isValid,
-          Rotation2d turretAngleFieldRelative,
-          AngularVelocity turretVelocity,
-          Angle deflectorAngle,
-          AngularVelocity deflectorVelocity,
-          AngularVelocity shooterVelocity,
-          // TODO: Remove this temporary value.
-          Distance dataCollectionDebugDistance) {}
+      boolean isValid,
+      Rotation2d turretAngleFieldRelative,
+      AngularVelocity turretVelocity,
+      Angle deflectorAngle,
+      AngularVelocity deflectorVelocity,
+      AngularVelocity shooterVelocity,
+      // TODO: Remove this temporary value.
+      Distance dataCollectionDebugDistance) {}
 
   /**
    * Intermediate result of the lookahead calculation, containing the refined turret pose and
@@ -119,14 +118,14 @@ public class LaunchCalculator {
     Pose2d forwardEstimatedPose = robotPoseSupplier.get();
     ChassisSpeeds robotRelativeVelocity = robotRelativeVelocitySupplier.get();
     forwardEstimatedPose =
-            forwardEstimatedPose.exp(
-                    new Twist2d(
-                            robotRelativeVelocity.vxMetersPerSecond
-                                    * LAUNCH_CALCULATOR_SUBSYSTEM_DELAY.in(Seconds),
-                            robotRelativeVelocity.vyMetersPerSecond
-                                    * LAUNCH_CALCULATOR_SUBSYSTEM_DELAY.in(Seconds),
-                            robotRelativeVelocity.omegaRadiansPerSecond
-                                    * LAUNCH_CALCULATOR_SUBSYSTEM_DELAY.in(Seconds)));
+        forwardEstimatedPose.exp(
+            new Twist2d(
+                robotRelativeVelocity.vxMetersPerSecond
+                    * LAUNCH_CALCULATOR_SUBSYSTEM_DELAY.in(Seconds),
+                robotRelativeVelocity.vyMetersPerSecond
+                    * LAUNCH_CALCULATOR_SUBSYSTEM_DELAY.in(Seconds),
+                robotRelativeVelocity.omegaRadiansPerSecond
+                    * LAUNCH_CALCULATOR_SUBSYSTEM_DELAY.in(Seconds)));
     return forwardEstimatedPose;
   }
 
@@ -140,8 +139,8 @@ public class LaunchCalculator {
     boolean shouldFlip;
     if (DriverStation.getAlliance().isEmpty()) {
       DriverStation.reportWarning(
-              "No alliance data available to calculate distance to turret target. Defaulting to blue.",
-              false);
+          "No alliance data available to calculate distance to turret target. Defaulting to blue.",
+          false);
       shouldFlip = false;
     } else {
       shouldFlip = DriverStation.getAlliance().get().equals(DriverStation.Alliance.Red);
@@ -168,28 +167,30 @@ public class LaunchCalculator {
    * @return the refined lookahead pose and distance to the target
    */
   private LookaheadResult calculateLookahead(
-          Translation2d target, Pose2d forwardEstimatedPose, UnitInterpolatingMap<DistanceUnit, TimeUnit> timeOfFlightMap) {
+      Translation2d target,
+      Pose2d forwardEstimatedPose,
+      UnitInterpolatingMap<DistanceUnit, TimeUnit> timeOfFlightMap) {
     // Calculate where the turret will be in the future and its distance from the target
     Pose2d turretPosition = forwardEstimatedPose.transformBy(ROBOT_TO_TURRET);
     Distance turretToTargetDistance =
-            Meters.of(target.getDistance(turretPosition.getTranslation()));
+        Meters.of(target.getDistance(turretPosition.getTranslation()));
 
     // Calculate field relative turret velocity
     ChassisSpeeds robotVelocity = robotFieldVelocitySupplier.get();
     Angle robotAngle = Radians.of(forwardEstimatedPose.getRotation().getRadians());
 
     LinearVelocity turretLinearVelocityX =
-            MetersPerSecond.of(
-                    robotVelocity.vxMetersPerSecond
-                            + robotVelocity.omegaRadiansPerSecond
-                            * (ROBOT_TO_TURRET.getY() * Math.cos(robotAngle.in(Radians))
-                            - ROBOT_TO_TURRET.getX() * Math.sin(robotAngle.in(Radians))));
+        MetersPerSecond.of(
+            robotVelocity.vxMetersPerSecond
+                + robotVelocity.omegaRadiansPerSecond
+                    * (ROBOT_TO_TURRET.getY() * Math.cos(robotAngle.in(Radians))
+                        - ROBOT_TO_TURRET.getX() * Math.sin(robotAngle.in(Radians))));
     LinearVelocity turretLinearVelocityY =
-            MetersPerSecond.of(
-                    robotVelocity.vyMetersPerSecond
-                            + robotVelocity.omegaRadiansPerSecond
-                            * (ROBOT_TO_TURRET.getX() * Math.cos(robotAngle.in(Radians))
-                            - ROBOT_TO_TURRET.getY() * Math.sin(robotAngle.in(Radians))));
+        MetersPerSecond.of(
+            robotVelocity.vyMetersPerSecond
+                + robotVelocity.omegaRadiansPerSecond
+                    * (ROBOT_TO_TURRET.getX() * Math.cos(robotAngle.in(Radians))
+                        - ROBOT_TO_TURRET.getY() * Math.sin(robotAngle.in(Radians))));
 
     // Iteratively refine the lookahead pose and distance
     Pose2d lookaheadPose = turretPosition;
@@ -198,16 +199,16 @@ public class LaunchCalculator {
     for (int i = 0; i < 20; i++) {
       Time timeOfFlight = (Time) timeOfFlightMap.get(lookaheadTurretToTargetDistance);
       Translation2d turretOffsetToLookahead =
-              new Translation2d(
-                      turretLinearVelocityX.in(MetersPerSecond) * timeOfFlight.in(Seconds),
-                      turretLinearVelocityY.in(MetersPerSecond) * timeOfFlight.in(Seconds));
+          new Translation2d(
+              turretLinearVelocityX.in(MetersPerSecond) * timeOfFlight.in(Seconds),
+              turretLinearVelocityY.in(MetersPerSecond) * timeOfFlight.in(Seconds));
 
       lookaheadPose =
-              new Pose2d(
-                      turretPosition.getTranslation().plus(turretOffsetToLookahead),
-                      turretPosition.getRotation());
+          new Pose2d(
+              turretPosition.getTranslation().plus(turretOffsetToLookahead),
+              turretPosition.getRotation());
       lookaheadTurretToTargetDistance =
-              Meters.of(target.getDistance(lookaheadPose.getTranslation()));
+          Meters.of(target.getDistance(lookaheadPose.getTranslation()));
     }
 
     return new LookaheadResult(lookaheadPose, lookaheadTurretToTargetDistance);
@@ -226,21 +227,23 @@ public class LaunchCalculator {
     Pose2d forwardEstimatedPose = getForwardEstimatedPose();
 
     // Get alliance-corrected hub target
-    Translation2d target = getAllianceCorrectedTarget(FieldConstants.Hub.topCenterPoint.toTranslation2d());
+    Translation2d target =
+        getAllianceCorrectedTarget(FieldConstants.Hub.topCenterPoint.toTranslation2d());
 
     // Calculate lookahead pose and distance accounting for robot velocity and time of flight
-    LookaheadResult lookahead = calculateLookahead(target, forwardEstimatedPose, FUEL_HUB_TIME_OF_FLIGHT_MAP);
+    LookaheadResult lookahead =
+        calculateLookahead(target, forwardEstimatedPose, FUEL_HUB_TIME_OF_FLIGHT_MAP);
     Pose2d lookaheadPose = lookahead.lookaheadPose();
     Distance lookaheadTurretToTargetDistance = lookahead.turretToTargetDistance();
 
     // Calculate parameters accounted for imparted velocity and rotate to robot relative
     Rotation2d turretFieldRelativeAngle =
-            target
-                    .minus(lookaheadPose.getTranslation())
-                    .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
-                    .getAngle();
+        target
+            .minus(lookaheadPose.getTranslation())
+            .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
+            .getAngle();
     Angle deflectorAngle =
-            (Angle) LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
+        (Angle) LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
 
     // Store historical values
     if (lastHubTurretAngle == null) {
@@ -252,35 +255,37 @@ public class LaunchCalculator {
     }
 
     AngularVelocity turretVelocity =
-            RadiansPerSecond.of(
-                    hubTurretAngleFilter.calculate(
-                            turretFieldRelativeAngle.minus(lastHubTurretAngle).getRadians()
-                                    / LOOP_PERIOD.in(Seconds)));
+        RadiansPerSecond.of(
+            hubTurretAngleFilter.calculate(
+                turretFieldRelativeAngle.minus(lastHubTurretAngle).getRadians()
+                    / LOOP_PERIOD.in(Seconds)));
     AngularVelocity deflectorVelocity =
-            RadiansPerSecond.of(
-                    hubDeflectorAngleFilter.calculate(
-                            (deflectorAngle.minus(lastHubDeflectorAngle)).in(Radians) / LOOP_PERIOD.in(Seconds)));
+        RadiansPerSecond.of(
+            hubDeflectorAngleFilter.calculate(
+                (deflectorAngle.minus(lastHubDeflectorAngle)).in(Radians)
+                    / LOOP_PERIOD.in(Seconds)));
 
     lastHubTurretAngle = turretFieldRelativeAngle;
     lastHubDeflectorAngle = deflectorAngle;
 
     AngularVelocity shooterVelocity =
-            (AngularVelocity) LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.get(lookaheadTurretToTargetDistance);
+        (AngularVelocity) LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.get(lookaheadTurretToTargetDistance);
 
     latestHubTargetParameters =
-            new LaunchingParameters(
-                    lookaheadTurretToTargetDistance.gte(MINIMUM_HUB_SHOOTING_DISTANCE)
-                            && lookaheadTurretToTargetDistance.lte(MAXIMUM_HUB_SHOOTING_DISTANCE),
-                    turretFieldRelativeAngle,
-                    turretVelocity,
-                    deflectorAngle,
-                    deflectorVelocity,
-                    shooterVelocity,
-                    lookaheadTurretToTargetDistance);
+        new LaunchingParameters(
+            lookaheadTurretToTargetDistance.gte(MINIMUM_HUB_SHOOTING_DISTANCE)
+                && lookaheadTurretToTargetDistance.lte(MAXIMUM_HUB_SHOOTING_DISTANCE),
+            turretFieldRelativeAngle,
+            turretVelocity,
+            deflectorAngle,
+            deflectorVelocity,
+            shooterVelocity,
+            lookaheadTurretToTargetDistance);
 
     // Log calculated values
     Logger.recordOutput("LaunchCalculator/Hub/LookaheadPose", lookaheadPose);
-    Logger.recordOutput("LaunchCalculator/Hub/TurretToTargetDistance", lookaheadTurretToTargetDistance);
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/TurretToTargetDistance", lookaheadTurretToTargetDistance);
     Logger.recordOutput("LaunchCalculator/Hub/Parameters", latestHubTargetParameters);
     return latestHubTargetParameters;
   }
@@ -298,21 +303,24 @@ public class LaunchCalculator {
     Pose2d forwardEstimatedPose = getForwardEstimatedPose();
 
     // Get alliance-corrected passing target
-    Translation2d target = getAllianceCorrectedTarget(forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS));
+    Translation2d target =
+        getAllianceCorrectedTarget(
+            forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS));
 
     // Calculate lookahead pose and distance accounting for robot velocity and time of flight
-    LookaheadResult lookahead = calculateLookahead(target, forwardEstimatedPose, FUEL_PASSING_TIME_OF_FLIGHT_MAP);
+    LookaheadResult lookahead =
+        calculateLookahead(target, forwardEstimatedPose, FUEL_PASSING_TIME_OF_FLIGHT_MAP);
     Pose2d lookaheadPose = lookahead.lookaheadPose();
     Distance lookaheadTurretToTargetDistance = lookahead.turretToTargetDistance();
 
     // Calculate parameters accounted for imparted velocity and rotate to robot relative
     Rotation2d turretFieldRelativeAngle =
-            target
-                    .minus(lookaheadPose.getTranslation())
-                    .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
-                    .getAngle();
+        target
+            .minus(lookaheadPose.getTranslation())
+            .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
+            .getAngle();
     Angle deflectorAngle =
-            (Angle) LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
+        (Angle) LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
 
     // Store historical values
     if (lastPassingTurretAngle == null) {
@@ -324,35 +332,38 @@ public class LaunchCalculator {
     }
 
     AngularVelocity turretVelocity =
-            RadiansPerSecond.of(
-                    passingTurretAngleFilter.calculate(
-                            turretFieldRelativeAngle.minus(lastPassingTurretAngle).getRadians()
-                                    / LOOP_PERIOD.in(Seconds)));
+        RadiansPerSecond.of(
+            passingTurretAngleFilter.calculate(
+                turretFieldRelativeAngle.minus(lastPassingTurretAngle).getRadians()
+                    / LOOP_PERIOD.in(Seconds)));
     AngularVelocity deflectorVelocity =
-            RadiansPerSecond.of(
-                    passingDeflectorAngleFilter.calculate(
-                            (deflectorAngle.minus(lastPassingDeflectorAngle)).in(Radians) / LOOP_PERIOD.in(Seconds)));
+        RadiansPerSecond.of(
+            passingDeflectorAngleFilter.calculate(
+                (deflectorAngle.minus(lastPassingDeflectorAngle)).in(Radians)
+                    / LOOP_PERIOD.in(Seconds)));
 
     lastPassingTurretAngle = turretFieldRelativeAngle;
     lastPassingDeflectorAngle = deflectorAngle;
 
     AngularVelocity shooterVelocity =
-            (AngularVelocity) LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.get(lookaheadTurretToTargetDistance);
+        (AngularVelocity)
+            LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.get(lookaheadTurretToTargetDistance);
 
     latestPassingTargetParameters =
-            new LaunchingParameters(
-                    lookaheadTurretToTargetDistance.gte(MINIMUM_PASSING_SHOOTING_DISTANCE)
-                            && lookaheadTurretToTargetDistance.lte(MAXIMUM_PASSING_SHOOTING_DISTANCE),
-                    turretFieldRelativeAngle,
-                    turretVelocity,
-                    deflectorAngle,
-                    deflectorVelocity,
-                    shooterVelocity,
-                    lookaheadTurretToTargetDistance);
+        new LaunchingParameters(
+            lookaheadTurretToTargetDistance.gte(MINIMUM_PASSING_SHOOTING_DISTANCE)
+                && lookaheadTurretToTargetDistance.lte(MAXIMUM_PASSING_SHOOTING_DISTANCE),
+            turretFieldRelativeAngle,
+            turretVelocity,
+            deflectorAngle,
+            deflectorVelocity,
+            shooterVelocity,
+            lookaheadTurretToTargetDistance);
 
     // Log calculated values
     Logger.recordOutput("LaunchCalculator/Passing/LookaheadPose", lookaheadPose);
-    Logger.recordOutput("LaunchCalculator/Passing/TurretToTargetDistance", lookaheadTurretToTargetDistance);
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/TurretToTargetDistance", lookaheadTurretToTargetDistance);
     Logger.recordOutput("LaunchCalculator/Passing/Parameters", latestPassingTargetParameters);
     return latestPassingTargetParameters;
   }
