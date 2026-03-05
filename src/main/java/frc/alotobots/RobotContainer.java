@@ -292,7 +292,8 @@ public class RobotContainer {
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
 
     // Bling
-    blingSubsystem.setDefaultCommand(new DefaultBlingHubShift(blingSubsystem));
+    blingSubsystem.setDefaultCommand(
+        new NoAllianceWaiting(blingSubsystem).andThen(new SetToAllianceColor(blingSubsystem)));
 
     // --- BACKUPS ---
     // Shooter
@@ -310,9 +311,7 @@ public class RobotContainer {
   private void configureLogicCommands() {
     // General
     RobotModeTriggers.teleop().onTrue(new InstantCommand(HubShiftUtil::initialize));
-    RobotModeTriggers.disabled()
-        .whileTrue(
-            new NoAllianceWaiting(blingSubsystem).andThen(new SetToAllianceColor(blingSubsystem)));
+    RobotModeTriggers.teleop().whileTrue(new DefaultBlingHubShift(blingSubsystem));
 
     // Swerve
     lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
