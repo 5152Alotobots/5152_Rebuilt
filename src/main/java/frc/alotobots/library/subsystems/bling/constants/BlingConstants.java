@@ -27,7 +27,7 @@ public class BlingConstants {
   public static final double MAX_LED_BRIGHTNESS = .25;
 
   /** Total number of LEDs in the strip */
-  public static final int NUM_LEDS = 92;
+  public static final int NUM_LEDS = 45;
 
   /** Offset for LED positioning (onboard LEDs are 0-7, external strip starts at 8) */
   public static final int LED_OFFSET = 8;
