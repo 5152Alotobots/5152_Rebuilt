@@ -132,9 +132,33 @@ public class OI {
   public static final Trigger turretAimShoot = driverController.rightBumper();
 
   // CO DRIVER CONTEROLLER --------------------------------------------
-  public static final Trigger rotateTurretRight = codriverController.povRight();
-  public static final Trigger rotateTurretLeft = codriverController.povLeft();
-  public static final Trigger spinShooterWheels = codriverController.b();
+  public static final Trigger runKickerAndBeltManual = codriverController.leftBumper();
+  public static final Trigger deflectorUpManual = codriverController.povUp();
+  public static final Trigger deflectorDownManual = codriverController.povDown();
+  public static final Trigger shooterSpeedDownManual = codriverController.povLeft();
+  public static final Trigger shooterSpeedUpManual = codriverController.povRight();
+
+  /**
+   * @return Value between -1.0 (up) and 1.0 (down)
+   */
+  public static double getClimberManualAxis() {
+    return codriverController.getLeftY();
+  }
+
+  /**
+   * @return Value between -1.0 (counter-clockwise) and 1.0 (clockwise)
+   */
+  public static double getTurretManualAxis() {
+    return codriverController.getRightX();
+  }
+
+  /**
+   * @return Value between 0 (off) and 1.0 (100%)
+   */
+  public static double getShooterManualAxis() {
+    return codriverController.getRightTriggerAxis();
+  }
+  
 
   // TEST CONTROLLER --------------------------------------------------
   // FOR WHATEVER YOU WANT

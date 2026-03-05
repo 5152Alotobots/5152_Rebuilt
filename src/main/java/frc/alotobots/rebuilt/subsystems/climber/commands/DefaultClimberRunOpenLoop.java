@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
 import java.util.function.DoubleSupplier;
 
-public class ClimberRunOpenLoop extends Command {
+public class DefaultClimberRunOpenLoop extends Command {
   private final ClimberSubsystem climberSubsystem;
   private final DoubleSupplier input;
 
-  public ClimberRunOpenLoop(ClimberSubsystem climberSubsystem, DoubleSupplier input) {
+  public DefaultClimberRunOpenLoop(ClimberSubsystem climberSubsystem, DoubleSupplier input) {
     this.climberSubsystem = climberSubsystem;
     this.input = input;
 
