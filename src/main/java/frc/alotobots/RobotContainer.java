@@ -393,20 +393,20 @@ public class RobotContainer {
     launchCalculator); */
 
     // Sys id for turret
-    /*
+    
     sysIDDynamicFwd.whileTrue(
-        turretSubsystem.sysIdFwdDynamic()
-        .andThen(new InstantCommand(turretSubsystem::stop)));
+        shooterSubsystem.sysIdFwdDynamic()
+        .andThen(new InstantCommand(shooterSubsystem::stop)));
     sysIDDynamicRev.whileTrue(
-        turretSubsystem.sysIdRevDynamic()
-        .andThen(new InstantCommand(turretSubsystem::stop)));
+        shooterSubsystem.sysIdRvsDynamic()
+        .andThen(new InstantCommand(shooterSubsystem::stop)));
     sysIDQuasistaticFwd.whileTrue(
-        turretSubsystem.sysIdFwdQuasiStatic().andThen(new
-    InstantCommand(turretSubsystem::stop)));
+        shooterSubsystem.sysIdFwdQuasistatic().andThen(new
+    InstantCommand(shooterSubsystem::stop)));
     sysIDQuasistaticRev.whileTrue(
-        turretSubsystem.sysIdRevQuasiStatic().andThen(new
-    InstantCommand(turretSubsystem::stop)));
-    */
+            shooterSubsystem.sysIdRvsQuasiStatic().andThen(new
+    InstantCommand(shooterSubsystem::stop)));
+    
     // Sys id for shooter
     /*
      * */

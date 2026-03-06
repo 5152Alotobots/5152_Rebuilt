@@ -26,6 +26,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
@@ -116,5 +117,18 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stop() {
     io.stop();
     targetVelocity = RadiansPerSecond.zero();
+  }
+
+    public Command sysIdFwdDynamic() {
+      return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward);
+    }
+  public Command sysIdRvsDynamic() {
+    return sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
+  }
+  public Command sysIdFwdQuasistatic() {
+    return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward);
+  }
+  public Command sysIdRvsQuasiStatic() {
+    return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse);
   }
 }
