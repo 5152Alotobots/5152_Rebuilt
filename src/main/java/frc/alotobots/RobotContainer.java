@@ -382,6 +382,12 @@ public class RobotContainer {
             .alongWith(
                 new DefaultBeltRunAtVelocity(
                     beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
+    runKickerAndBeltOutManual.whileTrue(
+        new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY)
+            .alongWith(
+                new DefaultBeltRunAtVelocity(
+                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY)));
     deflectorDownManual.onTrue(
         new InstantCommand(
             () ->
@@ -402,16 +408,16 @@ public class RobotContainer {
     launchCalculator); */
 
     // Sys id for turret
-
-    sysIDDynamicFwd.whileTrue(
-        shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    sysIDDynamicRev.whileTrue(
-        shooterSubsystem.sysIdRvsDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    sysIDQuasistaticFwd.whileTrue(
-        shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    sysIDQuasistaticRev.whileTrue(
-        shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-
+    /*
+       sysIDDynamicFwd.whileTrue(
+           shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
+       sysIDDynamicRev.whileTrue(
+           shooterSubsystem.sysIdRvsDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
+       sysIDQuasistaticFwd.whileTrue(
+           shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
+       sysIDQuasistaticRev.whileTrue(
+           shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
+    */
     // Sys id for shooter
     /*
      * */
