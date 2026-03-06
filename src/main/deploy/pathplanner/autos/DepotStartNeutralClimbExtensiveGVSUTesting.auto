@@ -93,12 +93,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "DepotStartNeutralClimb 5"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "ClimbUp"
