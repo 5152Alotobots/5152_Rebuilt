@@ -77,7 +77,6 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorFollowPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
@@ -298,13 +297,16 @@ public class RobotContainer {
     // --- BACKUPS ---
     // Shooter
     shooterSubsystem.setDefaultCommand(
-        new DefaultShooterRunAtVelocity(shooterSubsystem, OI::getShooterManualAxis));
+        new DefaultShooterRunAtVelocity(shooterSubsystem, OI::getShooterManualAxis)
+            .onlyWhile(() -> OI.getShooterManualAxis() > 0.2));
     // Climber
     climberSubsystem.setDefaultCommand(
-        new DefaultClimberRunOpenLoop(climberSubsystem, OI::getClimberManualAxis));
+        new DefaultClimberRunOpenLoop(climberSubsystem, OI::getClimberManualAxis)
+            .onlyWhile(() -> OI.getClimberManualAxis() > 0.2));
     // Turret
     turretSubsystem.setDefaultCommand(
-        new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretManualAxis));
+        new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretManualAxis)
+            .onlyWhile(() -> OI.getTurretManualAxis() > 0.2));
   }
 
   /** Contains button based commands */
@@ -372,11 +374,15 @@ public class RobotContainer {
                 new DefaultBeltRunAtVelocity(
                     beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
     deflectorDownManual.onTrue(
-        new DeflectorFollowPosition(
-            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5))));
+        new InstantCommand(
+            () ->
+                deflectorSubsystem.runToTargetAngle(
+                    deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5)))));
     deflectorUpManual.onTrue(
-        new DeflectorFollowPosition(
-            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5))));
+        new InstantCommand(
+            () ->
+                deflectorSubsystem.runToTargetAngle(
+                    deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5)))));
 
     /*  new DataCollection(
     deflectorSubsystem,
