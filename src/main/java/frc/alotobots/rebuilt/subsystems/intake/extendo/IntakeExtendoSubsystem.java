@@ -24,6 +24,7 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOInputsAutoLogged;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakeExtendoSubsystem extends SubsystemBase {
@@ -35,6 +36,7 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
    * Distance object that tracks the currently selected position (maintains last position if not in
    * POSITION control mode)
    */
+  @AutoLogOutput(key = "Intake/Extendo")
   private Distance targetExtension = Meters.zero();
 
   /** Debouncer for ensuring stability at a position */
