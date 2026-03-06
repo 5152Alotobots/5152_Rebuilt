@@ -49,6 +49,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTag
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
 import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
 import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubFixedAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetPassingDynamicAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
@@ -338,6 +339,14 @@ public class RobotContainer {
     // Launcher
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            launchCalculator));
+    turretAimPass.whileTrue(
+        new LauncherTargetPassingDynamicAndShoot(
             deflectorSubsystem,
             shooterSubsystem,
             turretSubsystem,
