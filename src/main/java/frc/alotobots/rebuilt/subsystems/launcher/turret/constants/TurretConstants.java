@@ -49,6 +49,8 @@ public class TurretConstants {
 
   /** Contains position setpoints for different turret states. */
   public static final class Setpoints {
+    public static final Angle SAFETY_TURRET_ANGLE_CLIMB_UP = Degrees.of(90);
+
     // setpoints would go here, but I haven't figured them out yet
     public static final class Fixed {
       // TODO: real data

@@ -46,10 +46,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
-import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
-import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
-import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubFixedAndShoot;
-import frc.alotobots.rebuilt.commands.groups.LauncherTargetPassingDynamicAndShoot;
+import frc.alotobots.rebuilt.commands.groups.*;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
@@ -365,8 +362,7 @@ public class RobotContainer {
     // Climber
     toggleClimber.onTrue(
         new ConditionalCommand(
-            new ClimberRunToExtension(
-                climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION),
+            new ClimberUpWithTurretSafety(climberSubsystem, turretSubsystem),
             new ClimberRunToExtension(
                 climberSubsystem, ClimberConstants.Limits.MIN_CLIMB_EXTENSION),
             () -> {
