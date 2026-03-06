@@ -42,13 +42,25 @@ public final class LaunchCalculatorConstants {
   public static final Transform2d ROBOT_TO_TURRET =
       new Transform2d(new Translation2d(-.14, 0), Rotation2d.kZero);
 
-  public static final Translation3d PASSING_TARGET_DEPOT = new Translation3d(4, 7, 0);
-  public static final Translation3d PASSING_TARGET_OUTPOST = new Translation3d(4, 1, 0);
-  public static final List<Translation2d> PASSING_TARGET_OPTIONS =
+  public static final Translation3d PASSING_TARGET_DEPOT_BLUE = new Translation3d(0.5, 7, 0);
+  public static final Translation3d PASSING_TARGET_OUTPOST_BLUE = new Translation3d(0.5, 1, 0);
+
+  public static final Translation3d PASSING_TARGET_DEPOT_RED = new Translation3d(16.2, 7, 0);
+  public static final Translation3d PASSING_TARGET_OUTPOST_RED = new Translation3d(16.2, 1, 0);
+
+  public static final List<Translation2d> PASSING_TARGET_OPTIONS_BLUE =
       new LinkedList<>() {
         {
-          add(PASSING_TARGET_DEPOT.toTranslation2d());
-          add(PASSING_TARGET_OUTPOST.toTranslation2d());
+          add(PASSING_TARGET_DEPOT_BLUE.toTranslation2d());
+          add(PASSING_TARGET_OUTPOST_BLUE.toTranslation2d());
+        }
+      };
+
+  public static final List<Translation2d> PASSING_TARGET_OPTIONS_RED =
+      new LinkedList<>() {
+        {
+          add(PASSING_TARGET_DEPOT_RED.toTranslation2d());
+          add(PASSING_TARGET_OUTPOST_RED.toTranslation2d());
         }
       };
 

@@ -319,9 +319,13 @@ public class LaunchCalculator {
     Pose2d forwardEstimatedPose = getForwardEstimatedPose();
 
     // Get alliance-corrected passing target
-    Translation2d target =
-        getAllianceCorrectedTarget(
-            forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS));
+    Translation2d target;
+    if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+        == DriverStation.Alliance.Blue) {
+      target = forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS_BLUE);
+    } else {
+      target = forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS_RED);
+    }
 
     // Calculate lookahead pose and distance accounting for robot velocity and time of flight
     LookaheadResult lookahead =
