@@ -86,7 +86,7 @@ public final class LaunchCalculatorConstants {
 
       // Distance: ~2.83m (two identical points)
       // Turret: 0.53°, Deflector: 58.67°, RPS: 37.5
-        LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.831), Degrees.of(58.67));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.831), Degrees.of(58.67));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(2.831), RotationsPerSecond.of(37.5));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(2.831), Seconds.of(0.5));
 
@@ -113,7 +113,7 @@ public final class LaunchCalculatorConstants {
       // ~3.45: Turret: -1.23°, Deflector: 58.39°, RPS: 40.0
       // Using the 0.53° turret point (cleaner geometry)
       LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.449), Degrees.of(60.25));
-        LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(3.449), RotationsPerSecond.of(42.5));
+      LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(3.449), RotationsPerSecond.of(42.5));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.449), Seconds.of(0.5));
 
       // Distance: ~3.66m
@@ -166,11 +166,11 @@ public final class LaunchCalculatorConstants {
     static {
       // Data collected from testing. TOF is estimated at 0.5s for all points.
       // Points sorted by distance ascending.
-      
+
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(3.5), Degrees.of(58.12));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(3.5), RotationsPerSecond.of(40.64));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(3.5), Seconds.of(0.5));
-      
+
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(4.5), Degrees.of(55.95213));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(4.5), RotationsPerSecond.of(45.095325));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(4.5), Seconds.of(0.5));

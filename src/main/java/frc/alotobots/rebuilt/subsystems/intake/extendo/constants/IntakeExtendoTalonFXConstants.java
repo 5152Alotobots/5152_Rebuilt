@@ -83,7 +83,7 @@ public class IntakeExtendoTalonFXConstants {
     public static final Current STATOR_AMP_LIMIT = Amps.of(45);
     public static final Current SUPPLY_PEAK_LIMIT = Amps.of(45);
     public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(35);
-    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.25);
+    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.75);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */
