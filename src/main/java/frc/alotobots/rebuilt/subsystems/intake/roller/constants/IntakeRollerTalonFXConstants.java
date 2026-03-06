@@ -13,10 +13,12 @@
 package frc.alotobots.rebuilt.subsystems.intake.roller.constants;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Time;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -33,14 +35,12 @@ public class IntakeRollerTalonFXConstants {
 
   /** Contains safety limit constants for the intake roller motor. */
   public static final class MotorSafetyLimits {
-    /** Maximum forward torque current limit in amperes */
     public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(20);
-
-    /** Maximum reverse torque current limit in amperes */
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-20);
-
-    /** Maximum stator current limit in amperes */
     public static final Current STATOR_AMP_LIMIT = Amps.of(20);
+    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(25);
+    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(20);
+    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.25);
   }
 
   /** Direction of the intake roller motor rotation */

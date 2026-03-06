@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 
 import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -20,6 +21,7 @@ import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Time;
 
 public class TurretTalonFXSConstants {
   /** Contains PID and motion control constants for different control modes. */
@@ -57,8 +59,10 @@ public class TurretTalonFXSConstants {
 
   /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
-    /** Maximum stator current limit in amperes */
     public static final Current TURRET_STATOR_AMP_LIMIT = Amps.of(35);
+    public static final Current TURRET_SUPPLY_PEAK_LIMIT = Amps.of(35);
+    public static final Current TURRET_SUPPLY_SUSTAINED_LIMIT = Amps.of(25);
+    public static final Time TURRET_SUPPLY_PEAK_DURATION = Seconds.of(0.25);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */

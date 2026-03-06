@@ -13,8 +13,10 @@
 package frc.alotobots.rebuilt.subsystems.kicker.constants;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Time;
 
 public class KickerTalonFXConstants {
   public static final double VELOCITY_P_GAIN = 2.5;
@@ -29,5 +31,8 @@ public class KickerTalonFXConstants {
     public static final Current KICKER_TORQUE_FORWARD_AMP_LIMIT = Amps.of(30);
     public static final Current KICKER_TORQUE_REVERSE_AMP_LIMIT = Amps.of(-30);
     public static final Current KICKER_STATOR_AMP_LIMIT = Amps.of(30);
+    public static final Current KICKER_SUPPLY_PEAK_LIMIT = Amps.of(30);
+    public static final Current KICKER_SUPPLY_SUSTAINED_LIMIT = Amps.of(25);
+    public static final Time KICKER_SUPPLY_PEAK_DURATION = Seconds.of(0.25);
   }
 }

@@ -12,15 +12,14 @@
 */
 package frc.alotobots.rebuilt.subsystems.climber.constants;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
+import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Time;
 
 public class ClimberTalonFXConstants {
 
@@ -67,6 +66,9 @@ public class ClimberTalonFXConstants {
   public static final class MotorSafetyLimits {
     public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(40.0);
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(40.0);
-    public static final Current STATOR_AMP_LIMIT = Amps.of(800.0);
+    public static final Current STATOR_AMP_LIMIT = Amps.of(40);
+    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(60);
+    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(40);
+    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.5);
   }
 }

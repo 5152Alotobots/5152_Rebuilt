@@ -13,8 +13,10 @@
 package frc.alotobots.rebuilt.subsystems.belt.constants;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Time;
 
 public class BeltTalonFXConstants {
   public static final double VELOCITY_P_GAIN = 2.5;
@@ -29,5 +31,8 @@ public class BeltTalonFXConstants {
     public static final Current BELT_TORQUE_FORWARD_AMP_LIMIT = Amps.of(30);
     public static final Current BELT_TORQUE_REVERSE_AMP_LIMIT = Amps.of(-30);
     public static final Current BELT_STATOR_AMP_LIMIT = Amps.of(30);
+    public static final Current BELT_SUPPLY_PEAK_LIMIT = Amps.of(30);
+    public static final Current BELT_SUPPLY_SUSTAINED_LIMIT = Amps.of(25);
+    public static final Time BELT_SUPPLY_PEAK_DURATION = Seconds.of(0.25);
   }
 }

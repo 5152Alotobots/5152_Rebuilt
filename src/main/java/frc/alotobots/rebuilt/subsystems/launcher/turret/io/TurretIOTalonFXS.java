@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 import static frc.alotobots.Constants.DIO.TURRET_RESET_LIMIT_SWITCH_CHANNEL;
@@ -92,8 +93,17 @@ public class TurretIOTalonFXS implements TurretIO {
         TurretTalonFXSConstants.TURRET_MOTOR_ARRANGEMENT;
     turretMotorConfig.ExternalFeedback.SensorToMechanismRatio =
         TurretTalonFXSConstants.TURRET_SENSOR_TO_MECHANISM_RATIO;
+
     turretMotorConfig.CurrentLimits.StatorCurrentLimit =
         TurretTalonFXSConstants.MotorSafetyLimits.TURRET_STATOR_AMP_LIMIT.in(Amps);
+    turretMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    turretMotorConfig.CurrentLimits.SupplyCurrentLimit =
+        TurretTalonFXSConstants.MotorSafetyLimits.TURRET_SUPPLY_PEAK_LIMIT.in(Amps);
+    turretMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    turretMotorConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        TurretTalonFXSConstants.MotorSafetyLimits.TURRET_SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    turretMotorConfig.CurrentLimits.SupplyCurrentLowerTime =
+        TurretTalonFXSConstants.MotorSafetyLimits.TURRET_SUPPLY_PEAK_DURATION.in(Seconds);
 
     PhoenixUtil.tryUntilOk(5, () -> turretMotor.getConfigurator().apply(turretMotorConfig, 0.25));
 
