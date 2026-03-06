@@ -66,9 +66,9 @@ public class ClimberTalonFXConstants {
   public static final class MotorSafetyLimits {
     public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(40.0);
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(40.0);
-    public static final Current STATOR_AMP_LIMIT = Amps.of(40);
-    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(60);
-    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(40);
-    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.5);
+    public static final Current STATOR_AMP_LIMIT = Amps.of(120);
+    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(90);
+    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(70);
+    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(1.0);
   }
 }

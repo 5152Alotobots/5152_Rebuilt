@@ -109,11 +109,11 @@ public class TunerConstants2026 implements TunerConstants {
         new TalonFXConfiguration()
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(60))
+                    .withStatorCurrentLimit(Amps.of(35))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(40))
+                    .withSupplyCurrentLimit(Amps.of(25))
                     .withSupplyCurrentLimitEnable(true)
-                    .withSupplyCurrentLowerLimit(Amps.of(30))
+                    .withSupplyCurrentLowerLimit(Amps.of(15))
                     .withSupplyCurrentLowerTime(Seconds.of(0.25)));
 
     private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
