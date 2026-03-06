@@ -75,6 +75,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
@@ -396,10 +397,8 @@ public class RobotContainer {
                 deflectorSubsystem.runToTargetAngle(
                     deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5)))));
     putDeflectorDown.onTrue(
-        new InstantCommand(
-            () ->
-                deflectorSubsystem.runToTargetAngle(
-                    DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE)));
+            new DeflectorRunToPosition(deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE)
+    );
 
     /*  new DataCollection(
     deflectorSubsystem,
