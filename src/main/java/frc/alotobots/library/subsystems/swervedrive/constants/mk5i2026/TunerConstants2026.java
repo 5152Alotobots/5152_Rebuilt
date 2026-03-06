@@ -90,7 +90,7 @@ public class TunerConstants2026 implements TunerConstants {
 
     // The stator current at which the wheels start to slip;
     // This needs to be tuned to your individual robot
-    private static final Current kSlipCurrent = Amps.of(70); // ACTUAL MAX: 98
+    private static final Current kSlipCurrent = Amps.of(65); // ACTUAL MAX: 98
 
     // Initial configs for the drive and steer motors and the azimuth encoder; these cannot be null.
     // Some configs will be overwritten; check the `with*InitialConfigs()` API documentation.
@@ -109,11 +109,11 @@ public class TunerConstants2026 implements TunerConstants {
         new TalonFXConfiguration()
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(35))
+                    .withStatorCurrentLimit(Amps.of(22.5))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(25))
+                    .withSupplyCurrentLimit(Amps.of(17.5))
                     .withSupplyCurrentLimitEnable(true)
-                    .withSupplyCurrentLowerLimit(Amps.of(15))
+                    .withSupplyCurrentLowerLimit(Amps.of(10))
                     .withSupplyCurrentLowerTime(Seconds.of(0.25)));
 
     private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
