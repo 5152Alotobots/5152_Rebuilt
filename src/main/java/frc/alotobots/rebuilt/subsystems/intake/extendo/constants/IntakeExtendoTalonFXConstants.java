@@ -48,13 +48,13 @@ public class IntakeExtendoTalonFXConstants {
     /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
       /** Position control proportional gain */
-      public static final double KP = 2.8;
+      public static final double KP = 4;
 
       /** Position control integral gain */
       public static final double KI = 0.0;
 
       /** Position control derivative gain */
-      public static final double KD = 0.2;
+      public static final double KD = 0.3;
 
       /** Acceleration feedforward gain */
       public static final double KA = 0.0;
