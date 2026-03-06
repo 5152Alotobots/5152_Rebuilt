@@ -138,6 +138,7 @@ public class OI {
   public static final Trigger shooterSpeedDownManual = codriverController.povLeft();
   public static final Trigger shooterSpeedUpManual = codriverController.povRight();
   public static final Trigger runKickerAndBeltOutManual = codriverController.a();
+  public static final Trigger putDeflectorDown = codriverController.b();
 
   /**
    * @return Value between -1.0 (up) and 1.0 (down)
