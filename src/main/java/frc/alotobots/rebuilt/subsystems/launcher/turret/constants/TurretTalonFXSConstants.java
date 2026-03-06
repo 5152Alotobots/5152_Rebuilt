@@ -36,7 +36,7 @@ public class TurretTalonFXSConstants {
     /** TalonFX-specific PID and motion control constants for velocity (Velocity mode). */
     public static final class VelocityPIDConstants {
       /** Position control proportional gain */
-      public static final double TURRET_VELOCITY_KP = .772;
+      public static final double TURRET_VELOCITY_KP = .972;
 
       /** Position control integral gain */
       public static final double TURRET_VELOCITY_KI = 0.0;
@@ -51,7 +51,7 @@ public class TurretTalonFXSConstants {
       public static final double TURRET_VELOCITY_KS = 0.36;
 
       /** Velocity feedforward gain */
-      public static final double TURRET_VELOCITY_KV = 1.25;
+      public static final double TURRET_VELOCITY_KV = 1.75;
     }
   }
 
