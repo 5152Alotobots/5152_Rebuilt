@@ -51,7 +51,7 @@ public class TurretTalonFXSConstants {
       public static final double TURRET_VELOCITY_KS = 0.36;
 
       /** Velocity feedforward gain */
-      public static final double TURRET_VELOCITY_KV = 0.65;
+      public static final double TURRET_VELOCITY_KV = 1.25;
     }
   }
 
