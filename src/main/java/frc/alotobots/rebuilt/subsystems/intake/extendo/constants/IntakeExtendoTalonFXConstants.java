@@ -54,7 +54,7 @@ public class IntakeExtendoTalonFXConstants {
       public static final double KI = 0.0;
 
       /** Position control derivative gain */
-      public static final double KD = 0.3;
+      public static final double KD = 0.2;
 
       /** Acceleration feedforward gain */
       public static final double KA = 0.0;
