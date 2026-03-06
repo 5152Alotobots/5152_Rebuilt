@@ -30,7 +30,7 @@ public class KickerTalonFXConstants {
   public static final class MotorSafetyLimits {
     public static final Current KICKER_TORQUE_FORWARD_AMP_LIMIT = Amps.of(30);
     public static final Current KICKER_TORQUE_REVERSE_AMP_LIMIT = Amps.of(-30);
-    public static final Current KICKER_STATOR_AMP_LIMIT = Amps.of(35);
+    public static final Current KICKER_STATOR_AMP_LIMIT = Amps.of(45);
     public static final Current KICKER_SUPPLY_PEAK_LIMIT = Amps.of(35);
     public static final Current KICKER_SUPPLY_SUSTAINED_LIMIT = Amps.of(30);
     public static final Time KICKER_SUPPLY_PEAK_DURATION = Seconds.of(0.25);
