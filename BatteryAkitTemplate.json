@@ -1,0 +1,443 @@
+{
+  "hubs": [
+    {
+      "x": -8,
+      "y": -8,
+      "width": 1552,
+      "height": 936,
+      "state": {
+        "sidebar": {
+          "width": 440,
+          "expanded": [
+            "/AdvantageKit/Vision/AprilTag",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag/FR_AprilTag",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPosesAccepted/0",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPoses",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag/FR_AprilTag/SingleTag",
+            "/AdvantageKit/RealOutputs/Vision/AprilTag/Summary/MultiTag",
+            "/AdvantageKit/Drive/Module0",
+            "/AdvantageKit",
+            "/AdvantageKit/RealOutputs",
+            "/AdvantageKit/RealOutputs/SwerveStates/SetpointsOptimized",
+            "/AdvantageKit/RealOutputs/SwerveStates/SetpointsOptimized/0",
+            "/AdvantageKit/RealOutputs/SwerveStates/Measured",
+            "/AdvantageKit/RealOutputs/SwerveStates/Measured/0",
+            "/AdvantageKit/Intake",
+            "/AdvantageKit/Intake/Extendo",
+            "/AdvantageKit/RealOutputs/Intake",
+            "/AdvantageKit/RealOutputs/Intake/Extendo",
+            "/AdvantageKit/RealOutputs/SwerveStates",
+            "/RealOutputs/SwerveStates/Measured",
+            "/RealOutputs/SwerveStates/Measured/0",
+            "/RealOutputs/SwerveStates/SetpointsOptimized",
+            "/RealOutputs/SwerveStates/SetpointsOptimized/0",
+            "/RealOutputs/SwerveStates/Measured/0/angle",
+            "/RealOutputs/SwerveStates/SetpointsOptimized/0/angle",
+            "/RealOutputs/Launcher/Shooter",
+            "/Launcher/Deflector",
+            "/RealOutputs/Deflector",
+            "/RealOutputs/Drive/Pose",
+            "/RealOutputs/Drive/Pose/rotation",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPosesAccepted",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPosesRejected",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPosesAccepted/0",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPosesAccepted/0/rotation",
+            "/RealOutputs/Vision/AprilTag/FR_AprilTag/MultiTag/RobotPosesAccepted/0/rotation/q",
+            "/RealOutputs/Vision/AprilTag/FL_AprilTag/MultiTag",
+            "/RealOutputs/DataCollection",
+            "/Launcher/Turret",
+            "/RealOutputs/LaunchCalculator/Perameters",
+            "/RealOutputs/LaunchCalculator/Perameters/turretAngle",
+            "/RealOutputs/LaunchCalculator/LookaheadPose",
+            "/RealOutputs/LaunchCalculator/LookaheadPose/rotation",
+            "/RealOutputs/Vision/AprilTag",
+            "/RealOutputs/Vision/AprilTag/BL_AprilTag",
+            "/RealOutputs/Vision/AprilTag/BL_AprilTag/MultiTag",
+            "/RealOutputs/Vision/AprilTag/BL_AprilTag/MultiTag/RobotPosesAccepted",
+            "/RealOutputs/Vision/AprilTag/BR_AprilTag/MultiTag/RobotPosesAccepted",
+            "/RealOutputs/Vision/AprilTag/FL_AprilTag",
+            "/Intake/Extendo",
+            "/RealOutputs/Vision/AprilTag/FL_AprilTag/MultiTag/RobotPosesAccepted",
+            "/RealOutputs/Vision/AprilTag/BR_AprilTag/MultiTag",
+            "/RealOutputs/LaunchCalculator/Perameters/turretAngleFieldRelative",
+            "/RadioStatus/Status",
+            "/RealOutputs/Launcher/Deflector",
+            "/RadioStatus/Status/networkStatus6",
+            "/Intake",
+            "/Intake/Roller",
+            "/Kicker",
+            "/Launcher",
+            "/Launcher/Shooter",
+            "/Drive",
+            "/Drive/Module0",
+            "/Drive/Module1",
+            "/Drive/Module2",
+            "/Drive/Module3",
+            "/PowerDistribution"
+          ]
+        },
+        "tabs": {
+          "selected": 1,
+          "tabs": [
+            {
+              "type": 0,
+              "title": "",
+              "controller": null,
+              "controllerUUID": "cnlypfw1jf07hptp6htezpdhznadmxi4",
+              "renderer": "",
+              "controlsHeight": 0
+            },
+            {
+              "type": 1,
+              "title": "Line Graph",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "/Climber/ClimberMotorCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#af2437",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module1/DriveCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#e48b32",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module0/DriveCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#80588e",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module2/DriveCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#c0b487",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module3/DriveCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#858584",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Intake/Extendo/IntakeExtendoMotorCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#3b875a",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Intake/Roller/IntakeRollerMotorCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#d993aa",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Kicker/KickerMotorCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#5f4528",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Launcher/Deflector/DeflectorMotorCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Launcher/Shooter/ShooterMotorLeftCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#e5b31b",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Launcher/Shooter/ShooterMotorRightCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#af2437",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Launcher/Turret/TurretMotorCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#80588e",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module0/TurnCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#3b875a",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module1/TurnCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#d993aa",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module2/TurnCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#5f4528",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Drive/Module3/TurnCurrentAmps",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "/SystemStats/BatteryVoltage",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Intake/Extendo/IntakeExtendoVelocity",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#e48b32",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Intake/Extendo/IntakeExtendoDistance",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#c0b487",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/PowerDistribution/TotalCurrent",
+                    "logType": "Number",
+                    "visible": false,
+                    "options": {
+                      "color": "#e5b31b",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "discreteSources": [
+                  {
+                    "type": "stripes",
+                    "logKey": "/SystemStats/BrownedOut",
+                    "logType": "Boolean",
+                    "visible": false,
+                    "options": {
+                      "color": "#e5b31b"
+                    }
+                  },
+                  {
+                    "type": "stripes",
+                    "logKey": "/DriverStation/Autonomous",
+                    "logType": "Boolean",
+                    "visible": false,
+                    "options": {
+                      "color": "#858584"
+                    }
+                  }
+                ],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": {
+                    "type": null,
+                    "factor": 1
+                  }
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "vw3psoqxo5ogm1n6frh0xm2kh2gwnlqp",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 5,
+              "title": "Console",
+              "controller": "/RealOutputs/Console",
+              "controllerUUID": "whb8vwep38fzkclm691ftamvac47j7mx",
+              "renderer": {
+                "highlight": false
+              },
+              "controlsHeight": 0
+            },
+            {
+              "type": 2,
+              "title": "2D Field",
+              "controller": {
+                "sources": [
+                  {
+                    "type": "robot",
+                    "logKey": "/RealOutputs/Drive/Pose",
+                    "logType": "Pose2d",
+                    "visible": true,
+                    "options": {
+                      "bumpers": ""
+                    }
+                  },
+                  {
+                    "type": "ghost",
+                    "logKey": "/RealOutputs/Vision/AprilTag/BR_AprilTag/MultiTag/RobotPosesAccepted",
+                    "logType": "Pose3d[]",
+                    "visible": true,
+                    "options": {
+                      "color": "#00ff00"
+                    }
+                  },
+                  {
+                    "type": "ghost",
+                    "logKey": "/RealOutputs/Vision/AprilTag/BL_AprilTag/MultiTag/RobotPosesAccepted",
+                    "logType": "Pose3d[]",
+                    "visible": true,
+                    "options": {
+                      "color": "#ff8c00"
+                    }
+                  },
+                  {
+                    "type": "ghost",
+                    "logKey": "/RealOutputs/Vision/AprilTag/FL_AprilTag/MultiTag/RobotPosesAccepted",
+                    "logType": "Pose3d[]",
+                    "visible": true,
+                    "options": {
+                      "color": "#00ffff"
+                    }
+                  },
+                  {
+                    "type": "trajectory",
+                    "logKey": "/RealOutputs/Pathplanner/Trajectory",
+                    "logType": "Pose2d[]",
+                    "visible": true,
+                    "options": {
+                      "color": "#00ff00",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "field": "FRC:2026 Field",
+                "orientation": 0,
+                "size": "large"
+              },
+              "controllerUUID": "gdot7llf7sy7z8hc72sq4h7ibzvw0vml",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 3,
+              "title": "3D Field",
+              "controller": {
+                "sources": [],
+                "game": "FRC:2026 Field"
+              },
+              "controllerUUID": "5uzv9sw9cdg8e4k2z4uo1p2gas29ngnz",
+              "renderer": {
+                "cameraIndex": -1,
+                "orbitFov": 50,
+                "cameraPosition": [
+                  -4.32588374981993,
+                  2.8954054751179807,
+                  -1.6124589278280888
+                ],
+                "cameraTarget": [
+                  3.975630869836316,
+                  1.3314994597375003,
+                  -0.1921024024421006
+                ]
+              },
+              "controlsHeight": 200
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "satellites": [],
+  "version": "26.0.0"
+}

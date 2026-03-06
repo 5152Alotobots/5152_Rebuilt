@@ -142,21 +142,21 @@ public class OI {
    * @return Value between -1.0 (up) and 1.0 (down)
    */
   public static double getClimberManualAxis() {
-    return codriverController.getLeftY();
+    return MathUtil.applyDeadband(codriverController.getLeftY(), DEADBAND);
   }
 
   /**
    * @return Value between -1.0 (counter-clockwise) and 1.0 (clockwise)
    */
   public static double getTurretManualAxis() {
-    return codriverController.getRightX();
+    return MathUtil.applyDeadband(codriverController.getRightX(), DEADBAND);
   }
 
   /**
    * @return Value between 0 (off) and 1.0 (100%)
    */
   public static double getShooterManualAxis() {
-    return codriverController.getRightTriggerAxis();
+    return MathUtil.applyDeadband(codriverController.getRightTriggerAxis(), DEADBAND);
   }
 
   // TEST CONTROLLER --------------------------------------------------

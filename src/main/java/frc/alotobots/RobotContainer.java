@@ -298,15 +298,15 @@ public class RobotContainer {
     // Shooter
     shooterSubsystem.setDefaultCommand(
         new DefaultShooterRunAtVelocity(shooterSubsystem, OI::getShooterManualAxis)
-            .onlyWhile(() -> OI.getShooterManualAxis() > 0.2));
+            .onlyWhile(() -> OI.getShooterManualAxis() != 0.0));
     // Climber
     climberSubsystem.setDefaultCommand(
         new DefaultClimberRunOpenLoop(climberSubsystem, OI::getClimberManualAxis)
-            .onlyWhile(() -> OI.getClimberManualAxis() > 0.2));
+            .onlyWhile(() -> OI.getClimberManualAxis() != 0.0));
     // Turret
     turretSubsystem.setDefaultCommand(
         new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretManualAxis)
-            .onlyWhile(() -> OI.getTurretManualAxis() > 0.2));
+            .onlyWhile(() -> OI.getTurretManualAxis() != 0.0));
   }
 
   /** Contains button based commands */
