@@ -84,7 +84,7 @@ public class IntakeExtendoTalonFXConstants {
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-45);
 
     /** Maximum stator current limit in amperes */
-    public static final Current STATOR_AMP_LIMIT = Amps.of(120);
+    public static final Current STATOR_AMP_LIMIT = Amps.of(30);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */
