@@ -119,15 +119,18 @@ public class ShooterSubsystem extends SubsystemBase {
     targetVelocity = RadiansPerSecond.zero();
   }
 
-    public Command sysIdFwdDynamic() {
-      return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward);
-    }
+  public Command sysIdFwdDynamic() {
+    return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward);
+  }
+
   public Command sysIdRvsDynamic() {
     return sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
   }
+
   public Command sysIdFwdQuasistatic() {
     return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward);
   }
+
   public Command sysIdRvsQuasiStatic() {
     return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse);
   }
