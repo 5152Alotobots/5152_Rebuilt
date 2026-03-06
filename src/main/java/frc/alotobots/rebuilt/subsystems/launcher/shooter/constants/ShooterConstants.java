@@ -40,7 +40,7 @@ public class ShooterConstants {
     public static final AngularVelocity SHOOTER_MAX_VELOCITY = RotationsPerSecond.of(90);
 
     /** Enable Limits */
-    public static final boolean SHOOTER_LIMITS_ENABLED = false;
+    public static final boolean SHOOTER_LIMITS_ENABLED = true;
   }
 
   /** Contains velocity setpoints for different shooter states. */
