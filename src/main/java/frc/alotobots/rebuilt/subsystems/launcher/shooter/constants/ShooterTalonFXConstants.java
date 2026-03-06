@@ -41,7 +41,7 @@ public class ShooterTalonFXConstants {
       public static final double SHOOTER_VELOCITY_KS = 0.061789;
 
       /** Velocity feedforward gain */
-      public static final double SHOOTER_VELOCITY_KV = 0.018814;
+      public static final double SHOOTER_VELOCITY_KV = 0.048814;
     }
 
     public static final double SHOOTER_VELOCITY_KA = 0.0039303;
