@@ -14,6 +14,7 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret.io;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -25,7 +26,8 @@ public interface TurretIO {
   enum PIDSlots {
     DEFAULT_POSITION,
     VELOCITY,
-    OPEN_LOOP
+    // TODO
+    // MOTION_MAGIC_POSITION,
   }
 
   /** Data structure for inputs from turret hardware. */
@@ -33,6 +35,7 @@ public interface TurretIO {
   public static class TurretIOInputs {
     public PIDSlots turretMotorPIDSlot = PIDSlots.DEFAULT_POSITION;
     public boolean turretMotorConnected = false;
+    public ControlModeValue turretMotorControlMode = ControlModeValue.DisabledOutput;
     public Angle turretAngle = Rotations.zero();
     public AngularVelocity turretMotorVelocity = RotationsPerSecond.zero();
     public AngularAcceleration turretMotorAcceleration = RotationsPerSecondPerSecond.zero();
@@ -49,6 +52,10 @@ public interface TurretIO {
    */
   default void updateInputs(TurretIOInputs inputs) {}
 
+  default void setTurretPosition(Angle position, AngularVelocity velocity, PIDSlots pidSlot) {}
+
+  default void setTurretPosition(Angle position, AngularVelocity velocity) {}
+
   /**
    * Sets the turret to run to a target position using closed-loop control.
    *
@@ -62,6 +69,8 @@ public interface TurretIO {
   default void setTurretVelocity(AngularVelocity velocity, PIDSlots pidSlots) {}
 
   default void setTurretVelocity(AngularVelocity velocity) {}
+
+  default void setTurretVoltage(Voltage voltage) {}
 
   /**
    * Runs the turret using direct percentage output (open-loop control).

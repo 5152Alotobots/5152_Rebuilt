@@ -1,0 +1,75 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.789943693693694,
+        "y": 2.1556306306306308
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.288490990990991,
+        "y": 0.34775900900900947
+      },
+      "isLocked": false,
+      "linkedName": "Neutral Zone Outpost 2"
+    },
+    {
+      "anchor": {
+        "x": 4.521475225225226,
+        "y": 0.6541779279279285
+      },
+      "prevControl": {
+        "x": 6.125153352715322,
+        "y": 0.6661011853813867
+      },
+      "nextControl": {
+        "x": 1.7739189189189193,
+        "y": 0.6337499999999995
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.7646734234234236,
+        "y": 2.860394144144144
+      },
+      "prevControl": {
+        "x": 2.233547297297298,
+        "y": 2.2373423423423424
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Shoot_Outpost"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9968553459119427,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 31.328692867804087
+  },
+  "reversed": false,
+  "folder": "PreloadWNeutral",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "useDefaultConstraints": true
+}

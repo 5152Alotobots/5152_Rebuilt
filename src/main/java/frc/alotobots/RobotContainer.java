@@ -12,45 +12,75 @@
 */
 package frc.alotobots;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.library.subsystems.bling.BlingSubsystem;
+import frc.alotobots.library.subsystems.bling.commands.DefaultBlingHubShift;
+import frc.alotobots.library.subsystems.bling.commands.NoAllianceWaiting;
+import frc.alotobots.library.subsystems.bling.commands.SetToAllianceColor;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
-import frc.alotobots.library.subsystems.bling.io.BlingIOReal;
+import frc.alotobots.library.subsystems.bling.io.BlingIOCANdle;
 import frc.alotobots.library.subsystems.bling.io.BlingIOSim;
-import frc.alotobots.library.subsystems.swervedrive.*;
-import frc.alotobots.library.subsystems.swervedrive.commands.*;
-import frc.alotobots.library.subsystems.swervedrive.io.*;
+import frc.alotobots.library.subsystems.swervedrive.ModulePosition;
+import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
+import frc.alotobots.library.subsystems.swervedrive.commands.DefaultDrive;
+import frc.alotobots.library.subsystems.swervedrive.commands.FeedforwardCharacterization;
+import frc.alotobots.library.subsystems.swervedrive.commands.WheelRadiusCharacterization;
+import frc.alotobots.library.subsystems.swervedrive.io.GyroIO;
+import frc.alotobots.library.subsystems.swervedrive.io.GyroIOPigeon2;
+import frc.alotobots.library.subsystems.swervedrive.io.ModuleIO;
+import frc.alotobots.library.subsystems.swervedrive.io.ModuleIOTalonFXReal;
+import frc.alotobots.library.subsystems.swervedrive.io.ModuleIOTalonFXSim;
 import frc.alotobots.library.subsystems.swervedrive.util.PathPlannerManager;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSubsystem;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
-import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.*;
+import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
+import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
-import frc.alotobots.rebuilt.commands.groups.IndexIntoShooterAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubFixedAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
+import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
+import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIO;
 import frc.alotobots.rebuilt.subsystems.belt.io.BeltIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
+import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
+import frc.alotobots.rebuilt.subsystems.climber.commands.DefaultClimberRunOpenLoop;
+import frc.alotobots.rebuilt.subsystems.climber.constants.ClimberConstants;
+import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIO;
+import frc.alotobots.rebuilt.subsystems.climber.io.ClimberIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.IntakeExtendoSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.IntakeExtendoRunToExtension;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
+import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
+import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVelocity;
+import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
+import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOTalonFX;
@@ -59,6 +89,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.DefaultTurretRu
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
+import frc.alotobots.rebuilt.util.hubshift.HubShiftUtil;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
@@ -67,7 +98,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
   private final SwerveDriveSubsystem swerveDriveSubsystem;
-  //   private final QuestNavSubsystem questNavSubsystem;
   private final AprilTagSubsystem aprilTagSubsystem;
   private final BlingSubsystem blingSubsystem;
   private final PathPlannerManager pathPlannerManager;
@@ -79,6 +109,8 @@ public class RobotContainer {
   private final DeflectorSubsystem deflectorSubsystem;
   private final IntakeExtendoSubsystem intakeExtendoSubsystem;
   private final IntakeRollerSubsystem intakeRollerSubsystem;
+  private final LaunchCalculator launchCalculator;
+  private final ClimberSubsystem climberSubsystem;
   private LoggedDashboardChooser<Command> autoChooser;
   private SwerveDriveSimulation driveSimulation;
 
@@ -95,8 +127,6 @@ public class RobotContainer {
                 new ModuleIOTalonFXReal(ModulePosition.BACK_LEFT.index),
                 new ModuleIOTalonFXReal(ModulePosition.BACK_RIGHT.index));
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
-        autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
-        configureAutoChooser();
         // questNavSubsystem =
         //     new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
         // QuestNavIOReal());
@@ -106,8 +136,11 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[0], swerveDriveSubsystem::getRotation),
                 new AprilTagIOPhotonVision(
-                    AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation));
-        blingSubsystem = new BlingSubsystem(new BlingIOReal());
+                    AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation),
+                new AprilTagIOPhotonVision(
+                    AprilTagConstants.CAMERA_CONFIGS[2], swerveDriveSubsystem::getRotation));
+        climberSubsystem = new ClimberSubsystem(new ClimberIOTalonFX());
+        blingSubsystem = new BlingSubsystem(new BlingIOCANdle());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
         shooterSubsystem = new ShooterSubsystem(new ShooterIOTalonFX());
         beltSubsystem = new BeltSubsystem(new BeltIOTalonFX());
@@ -115,6 +148,25 @@ public class RobotContainer {
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIOTalonFX());
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIOTalonFX());
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOVortex());
+        launchCalculator =
+            new LaunchCalculator(
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem::getChassisSpeeds,
+                swerveDriveSubsystem::getFieldChassisSpeeds);
+
+        autoNamedCommands =
+            new AutoNamedCommands(
+                swerveDriveSubsystem,
+                deflectorSubsystem,
+                intakeExtendoSubsystem,
+                intakeRollerSubsystem,
+                turretSubsystem,
+                shooterSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                climberSubsystem,
+                launchCalculator);
+        configureAutoChooser();
         break;
 
       case SIM:
@@ -142,7 +194,7 @@ public class RobotContainer {
                     driveSimulation.getModules()[ModulePosition.BACK_RIGHT.index]));
         swerveDriveSubsystem.setPose(simStartPose);
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
-        autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
         configureAutoChooser();
 
         // questNavSubsystem =
@@ -162,6 +214,23 @@ public class RobotContainer {
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
+        launchCalculator =
+            new LaunchCalculator(
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem::getChassisSpeeds,
+                swerveDriveSubsystem::getFieldChassisSpeeds);
+        autoNamedCommands =
+            new AutoNamedCommands(
+                swerveDriveSubsystem,
+                deflectorSubsystem,
+                intakeExtendoSubsystem,
+                intakeRollerSubsystem,
+                turretSubsystem,
+                shooterSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                climberSubsystem,
+                launchCalculator);
         break;
 
       default:
@@ -174,7 +243,6 @@ public class RobotContainer {
                 new ModuleIO() {});
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
-        autoNamedCommands = new AutoNamedCommands(swerveDriveSubsystem);
         configureAutoChooser();
 
         // questNavSubsystem =
@@ -189,9 +257,27 @@ public class RobotContainer {
         shooterSubsystem = new ShooterSubsystem(new ShooterIO() {});
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         beltSubsystem = new BeltSubsystem(new BeltIO() {});
+        climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
         turretSubsystem = new TurretSubsystem(new TurretIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
+        launchCalculator =
+            new LaunchCalculator(
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem::getChassisSpeeds,
+                swerveDriveSubsystem::getFieldChassisSpeeds);
+        autoNamedCommands =
+            new AutoNamedCommands(
+                swerveDriveSubsystem,
+                deflectorSubsystem,
+                intakeExtendoSubsystem,
+                intakeRollerSubsystem,
+                turretSubsystem,
+                shooterSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                climberSubsystem,
+                launchCalculator);
         break;
     }
     configureDefaultCommands();
@@ -201,37 +287,129 @@ public class RobotContainer {
   /** Commands that run when nothing else is */
   private void configureDefaultCommands() {
 
+    // Swerve
     swerveDriveSubsystem.setDefaultCommand(new DefaultDrive(swerveDriveSubsystem).getCommand());
+
+    // Bling
+    blingSubsystem.setDefaultCommand(
+        new NoAllianceWaiting(blingSubsystem).andThen(new SetToAllianceColor(blingSubsystem)));
+
+    // --- BACKUPS ---
+    // Shooter
+    shooterSubsystem.setDefaultCommand(
+        new DefaultShooterRunAtVelocity(shooterSubsystem, OI::getShooterManualAxis)
+            .onlyWhile(() -> OI.getShooterManualAxis() > 0.2));
+    // Climber
+    climberSubsystem.setDefaultCommand(
+        new DefaultClimberRunOpenLoop(climberSubsystem, OI::getClimberManualAxis)
+            .onlyWhile(() -> OI.getClimberManualAxis() > 0.2));
+    // Turret
     turretSubsystem.setDefaultCommand(
-        new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretAxis));
-    // turretSubsystem.setDefaultCommand(
-    //     new RunTurretToTarget(
-    //         new TurretAngleCalculations(swerveDriveSubsystem, turretSubsystem),
-    // turretSubsystem));
+        new DefaultTurretRunAtVelocity(turretSubsystem, OI::getTurretManualAxis)
+            .onlyWhile(() -> OI.getTurretManualAxis() > 0.2));
   }
 
   /** Contains button based commands */
   private void configureLogicCommands() {
-    // lockWheelsButton.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
-    // Intake Extendo
+    // General
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(HubShiftUtil::initialize));
+    RobotModeTriggers.teleop().whileTrue(new DefaultBlingHubShift(blingSubsystem));
+
+    // Swerve
+    lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
+    resetGyroButton.onTrue(
+        new InstantCommand(
+            () ->
+                swerveDriveSubsystem.setPose(
+                    new Pose2d(
+                        swerveDriveSubsystem.getPose().getTranslation(), Rotation2d.kZero))));
+
+    // Intake
     intakeOut.onTrue(
         new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
-    shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem, shooterSubsystem));
-    // shoot.whileTrue(new IndexIntoShooterAndShoot(beltSubsystem, kickerSubsystem,
-    // shooterSubsystem));
-    // shoot
-    //     .whileTrue(
-    //         new DefaultShooterRunAtVelocity(
-    //             shooterSubsystem, () ->
-    // RadiansPerSecond.of(300).times(OI.getTurboSpeedTrigger())))
-    //     .onFalse(new InstantCommand(shooterSubsystem::stop));
+    dumpBalls.whileTrue(
+        new IntakeRollerEject(
+            intakeRollerSubsystem,
+            () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
 
-    // TEMPORARY!!
-    resetGyroButton.onTrue(
-        new InstantCommand(() -> swerveDriveSubsystem.setPose(new Pose2d(0, 0, Rotation2d.kZero))));
+    // Launcher
+    turretAimShoot.whileTrue(
+        new LauncherTargetHubDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            launchCalculator));
+    shoot.whileTrue(
+        new LauncherTargetHubFixedAndShoot(
+            beltSubsystem,
+            kickerSubsystem,
+            shooterSubsystem,
+            deflectorSubsystem,
+            turretSubsystem,
+            LauncherTargetHubFixedAndShoot.FIXED_SHOOTING_POSITION_CENTER));
+
+    // Climber
+    toggleClimber.onTrue(
+        new ConditionalCommand(
+            new ClimberRunToExtension(
+                climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION),
+            new ClimberRunToExtension(
+                climberSubsystem, ClimberConstants.Limits.MIN_CLIMB_EXTENSION),
+            () -> {
+              double currentPos = climberSubsystem.getClimberPosition().in(Meters);
+              double minPos = ClimberConstants.Limits.MIN_CLIMB_EXTENSION.in(Meters);
+              return Math.abs(currentPos - minPos) <= .05;
+            }));
+
+    // --- BACKUPS ---
+    runKickerAndBeltManual.whileTrue(
+        new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)
+            .alongWith(
+                new DefaultBeltRunAtVelocity(
+                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
+    deflectorDownManual.onTrue(
+        new InstantCommand(
+            () ->
+                deflectorSubsystem.runToTargetAngle(
+                    deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5)))));
+    deflectorUpManual.onTrue(
+        new InstantCommand(
+            () ->
+                deflectorSubsystem.runToTargetAngle(
+                    deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5)))));
+
+    /*  new DataCollection(
+    deflectorSubsystem,
+    shooterSubsystem,
+    turretSubsystem,
+    kickerSubsystem,
+    beltSubsystem,
+    launchCalculator); */
+
+    // Sys id for turret
+    /*
+    sysIDDynamicFwd.whileTrue(
+        turretSubsystem.sysIdFwdDynamic()
+        .andThen(new InstantCommand(turretSubsystem::stop)));
+    sysIDDynamicRev.whileTrue(
+        turretSubsystem.sysIdRevDynamic()
+        .andThen(new InstantCommand(turretSubsystem::stop)));
+    sysIDQuasistaticFwd.whileTrue(
+        turretSubsystem.sysIdFwdQuasiStatic().andThen(new
+    InstantCommand(turretSubsystem::stop)));
+    sysIDQuasistaticRev.whileTrue(
+        turretSubsystem.sysIdRevQuasiStatic().andThen(new
+    InstantCommand(turretSubsystem::stop)));
+    */
+    // Sys id for shooter
+    /*
+     * */
   }
 
   private void configureAutoChooser() {

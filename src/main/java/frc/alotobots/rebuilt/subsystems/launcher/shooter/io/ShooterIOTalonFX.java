@@ -22,6 +22,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.*;
@@ -40,6 +41,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   private final TalonFX motorRight;
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0.0);
+  private final VoltageOut voltageOut = new VoltageOut(0.0);
 
   private StatusSignal<Angle> leftPosition;
   private StatusSignal<Angle> rightPosition;
@@ -51,6 +53,7 @@ public class ShooterIOTalonFX implements ShooterIO {
   private StatusSignal<Voltage> rightAppliedVoltage;
   private StatusSignal<Current> leftAppliedCurrent;
   private StatusSignal<Current> rightAppliedCurrent;
+  private StatusSignal<ControlModeValue> leftControlMode;
   private StatusSignal<Integer> currentPidSlot;
   private Debouncer leftConnectedDebounce = new Debouncer(0.1);
   private Debouncer rightConnectedDebounce = new Debouncer(0.1);
@@ -60,7 +63,6 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorRight = new TalonFX(Constants.CanId.SHOOTER_RIGHT_CAN_ID, RIO_CAN_BUS);
 
     var motorLeftConfig = new TalonFXConfiguration();
-    var motorRightConfig = new TalonFXConfiguration();
     motorLeftConfig.Slot0.kP =
         ShooterTalonFXConstants.PIDConstants.VelocityPIDConstants.SHOOTER_VELOCITY_KP;
     motorLeftConfig.Slot0.kI =
@@ -76,22 +78,16 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     motorLeftConfig.MotorOutput.NeutralMode =
         ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
-    motorRightConfig.MotorOutput.NeutralMode =
-        ShooterTalonFXConstants.SHOOTER_MECHANISM_NEUTRAL_MODE;
-
     motorLeftConfig.MotorOutput.Inverted = ShooterTalonFXConstants.SHOOTER_MOTOR_DIRECTION;
-    motorRightConfig.MotorOutput.Inverted =
-        ShooterTalonFXConstants.SHOOTER_MOTOR_DIRECTION == InvertedValue.Clockwise_Positive
-            ? InvertedValue.CounterClockwise_Positive
-            : InvertedValue.Clockwise_Positive;
-
     motorLeftConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-    motorRightConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+
+    var motorRightConfig = new TalonFXConfiguration();
 
     motorLeftConfig.TorqueCurrent.PeakForwardTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     motorLeftConfig.TorqueCurrent.PeakReverseTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_TORQUE_REVERSE_AMP_LIMIT.in(Amps);
+
     motorRightConfig.TorqueCurrent.PeakForwardTorqueCurrent =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_TORQUE_FORWARD_AMP_LIMIT.in(Amps);
     motorRightConfig.TorqueCurrent.PeakReverseTorqueCurrent =
@@ -100,6 +96,7 @@ public class ShooterIOTalonFX implements ShooterIO {
     motorLeftConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_STATOR_AMP_LIMIT.in(Amps);
     motorLeftConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+
     motorRightConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_STATOR_AMP_LIMIT.in(Amps);
     motorRightConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
@@ -127,6 +124,8 @@ public class ShooterIOTalonFX implements ShooterIO {
     leftAppliedCurrent = motorLeft.getStatorCurrent();
     rightAppliedCurrent = motorRight.getStatorCurrent();
 
+    leftControlMode = motorLeft.getControlMode();
+
     currentPidSlot = motorLeft.getClosedLoopSlot();
 
     BaseStatusSignal.setUpdateFrequencyForAll(
@@ -141,10 +140,13 @@ public class ShooterIOTalonFX implements ShooterIO {
         rightAppliedVoltage,
         leftAppliedCurrent,
         rightAppliedCurrent,
+        leftControlMode,
         currentPidSlot);
 
     ParentDevice.optimizeBusUtilizationForAll(motorLeft, motorRight);
   }
+
+  private void configurePID(TalonFXConfiguration motorLeftConfig) {}
 
   @Override
   public void updateInputs(ShooterIO.ShooterIOInputs inputs) {
@@ -155,6 +157,7 @@ public class ShooterIOTalonFX implements ShooterIO {
             leftAcceleration,
             leftAppliedVoltage,
             leftAppliedCurrent,
+            leftControlMode,
             currentPidSlot);
     var rightSignals =
         BaseStatusSignal.refreshAll(
@@ -181,13 +184,11 @@ public class ShooterIOTalonFX implements ShooterIO {
     inputs.shooterMotorRightVolts = rightAppliedVoltage.getValue();
     inputs.shooterMotorLeftCurrent = leftAppliedCurrent.getValue();
     inputs.shooterMotorRightCurrent = rightAppliedCurrent.getValue();
+    inputs.shooterMotorLeftControlMode = leftControlMode.getValue();
   }
 
   @Override
   public void setShooterVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    if (pidSlot == PIDSlots.OPEN_LOOP)
-      throw new IllegalArgumentException(
-          "PIDSlots value OPEN_LOOP cannot be used in a closed loop control mode");
     motorLeft.setControl(velocityVoltage.withVelocity(velocity).withSlot(pidSlot.ordinal()));
   }
 
@@ -199,6 +200,11 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void setShooterOpenLoop(double percentOutput) {
     motorLeft.setControl(dutyCycleOut.withOutput(percentOutput));
+  }
+
+  @Override
+  public void setShooterVoltage(Voltage voltage) {
+    motorLeft.setControl(voltageOut.withOutput(voltage));
   }
 
   @Override

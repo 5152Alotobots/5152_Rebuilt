@@ -21,7 +21,7 @@ import static frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeEx
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -35,7 +35,8 @@ import frc.alotobots.util.PhoenixUtil;
 
 public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   private final TalonFX intakeExtendoMotor;
-  private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
+  // private final MotionMagicVoltage magicPositionVoltage = new MotionMagicVoltage(0.0);
+  private final PositionVoltage positionVoltage = new PositionVoltage(0.0);
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0.0);
 
   private StatusSignal<Angle> intakeExtendoPosition;
@@ -146,9 +147,9 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
     inputs.intakeExtendoDistance = talonFXToExtension(intakeExtendoPosition.getValue());
     inputs.intakeExtendoMotorAngle = intakeExtendoPosition.getValue();
 
-    inputs.intakeExtendoMotorVelocity = intakeExtendoVelocity.getValue();
+    inputs.intakeExtendoVelocity = intakeExtendoVelocity.getValue();
 
-    inputs.intakeExtendoMotorAcceleration = intakeExtendoAcceleration.getValue();
+    inputs.intakeExtendoAcceleration = intakeExtendoAcceleration.getValue();
 
     inputs.intakeExtendoMotorVolts = intakeExtendoAppliedVoltage.getValue();
     inputs.intakeExtendoMotorCurrent = intakeExtendoAppliedCurrent.getValue();
@@ -156,7 +157,8 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
     inputs.intakeExtendoMotorPIDSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.VELOCITY;
-          case 1 -> PIDSlots.MOTION_MAGIC_POSITION;
+          case 1 -> PIDSlots.POSITION;
+          case 2 -> PIDSlots.MOTION_MAGIC_POSITION;
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
@@ -165,14 +167,12 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
   @Override
   public void setIntakeExtendoPosition(Distance position, PIDSlots pidSlot) {
     intakeExtendoMotor.setControl(
-        magicPositionVoltage
-            .withPosition(extensionToTalonFX(position))
-            .withSlot(pidSlot.ordinal()));
+        positionVoltage.withPosition(extensionToTalonFX(position)).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setIntakeExtendoPosition(Distance position) {
-    setIntakeExtendoPosition(position, PIDSlots.MOTION_MAGIC_POSITION);
+    setIntakeExtendoPosition(position, PIDSlots.POSITION);
   }
 
   @Override

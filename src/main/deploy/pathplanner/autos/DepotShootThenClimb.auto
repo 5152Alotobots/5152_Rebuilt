@@ -1,0 +1,62 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DepotStart_Shoot"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 6.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DepotStartNeutralClimb 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DepotStartNeutralClimb 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbUp"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "PreloadWClimb",
+  "choreoAuto": false
+}

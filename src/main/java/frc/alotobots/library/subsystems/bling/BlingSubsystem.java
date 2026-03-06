@@ -71,7 +71,7 @@ public class BlingSubsystem extends SubsystemBase {
   /**
    * Sets the LEDs to display an animation pattern.
    *
-   * @param animation The animation pattern to display
+   * @param animation The Phoenix 6 animation control request to display
    */
   public void setAnimation(ControlRequest animation) {
     io.setAnimation(animation);

@@ -52,5 +52,11 @@ public class DeflectorConstants {
   /** Contains position setpoints for different wrist states. */
   public static final class Setpoints {
     // Different setpoints would go here. Still coming up with a naming scheme
+    public static final class Fixed {
+      // TODO: tune
+      public static final Angle FIXED_DEFLECTOR_ANGLE_LEFT_TRENCH = Degrees.of(50);
+      public static final Angle FIXED_DEFLECTOR_ANGLE_CENTER = Degrees.of(50);
+      public static final Angle FIXED_DEFLECTOR_ANGLE_RIGHT_TRENCH = Degrees.of(50);
+    }
   }
 }

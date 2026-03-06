@@ -20,6 +20,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface IntakeExtendoIO {
   enum PIDSlots {
     VELOCITY,
+    POSITION,
     MOTION_MAGIC_POSITION,
   }
 
@@ -32,8 +33,8 @@ public interface IntakeExtendoIO {
 
     public Distance intakeExtendoDistance = Meters.zero();
     public Angle intakeExtendoMotorAngle = Rotations.zero();
-    public AngularVelocity intakeExtendoMotorVelocity = RotationsPerSecond.zero();
-    public AngularAcceleration intakeExtendoMotorAcceleration = RotationsPerSecondPerSecond.zero();
+    public AngularVelocity intakeExtendoVelocity = RotationsPerSecond.zero();
+    public AngularAcceleration intakeExtendoAcceleration = RotationsPerSecondPerSecond.zero();
     public Voltage intakeExtendoMotorVolts = Volts.zero();
     public Current intakeExtendoMotorCurrent = Amps.zero();
   }

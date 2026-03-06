@@ -22,6 +22,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.alotobots.Constants;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.library.subsystems.swervedrive.commands.DefaultDrive;
@@ -128,7 +129,7 @@ public class PathfindToBestObject extends Command {
       Command command =
           pathPlannerManager.getPathFinderCommand(
               targetPose, LinearVelocity.ofBaseUnits(0, MetersPerSecond));
-      command.schedule();
+      CommandScheduler.getInstance().schedule(command);
     }
   }
 

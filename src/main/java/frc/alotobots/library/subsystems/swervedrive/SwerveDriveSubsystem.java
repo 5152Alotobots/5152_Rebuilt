@@ -343,9 +343,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    *
    * @return Current chassis speeds
    */
-  @AutoLogOutput(key = "SwerveChassisSpeeds/Measured")
+  @AutoLogOutput(key = "SwerveChassisSpeeds/MeasuredRobotRelative")
   public ChassisSpeeds getChassisSpeeds() {
     return kinematics.toChassisSpeeds(getModuleStates());
+  }
+
+  /**
+   * Gets measured chassis speeds in field-relative frame.
+   *
+   * @return Current chassis speeds
+   */
+  @AutoLogOutput(key = "SwerveChassisSpeeds/MeasuredFieldRelative")
+  public ChassisSpeeds getFieldChassisSpeeds() {
+    return ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), getRotation());
   }
 
   /**

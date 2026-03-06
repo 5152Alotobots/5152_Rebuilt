@@ -14,7 +14,9 @@ package frc.alotobots.rebuilt.subsystems.launcher.turret.constants;
 
 import static edu.wpi.first.units.Units.Amps;
 
+import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Current;
@@ -25,23 +27,16 @@ public class TurretTalonFXSConstants {
 
     /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
-      /** Position control proportional gain */
-      public static final double TURRET_POSITION_KP = 24.0;
+      public static final double TURRET_POSITION_KP = 68.878;
+      public static final double TURRET_POSITION_KD = 4.8991;
 
-      /** Position control integral gain */
-      public static final double TURRET_POSITION_KI = 0.0;
-
-      /** Position control derivative gain */
-      public static final double TURRET_POSITION_KD = 0.0;
-
-      /** Gravity compensation gain */
-      public static final double TURRET_POSITION_KG = 0.0;
+      public static final double TURRET_POSITION_KS = TURRET_KS;
     }
 
     /** TalonFX-specific PID and motion control constants for velocity (Velocity mode). */
     public static final class VelocityPIDConstants {
       /** Position control proportional gain */
-      public static final double TURRET_VELOCITY_KP = 0.1;
+      public static final double TURRET_VELOCITY_KP = .772;
 
       /** Position control integral gain */
       public static final double TURRET_VELOCITY_KI = 0.0;
@@ -53,28 +48,36 @@ public class TurretTalonFXSConstants {
       public static final double TURRET_VELOCITY_KG = 0.0;
 
       /** Static friction compensation */
-      public static final double TURRET_VELOCITY_KS = 0.0;
+      public static final double TURRET_VELOCITY_KS = 0.36;
 
       /** Velocity feedforward gain */
-      public static final double TURRET_VELOCITY_KV = 0.05;
+      public static final double TURRET_VELOCITY_KV = 0.00;
     }
   }
 
   /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
     /** Maximum stator current limit in amperes */
-    public static final Current TURRET_STATOR_AMP_LIMIT = Amps.of(45);
+    public static final Current TURRET_STATOR_AMP_LIMIT = Amps.of(35);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */
   public static final NeutralModeValue TURRET_MECHANISM_NEUTRAL_MODE = NeutralModeValue.Brake;
 
-  public static final InvertedValue TURRET_MOTOR_DIRECTION =
-      InvertedValue.CounterClockwise_Positive;
+  public static final ExternalFeedbackSensorSourceValue TURRET_SENSOR_TYPE =
+      ExternalFeedbackSensorSourceValue.Commutation;
+  public static final MotorArrangementValue TURRET_MOTOR_ARRANGEMENT =
+      MotorArrangementValue.Minion_JST;
+
+  public static final InvertedValue TURRET_MOTOR_DIRECTION = InvertedValue.Clockwise_Positive;
 
   // Gear ratio between the turret mechanism and the motor sensor 14.4 / 1 being a reduction
   public static final double TURRET_SENSOR_TO_MECHANISM_RATIO = 14.4;
-  public static final Translation2d ROBOT_TO_TURRET = new Translation2d(-.05, .15);
+  public static final Translation2d ROBOT_TO_TURRET = new Translation2d(-.5, .15);
   public static final double MOMENT_OF_INERTIA =
       .3; // TODO: Placeholder value, should be calculated based on the actual turret design
+
+  public static final double TURRET_KV = 0.16432;
+  public static final double TURRET_KA = .17292;
+  public static final double TURRET_KS = .36805;
 }

@@ -14,13 +14,13 @@ package frc.alotobots.rebuilt.subsystems.launcher.shooter.io;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.units.measure.*;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ShooterIO {
   enum PIDSlots {
     DEFAULT_VELOCITY,
-    OPEN_LOOP
   }
 
   /** Data structure for inputs from shooter hardware. */
@@ -42,6 +42,8 @@ public interface ShooterIO {
 
     public Current shooterMotorLeftCurrent = Amps.zero();
     public Current shooterMotorRightCurrent = Amps.zero();
+
+    public ControlModeValue shooterMotorLeftControlMode = ControlModeValue.DisabledOutput;
   }
 
   /**
@@ -72,6 +74,9 @@ public interface ShooterIO {
    * @param percentOutput The motor output as a percentage (-1.0 to 1.0)
    */
   default void setShooterOpenLoop(double percentOutput) {}
+
+  /** Set Shooter Voltage */
+  default void setShooterVoltage(Voltage voltage) {}
 
   /** Stops all shooter motor movement. */
   default void stop() {}

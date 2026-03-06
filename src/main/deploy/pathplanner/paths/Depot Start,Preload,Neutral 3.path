@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.7184459459459465,
+        "y": 7.15025900900901
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.7184459459459465,
+        "y": 5.046157641404072
+      },
+      "isLocked": false,
+      "linkedName": "Neutral Zone Depot 1"
+    },
+    {
+      "anchor": {
+        "x": 7.7184459459459465,
+        "y": 5.904636233951498
+      },
+      "prevControl": {
+        "x": 7.7184459459459465,
+        "y": 6.367093121354868
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Neutral Zone Depot 2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "reversed": false,
+  "folder": "PreloadWNeutral",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

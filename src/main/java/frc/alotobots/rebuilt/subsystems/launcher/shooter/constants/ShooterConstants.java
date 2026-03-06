@@ -25,7 +25,7 @@ public class ShooterConstants {
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at velocity" */
     public static final AngularVelocity SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD =
-        RotationsPerSecond.of(1);
+        RotationsPerSecond.of(4);
 
     /** How long the flywheel must be "at velocity" to classify as "at velocity" */
     public static final Time SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.2);
@@ -46,6 +46,13 @@ public class ShooterConstants {
   /** Contains velocity setpoints for different shooter states. */
   public static final class Setpoints {
     // Different setpoints would go here.
-    public static final AngularVelocity SHOOTER_TEST_VELOCITY = RotationsPerSecond.of(45);
+    public static final class Fixed {
+      // TODO: real data
+      public static final AngularVelocity FIXED_SHOOTER_VELOCITY_LEFT_TRENCH =
+          RotationsPerSecond.of(50);
+      public static final AngularVelocity FIXED_SHOOTER_VELOCITY_CENTER = RotationsPerSecond.of(50);
+      public static final AngularVelocity FIXED_SHOOTER_VELOCITY_RIGHT_TRENCH =
+          RotationsPerSecond.of(50);
+    }
   }
 }

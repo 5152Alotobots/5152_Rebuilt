@@ -67,9 +67,8 @@ public class IntakeExtendoSubsystem extends SubsystemBase {
             MathUtil.clamp(
                 extension.in(Meters), MIN_EXTENSION.in(Meters), MAX_EXTENSION.in(Meters)));
     targetExtension = LIMITS_ENABLED ? adjustedExtension : extension;
-    io.setIntakeExtendoPosition(targetExtension, IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
-    Logger.recordOutput(
-        "Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.MOTION_MAGIC_POSITION);
+    io.setIntakeExtendoPosition(targetExtension, IntakeExtendoIO.PIDSlots.POSITION);
+    Logger.recordOutput("Intake/Extendo/ControlType", IntakeExtendoIO.PIDSlots.POSITION);
   }
 
   /**

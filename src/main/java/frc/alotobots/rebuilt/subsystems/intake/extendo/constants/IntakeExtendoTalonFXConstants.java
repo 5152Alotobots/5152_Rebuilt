@@ -47,7 +47,7 @@ public class IntakeExtendoTalonFXConstants {
     /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
       /** Position control proportional gain */
-      public static final double KP = 3.5;
+      public static final double KP = 30;
 
       /** Position control integral gain */
       public static final double KI = 0.0;
@@ -84,7 +84,7 @@ public class IntakeExtendoTalonFXConstants {
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-45);
 
     /** Maximum stator current limit in amperes */
-    public static final Current STATOR_AMP_LIMIT = Amps.of(45);
+    public static final Current STATOR_AMP_LIMIT = Amps.of(120);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */

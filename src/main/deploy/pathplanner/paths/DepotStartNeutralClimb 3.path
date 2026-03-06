@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.7184459459459465,
+        "y": 5.904636233951498
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.7184459459459465,
+        "y": 6.904636233951498
+      },
+      "isLocked": false,
+      "linkedName": "Neutral Zone Depot 2"
+    },
+    {
+      "anchor": {
+        "x": 4.466034236804564,
+        "y": 7.586661911554922
+      },
+      "prevControl": {
+        "x": 7.0667047075606275,
+        "y": 7.573723252496434
+      },
+      "nextControl": {
+        "x": 3.3400874321188674,
+        "y": 7.592263636951368
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8770270270270277,
+        "y": 5.526238738738739
+      },
+      "prevControl": {
+        "x": 2.0594436519258195,
+        "y": 7.094992867332382
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Shoot_Depot"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.7109156337465051,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.2738904438224705,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -33.69006752597973
+  },
+  "reversed": false,
+  "folder": "DepotStartNeutralClimbGRT",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}
