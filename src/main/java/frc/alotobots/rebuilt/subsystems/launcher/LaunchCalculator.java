@@ -286,12 +286,23 @@ public class LaunchCalculator {
     Logger.recordOutput("LaunchCalculator/Hub/LookaheadPose", lookaheadPose);
     Logger.recordOutput(
         "LaunchCalculator/Hub/TurretToTargetDistance", lookaheadTurretToTargetDistance);
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters/isValid", latestHubTargetParameters.isValid());
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters/turretAngleFieldRelative", latestHubTargetParameters.turretAngleFieldRelative());
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters/turretVelocity", latestHubTargetParameters.turretVelocity());
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters/deflectorAngle", latestHubTargetParameters.deflectorAngle());
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters/deflectorVelocity", latestHubTargetParameters.deflectorVelocity());
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters/shooterVelocity", latestHubTargetParameters.shooterVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/isValid", latestHubTargetParameters.isValid());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/turretAngleFieldRelative",
+        latestHubTargetParameters.turretAngleFieldRelative());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/turretVelocity",
+        latestHubTargetParameters.turretVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/deflectorAngle",
+        latestHubTargetParameters.deflectorAngle());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/deflectorVelocity",
+        latestHubTargetParameters.deflectorVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/shooterVelocity",
+        latestHubTargetParameters.shooterVelocity());
     return latestHubTargetParameters;
   }
 
@@ -369,13 +380,23 @@ public class LaunchCalculator {
     Logger.recordOutput("LaunchCalculator/Passing/LookaheadPose", lookaheadPose);
     Logger.recordOutput(
         "LaunchCalculator/Passing/TurretToTargetDistance", lookaheadTurretToTargetDistance);
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters/isValid", latestPassingTargetParameters.isValid());
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters/turretAngleFieldRelative", latestPassingTargetParameters.turretAngleFieldRelative());
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters/turretVelocity", latestPassingTargetParameters.turretVelocity());
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters/deflectorAngle", latestPassingTargetParameters.deflectorAngle());
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters/deflectorVelocity", latestPassingTargetParameters.deflectorVelocity());
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters/shooterVelocity", latestPassingTargetParameters.shooterVelocity());
-
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/isValid", latestPassingTargetParameters.isValid());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/turretAngleFieldRelative",
+        latestPassingTargetParameters.turretAngleFieldRelative());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/turretVelocity",
+        latestPassingTargetParameters.turretVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/deflectorAngle",
+        latestPassingTargetParameters.deflectorAngle());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/deflectorVelocity",
+        latestPassingTargetParameters.deflectorVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/shooterVelocity",
+        latestPassingTargetParameters.shooterVelocity());
 
     return latestPassingTargetParameters;
   }
