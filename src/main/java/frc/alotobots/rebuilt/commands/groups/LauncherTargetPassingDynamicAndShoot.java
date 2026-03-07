@@ -55,7 +55,7 @@ public class LauncherTargetPassingDynamicAndShoot extends SequentialCommandGroup
                             .turretAngleFieldRelative()
                             .getMeasure(),
                     () -> launchCalculator.getPassingTargetParameters().turretVelocity()),
-                new RunCommand(launchCalculator::clearHubLaunchingParameters))
+                new RunCommand(launchCalculator::clearPassingLaunchingParameters))
             .deadlineFor(
                 new SequentialCommandGroup(
                     // Wait for shooter to spin up

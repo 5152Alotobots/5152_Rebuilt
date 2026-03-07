@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4154617117117122,
-        "y": 7.283040540540541
+        "x": 2.8770270270270277,
+        "y": 5.526238738738739
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.41546171171171237,
-        "y": 4.831667910189955
+        "x": 2.6270703230536574,
+        "y": 5.530891279847532
       },
       "isLocked": false,
-      "linkedName": "Depot_Part1"
+      "linkedName": "Shoot_Depot"
     },
     {
       "anchor": {
-        "x": 0.4154617117117122,
-        "y": 5.199391891891891
+        "x": 2.8770270270270277,
+        "y": 5.723495007132667
       },
       "prevControl": {
-        "x": 0.4154617117117122,
-        "y": 5.449391891891892
+        "x": 2.5511126961483592,
+        "y": 5.387089871611984
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot_Part2"
+      "linkedName": "Wiggle 2"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -33.69
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "Wiggle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -33.69006752597973
   },
   "useDefaultConstraints": true
 }

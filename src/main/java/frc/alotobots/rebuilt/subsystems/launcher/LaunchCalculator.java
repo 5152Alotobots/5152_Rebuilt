@@ -286,7 +286,23 @@ public class LaunchCalculator {
     Logger.recordOutput("LaunchCalculator/Hub/LookaheadPose", lookaheadPose);
     Logger.recordOutput(
         "LaunchCalculator/Hub/TurretToTargetDistance", lookaheadTurretToTargetDistance);
-    Logger.recordOutput("LaunchCalculator/Hub/Parameters", latestHubTargetParameters);
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/isValid", latestHubTargetParameters.isValid());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/turretAngleFieldRelative",
+        latestHubTargetParameters.turretAngleFieldRelative());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/turretVelocity",
+        latestHubTargetParameters.turretVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/deflectorAngle",
+        latestHubTargetParameters.deflectorAngle());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/deflectorVelocity",
+        latestHubTargetParameters.deflectorVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Hub/Parameters/shooterVelocity",
+        latestHubTargetParameters.shooterVelocity());
     return latestHubTargetParameters;
   }
 
@@ -303,9 +319,13 @@ public class LaunchCalculator {
     Pose2d forwardEstimatedPose = getForwardEstimatedPose();
 
     // Get alliance-corrected passing target
-    Translation2d target =
-        getAllianceCorrectedTarget(
-            forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS));
+    Translation2d target;
+    if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+        == DriverStation.Alliance.Blue) {
+      target = forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS_BLUE);
+    } else {
+      target = forwardEstimatedPose.getTranslation().nearest(PASSING_TARGET_OPTIONS_RED);
+    }
 
     // Calculate lookahead pose and distance accounting for robot velocity and time of flight
     LookaheadResult lookahead =
@@ -364,7 +384,24 @@ public class LaunchCalculator {
     Logger.recordOutput("LaunchCalculator/Passing/LookaheadPose", lookaheadPose);
     Logger.recordOutput(
         "LaunchCalculator/Passing/TurretToTargetDistance", lookaheadTurretToTargetDistance);
-    Logger.recordOutput("LaunchCalculator/Passing/Parameters", latestPassingTargetParameters);
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/isValid", latestPassingTargetParameters.isValid());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/turretAngleFieldRelative",
+        latestPassingTargetParameters.turretAngleFieldRelative());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/turretVelocity",
+        latestPassingTargetParameters.turretVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/deflectorAngle",
+        latestPassingTargetParameters.deflectorAngle());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/deflectorVelocity",
+        latestPassingTargetParameters.deflectorVelocity());
+    Logger.recordOutput(
+        "LaunchCalculator/Passing/Parameters/shooterVelocity",
+        latestPassingTargetParameters.shooterVelocity());
+
     return latestPassingTargetParameters;
   }
 

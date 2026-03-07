@@ -26,6 +26,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
@@ -50,8 +51,8 @@ public class ShooterSubsystem extends SubsystemBase {
     sysIdRoutine =
         new SysIdRoutine(
             new SysIdRoutine.Config(
-                Volts.of(.7).per(Second),
-                Volts.of(5),
+                Volts.of(1.5).per(Second),
+                Volts.of(7),
                 null,
                 (state) -> Logger.recordOutput("SysId/Shooter/State", state.toString())),
             new SysIdRoutine.Mechanism((voltage) -> this.runAtVoltage(voltage), null, this));
@@ -116,5 +117,21 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stop() {
     io.stop();
     targetVelocity = RadiansPerSecond.zero();
+  }
+
+  public Command sysIdFwdDynamic() {
+    return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward);
+  }
+
+  public Command sysIdRvsDynamic() {
+    return sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
+  }
+
+  public Command sysIdFwdQuasistatic() {
+    return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward);
+  }
+
+  public Command sysIdRvsQuasiStatic() {
+    return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse);
   }
 }

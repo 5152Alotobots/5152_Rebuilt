@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.launcher.shooter.io;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
@@ -95,11 +96,25 @@ public class ShooterIOTalonFX implements ShooterIO {
 
     motorLeftConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_STATOR_AMP_LIMIT.in(Amps);
-    motorLeftConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+    motorLeftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    motorLeftConfig.CurrentLimits.SupplyCurrentLimit =
+        ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_SUPPLY_PEAK_LIMIT.in(Amps);
+    motorLeftConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    motorLeftConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    motorLeftConfig.CurrentLimits.SupplyCurrentLowerTime =
+        ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_SUPPLY_PEAK_DURATION.in(Seconds);
 
     motorRightConfig.CurrentLimits.StatorCurrentLimit =
         ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_STATOR_AMP_LIMIT.in(Amps);
-    motorRightConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+    motorRightConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    motorRightConfig.CurrentLimits.SupplyCurrentLimit =
+        ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_SUPPLY_PEAK_LIMIT.in(Amps);
+    motorRightConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    motorRightConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    motorRightConfig.CurrentLimits.SupplyCurrentLowerTime =
+        ShooterTalonFXConstants.MotorSafetyLimits.SHOOTER_SUPPLY_PEAK_DURATION.in(Seconds);
 
     PhoenixUtil.tryUntilOk(5, () -> motorLeft.getConfigurator().apply(motorLeftConfig, 0.25));
     PhoenixUtil.tryUntilOk(5, () -> motorRight.getConfigurator().apply(motorRightConfig, 0.25));
@@ -174,6 +189,8 @@ public class ShooterIOTalonFX implements ShooterIO {
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
 
+    inputs.shooterMotorLeftPosition = leftPosition.getValue();
+    inputs.shooterMotorRightPosition = rightPosition.getValue();
     inputs.shooterMotorLeftConnected = leftConnectedDebounce.calculate(leftSignals.isOK());
     inputs.shooterMotorRightConnected = rightConnectedDebounce.calculate(rightSignals.isOK());
     inputs.shooterMotorLeftVelocity = leftVelocity.getValue();
@@ -210,6 +227,5 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void stop() {
     motorLeft.stopMotor();
-    motorRight.stopMotor();
   }
 }

@@ -12,13 +12,7 @@
 */
 package frc.alotobots.rebuilt.subsystems.climber.io;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecondPerSecond;
+import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -101,9 +95,14 @@ public class ClimberIOTalonFX implements ClimberIO {
 
     climberMotorConfig.CurrentLimits.StatorCurrentLimit =
         ClimberTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
-    climberMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
-    ClimberTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
-    climberMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+    climberMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    climberMotorConfig.CurrentLimits.SupplyCurrentLimit =
+        ClimberTalonFXConstants.MotorSafetyLimits.SUPPLY_PEAK_LIMIT.in(Amps);
+    climberMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    climberMotorConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        ClimberTalonFXConstants.MotorSafetyLimits.SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    climberMotorConfig.CurrentLimits.SupplyCurrentLowerTime =
+        ClimberTalonFXConstants.MotorSafetyLimits.SUPPLY_PEAK_DURATION.in(Seconds);
 
     climberMotorConfig.MotionMagic.MotionMagicCruiseVelocity =
         linearVelocityToTalonFX(ClimberTalonFXConstants.MotionMagicConstants.CRUISE_VELOCITY)

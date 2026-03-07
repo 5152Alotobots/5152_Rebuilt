@@ -54,39 +54,45 @@ public class BlingConstants {
         new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
             .withColor(new RGBWColor(0, 0, 255))
-            .withFrameRate(Hertz.of(50));
+            .withFrameRate(Hertz.of(100));
 
     public static final ColorFlowAnimation HUB_ACTIVE_ANIMATION_RED =
         new ColorFlowAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
             .withColor(new RGBWColor(255, 0, 0))
-            .withFrameRate(Hertz.of(50));
+            .withFrameRate(Hertz.of(100));
 
     public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_BLUE =
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
             .withSize(25)
-            .withFrameRate(Hertz.of(50))
+            .withFrameRate(Hertz.of(100))
             .withColor(new RGBWColor(0, 0, 255));
 
     public static final LarsonAnimation HUB_APPROACHING_INACTIVE_ANIMATION_RED =
         new LarsonAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
             .withSize(25)
-            .withFrameRate(Hertz.of(50))
+            .withFrameRate(Hertz.of(100))
             .withColor(new RGBWColor(255, 0, 0));
 
     public static final StrobeAnimation HUB_APPROACHING_ACTIVE_ANIMATION_BLUE =
         new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
-            .withFrameRate(Hertz.of(50))
+            .withFrameRate(Hertz.of(10))
             .withColor(new RGBWColor(0, 0, 255));
 
     public static final StrobeAnimation HUB_APPROACHING_ACTIVE_ANIMATION_RED =
         new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
             .withSlot(ANIMATION_SLOT)
-            .withFrameRate(Hertz.of(50))
+            .withFrameRate(Hertz.of(10))
             .withColor(new RGBWColor(255, 0, 0));
+
+    public static final StrobeAnimation INTAKE_ROLLERS_RUNNING_ANIMATION =
+        new StrobeAnimation(LED_OFFSET, LED_END_INDEX)
+            .withSlot(ANIMATION_SLOT)
+            .withFrameRate(Hertz.of(10))
+            .withColor(new RGBWColor(255, 255, 0));
   }
 
   /** Pre-defined color configurations. */
@@ -100,24 +106,5 @@ public class BlingConstants {
 
     /** Color setting for red alliance */
     public static final BlingIO.LoggedColor RED_ALLIANCE_COLOR = new BlingIO.LoggedColor(255, 0, 0);
-
-    /** Cage Color */
-    public static final BlingIO.LoggedColor CAGE_SWITCH_COLOR = new BlingIO.LoggedColor(0, 255, 0);
-
-    /** Color setting for no alliance selected */
-    public static final BlingIO.LoggedColor NO_ALLIANCE_COLOR =
-        new BlingIO.LoggedColor(255, 255, 0);
-
-    /** Color setting for intake occupied state */
-    public static final BlingIO.LoggedColor INTAKE_OCCUPIED_COLOR =
-        new BlingIO.LoggedColor(0, 255, 0);
-
-    /** Color setting for shooter occupied state */
-    public static final BlingIO.LoggedColor SHOOTER_OCCUPIED_COLOR =
-        new BlingIO.LoggedColor(140, 48, 255);
-
-    /** Color setting for shooter ready state */
-    public static final BlingIO.LoggedColor SHOOTER_READY_COLOR =
-        new BlingIO.LoggedColor(255, 145, 0);
   }
 }

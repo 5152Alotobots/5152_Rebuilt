@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4154617117117122,
-        "y": 7.283040540540541
+        "x": 4.466,
+        "y": 7.522
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.41546171171171237,
-        "y": 4.831667910189955
+        "x": 3.3400531953143036,
+        "y": 7.527601725396447
       },
       "isLocked": false,
-      "linkedName": "Depot_Part1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.4154617117117122,
-        "y": 5.199391891891891
+        "x": 2.8770270270270277,
+        "y": 5.526238738738739
       },
       "prevControl": {
-        "x": 0.4154617117117122,
-        "y": 5.449391891891892
+        "x": 2.0594436519258195,
+        "y": 7.094992867332382
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot_Part2"
+      "linkedName": "Shoot_Depot"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.2738904438224705,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -33.69006752597973
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "DepotStartNeutralClimbGRT",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -90.0
+    "velocity": 3.0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

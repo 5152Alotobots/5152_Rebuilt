@@ -49,13 +49,25 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
+          "data": {
+            "pathName": "DepotStartNeutralClimb 3Part1ofearlyshoot"
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "DepotStartNeutralClimb 3"
+                  "pathName": "DepotStartNeutralClimb 3Part2ofearlyshoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
                 }
               }
             ]
@@ -74,7 +86,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 6.0
                 }
               }
             ]

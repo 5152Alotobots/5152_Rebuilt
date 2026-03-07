@@ -3,32 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4154617117117122,
-        "y": 7.283040540540541
+        "x": 7.7184459459459465,
+        "y": 5.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.41546171171171237,
-        "y": 4.831667910189955
+        "x": 7.7184459459459465,
+        "y": 6.7
       },
       "isLocked": false,
-      "linkedName": "Depot_Part1"
+      "linkedName": "Neutral Zone Depot 2"
     },
     {
       "anchor": {
-        "x": 0.4154617117117122,
-        "y": 5.199391891891891
+        "x": 4.466,
+        "y": 7.522
       },
       "prevControl": {
-        "x": 0.4154617117117122,
-        "y": 5.449391891891892
+        "x": 7.066670470756064,
+        "y": 7.509061340941512
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot_Part2"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.7109156337465051,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -41,11 +50,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -90.0
+    "velocity": 3.0,
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Positions",
+  "folder": "DepotStartNeutralClimbGRT",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

@@ -97,7 +97,14 @@ public class IntakeExtendoIOTalonFX implements IntakeExtendoIO {
 
     intakeExtendoMotorConfig.CurrentLimits.StatorCurrentLimit =
         IntakeExtendoTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
-    intakeExtendoMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+    intakeExtendoMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    intakeExtendoMotorConfig.CurrentLimits.SupplyCurrentLimit =
+        IntakeExtendoTalonFXConstants.MotorSafetyLimits.SUPPLY_PEAK_LIMIT.in(Amps);
+    intakeExtendoMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    intakeExtendoMotorConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        IntakeExtendoTalonFXConstants.MotorSafetyLimits.SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    intakeExtendoMotorConfig.CurrentLimits.SupplyCurrentLowerTime =
+        IntakeExtendoTalonFXConstants.MotorSafetyLimits.SUPPLY_PEAK_DURATION.in(Seconds);
 
     intakeExtendoMotorConfig.MotionMagic.MotionMagicCruiseVelocity =
         linearVelocityToTalonFX(IntakeExtendoTalonFXConstants.MotionMagicConstants.CRUISE_VELOCITY)
