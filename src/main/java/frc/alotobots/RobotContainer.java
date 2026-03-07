@@ -341,7 +341,7 @@ public class RobotContainer {
                 () -> IntakeRollerConstants.Setpoints.OpenLoop.INTAKE_PERCENTAGE)
             .alongWith(
                 new StartEndCommand(
-                    () -> OI.rumbleDriverController(0.1), () -> OI.rumbleDriverController(0.0)))
+                    () -> OI.rumbleDriverController(0.02), () -> OI.rumbleDriverController(0.0)))
             .alongWith(
                 new StartEndCommand(
                     () ->
