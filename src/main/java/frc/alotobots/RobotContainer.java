@@ -397,8 +397,8 @@ public class RobotContainer {
                 deflectorSubsystem.runToTargetAngle(
                     deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5)))));
     putDeflectorDown.onTrue(
-            new DeflectorRunToPosition(deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE)
-    );
+        new DeflectorRunToPosition(
+            deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
 
     /*  new DataCollection(
     deflectorSubsystem,
