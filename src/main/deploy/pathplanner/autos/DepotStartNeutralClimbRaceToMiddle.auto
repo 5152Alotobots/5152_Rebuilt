@@ -111,6 +111,18 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": null
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": null
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
                         "pathName": "Wiggle 1"
