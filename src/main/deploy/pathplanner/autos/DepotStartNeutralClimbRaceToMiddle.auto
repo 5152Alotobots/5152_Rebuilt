@@ -111,15 +111,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": null
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": null
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "DeployIntakeAndIntake"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.75
+                            }
+                          }
+                        ]
                       }
                     },
                     {
