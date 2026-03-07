@@ -227,6 +227,5 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void stop() {
     motorLeft.stopMotor();
-    motorRight.stopMotor();
   }
 }
