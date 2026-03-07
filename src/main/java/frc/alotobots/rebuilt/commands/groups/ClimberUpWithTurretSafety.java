@@ -12,6 +12,8 @@
 */
 package frc.alotobots.rebuilt.commands.groups;
 
+import static edu.wpi.first.units.Units.Seconds;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
 import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
@@ -25,7 +27,7 @@ public class ClimberUpWithTurretSafety extends ParallelCommandGroup {
       ClimberSubsystem climberSubsystem, TurretSubsystem turretSubsystem) {
     addCommands(
         new TurretRunToPosition(
-            turretSubsystem, TurretConstants.Setpoints.SAFETY_TURRET_ANGLE_CLIMB_UP),
+            turretSubsystem, TurretConstants.Setpoints.SAFETY_TURRET_ANGLE_CLIMB_UP).withTimeout(Seconds.of(1)),
         new ClimberRunToExtension(climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION));
   }
 }
