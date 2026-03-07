@@ -189,6 +189,8 @@ public class ShooterIOTalonFX implements ShooterIO {
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
 
+    inputs.shooterMotorLeftPosition = leftPosition.getValue();
+    inputs.shooterMotorRightPosition = rightPosition.getValue();
     inputs.shooterMotorLeftConnected = leftConnectedDebounce.calculate(leftSignals.isOK());
     inputs.shooterMotorRightConnected = rightConnectedDebounce.calculate(rightSignals.isOK());
     inputs.shooterMotorLeftVelocity = leftVelocity.getValue();

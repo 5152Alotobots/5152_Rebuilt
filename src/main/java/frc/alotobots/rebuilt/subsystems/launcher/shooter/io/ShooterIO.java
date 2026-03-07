@@ -31,6 +31,9 @@ public interface ShooterIO {
     public boolean shooterMotorLeftConnected = false;
     public boolean shooterMotorRightConnected = false;
 
+    public Angle shooterMotorLeftPosition = Rotations.zero();
+    public Angle shooterMotorRightPosition = Rotations.zero();
+
     public AngularVelocity shooterMotorLeftVelocity = RotationsPerSecond.zero();
     public AngularVelocity shooterMotorRightVelocity = RotationsPerSecond.zero();
 
