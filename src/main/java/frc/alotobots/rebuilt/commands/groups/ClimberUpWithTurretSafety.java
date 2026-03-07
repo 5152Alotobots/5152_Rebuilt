@@ -27,7 +27,8 @@ public class ClimberUpWithTurretSafety extends ParallelCommandGroup {
       ClimberSubsystem climberSubsystem, TurretSubsystem turretSubsystem) {
     addCommands(
         new TurretRunToPosition(
-            turretSubsystem, TurretConstants.Setpoints.SAFETY_TURRET_ANGLE_CLIMB_UP).withTimeout(Seconds.of(1)),
+                turretSubsystem, TurretConstants.Setpoints.SAFETY_TURRET_ANGLE_CLIMB_UP)
+            .withTimeout(Seconds.of(1)),
         new ClimberRunToExtension(climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION));
   }
 }
