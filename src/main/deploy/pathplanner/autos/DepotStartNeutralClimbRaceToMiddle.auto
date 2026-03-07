@@ -133,6 +133,30 @@
                       "data": {
                         "pathName": "Wiggle 2"
                       }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Wiggle 1"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Wiggle 2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Wiggle 1"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Wiggle 2"
+                      }
                     }
                   ]
                 }
@@ -141,21 +165,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "ClimbDown"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "DepotStartNeutralClimb 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ClimbUp"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ClimbDown"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "DepotStartNeutralClimb 4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ClimbUp"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LauncherTargetHubDynamicAndShoot"
+                }
+              }
+            ]
           }
         }
       ]
