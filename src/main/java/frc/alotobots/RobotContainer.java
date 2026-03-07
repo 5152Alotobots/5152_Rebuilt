@@ -22,12 +22,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.library.subsystems.bling.BlingSubsystem;
 import frc.alotobots.library.subsystems.bling.commands.DefaultBlingHubShift;
 import frc.alotobots.library.subsystems.bling.commands.NoAllianceWaiting;
 import frc.alotobots.library.subsystems.bling.commands.SetToAllianceColor;
+import frc.alotobots.library.subsystems.bling.constants.BlingConstants;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
 import frc.alotobots.library.subsystems.bling.io.BlingIOCANdle;
 import frc.alotobots.library.subsystems.bling.io.BlingIOSim;
@@ -65,6 +67,7 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
+import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerIntake;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
@@ -326,10 +329,26 @@ public class RobotContainer {
 
     // Intake
     intakeOut.onTrue(
-        new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
+        new IntakeExtendoRunToExtension(
+                intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.DEPLOYED)
+            .until(intakeIn));
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
+    intakeRollersToggle.toggleOnTrue(
+        new IntakeRollerIntake(
+                intakeRollerSubsystem,
+                () -> IntakeRollerConstants.Setpoints.OpenLoop.INTAKE_PERCENTAGE)
+            .alongWith(
+                new StartEndCommand(
+                    () -> OI.rumbleDriverController(0.02), () -> OI.rumbleDriverController(0.0)))
+            .alongWith(
+                new StartEndCommand(
+                    () ->
+                        blingSubsystem.setAnimation(
+                            BlingConstants.Animations.INTAKE_ROLLERS_RUNNING_ANIMATION),
+                    blingSubsystem::clear,
+                    blingSubsystem)));
     dumpBalls.whileTrue(
         new IntakeRollerEject(
             intakeRollerSubsystem,

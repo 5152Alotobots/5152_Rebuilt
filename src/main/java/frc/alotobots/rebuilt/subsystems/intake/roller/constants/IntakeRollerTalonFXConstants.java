@@ -37,10 +37,10 @@ public class IntakeRollerTalonFXConstants {
   public static final class MotorSafetyLimits {
     public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(20);
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-20);
-    public static final Current STATOR_AMP_LIMIT = Amps.of(30);
-    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(35);
-    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(25);
-    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.25);
+    public static final Current STATOR_AMP_LIMIT = Amps.of(45);
+    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(50);
+    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(37.5);
+    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.5);
   }
 
   /** Direction of the intake roller motor rotation */
