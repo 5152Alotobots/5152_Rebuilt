@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.belt.io;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
@@ -75,7 +76,14 @@ public class BeltIOTalonFX implements BeltIO {
         BeltTalonFXConstants.MotorSafetyLimits.BELT_TORQUE_REVERSE_AMP_LIMIT.in(Amps);
     motorBeltConfig.CurrentLimits.StatorCurrentLimit =
         BeltTalonFXConstants.MotorSafetyLimits.BELT_STATOR_AMP_LIMIT.in(Amps);
-    motorBeltConfig.CurrentLimits.StatorCurrentLimitEnable = true; // Always should be true
+    motorBeltConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    motorBeltConfig.CurrentLimits.SupplyCurrentLimit =
+        BeltTalonFXConstants.MotorSafetyLimits.BELT_SUPPLY_PEAK_LIMIT.in(Amps);
+    motorBeltConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    motorBeltConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        BeltTalonFXConstants.MotorSafetyLimits.BELT_SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    motorBeltConfig.CurrentLimits.SupplyCurrentLowerTime =
+        BeltTalonFXConstants.MotorSafetyLimits.BELT_SUPPLY_PEAK_DURATION.in(Seconds);
 
     PhoenixUtil.tryUntilOk(5, () -> motorBelt.getConfigurator().apply(motorBeltConfig, 0.25));
 

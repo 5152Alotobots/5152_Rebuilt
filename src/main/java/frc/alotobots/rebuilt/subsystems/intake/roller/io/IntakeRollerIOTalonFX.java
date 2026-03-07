@@ -13,6 +13,7 @@
 package frc.alotobots.rebuilt.subsystems.intake.roller.io;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
 
@@ -53,6 +54,13 @@ public class IntakeRollerIOTalonFX implements IntakeRollerIO {
     intakeRollerMotorConfig.CurrentLimits.StatorCurrentLimit =
         IntakeRollerTalonFXConstants.MotorSafetyLimits.STATOR_AMP_LIMIT.in(Amps);
     intakeRollerMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    intakeRollerMotorConfig.CurrentLimits.SupplyCurrentLimit =
+        IntakeRollerTalonFXConstants.MotorSafetyLimits.SUPPLY_PEAK_LIMIT.in(Amps);
+    intakeRollerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    intakeRollerMotorConfig.CurrentLimits.SupplyCurrentLowerLimit =
+        IntakeRollerTalonFXConstants.MotorSafetyLimits.SUPPLY_SUSTAINED_LIMIT.in(Amps);
+    intakeRollerMotorConfig.CurrentLimits.SupplyCurrentLowerTime =
+        IntakeRollerTalonFXConstants.MotorSafetyLimits.SUPPLY_PEAK_DURATION.in(Seconds);
 
     PhoenixUtil.tryUntilOk(
         5, () -> intakeRollerMotor.getConfigurator().apply(intakeRollerMotorConfig, 0.25));

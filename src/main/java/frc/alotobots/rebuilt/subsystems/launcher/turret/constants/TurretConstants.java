@@ -21,7 +21,7 @@ import lombok.experimental.UtilityClass;
 public class TurretConstants {
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at position" */
-    public static final Angle TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(2);
+    public static final Angle TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(4);
 
     /** How long the turret must be "at position" to classify as "at position" */
     public static final Time TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
@@ -49,6 +49,8 @@ public class TurretConstants {
 
   /** Contains position setpoints for different turret states. */
   public static final class Setpoints {
+    public static final Angle SAFETY_TURRET_ANGLE_CLIMB_UP = Degrees.of(90);
+
     // setpoints would go here, but I haven't figured them out yet
     public static final class Fixed {
       // TODO: real data

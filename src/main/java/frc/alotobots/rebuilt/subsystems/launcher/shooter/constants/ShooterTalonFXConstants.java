@@ -13,10 +13,12 @@
 package frc.alotobots.rebuilt.subsystems.launcher.shooter.constants;
 
 import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Seconds;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Time;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -49,14 +51,12 @@ public class ShooterTalonFXConstants {
 
   /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
-    /** Maximum forward torque current limit in amperes */
     public static final Current SHOOTER_TORQUE_FORWARD_AMP_LIMIT = Amps.of(45);
-
-    /** Maximum reverse torque current limit in amperes */
     public static final Current SHOOTER_TORQUE_REVERSE_AMP_LIMIT = Amps.of(-45);
-
-    /** Maximum stator current limit in amperes */
     public static final Current SHOOTER_STATOR_AMP_LIMIT = Amps.of(45);
+    public static final Current SHOOTER_SUPPLY_PEAK_LIMIT = Amps.of(45);
+    public static final Current SHOOTER_SUPPLY_SUSTAINED_LIMIT = Amps.of(35);
+    public static final Time SHOOTER_SUPPLY_PEAK_DURATION = Seconds.of(0.5);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */

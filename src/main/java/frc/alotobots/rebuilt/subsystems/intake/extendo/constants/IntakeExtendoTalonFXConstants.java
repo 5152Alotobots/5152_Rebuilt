@@ -19,6 +19,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.LinearAcceleration;
 import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Time;
 
 public class IntakeExtendoTalonFXConstants {
   /** Contains PID and motion control constants for different control modes. */
@@ -47,13 +48,13 @@ public class IntakeExtendoTalonFXConstants {
     /** TalonFX-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
       /** Position control proportional gain */
-      public static final double KP = 2;
+      public static final double KP = 8;
 
       /** Position control integral gain */
       public static final double KI = 0.0;
 
       /** Position control derivative gain */
-      public static final double KD = 0.5;
+      public static final double KD = 0.4;
 
       /** Acceleration feedforward gain */
       public static final double KA = 0.0;
@@ -77,14 +78,12 @@ public class IntakeExtendoTalonFXConstants {
 
   /** Contains safety limit constants for the motors. */
   public static final class MotorSafetyLimits {
-    /** Maximum forward torque current limit in amperes */
     public static final Current TORQUE_FORWARD_AMP_LIMIT = Amps.of(45);
-
-    /** Maximum reverse torque current limit in amperes */
     public static final Current TORQUE_REVERSE_AMP_LIMIT = Amps.of(-45);
-
-    /** Maximum stator current limit in amperes */
     public static final Current STATOR_AMP_LIMIT = Amps.of(65);
+    public static final Current SUPPLY_PEAK_LIMIT = Amps.of(55);
+    public static final Current SUPPLY_SUSTAINED_LIMIT = Amps.of(45);
+    public static final Time SUPPLY_PEAK_DURATION = Seconds.of(0.75);
   }
 
   /** Neutral mode (brake/coast) setting for the mechanism */

@@ -13,6 +13,7 @@
 package frc.alotobots;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -120,6 +121,7 @@ public class OI {
   public static final Trigger shoot = driverController.rightStick();
   public static final Trigger intakeOut = driverController.povUp();
   public static final Trigger intakeIn = driverController.povDown();
+  public static final Trigger intakeRollersToggle = driverController.leftStick();
   public static final Trigger toggleClimber = driverController.y();
   public static final Trigger lockWheels = driverController.x();
   // TODO MAKE THIS
@@ -131,12 +133,18 @@ public class OI {
   /** Turret Auto Aim for shooting */
   public static final Trigger turretAimShoot = driverController.rightBumper();
 
+  public static void rumbleDriverController(double percent) {
+    driverController.setRumble(GenericHID.RumbleType.kBothRumble, percent);
+  }
+
   // CO DRIVER CONTEROLLER --------------------------------------------
   public static final Trigger runKickerAndBeltManual = codriverController.leftBumper();
   public static final Trigger deflectorUpManual = codriverController.povUp();
   public static final Trigger deflectorDownManual = codriverController.povDown();
   public static final Trigger shooterSpeedDownManual = codriverController.povLeft();
   public static final Trigger shooterSpeedUpManual = codriverController.povRight();
+  public static final Trigger runKickerAndBeltOutManual = codriverController.a();
+  public static final Trigger putDeflectorDown = codriverController.b();
 
   /**
    * @return Value between -1.0 (up) and 1.0 (down)

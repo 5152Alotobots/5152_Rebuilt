@@ -22,12 +22,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.library.subsystems.bling.BlingSubsystem;
 import frc.alotobots.library.subsystems.bling.commands.DefaultBlingHubShift;
 import frc.alotobots.library.subsystems.bling.commands.NoAllianceWaiting;
 import frc.alotobots.library.subsystems.bling.commands.SetToAllianceColor;
+import frc.alotobots.library.subsystems.bling.constants.BlingConstants;
 import frc.alotobots.library.subsystems.bling.io.BlingIO;
 import frc.alotobots.library.subsystems.bling.io.BlingIOCANdle;
 import frc.alotobots.library.subsystems.bling.io.BlingIOSim;
@@ -46,9 +48,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
-import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
-import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
-import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubFixedAndShoot;
+import frc.alotobots.rebuilt.commands.groups.*;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
@@ -67,6 +67,7 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
+import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerIntake;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIOTalonFX;
@@ -77,6 +78,8 @@ import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIO;
 import frc.alotobots.rebuilt.subsystems.kicker.io.KickerIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
@@ -326,10 +329,26 @@ public class RobotContainer {
 
     // Intake
     intakeOut.onTrue(
-        new DeployIntakeAndIntake(intakeExtendoSubsystem, intakeRollerSubsystem).until(intakeIn));
+        new IntakeExtendoRunToExtension(
+                intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.DEPLOYED)
+            .until(intakeIn));
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
+    intakeRollersToggle.toggleOnTrue(
+        new IntakeRollerIntake(
+                intakeRollerSubsystem,
+                () -> IntakeRollerConstants.Setpoints.OpenLoop.INTAKE_PERCENTAGE)
+            .alongWith(
+                new StartEndCommand(
+                    () -> OI.rumbleDriverController(0.02), () -> OI.rumbleDriverController(0.0)))
+            .alongWith(
+                new StartEndCommand(
+                    () ->
+                        blingSubsystem.setAnimation(
+                            BlingConstants.Animations.INTAKE_ROLLERS_RUNNING_ANIMATION),
+                    blingSubsystem::clear,
+                    blingSubsystem)));
     dumpBalls.whileTrue(
         new IntakeRollerEject(
             intakeRollerSubsystem,
@@ -338,6 +357,14 @@ public class RobotContainer {
     // Launcher
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            launchCalculator));
+    turretAimPass.whileTrue(
+        new LauncherTargetPassingDynamicAndShoot(
             deflectorSubsystem,
             shooterSubsystem,
             turretSubsystem,
@@ -356,8 +383,7 @@ public class RobotContainer {
     // Climber
     toggleClimber.onTrue(
         new ConditionalCommand(
-            new ClimberRunToExtension(
-                climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION),
+            new ClimberUpWithTurretSafety(climberSubsystem, turretSubsystem),
             new ClimberRunToExtension(
                 climberSubsystem, ClimberConstants.Limits.MIN_CLIMB_EXTENSION),
             () -> {
@@ -373,6 +399,12 @@ public class RobotContainer {
             .alongWith(
                 new DefaultBeltRunAtVelocity(
                     beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
+    runKickerAndBeltOutManual.whileTrue(
+        new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY)
+            .alongWith(
+                new DefaultBeltRunAtVelocity(
+                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY)));
     deflectorDownManual.onTrue(
         new InstantCommand(
             () ->
@@ -383,6 +415,9 @@ public class RobotContainer {
             () ->
                 deflectorSubsystem.runToTargetAngle(
                     deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5)))));
+    putDeflectorDown.onTrue(
+        new DeflectorRunToPosition(
+            deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
 
     /*  new DataCollection(
     deflectorSubsystem,
@@ -393,16 +428,16 @@ public class RobotContainer {
     launchCalculator); */
 
     // Sys id for turret
-
-    sysIDDynamicFwd.whileTrue(
-        shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    sysIDDynamicRev.whileTrue(
-        shooterSubsystem.sysIdRvsDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    sysIDQuasistaticFwd.whileTrue(
-        shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    sysIDQuasistaticRev.whileTrue(
-        shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-
+    /*
+       sysIDDynamicFwd.whileTrue(
+           shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
+       sysIDDynamicRev.whileTrue(
+           shooterSubsystem.sysIdRvsDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
+       sysIDQuasistaticFwd.whileTrue(
+           shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
+       sysIDQuasistaticRev.whileTrue(
+           shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
+    */
     // Sys id for shooter
     /*
      * */
