@@ -28,7 +28,7 @@ public class ShooterTalonFXConstants {
     /** TalonFX-specific PID and motion control constants for velocity (Velocity mode). */
     public static final class VelocityPIDConstants {
       /** Position control proportional gain */
-      public static final double SHOOTER_VELOCITY_KP = 0.00049261;
+      public static final double SHOOTER_VELOCITY_KP = 2.5;
 
       /** Position control integral gain */
       public static final double SHOOTER_VELOCITY_KI = 0.0;
@@ -40,10 +40,10 @@ public class ShooterTalonFXConstants {
       public static final double SHOOTER_VELOCITY_KG = 0.0;
 
       /** Static friction compensation */
-      public static final double SHOOTER_VELOCITY_KS = 0.061789;
+      public static final double SHOOTER_VELOCITY_KS = 0.0090433;
 
       /** Velocity feedforward gain */
-      public static final double SHOOTER_VELOCITY_KV = 0.048814;
+      public static final double SHOOTER_VELOCITY_KV = 0.125;
     }
 
     public static final double SHOOTER_VELOCITY_KA = 0.0039303;
