@@ -4,8 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [
     "BasicMeters",
-    "NeutralWThenClimb",
     "DepotStartNeutralClimbGRT",
+    "NeutralWThenClimb",
+    "Wiggle",
     "Positions",
     "PreloadWClimb",
     "PreloadWNeutral",
