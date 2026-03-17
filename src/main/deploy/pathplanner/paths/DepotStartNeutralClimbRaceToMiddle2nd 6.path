@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.334693295292439,
-        "y": 4.662524964336662
+        "x": 6.691483594864478,
+        "y": 4.015592011412268
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.334693295292439,
-        "y": 5.662524964336662
+        "x": 6.691483594864478,
+        "y": 5.015592011412268
       },
       "isLocked": false,
-      "linkedName": "Hit down middle part2 depot"
+      "linkedName": "second swipe 2"
     },
     {
       "anchor": {

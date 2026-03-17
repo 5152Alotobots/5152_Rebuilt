@@ -8,27 +8,32 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.592004504504505,
-        "y": 7.221756756756756
+        "x": 7.23490727532097,
+        "y": 7.340827389443652
       },
       "isLocked": false,
       "linkedName": "DepotStart"
     },
     {
       "anchor": {
-        "x": 8.231184022824536,
-        "y": 7.221756756756756
+        "x": 6.691483594864478,
+        "y": 6.6809557774607695
       },
       "prevControl": {
-        "x": 7.231184022824536,
-        "y": 7.221756756756756
+        "x": 6.406833095577745,
+        "y": 6.978544935805992
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Hit down middle part1 depot"
+      "linkedName": "second swipe 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.24818276220144866,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
