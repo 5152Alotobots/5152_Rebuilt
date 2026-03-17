@@ -1,0 +1,70 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.334693295292439,
+        "y": 4.662524964336662
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.334693295292439,
+        "y": 3.6625249643366624
+      },
+      "isLocked": false,
+      "linkedName": "Hit down middle part2 depot"
+    },
+    {
+      "anchor": {
+        "x": 6.264507845934379,
+        "y": 7.366704707560627
+      },
+      "prevControl": {
+        "x": 6.756176890156918,
+        "y": 7.379643366619116
+      },
+      "nextControl": {
+        "x": 4.725122912646085,
+        "y": 7.326194577737248
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.592004504504505,
+        "y": 7.221756756756756
+      },
+      "prevControl": {
+        "x": 4.37546362339515,
+        "y": 7.41845934379458
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "DepotStart"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "DepotStartNeutralClimbRaceToMiddle2nd",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": false
+}
