@@ -419,13 +419,13 @@ public class RobotContainer {
         new DeflectorRunToPosition(
             deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
 
-    /*  new DataCollection(
-    deflectorSubsystem,
-    shooterSubsystem,
-    turretSubsystem,
-    kickerSubsystem,
-    beltSubsystem,
-    launchCalculator); */
+    new DataCollection(
+        deflectorSubsystem,
+        shooterSubsystem,
+        turretSubsystem,
+        kickerSubsystem,
+        beltSubsystem,
+        launchCalculator);
 
     // Sys id for turret
     /*

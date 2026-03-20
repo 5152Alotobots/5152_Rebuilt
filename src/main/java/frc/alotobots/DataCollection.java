@@ -50,10 +50,10 @@ public class DataCollection {
             launchCalculator));
     OI.deflectorDownData.onTrue(
         new DeflectorFollowPosition(
-            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().plus(Degrees.of(5))));
+            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().plus(Degrees.of(1))));
     OI.deflectorUpData.onTrue(
         new DeflectorFollowPosition(
-            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().minus(Degrees.of(5))));
+            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().minus(Degrees.of(1))));
     OI.rpmDownData.onTrue(
         new InstantCommand(
             () -> shooterVelocity = shooterVelocity.minus(RotationsPerSecond.of(2.5))));

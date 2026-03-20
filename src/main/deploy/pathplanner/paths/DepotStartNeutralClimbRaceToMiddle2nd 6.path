@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 6.62679029957204,
-        "y": 7.431398002853067
+        "x": 6.52156626506024,
+        "y": 7.221756756756756
       },
       "prevControl": {
-        "x": 7.625893776109099,
-        "y": 7.473732895926672
+        "x": 6.8384698795180725,
+        "y": 7.204036144578313
       },
       "nextControl": {
-        "x": 5.100028530670471,
-        "y": 7.366704707560627
+        "x": 5.211767543556371,
+        "y": 7.294998064576168
       },
       "isLocked": false,
       "linkedName": null
@@ -44,7 +44,12 @@
       "linkedName": "DepotStart"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.17898989898988,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
