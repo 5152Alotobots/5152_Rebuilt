@@ -19,6 +19,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
 
 public class LauncherTargetPassingDynamicAndShoot extends ParallelCommandGroup {
 
@@ -28,10 +29,11 @@ public class LauncherTargetPassingDynamicAndShoot extends ParallelCommandGroup {
       TurretSubsystem turretSubsystem,
       KickerSubsystem kickerSubsystem,
       BeltSubsystem beltSubsystem,
+      RollerSubsystem rollerSubsystem,
       LaunchCalculator launchCalculator) {
     addCommands(
         new LauncherTargetPassingDynamic(
             deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator),
-        new LauncherShoot(shooterSubsystem, beltSubsystem, kickerSubsystem));
+        new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
   }
 }

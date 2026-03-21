@@ -19,7 +19,6 @@ import static frc.alotobots.OI.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,7 +40,6 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
-import frc.alotobots.rebuilt.FieldConstants;
 import frc.alotobots.rebuilt.commands.groups.*;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
@@ -86,6 +84,9 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.DefaultTurretRu
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
+import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.io.RollerIO;
+import frc.alotobots.rebuilt.subsystems.roller.io.RollerIOSparkMax;
 import frc.alotobots.rebuilt.util.hubshift.HubShiftUtil;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
@@ -98,6 +99,7 @@ public class RobotContainer {
   private final AprilTagSubsystem aprilTagSubsystem;
   //   private final BlingSubsystem blingSubsystem;
   private final PathPlannerManager pathPlannerManager;
+  private final RollerSubsystem rollerSubsystem;
   private final AutoNamedCommands autoNamedCommands;
   private final TurretSubsystem turretSubsystem;
   private final ShooterSubsystem shooterSubsystem;
@@ -145,6 +147,7 @@ public class RobotContainer {
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIOTalonFX());
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIOTalonFX());
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOVortex());
+        rollerSubsystem = new RollerSubsystem(new RollerIOSparkMax());
         launchCalculator =
             new LaunchCalculator(
                 swerveDriveSubsystem::getPose,
@@ -161,6 +164,7 @@ public class RobotContainer {
                 shooterSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
+                rollerSubsystem,
                 climberSubsystem,
                 launchCalculator);
         configureAutoChooser();
@@ -211,6 +215,7 @@ public class RobotContainer {
         kickerSubsystem = new KickerSubsystem(new KickerIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
+        rollerSubsystem = new RollerSubsystem(new RollerIO() {});
         launchCalculator =
             new LaunchCalculator(
                 swerveDriveSubsystem::getPose,
@@ -226,6 +231,7 @@ public class RobotContainer {
                 shooterSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
+                rollerSubsystem,
                 climberSubsystem,
                 launchCalculator);
         break;
@@ -258,6 +264,7 @@ public class RobotContainer {
         turretSubsystem = new TurretSubsystem(new TurretIO() {});
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIO() {});
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIO() {});
+        rollerSubsystem = new RollerSubsystem(new RollerIO() {});
         launchCalculator =
             new LaunchCalculator(
                 swerveDriveSubsystem::getPose,
@@ -273,6 +280,7 @@ public class RobotContainer {
                 shooterSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
+                rollerSubsystem,
                 climberSubsystem,
                 launchCalculator);
         break;
@@ -351,72 +359,75 @@ public class RobotContainer {
 
     // Launcher
     // Pose Based Triggers (Beta)
-    FieldConstants.PoseZones.UnderTrenchZone.containsTrigger(swerveDriveSubsystem::getPose)
-        .whileTrue(
-            new DeflectorRunToPosition(
-                deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
-    // Alliance Zones
-    FieldConstants.PoseZones.AllianceZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
-        .and(RobotModeTriggers.teleop())
-        .and(
-            () ->
-                DriverStation.getAlliance()
-                    .orElse(DriverStation.Alliance.Blue)
-                    .equals(DriverStation.Alliance.Blue))
-        .whileTrue(
-            new LauncherTargetHubDynamic(
-                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
-        .and(RobotModeTriggers.teleop())
-        .and(
-            () ->
-                DriverStation.getAlliance()
-                    .orElse(DriverStation.Alliance.Blue)
-                    .equals(DriverStation.Alliance.Red))
-        .whileTrue(
-            new LauncherTargetHubDynamic(
-                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    // Passing Zones
-    FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
-        .and(RobotModeTriggers.teleop())
-        .and(
-            () ->
-                DriverStation.getAlliance()
-                    .orElse(DriverStation.Alliance.Blue)
-                    .equals(DriverStation.Alliance.Blue))
-        .whileTrue(
-            new LauncherTargetPassingDynamic(
-                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
-        .and(RobotModeTriggers.teleop())
-        .and(
-            () ->
-                DriverStation.getAlliance()
-                    .orElse(DriverStation.Alliance.Blue)
-                    .equals(DriverStation.Alliance.Red))
-        .whileTrue(
-            new LauncherTargetPassingDynamic(
-                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-
-    turretAimShoot.whileTrue(new LauncherShoot(shooterSubsystem, beltSubsystem, kickerSubsystem));
+    //    FieldConstants.PoseZones.UnderTrenchZone.containsTrigger(swerveDriveSubsystem::getPose)
+    //        .whileTrue(
+    //            new DeflectorRunToPosition(
+    //                deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
+    //    // Alliance Zones
+    //    FieldConstants.PoseZones.AllianceZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
+    //        .and(RobotModeTriggers.teleop())
+    //        .and(
+    //            () ->
+    //                DriverStation.getAlliance()
+    //                    .orElse(DriverStation.Alliance.Blue)
+    //                    .equals(DriverStation.Alliance.Blue))
+    //        .whileTrue(
+    //            new LauncherTargetHubDynamic(
+    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
+    //    FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
+    //        .and(RobotModeTriggers.teleop())
+    //        .and(
+    //            () ->
+    //                DriverStation.getAlliance()
+    //                    .orElse(DriverStation.Alliance.Blue)
+    //                    .equals(DriverStation.Alliance.Red))
+    //        .whileTrue(
+    //            new LauncherTargetHubDynamic(
+    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
+    //    // Passing Zones
+    //    FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
+    //        .and(RobotModeTriggers.teleop())
+    //        .and(
+    //            () ->
+    //                DriverStation.getAlliance()
+    //                    .orElse(DriverStation.Alliance.Blue)
+    //                    .equals(DriverStation.Alliance.Blue))
+    //        .whileTrue(
+    //            new LauncherTargetPassingDynamic(
+    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
+    //    FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
+    //        .and(RobotModeTriggers.teleop())
+    //        .and(
+    //            () ->
+    //                DriverStation.getAlliance()
+    //                    .orElse(DriverStation.Alliance.Blue)
+    //                    .equals(DriverStation.Alliance.Red))
+    //        .whileTrue(
+    //            new LauncherTargetPassingDynamic(
+    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
+    //
+    //    turretAimShoot.whileTrue(
+    //        new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
 
     // Buttons
-    //    turretAimShoot.whileTrue(
-    //        new LauncherTargetHubDynamicAndShoot(
-    //            deflectorSubsystem,
-    //            shooterSubsystem,
-    //            turretSubsystem,
-    //            kickerSubsystem,
-    //            beltSubsystem,
-    //            launchCalculator));
-    //    turretAimPass.whileTrue(
-    //        new LauncherTargetPassingDynamicAndShoot(
-    //            deflectorSubsystem,
-    //            shooterSubsystem,
-    //            turretSubsystem,
-    //            kickerSubsystem,
-    //            beltSubsystem,
-    //            launchCalculator));
+    turretAimShoot.whileTrue(
+        new LauncherTargetHubDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            rollerSubsystem,
+            launchCalculator));
+    turretAimPass.whileTrue(
+        new LauncherTargetPassingDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            rollerSubsystem,
+            launchCalculator));
     shoot.whileTrue(
         new LauncherTargetHubFixedAndShoot(
             beltSubsystem,
@@ -465,16 +476,17 @@ public class RobotContainer {
         new DeflectorRunToPosition(
             deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
 
-    new DataCollection(
-        deflectorSubsystem,
-        shooterSubsystem,
-        turretSubsystem,
-        kickerSubsystem,
-        beltSubsystem,
-        launchCalculator);
+    //    new DataCollection(
+    //        deflectorSubsystem,
+    //        shooterSubsystem,
+    //        turretSubsystem,
+    //        kickerSubsystem,
+    //        beltSubsystem,
+    //        rollerSubsystem,
+    //        launchCalculator);
 
     // Sys id for turret
-    /*
+    
        sysIDDynamicFwd.whileTrue(
            shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
        sysIDDynamicRev.whileTrue(
@@ -483,7 +495,7 @@ public class RobotContainer {
            shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
        sysIDQuasistaticRev.whileTrue(
            shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    */
+    
     // Sys id for shooter
     /*
      * */

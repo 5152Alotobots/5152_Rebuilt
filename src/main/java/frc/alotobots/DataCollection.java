@@ -26,6 +26,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorFollowPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -39,6 +40,7 @@ public class DataCollection {
       TurretSubsystem turretSubsystem,
       KickerSubsystem kickerSubsystem,
       BeltSubsystem beltSubsystem,
+      RollerSubsystem rollerSubsystem,
       LaunchCalculator launchCalculator) {
     OI.shootData.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
@@ -47,6 +49,7 @@ public class DataCollection {
             turretSubsystem,
             kickerSubsystem,
             beltSubsystem,
+            rollerSubsystem,
             launchCalculator));
     OI.deflectorDownData.onTrue(
         new DeflectorFollowPosition(

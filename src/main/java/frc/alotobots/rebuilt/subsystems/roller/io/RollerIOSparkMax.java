@@ -41,8 +41,8 @@ public class RollerIOSparkMax implements RollerIO {
 
     rollerMotorConfig.idleMode(RollerSparkMaxConstants.ROLLER_MECHANISM_NEUTRAL_MODE);
     rollerMotorConfig.inverted(RollerSparkMaxConstants.ROLLER_MOTOR_DIRECTION_INVERTED);
-    rollerMotorConfig.smartCurrentLimit(
-        (int) RollerSparkMaxConstants.MotorSafetyLimits.ROLLER_TORQUE_AMP_LIMIT.in(Amps));
+    //    rollerMotorConfig.smartCurrentLimit(
+    //        (int) RollerSparkMaxConstants.MotorSafetyLimits.ROLLER_TORQUE_AMP_LIMIT.in(Amps));
 
     // Velocity (Slot 0 - Default)
     rollerMotorConfig.closedLoop.p(

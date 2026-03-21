@@ -22,17 +22,23 @@ import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.commands.DefaultRollerRunOpenLoop;
+import frc.alotobots.rebuilt.subsystems.roller.constants.RollerConstants;
 
 public class LauncherShoot extends SequentialCommandGroup {
   public LauncherShoot(
       ShooterSubsystem shooterSubsystem,
       BeltSubsystem beltSubsystem,
+      RollerSubsystem rollerSubsystem,
       KickerSubsystem kickerSubsystem) {
     addCommands(
         new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
         new ParallelCommandGroup(
             new DefaultBeltRunAtVelocity(
                 beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+            new DefaultRollerRunOpenLoop(
+                rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.JOSTLE),
             new DefaultKickerRunAtVelocity(
                 kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
   }
