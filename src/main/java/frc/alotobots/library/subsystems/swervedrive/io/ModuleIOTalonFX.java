@@ -163,27 +163,30 @@ public class ModuleIOTalonFX implements ModuleIO {
         turnVelocity,
         turnAppliedVolts,
         turnCurrent);
-    ParentDevice.optimizeBusUtilizationForAll(driveTalon, turnTalon);
+    ParentDevice.optimizeBusUtilizationForAll(driveTalon, turnTalon, cancoder);
   }
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
-    // Refresh all signals
-    var driveStatus =
-        BaseStatusSignal.refreshAll(drivePosition, driveVelocity, driveAppliedVolts, driveCurrent);
-    var turnStatus =
-        BaseStatusSignal.refreshAll(turnPosition, turnVelocity, turnAppliedVolts, turnCurrent);
+    // Refresh primary control signals seperately for status check
+    var drivePrimaryStatus = BaseStatusSignal.refreshAll(drivePosition);
+    var turnPrimaryStatus =  BaseStatusSignal.refreshAll(turnPosition);
+
+    // Refresh other telemetry signal
+    BaseStatusSignal.refreshAll(driveVelocity, driveAppliedVolts, driveCurrent);
+    BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
+
     var turnEncoderStatus = BaseStatusSignal.refreshAll(turnAbsolutePosition);
 
     // Update drive inputs
-    inputs.driveConnected = driveConnectedDebounce.calculate(driveStatus.isOK());
+    inputs.driveConnected = driveConnectedDebounce.calculate(drivePrimaryStatus.isOK());
     inputs.drivePositionRad = Units.rotationsToRadians(drivePosition.getValueAsDouble());
     inputs.driveVelocityRadPerSec = Units.rotationsToRadians(driveVelocity.getValueAsDouble());
     inputs.driveAppliedVolts = driveAppliedVolts.getValueAsDouble();
     inputs.driveCurrentAmps = driveCurrent.getValueAsDouble();
 
     // Update turn inputs
-    inputs.turnConnected = turnConnectedDebounce.calculate(turnStatus.isOK());
+    inputs.turnConnected = turnConnectedDebounce.calculate(turnPrimaryStatus.isOK());
     inputs.turnEncoderConnected = turnEncoderConnectedDebounce.calculate(turnEncoderStatus.isOK());
     inputs.turnAbsolutePosition = Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
     inputs.turnPosition = Rotation2d.fromRotations(turnPosition.getValueAsDouble());
@@ -191,7 +194,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.turnAppliedVolts = turnAppliedVolts.getValueAsDouble();
     inputs.turnCurrentAmps = turnCurrent.getValueAsDouble();
   }
-
+  
   @Override
   public void setDriveOpenLoop(double output) {
     driveTalon.setControl(
