@@ -357,6 +357,7 @@ public class RobotContainer {
                 deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
     // Alliance Zones
     FieldConstants.PoseZones.AllianceZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(RobotModeTriggers.teleop())
         .and(
             () ->
                 DriverStation.getAlliance()
@@ -366,6 +367,7 @@ public class RobotContainer {
             new LauncherTargetHubDynamic(
                 deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
     FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(RobotModeTriggers.teleop())
         .and(
             () ->
                 DriverStation.getAlliance()
@@ -376,6 +378,7 @@ public class RobotContainer {
                 deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
     // Passing Zones
     FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(RobotModeTriggers.teleop())
         .and(
             () ->
                 DriverStation.getAlliance()
@@ -385,6 +388,7 @@ public class RobotContainer {
             new LauncherTargetPassingDynamic(
                 deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
     FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(RobotModeTriggers.teleop())
         .and(
             () ->
                 DriverStation.getAlliance()
