@@ -12,19 +12,15 @@
 */
 package frc.alotobots.rebuilt.subsystems.roller.commands;
 
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
-
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
 
 public class DefaultRollerRunOpenLoop extends Command {
   private final RollerSubsystem rollerSubsystem;
   private final DoubleSupplier inputSupplier;
 
-  public DefaultRollerRunOpenLoop(
-      RollerSubsystem rollerSubsystem, DoubleSupplier inputSupplier) {
+  public DefaultRollerRunOpenLoop(RollerSubsystem rollerSubsystem, DoubleSupplier inputSupplier) {
     this.rollerSubsystem = rollerSubsystem;
     this.inputSupplier = inputSupplier;
     addRequirements(rollerSubsystem);

@@ -41,6 +41,5 @@ public class RollerConstants {
   }
 
   /** Contains position setpoints for different roller states. */
-  public static final class Setpoints {
-  }
+  public static final class Setpoints {}
 }

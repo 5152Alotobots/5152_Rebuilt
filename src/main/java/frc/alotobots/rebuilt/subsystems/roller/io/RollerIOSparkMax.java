@@ -1,15 +1,15 @@
 /*
- * ALOTOBOTS - FRC Team 5152
- * https://github.com/5152Alotobots
- * Copyright (C) 2026 ALOTOBOTS
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Source code must be publicly available on GitHub or an alternative web accessible site
- */
+* ALOTOBOTS - FRC Team 5152
+  https://github.com/5152Alotobots
+* Copyright (C) 2026 ALOTOBOTS
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Source code must be publicly available on GitHub or an alternative web accessible site
+*/
 package frc.alotobots.rebuilt.subsystems.roller.io;
 
 import static edu.wpi.first.units.Units.Amps;
@@ -18,18 +18,16 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import org.littletonrobotics.junction.Logger;
-
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
-import frc.alotobots.rebuilt.subsystems.roller.constants.RollerSparkMaxConstants;
 import frc.alotobots.Constants;
+import frc.alotobots.rebuilt.subsystems.roller.constants.RollerSparkMaxConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class RollerIOSparkMax implements RollerIO {
   private final SparkMax rollerMotor;
@@ -66,7 +64,8 @@ public class RollerIOSparkMax implements RollerIO {
         RollerSparkMaxConstants.PIDConstants.VelocityPIDConstants.ROLLER_VELOCITY_KV,
         ClosedLoopSlot.kSlot0);
     rollerMotorConfig.closedLoop.allowedClosedLoopError(
-        RollerSparkMaxConstants.PIDConstants.VelocityPIDConstants.ROLLER_VELOCITY_ALLOWED_CLOSED_LOOP_ERROR,
+        RollerSparkMaxConstants.PIDConstants.VelocityPIDConstants
+            .ROLLER_VELOCITY_ALLOWED_CLOSED_LOOP_ERROR,
         ClosedLoopSlot.kSlot0);
 
     rollerMotor.configure(
@@ -78,11 +77,10 @@ public class RollerIOSparkMax implements RollerIO {
     inputs.rollerMotorConnected =
         rollerMotorConnectedDebouncer.calculate(rollerMotor.getBusVoltage() > 0);
 
-    inputs.rollerMotorVelocity =
-        RotationsPerSecond.of(rollerMotor.getEncoder().getVelocity());
-        
+    inputs.rollerMotorVelocity = RotationsPerSecond.of(rollerMotor.getEncoder().getVelocity());
+
     // No roller motor acceleration because REV is shit
-    
+
     inputs.rollerMotorVolts =
         Volts.of(rollerMotor.getAppliedOutput() * rollerMotor.getBusVoltage());
     inputs.rollerMotorCurrent = Amps.of(rollerMotor.getOutputCurrent());
@@ -97,13 +95,9 @@ public class RollerIOSparkMax implements RollerIO {
               "No defined PID slot for value: " + pidSlot.ordinal());
         };
 
-
     rollerMotor
         .getClosedLoopController()
-        .setSetpoint(
-            velocity.in(RotationsPerSecond),
-            ControlType.kVelocity,
-            slot);
+        .setSetpoint(velocity.in(RotationsPerSecond), ControlType.kVelocity, slot);
   }
 
   @Override
