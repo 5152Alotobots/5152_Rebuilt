@@ -14,9 +14,11 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
+import frc.alotobots.util.PoseZone;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -47,6 +49,18 @@ public class DeflectorConstants {
 
     /** Enable Limits */
     public static final boolean DEFLECTOR_LIMITS_ENABLED = true;
+
+    public static final PoseZone DEFLECTOR_DOWN_SAFETY_ZONE =
+        PoseZone.of(
+            new PoseZone.Box(
+                new Translation2d(4.1, 8), new Translation2d(5.1, 6.800)), // Blue Depot
+            new PoseZone.Box(
+                new Translation2d(4.1, 1.3), new Translation2d(5.1, 0)), // Blue Outpost
+            new PoseZone.Box(new Translation2d(4.1, 8), new Translation2d(5.1, 6.800))
+                .flip(), // Red Depot
+            new PoseZone.Box(new Translation2d(4.1, 1.3), new Translation2d(5.1, 0))
+                .flip() // Red Outpost
+            );
   }
 
   /** Contains position setpoints for different wrist states. */

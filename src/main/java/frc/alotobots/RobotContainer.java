@@ -348,6 +348,11 @@ public class RobotContainer {
             () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
 
     // Launcher
+    DeflectorConstants.Limits.DEFLECTOR_DOWN_SAFETY_ZONE
+        .containsTrigger(swerveDriveSubsystem::getPose)
+        .whileTrue(
+            new DeflectorRunToPosition(
+                deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
             deflectorSubsystem,
