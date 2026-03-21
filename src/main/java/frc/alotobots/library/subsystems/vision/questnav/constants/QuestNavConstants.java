@@ -38,8 +38,8 @@ public class QuestNavConstants {
    * Y: Positive is left - Rotation: Positive is counter-clockwise
    */
   public static final Transform3d ROBOT_TO_QUEST =
-      new Transform3d(0.153, -0.26, 0.43, new Rotation3d(Rotation2d.fromDegrees(-90)));
-
+//      new Transform3d(0.153, -0.26, 0.43, new Rotation3d(Rotation2d.fromDegrees(-90)));
+        Transform3d.kZero;
   /**
    * Standard deviations representing how much we "trust" the position from the QuestNav. By
    * default, the Quest 3 provides sub-centimeter accuracy. Values represent: [0]: X position trust

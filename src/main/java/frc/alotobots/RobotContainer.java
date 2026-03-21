@@ -40,6 +40,9 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
+import frc.alotobots.library.subsystems.vision.questnav.QuestNavSubsystem;
+import frc.alotobots.library.subsystems.vision.questnav.io.QuestNavIO;
+import frc.alotobots.library.subsystems.vision.questnav.io.QuestNavIOReal;
 import frc.alotobots.rebuilt.commands.groups.*;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
@@ -93,6 +96,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
   private final SwerveDriveSubsystem swerveDriveSubsystem;
+  private final QuestNavSubsystem questNavSubsystem;
   private final AprilTagSubsystem aprilTagSubsystem;
   //   private final BlingSubsystem blingSubsystem;
   private final PathPlannerManager pathPlannerManager;
@@ -122,9 +126,9 @@ public class RobotContainer {
                 new ModuleIOTalonFXReal(ModulePosition.BACK_LEFT.index),
                 new ModuleIOTalonFXReal(ModulePosition.BACK_RIGHT.index));
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
-        // questNavSubsystem =
-        //     new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
-        // QuestNavIOReal());
+         questNavSubsystem =
+             new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
+                     QuestNavIOReal());
         aprilTagSubsystem =
             new AprilTagSubsystem(
                 swerveDriveSubsystem::addVisionMeasurement,
@@ -192,9 +196,9 @@ public class RobotContainer {
         climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
         configureAutoChooser();
 
-        // questNavSubsystem =
-        //    new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
-        // QuestNavIOReal());
+         questNavSubsystem =
+            new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
+         QuestNavIOReal());
         aprilTagSubsystem =
             new AprilTagSubsystem(
                 swerveDriveSubsystem::addVisionMeasurement,
@@ -240,9 +244,9 @@ public class RobotContainer {
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
         configureAutoChooser();
 
-        // questNavSubsystem =
-        //    new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new QuestNavIO()
-        // {});
+         questNavSubsystem =
+            new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new QuestNavIO()
+         {});
         aprilTagSubsystem =
             new AprilTagSubsystem(
                 swerveDriveSubsystem::addVisionMeasurement,
@@ -474,7 +478,7 @@ public class RobotContainer {
         .ifPresent(
             pose -> {
               swerveDriveSubsystem.setPose(pose);
-              // questNavSubsystem.resetPose(pose);
+               questNavSubsystem.resetPose(pose);
               NotificationPresets.Auto.sendAutoPathChangeNotification(autoName);
             });
   }
