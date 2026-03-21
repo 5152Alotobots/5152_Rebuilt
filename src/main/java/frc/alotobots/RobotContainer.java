@@ -363,14 +363,11 @@ public class RobotContainer {
                     .orElse(DriverStation.Alliance.Blue)
                     .equals(DriverStation.Alliance.Blue))
         .whileTrue(
-            new LauncherTargetHubDynamicAndShoot(
+            new LauncherTargetHubDynamic(
                 deflectorSubsystem,
                 shooterSubsystem,
                 turretSubsystem,
-                kickerSubsystem,
-                beltSubsystem,
-                launchCalculator,
-                    turretAimShoot));
+                launchCalculator));
     FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
         .and(
             () ->
@@ -378,14 +375,11 @@ public class RobotContainer {
                     .orElse(DriverStation.Alliance.Blue)
                     .equals(DriverStation.Alliance.Red))
         .whileTrue(
-            new LauncherTargetHubDynamicAndShoot(
+            new LauncherTargetHubDynamic(
                 deflectorSubsystem,
                 shooterSubsystem,
                 turretSubsystem,
-                kickerSubsystem,
-                beltSubsystem,
-                launchCalculator,
-                    turretAimShoot));
+                launchCalculator));
     // Passing Zones
     FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
         .and(
@@ -394,14 +388,11 @@ public class RobotContainer {
                     .orElse(DriverStation.Alliance.Blue)
                     .equals(DriverStation.Alliance.Blue))
         .whileTrue(
-            new LauncherTargetPassingDynamicAndShoot(
+            new LauncherTargetPassingDynamic(
                 deflectorSubsystem,
                 shooterSubsystem,
                 turretSubsystem,
-                kickerSubsystem,
-                beltSubsystem,
-                launchCalculator,
-                    turretAimShoot));
+                launchCalculator));
     FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
         .and(
             () ->
@@ -409,15 +400,14 @@ public class RobotContainer {
                     .orElse(DriverStation.Alliance.Blue)
                     .equals(DriverStation.Alliance.Red))
         .whileTrue(
-            new LauncherTargetPassingDynamicAndShoot(
+            new LauncherTargetPassingDynamic(
                 deflectorSubsystem,
                 shooterSubsystem,
                 turretSubsystem,
-                kickerSubsystem,
-                beltSubsystem,
-                launchCalculator,
-                    turretAimShoot));
+                launchCalculator));
 
+    turretAimShoot.whileTrue(new LauncherShoot(shooterSubsystem, beltSubsystem, kickerSubsystem));
+    
     // Buttons
 //    turretAimShoot.whileTrue(
 //        new LauncherTargetHubDynamicAndShoot(

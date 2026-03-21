@@ -40,74 +40,14 @@ public class LauncherTargetHubDynamicAndShoot extends SequentialCommandGroup {
       BeltSubsystem beltSubsystem,
       LaunchCalculator launchCalculator) {
     addCommands(
-        new ParallelCommandGroup(
-                new DeflectorFollowPosition(
+            new LauncherTargetHubDynamic(
                     deflectorSubsystem,
-                    () -> launchCalculator.getHubTargetParameters().deflectorAngle()),
-                new DefaultShooterRunAtVelocity(
                     shooterSubsystem,
-                    () -> launchCalculator.getHubTargetParameters().shooterVelocity()),
-                new TurretFollowPositionAtVelocity(
                     turretSubsystem,
-                    () ->
-                        launchCalculator
-                            .getHubTargetParameters()
-                            .turretAngleFieldRelative()
-                            .getMeasure(),
-                    () -> launchCalculator.getHubTargetParameters().turretVelocity()),
-                new RunCommand(launchCalculator::clearHubLaunchingParameters))
-            .deadlineFor(
-                new SequentialCommandGroup(
-                    // Wait for shooter to spin up
-                    new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
-                    // Then feed
-                    new ParallelCommandGroup(
-                        new DefaultBeltRunAtVelocity(
-                            beltSubsystem,
-                            () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-                        new DefaultKickerRunAtVelocity(
-                            kickerSubsystem,
-                            () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)))));
-  }
-
-  public LauncherTargetHubDynamicAndShoot(
-          DeflectorSubsystem deflectorSubsystem,
-          ShooterSubsystem shooterSubsystem,
-          TurretSubsystem turretSubsystem,
-          KickerSubsystem kickerSubsystem,
-          BeltSubsystem beltSubsystem,
-          LaunchCalculator launchCalculator,
-          Trigger releaseTrigger) {
-    addCommands(
-            new ParallelCommandGroup(
-                    new DeflectorFollowPosition(
-                            deflectorSubsystem,
-                            () -> launchCalculator.getHubTargetParameters().deflectorAngle()),
-                    new DefaultShooterRunAtVelocity(
-                            shooterSubsystem,
-                            () -> launchCalculator.getHubTargetParameters().shooterVelocity()),
-                    new TurretFollowPositionAtVelocity(
-                            turretSubsystem,
-                            () ->
-                                    launchCalculator
-                                            .getHubTargetParameters()
-                                            .turretAngleFieldRelative()
-                                            .getMeasure(),
-                            () -> launchCalculator.getHubTargetParameters().turretVelocity()),
-                    new RunCommand(launchCalculator::clearHubLaunchingParameters))
-                    .deadlineFor(
-                            new SequentialCommandGroup(
-                                    // Wait for shooter to spin up
-                                    new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
-                                    // Then feed
-                                    new ParallelCommandGroup(
-                                            new DefaultBeltRunAtVelocity(
-                                                    beltSubsystem,
-                                                    () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-                                            new DefaultKickerRunAtVelocity(
-                                                    kickerSubsystem,
-                                                    () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))
-                                            .onlyWhile(releaseTrigger)
-                            )));
+                    launchCalculator),
+            new LauncherShoot(
+                    shooterSubsystem,
+                    beltSubsystem,
+                    kickerSubsystem));
   }
 }
