@@ -1,3 +1,15 @@
+/*
+* ALOTOBOTS - FRC Team 5152
+  https://github.com/5152Alotobots
+* Copyright (C) 2026 ALOTOBOTS
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Source code must be publicly available on GitHub or an alternative web accessible site
+*/
 package frc.alotobots.rebuilt.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -12,17 +24,16 @@ import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 
 public class LauncherShoot extends SequentialCommandGroup {
-    public LauncherShoot(ShooterSubsystem shooterSubsystem,
-                         BeltSubsystem beltSubsystem,
-                         KickerSubsystem kickerSubsystem) {
-        addCommands(
-                        new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
-                        new ParallelCommandGroup(
-                                new DefaultBeltRunAtVelocity(
-                                        beltSubsystem,
-                                        () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-                                new DefaultKickerRunAtVelocity(
-                                        kickerSubsystem,
-                                        () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
-    }
-    }
+  public LauncherShoot(
+      ShooterSubsystem shooterSubsystem,
+      BeltSubsystem beltSubsystem,
+      KickerSubsystem kickerSubsystem) {
+    addCommands(
+        new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
+        new ParallelCommandGroup(
+            new DefaultBeltRunAtVelocity(
+                beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+            new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
+  }
+}
