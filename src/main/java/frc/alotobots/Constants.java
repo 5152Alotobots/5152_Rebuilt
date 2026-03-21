@@ -79,7 +79,6 @@ public final class Constants {
   @UtilityClass
   public static final class CanId {
 
-    public static final CANBus SWERVE_CAN_BUS = new CANBus("Swerve");
     public static final CANBus RIO_CAN_BUS = new CANBus("rio");
 
     public static final double DEFAULT_CAN_FREQUENCY = 50.0;
