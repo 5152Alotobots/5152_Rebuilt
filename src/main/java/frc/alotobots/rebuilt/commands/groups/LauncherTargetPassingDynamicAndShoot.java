@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
@@ -68,5 +69,46 @@ public class LauncherTargetPassingDynamicAndShoot extends SequentialCommandGroup
                         new DefaultKickerRunAtVelocity(
                             kickerSubsystem,
                             () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)))));
+  }
+
+  public LauncherTargetPassingDynamicAndShoot(
+          DeflectorSubsystem deflectorSubsystem,
+          ShooterSubsystem shooterSubsystem,
+          TurretSubsystem turretSubsystem,
+          KickerSubsystem kickerSubsystem,
+          BeltSubsystem beltSubsystem,
+          LaunchCalculator launchCalculator,
+          Trigger releaseTrigger) {
+    addCommands(
+            new ParallelCommandGroup(
+                    new DeflectorFollowPosition(
+                            deflectorSubsystem,
+                            () -> launchCalculator.getPassingTargetParameters().deflectorAngle()),
+                    new DefaultShooterRunAtVelocity(
+                            shooterSubsystem,
+                            () -> launchCalculator.getPassingTargetParameters().shooterVelocity()),
+                    new TurretFollowPositionAtVelocity(
+                            turretSubsystem,
+                            () ->
+                                    launchCalculator
+                                            .getPassingTargetParameters()
+                                            .turretAngleFieldRelative()
+                                            .getMeasure(),
+                            () -> launchCalculator.getPassingTargetParameters().turretVelocity()),
+                    new RunCommand(launchCalculator::clearPassingLaunchingParameters))
+                    .deadlineFor(
+                            new SequentialCommandGroup(
+                                    // Wait for shooter to spin up
+                                    new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
+                                    // Then feed
+                                    new ParallelCommandGroup(
+                                            new DefaultBeltRunAtVelocity(
+                                                    beltSubsystem,
+                                                    () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+                                            new DefaultKickerRunAtVelocity(
+                                                    kickerSubsystem,
+                                                    () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))
+                                            .onlyWhile(releaseTrigger)
+                            )));
   }
 }

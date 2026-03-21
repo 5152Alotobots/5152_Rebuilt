@@ -369,7 +369,8 @@ public class RobotContainer {
                 turretSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
-                launchCalculator));
+                launchCalculator,
+                    turretAimShoot));
     FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
         .and(
             () ->
@@ -383,7 +384,8 @@ public class RobotContainer {
                 turretSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
-                launchCalculator));
+                launchCalculator,
+                    turretAimShoot));
     // Passing Zones
     FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
         .and(
@@ -398,7 +400,8 @@ public class RobotContainer {
                 turretSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
-                launchCalculator));
+                launchCalculator,
+                    turretAimShoot));
     FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
         .and(
             () ->
@@ -412,25 +415,26 @@ public class RobotContainer {
                 turretSubsystem,
                 kickerSubsystem,
                 beltSubsystem,
-                launchCalculator));
+                launchCalculator,
+                    turretAimShoot));
 
     // Buttons
-    turretAimShoot.whileTrue(
-        new LauncherTargetHubDynamicAndShoot(
-            deflectorSubsystem,
-            shooterSubsystem,
-            turretSubsystem,
-            kickerSubsystem,
-            beltSubsystem,
-            launchCalculator));
-    turretAimPass.whileTrue(
-        new LauncherTargetPassingDynamicAndShoot(
-            deflectorSubsystem,
-            shooterSubsystem,
-            turretSubsystem,
-            kickerSubsystem,
-            beltSubsystem,
-            launchCalculator));
+//    turretAimShoot.whileTrue(
+//        new LauncherTargetHubDynamicAndShoot(
+//            deflectorSubsystem,
+//            shooterSubsystem,
+//            turretSubsystem,
+//            kickerSubsystem,
+//            beltSubsystem,
+//            launchCalculator));
+//    turretAimPass.whileTrue(
+//        new LauncherTargetPassingDynamicAndShoot(
+//            deflectorSubsystem,
+//            shooterSubsystem,
+//            turretSubsystem,
+//            kickerSubsystem,
+//            beltSubsystem,
+//            launchCalculator));
     shoot.whileTrue(
         new LauncherTargetHubFixedAndShoot(
             beltSubsystem,
