@@ -12,6 +12,8 @@
 */
 package frc.alotobots.rebuilt.commands.groups;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
@@ -20,6 +22,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
+import java.util.function.Supplier;
 
 public class LauncherTargetHubDynamicAndShoot extends ParallelCommandGroup {
   public LauncherTargetHubDynamicAndShoot(
@@ -33,6 +36,27 @@ public class LauncherTargetHubDynamicAndShoot extends ParallelCommandGroup {
     addCommands(
         new LauncherTargetHubDynamic(
             deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator),
+        new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
+  }
+
+  public LauncherTargetHubDynamicAndShoot(
+      DeflectorSubsystem deflectorSubsystem,
+      ShooterSubsystem shooterSubsystem,
+      TurretSubsystem turretSubsystem,
+      KickerSubsystem kickerSubsystem,
+      BeltSubsystem beltSubsystem,
+      RollerSubsystem rollerSubsystem,
+      LaunchCalculator launchCalculator,
+      Supplier<AngularVelocity> shooterVelocityOverride,
+      Supplier<Angle> deflectorAngleOverride) {
+    addCommands(
+        new LauncherTargetHubDynamic(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            launchCalculator,
+            shooterVelocityOverride,
+            deflectorAngleOverride),
         new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
   }
 }

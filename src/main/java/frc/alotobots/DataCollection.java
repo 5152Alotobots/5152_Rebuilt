@@ -16,6 +16,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
@@ -23,7 +24,7 @@ import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorFollowPosition;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
@@ -31,8 +32,11 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class DataCollection {
-  @AutoLogOutput(key = "DataCollection/targetrpm")
-  private AngularVelocity shooterVelocity = RotationsPerSecond.of(30);
+  @AutoLogOutput(key = "DataCollection/shooterVelocityOverride")
+  private AngularVelocity shooterVelocityOverride = RotationsPerSecond.of(30);
+
+  @AutoLogOutput(key = "DataCollection/deflectorAngleOverride")
+  private Angle deflectorAngleOverride = DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE;
 
   public DataCollection(
       DeflectorSubsystem deflectorSubsystem,
@@ -42,6 +46,7 @@ public class DataCollection {
       BeltSubsystem beltSubsystem,
       RollerSubsystem rollerSubsystem,
       LaunchCalculator launchCalculator) {
+
     OI.shootData.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
             deflectorSubsystem,
@@ -50,19 +55,25 @@ public class DataCollection {
             kickerSubsystem,
             beltSubsystem,
             rollerSubsystem,
-            launchCalculator));
+            launchCalculator,
+            () -> shooterVelocityOverride,
+            () -> deflectorAngleOverride));
     OI.deflectorDownData.onTrue(
-        new DeflectorFollowPosition(
-            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().plus(Degrees.of(1))));
+        new InstantCommand(
+            () -> deflectorAngleOverride = deflectorAngleOverride.plus(Degrees.of(2.5))));
     OI.deflectorUpData.onTrue(
-        new DeflectorFollowPosition(
-            deflectorSubsystem, () -> deflectorSubsystem.getCurrentAngle().minus(Degrees.of(1))));
+        new InstantCommand(
+            () -> deflectorAngleOverride = deflectorAngleOverride.minus(Degrees.of(2.5))));
     OI.rpmDownData.onTrue(
         new InstantCommand(
-            () -> shooterVelocity = shooterVelocity.minus(RotationsPerSecond.of(2.5))));
+            () ->
+                shooterVelocityOverride =
+                    shooterVelocityOverride.minus(RotationsPerSecond.of(2.5))));
     OI.rpmUpData.onTrue(
         new InstantCommand(
-            () -> shooterVelocity = shooterVelocity.plus(RotationsPerSecond.of(2.5))));
+            () ->
+                shooterVelocityOverride =
+                    shooterVelocityOverride.plus(RotationsPerSecond.of(2.5))));
     OI.logData.onTrue(
         new InstantCommand(launchCalculator::clearHubLaunchingParameters)
             .andThen(
@@ -73,8 +84,8 @@ public class DataCollection {
                             String.format(
                                 "Turret Deg: %f, Deflector Deg: %f, RPS: %f, Distance: %f",
                                 turretSubsystem.getCurrentAngle().in(Degrees),
-                                deflectorSubsystem.getCurrentAngle().in(Degrees),
-                                shooterVelocity.in(RotationsPerSecond),
+                                deflectorAngleOverride.in(Degrees),
+                                shooterVelocityOverride.in(RotationsPerSecond),
                                 launchCalculator
                                     .getHubTargetParameters()
                                     .dataCollectionDebugDistance()

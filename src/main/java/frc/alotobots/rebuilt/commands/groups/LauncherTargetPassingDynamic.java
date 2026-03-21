@@ -12,6 +12,8 @@
 */
 package frc.alotobots.rebuilt.commands.groups;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
@@ -21,6 +23,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.commands.TurretFollowPositionAtVelocity;
+import java.util.function.Supplier;
 
 public class LauncherTargetPassingDynamic extends ParallelCommandGroup {
   public LauncherTargetPassingDynamic(
@@ -35,6 +38,27 @@ public class LauncherTargetPassingDynamic extends ParallelCommandGroup {
         new DefaultShooterRunAtVelocity(
             shooterSubsystem,
             () -> launchCalculator.getPassingTargetParameters().shooterVelocity()),
+        new TurretFollowPositionAtVelocity(
+            turretSubsystem,
+            () ->
+                launchCalculator
+                    .getPassingTargetParameters()
+                    .turretAngleFieldRelative()
+                    .getMeasure(),
+            () -> launchCalculator.getPassingTargetParameters().turretVelocity()),
+        new RunCommand(launchCalculator::clearPassingLaunchingParameters));
+  }
+
+  public LauncherTargetPassingDynamic(
+      DeflectorSubsystem deflectorSubsystem,
+      ShooterSubsystem shooterSubsystem,
+      TurretSubsystem turretSubsystem,
+      LaunchCalculator launchCalculator,
+      Supplier<AngularVelocity> shooterVelocityOverride,
+      Supplier<Angle> deflectorAngleOverride) {
+    addCommands(
+        new DeflectorFollowPosition(deflectorSubsystem, deflectorAngleOverride),
+        new DefaultShooterRunAtVelocity(shooterSubsystem, shooterVelocityOverride),
         new TurretFollowPositionAtVelocity(
             turretSubsystem,
             () ->

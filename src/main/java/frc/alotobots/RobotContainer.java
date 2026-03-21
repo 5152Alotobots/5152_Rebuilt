@@ -476,26 +476,26 @@ public class RobotContainer {
         new DeflectorRunToPosition(
             deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
 
-    //    new DataCollection(
-    //        deflectorSubsystem,
-    //        shooterSubsystem,
-    //        turretSubsystem,
-    //        kickerSubsystem,
-    //        beltSubsystem,
-    //        rollerSubsystem,
-    //        launchCalculator);
+    new DataCollection(
+        deflectorSubsystem,
+        shooterSubsystem,
+        turretSubsystem,
+        kickerSubsystem,
+        beltSubsystem,
+        rollerSubsystem,
+        launchCalculator);
 
     // Sys id for turret
-    
-       sysIDDynamicFwd.whileTrue(
-           shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
-       sysIDDynamicRev.whileTrue(
-           shooterSubsystem.sysIdRvsDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
-       sysIDQuasistaticFwd.whileTrue(
-           shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-       sysIDQuasistaticRev.whileTrue(
-           shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
-    
+
+    sysIDDynamicFwd.whileTrue(
+        shooterSubsystem.sysIdFwdDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
+    sysIDDynamicRev.whileTrue(
+        shooterSubsystem.sysIdRvsDynamic().andThen(new InstantCommand(shooterSubsystem::stop)));
+    sysIDQuasistaticFwd.whileTrue(
+        shooterSubsystem.sysIdFwdQuasistatic().andThen(new InstantCommand(shooterSubsystem::stop)));
+    sysIDQuasistaticRev.whileTrue(
+        shooterSubsystem.sysIdRvsQuasiStatic().andThen(new InstantCommand(shooterSubsystem::stop)));
+
     // Sys id for shooter
     /*
      * */
