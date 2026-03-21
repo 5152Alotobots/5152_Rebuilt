@@ -19,6 +19,7 @@ import static frc.alotobots.OI.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -40,6 +41,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
+import frc.alotobots.rebuilt.FieldConstants;
 import frc.alotobots.rebuilt.commands.groups.*;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
@@ -348,11 +350,71 @@ public class RobotContainer {
             () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
 
     // Launcher
-    DeflectorConstants.Limits.DEFLECTOR_DOWN_SAFETY_ZONE
-        .containsTrigger(swerveDriveSubsystem::getPose)
+    // Pose Based Triggers (Beta)
+    FieldConstants.PoseZones.UnderTrenchZone.containsTrigger(swerveDriveSubsystem::getPose)
         .whileTrue(
             new DeflectorRunToPosition(
                 deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
+    // Alliance Zones
+    FieldConstants.PoseZones.AllianceZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(
+            () ->
+                DriverStation.getAlliance()
+                    .orElse(DriverStation.Alliance.Blue)
+                    .equals(DriverStation.Alliance.Blue))
+        .whileTrue(
+            new LauncherTargetHubDynamicAndShoot(
+                deflectorSubsystem,
+                shooterSubsystem,
+                turretSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                launchCalculator));
+    FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(
+            () ->
+                DriverStation.getAlliance()
+                    .orElse(DriverStation.Alliance.Blue)
+                    .equals(DriverStation.Alliance.Red))
+        .whileTrue(
+            new LauncherTargetHubDynamicAndShoot(
+                deflectorSubsystem,
+                shooterSubsystem,
+                turretSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                launchCalculator));
+    // Passing Zones
+    FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(
+            () ->
+                DriverStation.getAlliance()
+                    .orElse(DriverStation.Alliance.Blue)
+                    .equals(DriverStation.Alliance.Blue))
+        .whileTrue(
+            new LauncherTargetPassingDynamicAndShoot(
+                deflectorSubsystem,
+                shooterSubsystem,
+                turretSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                launchCalculator));
+    FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(
+            () ->
+                DriverStation.getAlliance()
+                    .orElse(DriverStation.Alliance.Blue)
+                    .equals(DriverStation.Alliance.Red))
+        .whileTrue(
+            new LauncherTargetPassingDynamicAndShoot(
+                deflectorSubsystem,
+                shooterSubsystem,
+                turretSubsystem,
+                kickerSubsystem,
+                beltSubsystem,
+                launchCalculator));
+
+    // Buttons
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
             deflectorSubsystem,
