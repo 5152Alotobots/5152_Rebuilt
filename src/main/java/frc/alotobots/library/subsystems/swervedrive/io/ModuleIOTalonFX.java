@@ -172,7 +172,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     var drivePrimaryStatus = BaseStatusSignal.refreshAll(drivePosition);
     var turnPrimaryStatus =  BaseStatusSignal.refreshAll(turnPosition);
 
-    // Refresh other telemetry signal
+    // Refresh other telemetry signals
     BaseStatusSignal.refreshAll(driveVelocity, driveAppliedVolts, driveCurrent);
     BaseStatusSignal.refreshAll(turnVelocity, turnAppliedVolts, turnCurrent);
 
@@ -194,7 +194,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     inputs.turnAppliedVolts = turnAppliedVolts.getValueAsDouble();
     inputs.turnCurrentAmps = turnCurrent.getValueAsDouble();
   }
-  
+
   @Override
   public void setDriveOpenLoop(double output) {
     driveTalon.setControl(
