@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BestEver1"
+            "pathName": "BestEverOutpost1"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BestEver2"
+            "pathName": "BestEverOutpost2"
           }
         },
         {
@@ -55,9 +55,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": null
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ClimbDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BestEverOutpost3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbUp"
           }
         }
       ]
