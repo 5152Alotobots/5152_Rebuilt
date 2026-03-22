@@ -12,13 +12,15 @@
 */
 package frc.alotobots;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static frc.alotobots.OI.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -91,6 +93,7 @@ import frc.alotobots.rebuilt.util.hubshift.HubShiftUtil;
 import frc.alotobots.util.NotificationPresets;
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -314,6 +317,15 @@ public class RobotContainer {
             .onlyWhile(() -> OI.getTurretManualAxis() != 0.0));
   }
 
+  // DATA COLLECTION ---------
+  @AutoLogOutput(key = "DataCollection/shooterVelocityOverride")
+  private AngularVelocity shooterVelocityOverride = RotationsPerSecond.of(30);
+
+  @AutoLogOutput(key = "DataCollection/deflectorAngleOverride")
+  private Angle deflectorAngleOverride = DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE;
+
+  // --------------------------
+
   /** Contains button based commands */
   private void configureLogicCommands() {
     // General
@@ -475,16 +487,51 @@ public class RobotContainer {
     putDeflectorDown.onTrue(
         new DeflectorRunToPosition(
             deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
-
-    new DataCollection(
-        deflectorSubsystem,
-        shooterSubsystem,
-        turretSubsystem,
-        kickerSubsystem,
-        beltSubsystem,
-        rollerSubsystem,
-        launchCalculator);
-
+    // DATA COLLECTION ----------------------------
+    OI.shootData.whileTrue(
+        new LauncherTargetPassingDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            rollerSubsystem,
+            launchCalculator,
+            () -> shooterVelocityOverride,
+            () -> deflectorAngleOverride));
+    OI.deflectorDownData.onTrue(
+        new InstantCommand(
+            () -> deflectorAngleOverride = deflectorAngleOverride.plus(Degrees.of(2.5))));
+    OI.deflectorUpData.onTrue(
+        new InstantCommand(
+            () -> deflectorAngleOverride = deflectorAngleOverride.minus(Degrees.of(2.5))));
+    OI.rpmDownData.onTrue(
+        new InstantCommand(
+            () ->
+                shooterVelocityOverride =
+                    shooterVelocityOverride.minus(RotationsPerSecond.of(2.5))));
+    OI.rpmUpData.onTrue(
+        new InstantCommand(
+            () ->
+                shooterVelocityOverride =
+                    shooterVelocityOverride.plus(RotationsPerSecond.of(2.5))));
+    OI.logData.onTrue(
+        new InstantCommand(launchCalculator::clearPassingLaunchingParameters)
+            .andThen(
+                new InstantCommand(
+                    () ->
+                        Logger.recordOutput(
+                            "DataCollection/data",
+                            String.format(
+                                "Turret Deg: %f, Deflector Deg: %f, RPS: %f, Distance: %f",
+                                turretSubsystem.getCurrentAngle().in(Degrees),
+                                deflectorAngleOverride.in(Degrees),
+                                shooterVelocityOverride.in(RotationsPerSecond),
+                                launchCalculator
+                                    .getPassingTargetParameters()
+                                    .dataCollectionDebugDistance()
+                                    .in(Meters))))));
+    // ------------------------------------------------
     // Sys id for turret
 
     sysIDDynamicFwd.whileTrue(
