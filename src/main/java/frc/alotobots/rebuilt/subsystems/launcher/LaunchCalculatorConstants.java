@@ -42,11 +42,11 @@ public final class LaunchCalculatorConstants {
   public static final Transform2d ROBOT_TO_TURRET =
       new Transform2d(new Translation2d(-.14, 0), Rotation2d.kZero);
 
-  public static final Translation3d PASSING_TARGET_DEPOT_BLUE = new Translation3d(1.5, 6, 0);
-  public static final Translation3d PASSING_TARGET_OUTPOST_BLUE = new Translation3d(1.5, 2, 0);
+  public static final Translation3d PASSING_TARGET_DEPOT_BLUE = new Translation3d(1.5, 6.05, 0);
+  public static final Translation3d PASSING_TARGET_OUTPOST_BLUE = new Translation3d(1.5, 1.95, 0);
 
   public static final Translation3d PASSING_TARGET_DEPOT_RED = new Translation3d(14.889, 6.05, 0);
-  public static final Translation3d PASSING_TARGET_OUTPOST_RED = new Translation3d(15.2, 2, 0);
+  public static final Translation3d PASSING_TARGET_OUTPOST_RED = new Translation3d(14.889, 1.95, 0);
 
   public static final List<Translation2d> PASSING_TARGET_OPTIONS_BLUE =
       new LinkedList<>() {
@@ -73,6 +73,7 @@ public final class LaunchCalculatorConstants {
     public static final UnitInterpolatingMap<DistanceUnit, TimeUnit> FUEL_HUB_TIME_OF_FLIGHT_MAP =
         new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
 
+    //TODO: update this
     static {
       // Data collected from testing. TOF is estimated at 0.5s for all points.
       // Points sorted by distance ascending.
@@ -152,10 +153,6 @@ public final class LaunchCalculatorConstants {
 
       // ESTIMATED TOF (BASIC DATA, still needs more)
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.681701), Seconds.of(1.25));
-      FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.381766), Seconds.of(1.215693));
-      FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.126788), Seconds.of(1.02741));
-      FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.068576), Seconds.of(0.94848));
-      FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(2.381295), Seconds.of(0.89945));
     }
 
     public static final UnitInterpolatingMap<DistanceUnit, AngleUnit>
@@ -166,51 +163,33 @@ public final class LaunchCalculatorConstants {
             new UnitInterpolatingMap<>(Units.Meters, Units.RevolutionsPerSecond);
     public static final UnitInterpolatingMap<DistanceUnit, TimeUnit>
         FUEL_PASSING_TIME_OF_FLIGHT_MAP = new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
-
-    // TODO: get real data CURRENTLY REGRESSED!!
+    
     static {
       // Data collected from testing. TOF is estimated at 0.5s for all points.
       // Points sorted by distance ascending.
+      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(4.985827), Degrees.of(55.0));
+      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(4.985827), RotationsPerSecond.of(37.5));
+      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(4.985827), Seconds.of(1.31));
+      
+      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(5.282597), Degrees.of(53.0));
+      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(5.282597), RotationsPerSecond.of(40.0));
+      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(5.282597), Seconds.of(1.32));
 
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(3.5), Degrees.of(58.12));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(3.5), RotationsPerSecond.of(40.64));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(3.5), Seconds.of(0.5));
+      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(6.506284), Degrees.of(50.5));
+      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(6.506284), RotationsPerSecond.of(45.0));
+      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(6.506284), Seconds.of(1.53));
 
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(4.5), Degrees.of(55.95213));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(4.5), RotationsPerSecond.of(45.095325));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(4.5), Seconds.of(0.5));
+      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(7.383009), Degrees.of(53.0));
+      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(7.383009), RotationsPerSecond.of(47.5));
+      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(7.383009), Seconds.of(1.6));
+      
+      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(7.971714), Degrees.of(50.5));
+      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(7.971714), RotationsPerSecond.of(50.0));
+      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(7.971714), Seconds.of(1.6));
 
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(5.5), Degrees.of(53.77991));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(5.5), RotationsPerSecond.of(49.548335));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(5.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(6.5), Degrees.of(51.60769));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(6.5), RotationsPerSecond.of(54.001345));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(6.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(7.5), Degrees.of(49.43547));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(7.5), RotationsPerSecond.of(58.454355));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(7.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(8.5), Degrees.of(47.26325));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(8.5), RotationsPerSecond.of(62.907365));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(8.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(9.5), Degrees.of(45.09103));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(9.5), RotationsPerSecond.of(67.360375));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(9.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(10.5), Degrees.of(42.91881));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(10.5), RotationsPerSecond.of(71.813385));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(10.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(11.5), Degrees.of(41.09268));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(11.5), RotationsPerSecond.of(76.266395));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(11.5), Seconds.of(0.5));
-
-      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(12.5), Degrees.of(41.09268));
-      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(12.5), RotationsPerSecond.of(86.266395));
-      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(12.5), Seconds.of(0.5));
+      LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(9.214514), Degrees.of(48.0));
+      LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(9.214514), RotationsPerSecond.of(57.5));
+      FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(9.214514), Seconds.of(1.74));
     }
   }
 }
