@@ -5,8 +5,9 @@
   "pathFolders": [
     "BasicMeters",
     "DepotStartNeutralClimbGRT",
-    "NeutralWThenClimb",
     "DepotStartNeutralClimbRaceToMiddle2nd",
+    "NeutralWThenClimb",
+    "BestEver",
     "Positions",
     "PreloadWClimb",
     "PreloadWNeutral",
