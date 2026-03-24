@@ -73,7 +73,7 @@ public final class LaunchCalculatorConstants {
     public static final UnitInterpolatingMap<DistanceUnit, TimeUnit> FUEL_HUB_TIME_OF_FLIGHT_MAP =
         new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
 
-    //TODO: update this
+    // TODO: update this
     static {
       // Points sorted by distance ascending. HUB UPDATED 3/22/26
 
@@ -130,13 +130,13 @@ public final class LaunchCalculatorConstants {
             new UnitInterpolatingMap<>(Units.Meters, Units.RevolutionsPerSecond);
     public static final UnitInterpolatingMap<DistanceUnit, TimeUnit>
         FUEL_PASSING_TIME_OF_FLIGHT_MAP = new UnitInterpolatingMap<>(Units.Meters, Units.Seconds);
-    
+
     static {
       // Points sorted by distance ascending. PASSING UPDATED 3/22/26
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(4.985827), Degrees.of(55.0));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(4.985827), RotationsPerSecond.of(37.5));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(4.985827), Seconds.of(1.31));
-      
+
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(5.282597), Degrees.of(53.0));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(5.282597), RotationsPerSecond.of(40.0));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(5.282597), Seconds.of(1.32));
@@ -148,7 +148,7 @@ public final class LaunchCalculatorConstants {
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(7.383009), Degrees.of(53.0));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(7.383009), RotationsPerSecond.of(47.5));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(7.383009), Seconds.of(1.6));
-      
+
       LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.put(Meters.of(7.971714), Degrees.of(50.5));
       LAUNCHER_SHOOTER_PASSING_VELOCITY_MAP.put(Meters.of(7.971714), RotationsPerSecond.of(50.0));
       FUEL_PASSING_TIME_OF_FLIGHT_MAP.put(Meters.of(7.971714), Seconds.of(1.6));
