@@ -170,7 +170,6 @@ public class RobotContainer {
                 rollerSubsystem,
                 climberSubsystem,
                 launchCalculator);
-        configureAutoChooser();
         break;
 
       case SIM:
@@ -199,7 +198,6 @@ public class RobotContainer {
         swerveDriveSubsystem.setPose(simStartPose);
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
         climberSubsystem = new ClimberSubsystem(new ClimberIO() {});
-        configureAutoChooser();
 
         // questNavSubsystem =
         //    new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new
@@ -249,7 +247,6 @@ public class RobotContainer {
                 new ModuleIO() {});
         pathPlannerManager = new PathPlannerManager(swerveDriveSubsystem);
         deflectorSubsystem = new DeflectorSubsystem(new DeflectorIO() {});
-        configureAutoChooser();
 
         // questNavSubsystem =
         //    new QuestNavSubsystem(swerveDriveSubsystem::addVisionMeasurement, new QuestNavIO()
@@ -288,6 +285,9 @@ public class RobotContainer {
                 launchCalculator);
         break;
     }
+    
+    configureAutoChooser();
+    launchCalculator.warmup();
     configureDefaultCommands();
     configureLogicCommands();
   }
@@ -368,59 +368,6 @@ public class RobotContainer {
         new IntakeRollerEject(
             intakeRollerSubsystem,
             () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
-
-    // Launcher
-    // Pose Based Triggers (Beta)
-    //    FieldConstants.PoseZones.UnderTrenchZone.containsTrigger(swerveDriveSubsystem::getPose)
-    //        .whileTrue(
-    //            new DeflectorRunToPosition(
-    //                deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
-    //    // Alliance Zones
-    //    FieldConstants.PoseZones.AllianceZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
-    //        .and(RobotModeTriggers.teleop())
-    //        .and(
-    //            () ->
-    //                DriverStation.getAlliance()
-    //                    .orElse(DriverStation.Alliance.Blue)
-    //                    .equals(DriverStation.Alliance.Blue))
-    //        .whileTrue(
-    //            new LauncherTargetHubDynamic(
-    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    //    FieldConstants.PoseZones.AllianceZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
-    //        .and(RobotModeTriggers.teleop())
-    //        .and(
-    //            () ->
-    //                DriverStation.getAlliance()
-    //                    .orElse(DriverStation.Alliance.Blue)
-    //                    .equals(DriverStation.Alliance.Red))
-    //        .whileTrue(
-    //            new LauncherTargetHubDynamic(
-    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    //    // Passing Zones
-    //    FieldConstants.PoseZones.PassingZoneBlue.containsTrigger(swerveDriveSubsystem::getPose)
-    //        .and(RobotModeTriggers.teleop())
-    //        .and(
-    //            () ->
-    //                DriverStation.getAlliance()
-    //                    .orElse(DriverStation.Alliance.Blue)
-    //                    .equals(DriverStation.Alliance.Blue))
-    //        .whileTrue(
-    //            new LauncherTargetPassingDynamic(
-    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    //    FieldConstants.PoseZones.PassingZoneRed.containsTrigger(swerveDriveSubsystem::getPose)
-    //        .and(RobotModeTriggers.teleop())
-    //        .and(
-    //            () ->
-    //                DriverStation.getAlliance()
-    //                    .orElse(DriverStation.Alliance.Blue)
-    //                    .equals(DriverStation.Alliance.Red))
-    //        .whileTrue(
-    //            new LauncherTargetPassingDynamic(
-    //                deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator));
-    //
-    //    turretAimShoot.whileTrue(
-    //        new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
-
     // Buttons
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
