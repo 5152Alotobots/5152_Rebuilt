@@ -43,7 +43,7 @@ public class RollerConstants {
   /** Contains position setpoints for different roller states. */
   public static final class Setpoints {
     public static final class OpenLoop {
-      public static final double JOSTLE = .75;
+      public static final double JOSTLE = 1;
     }
   }
 }

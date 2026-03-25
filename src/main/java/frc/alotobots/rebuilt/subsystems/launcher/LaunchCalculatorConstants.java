@@ -83,7 +83,7 @@ public final class LaunchCalculatorConstants {
 
       LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.749), Degrees.of(60.88));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(2.749), RotationsPerSecond.of(35.0));
-      
+
       // NEW POINTS
       LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.202626), Degrees.of(65.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(2.202626), RotationsPerSecond.of(32.500000));

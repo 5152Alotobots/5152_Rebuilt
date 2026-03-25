@@ -47,7 +47,7 @@ public class BeltConstants {
   /** Contains position setpoints for different wrist states. */
   public static final class Setpoints {
     // Different setpoints would go here. Still coming up with a naming scheme
-    public static final AngularVelocity LOAD_INTO_SHOOTER_VELOCITY = RotationsPerSecond.of(90);
-    public static final AngularVelocity LOAD_OUT_OF_SHOOTER_VELOCITY = RotationsPerSecond.of(-90);
+    public static final AngularVelocity LOAD_INTO_SHOOTER_VELOCITY = RotationsPerSecond.of(100);
+    public static final AngularVelocity LOAD_OUT_OF_SHOOTER_VELOCITY = RotationsPerSecond.of(-100);
   }
 }
