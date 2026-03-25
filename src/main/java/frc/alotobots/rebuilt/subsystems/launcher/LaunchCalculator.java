@@ -436,4 +436,30 @@ public class LaunchCalculator {
   public static Time getMaxPassingFuelTimeOfFlight() {
     return (Time) FUEL_PASSING_TIME_OF_FLIGHT_MAP.get(MAXIMUM_PASSING_SHOOTING_DISTANCE);
   }
+
+  /**
+   * Warms up the JIT compiler by running all calculation paths with dummy data.
+   * Call once during robotInit() before match start to prevent loop overruns.
+   */
+  public void warmup() {
+    // Run hub path
+    getHubTargetParameters();
+    clearHubLaunchingParameters();
+
+    // Run passing path
+    getPassingTargetParameters();
+    clearPassingLaunchingParameters();
+
+    // Flush historical state so warmup doesn't poison first real cycle's velocity estimates
+    lastHubTurretAngle = null;
+    lastHubDeflectorAngle = null;
+    lastPassingTurretAngle = null;
+    lastPassingDeflectorAngle = null;
+
+    // Flush filters
+    hubTurretAngleFilter.reset();
+    hubDeflectorAngleFilter.reset();
+    passingTurretAngleFilter.reset();
+    passingDeflectorAngleFilter.reset();
+  }
 }
