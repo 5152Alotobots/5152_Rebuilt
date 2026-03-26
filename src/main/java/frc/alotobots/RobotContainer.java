@@ -140,7 +140,9 @@ public class RobotContainer {
                 new AprilTagIOPhotonVision(
                     AprilTagConstants.CAMERA_CONFIGS[1], swerveDriveSubsystem::getRotation),
                 new AprilTagIOPhotonVision(
-                    AprilTagConstants.CAMERA_CONFIGS[2], swerveDriveSubsystem::getRotation));
+                    AprilTagConstants.CAMERA_CONFIGS[2], swerveDriveSubsystem::getRotation),
+                new AprilTagIOPhotonVision(
+                    AprilTagConstants.CAMERA_CONFIGS[3], swerveDriveSubsystem::getRotation));
         climberSubsystem = new ClimberSubsystem(new ClimberIOTalonFX());
         // blingSubsystem = new BlingSubsystem(new BlingIOCANdle());
         turretSubsystem = new TurretSubsystem(new TurretIOTalonFXS());
@@ -285,7 +287,7 @@ public class RobotContainer {
                 launchCalculator);
         break;
     }
-    
+
     configureAutoChooser();
     launchCalculator.warmup();
     configureDefaultCommands();

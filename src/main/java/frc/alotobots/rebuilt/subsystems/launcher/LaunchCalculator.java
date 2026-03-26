@@ -438,8 +438,8 @@ public class LaunchCalculator {
   }
 
   /**
-   * Warms up the JIT compiler by running all calculation paths with dummy data.
-   * Call once during robotInit() before match start to prevent loop overruns.
+   * Warms up the JIT compiler by running all calculation paths with dummy data. Call once during
+   * robotInit() before match start to prevent loop overruns.
    */
   public void warmup() {
     // Run hub path

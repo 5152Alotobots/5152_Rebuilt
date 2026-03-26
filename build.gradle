@@ -40,14 +40,14 @@ deploy {
                     jvmArgs.add("-XX:GCTimeRatio=5")
                     jvmArgs.add("-XX:+UseSerialGC")
                     jvmArgs.add("-XX:MaxGCPauseMillis=50")
-                    
-                   // Enable VisualVM connection COMMENT THIS OUT
-                   jvmArgs.add("-Dcom.sun.management.jmxremote=true")
-                   jvmArgs.add("-Dcom.sun.management.jmxremote.port=1198")
-                   jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")
-                   jvmArgs.add("-Dcom.sun.management.jmxremote.ssl=false")
-                   jvmArgs.add("-Dcom.sun.management.jmxremote.authenticate=false")
-                   jvmArgs.add("-Djava.rmi.server.hostname=10.51.52.2")
+
+                    // Enable VisualVM connection COMMENT THIS OUT
+                    jvmArgs.add("-Dcom.sun.management.jmxremote=true")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.port=1198")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.local.only=false")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.ssl=false")
+                    jvmArgs.add("-Dcom.sun.management.jmxremote.authenticate=false")
+                    jvmArgs.add("-Djava.rmi.server.hostname=10.51.52.2")
                 }
 
                 // Static files artifact
