@@ -75,7 +75,7 @@ public class AprilTagConstants {
   // Standard deviation multipliers for each camera
   // (Adjust to trust some cameras more than others)
   // SHOULD NEVER BE LESS THAN 1.0, NUMBERS GREATER THAN 1 = TRUST LESS
-  public static double[] CAMERA_STD_DEV_FACTORS = new double[] {1.0, 1.0};
+  public static double[] CAMERA_STD_DEV_FACTORS = new double[] {1.0, 1.0, 1.0, 1.0};
 
   // Basic Filtering
   public static double MULTITAG_MAX_AMBIGUITY = 0.3;

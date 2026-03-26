@@ -44,6 +44,7 @@ public class RollerConstants {
   public static final class Setpoints {
     public static final class OpenLoop {
       public static final double JOSTLE = 1;
+      public static final double UNJAM = -1;
     }
   }
 }

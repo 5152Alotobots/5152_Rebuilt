@@ -100,13 +100,18 @@
     {
       "name": "DeployIntakeAndIntake",
       "waypointRelativePos": 1.2745762711864412,
-      "endWaypointRelativePos": 2.644067796610164,
-      "command": null
+      "endWaypointRelativePos": 2.031060094530722,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeployIntakeAndIntake"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,

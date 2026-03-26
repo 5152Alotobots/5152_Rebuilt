@@ -88,6 +88,8 @@ import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIO;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOSim;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.io.TurretIOTalonFXS;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.commands.DefaultRollerRunOpenLoop;
+import frc.alotobots.rebuilt.subsystems.roller.constants.RollerConstants;
 import frc.alotobots.rebuilt.subsystems.roller.io.RollerIO;
 import frc.alotobots.rebuilt.subsystems.roller.io.RollerIOSparkMax;
 import frc.alotobots.rebuilt.util.hubshift.HubShiftUtil;
@@ -335,6 +337,7 @@ public class RobotContainer {
     RobotModeTriggers.teleop().onTrue(new InstantCommand(HubShiftUtil::initialize));
     // RobotModeTriggers.teleop().whileTrue(new DefaultBlingHubShift(blingSubsystem));
     FieldConstants.PoseZones.UnderTrenchZone.containsTrigger(swerveDriveSubsystem::getPose)
+        .and(RobotModeTriggers.teleop())
         .whileTrue(
             new DeflectorRunToPosition(
                 deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
@@ -373,8 +376,11 @@ public class RobotContainer {
         );
     dumpBalls.whileTrue(
         new IntakeRollerEject(
-            intakeRollerSubsystem,
-            () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE));
+                intakeRollerSubsystem,
+                () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE)
+            .alongWith(
+                new DefaultRollerRunOpenLoop(
+                    rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.UNJAM)));
     // Buttons
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
