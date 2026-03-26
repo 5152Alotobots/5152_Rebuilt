@@ -42,6 +42,7 @@ import frc.alotobots.library.subsystems.vision.photonvision.apriltag.AprilTagSub
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.constants.AprilTagConstants;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIO;
 import frc.alotobots.library.subsystems.vision.photonvision.apriltag.io.AprilTagIOPhotonVision;
+import frc.alotobots.rebuilt.FieldConstants;
 import frc.alotobots.rebuilt.commands.groups.*;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
@@ -333,6 +334,10 @@ public class RobotContainer {
     // General
     RobotModeTriggers.teleop().onTrue(new InstantCommand(HubShiftUtil::initialize));
     // RobotModeTriggers.teleop().whileTrue(new DefaultBlingHubShift(blingSubsystem));
+    FieldConstants.PoseZones.UnderTrenchZone.containsTrigger(swerveDriveSubsystem::getPose)
+        .whileTrue(
+            new DeflectorRunToPosition(
+                deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
 
     // Swerve
     lockWheels.onTrue(new InstantCommand(swerveDriveSubsystem::stopWithX));
