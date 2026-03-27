@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.309119676643049,
-        "y": 7.3596986924321195
+        "x": 3.930454350028711,
+        "y": 7.272797251764326
       },
       "isLocked": false,
       "linkedName": "DepotStart"
@@ -20,28 +20,12 @@
         "y": 7.340827389443652
       },
       "prevControl": {
-        "x": 4.588931657052456,
-        "y": 7.628093314356223
+        "x": 4.124209947100304,
+        "y": 7.627105771890833
       },
       "nextControl": {
-        "x": 6.7958437583607365,
-        "y": 7.2146119788757375
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.358821428571429,
-        "y": 3.9864107142857144
-      },
-      "prevControl": {
-        "x": 6.647723765340176,
-        "y": 5.819606598262183
-      },
-      "nextControl": {
-        "x": 6.314332961669562,
-        "y": 3.7041143669418477
+        "x": 6.70701809550284,
+        "y": 7.2570295652943235
       },
       "isLocked": false,
       "linkedName": null
@@ -49,15 +33,31 @@
     {
       "anchor": {
         "x": 6.122182596291013,
-        "y": 7.221756756756756
+        "y": 4.0866809116809115
       },
       "prevControl": {
-        "x": 7.258044155124014,
-        "y": 6.035341101732099
+        "x": 6.306125356125356,
+        "y": 4.293404558404559
       },
       "nextControl": {
-        "x": 5.941040552991956,
-        "y": 7.410960937743351
+        "x": 5.6946978728061115,
+        "y": 3.6062531903776383
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.008960113960114,
+        "y": 7.340827389443652
+      },
+      "prevControl": {
+        "x": 6.270061758973204,
+        "y": 6.65680496404804
+      },
+      "nextControl": {
+        "x": 5.892299797834809,
+        "y": 7.646448874055322
       },
       "isLocked": false,
       "linkedName": null
@@ -68,8 +68,8 @@
         "y": 7.221756756756756
       },
       "prevControl": {
-        "x": 3.9360364246108617,
-        "y": 7.531570876242437
+        "x": 3.8730709444156726,
+        "y": 7.466308887775215
       },
       "nextControl": null,
       "isLocked": false,
@@ -100,13 +100,18 @@
     {
       "name": "DeployIntakeAndIntake",
       "waypointRelativePos": 1.2745762711864412,
-      "endWaypointRelativePos": 2.644067796610164,
-      "command": null
+      "endWaypointRelativePos": 2.031060094530722,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeployIntakeAndIntake"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,

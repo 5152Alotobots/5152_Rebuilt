@@ -24,7 +24,7 @@ public class DeflectorVortexConstants {
     /** Vortex-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
       /** Position control proportional gain */
-      public static final double DEFLECTOR_POSITION_KP = 0.4;
+      public static final double DEFLECTOR_POSITION_KP = 0.8;
 
       /** Position control integral gain */
       public static final double DEFLECTOR_POSITION_KI = 0.0;
@@ -36,7 +36,7 @@ public class DeflectorVortexConstants {
       public static final double DEFLECTOR_POSITION_KG = 0.0;
 
       /** The allowed closed-loop error in rotations */
-      public static final double DEFLECTOR_POSITION_ALLOWED_CLOSED_LOOP_ERROR = 0.1;
+      public static final double DEFLECTOR_POSITION_ALLOWED_CLOSED_LOOP_ERROR = 0.02;
     }
 
     /** Vortex-specific PID and motion control constants for velocity (Velocity mode). */
@@ -78,7 +78,7 @@ public class DeflectorVortexConstants {
   public static final SensorDirectionValue DEFLECTOR_ENCODER_SENSOR_DIRECTION =
       SensorDirectionValue.Clockwise_Positive;
 
-  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = 0.453125;
+  public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = -0.486572265625;
   public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 0.5;
 
   /**

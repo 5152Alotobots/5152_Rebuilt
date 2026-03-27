@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
+import frc.alotobots.util.PoseZone;
 import java.io.IOException;
 import java.nio.file.Path;
 import lombok.Getter;
@@ -310,6 +311,29 @@ public class FieldConstants {
     // Relevant reference points on alliance side
     public static final Translation2d centerPoint =
         new Translation2d(0, AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(29).get().getY());
+  }
+
+  public static class PoseZones {
+    public static final PoseZone UnderTrenchZone =
+        PoseZone.of(
+            new PoseZone.Box(
+                new Translation2d(4.1, 8), new Translation2d(5.1, 6.800)), // Blue Depot
+            new PoseZone.Box(
+                new Translation2d(4.1, 1.3), new Translation2d(5.1, 0)), // Blue Outpost
+            new PoseZone.Box(new Translation2d(4.1, 8), new Translation2d(5.1, 6.800))
+                .flip(), // Red Depot
+            new PoseZone.Box(new Translation2d(4.1, 1.3), new Translation2d(5.1, 0))
+                .flip() // Red Outpost
+            );
+    public static final PoseZone AllianceZoneBlue =
+        PoseZone.of(new PoseZone.Box(new Translation2d(0, 0), new Translation2d(4, 8.1)));
+    public static final PoseZone AllianceZoneRed =
+        PoseZone.of(new PoseZone.Box(new Translation2d(0, 0), new Translation2d(4, 8.1)).flip());
+    public static final PoseZone PassingZoneBlue =
+        PoseZone.of(new PoseZone.Box(new Translation2d(4, 8.1), new Translation2d(16.552, 0)));
+    public static final PoseZone PassingZoneRed =
+        PoseZone.of(
+            new PoseZone.Box(new Translation2d(4, 8.1), new Translation2d(16.552, 0)).flip());
   }
 
   @RequiredArgsConstructor

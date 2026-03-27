@@ -144,7 +144,8 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     // Switch thread to high priority to improve loop timing
-    Threads.setCurrentThreadPriority(true, 99);
+    // AKit has this set to 99 by default, this starves the CAN thread
+    Threads.setCurrentThreadPriority(true, 1);
 
     CommandScheduler.getInstance().run();
 

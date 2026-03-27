@@ -25,7 +25,7 @@ public class ShooterConstants {
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at velocity" */
     public static final AngularVelocity SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD =
-        RotationsPerSecond.of(4);
+        RotationsPerSecond.of(2.5);
 
     /** How long the flywheel must be "at velocity" to classify as "at velocity" */
     public static final Time SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.2);

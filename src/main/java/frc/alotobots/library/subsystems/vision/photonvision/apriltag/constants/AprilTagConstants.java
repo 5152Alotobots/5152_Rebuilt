@@ -35,6 +35,10 @@ public class AprilTagConstants {
         new Transform3d(
             new Translation3d(0.34, 0.24, 0.495),
             new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(-15))),
+        // Front (Back) Right NEEDS CALIBRATION
+        new Transform3d(
+            new Translation3d(-0.276225, -0.3048, 0.19),
+            new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(-80.6))),
         // Back Left
         new Transform3d(
             new Translation3d(-0.305, 0.29, 0.19),
@@ -48,8 +52,9 @@ public class AprilTagConstants {
   // CAMERAS
   public static final CameraConfig[] CAMERA_CONFIGS = {
     new CameraConfig("FL_AprilTag", CAMERA_OFFSETS[0], new SimCameraProperties()),
-    new CameraConfig("BL_AprilTag", CAMERA_OFFSETS[1], new SimCameraProperties()),
-    new CameraConfig("BR_AprilTag", CAMERA_OFFSETS[2], new SimCameraProperties())
+    new CameraConfig("FR_AprilTag", CAMERA_OFFSETS[1], new SimCameraProperties()),
+    new CameraConfig("BL_AprilTag", CAMERA_OFFSETS[2], new SimCameraProperties()),
+    new CameraConfig("BR_AprilTag", CAMERA_OFFSETS[3], new SimCameraProperties())
   };
 
   /*
@@ -70,7 +75,7 @@ public class AprilTagConstants {
   // Standard deviation multipliers for each camera
   // (Adjust to trust some cameras more than others)
   // SHOULD NEVER BE LESS THAN 1.0, NUMBERS GREATER THAN 1 = TRUST LESS
-  public static double[] CAMERA_STD_DEV_FACTORS = new double[] {1.0, 1.0};
+  public static double[] CAMERA_STD_DEV_FACTORS = new double[] {1.0, 1.0, 1.0, 1.0};
 
   // Basic Filtering
   public static double MULTITAG_MAX_AMBIGUITY = 0.3;
