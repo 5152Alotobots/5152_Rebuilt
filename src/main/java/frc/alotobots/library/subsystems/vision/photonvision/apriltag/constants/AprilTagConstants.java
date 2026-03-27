@@ -46,7 +46,7 @@ public class AprilTagConstants {
         // Back Right
         new Transform3d(
             new Translation3d(-0.335, -0.245, 0.19),
-            new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(147)))
+            new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(163)))
       };
 
   // CAMERAS
