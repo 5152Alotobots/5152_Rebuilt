@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 7.751714285714286,
-        "y": 0.7471249999999998
+        "x": 7.524380630630631,
+        "y": 0.7358896396396404
       },
       "prevControl": {
-        "x": 6.611654686581889,
-        "y": 0.005969649699203883
+        "x": 5.703668597168598,
+        "y": 0.3671655405405417
       },
       "nextControl": {
-        "x": 8.57647157559502,
-        "y": 1.2833015986268423
+        "x": 8.488530491222608,
+        "y": 0.9311458263455166
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 3.7434642857142855
       },
       "prevControl": {
-        "x": 7.666209181318718,
-        "y": 3.1921713160761103
+        "x": 7.994604646550265,
+        "y": 3.8026611827019487
       },
       "nextControl": {
-        "x": 7.831255338849096,
-        "y": 4.256304117918624
+        "x": 7.247501534808823,
+        "y": 3.6205782635086825
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +52,12 @@
         "y": 0.568964285714286
       },
       "prevControl": {
-        "x": 7.145742216989764,
-        "y": 0.8425904661436573
+        "x": 7.179909074232453,
+        "y": 0.5659686652701843
       },
       "nextControl": {
-        "x": 4.795001097845808,
-        "y": 0.24616000094005525
+        "x": 4.766610360360361,
+        "y": 0.5724662162162165
       },
       "isLocked": false,
       "linkedName": null
@@ -97,12 +97,17 @@
       "name": "DeployIntakeAndIntake",
       "waypointRelativePos": 0.7050847457627119,
       "endWaypointRelativePos": 2.4949152542372848,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeployIntakeAndIntake"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,

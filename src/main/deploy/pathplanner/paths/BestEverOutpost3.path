@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.632860360360361,
-        "y": 0.8584572072072083
+        "x": 2.396970720720721,
+        "y": 0.5724662162162165
       },
       "isLocked": false,
       "linkedName": "OutpostStart"
@@ -20,8 +20,8 @@
         "y": 2.748040540540541
       },
       "prevControl": {
-        "x": 0.0385135135135144,
-        "y": 2.748040540540541
+        "x": 0.37460585585585626,
+        "y": 1.8900675675675678
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
