@@ -36,60 +36,9 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "LauncherTargetHubDynamicAndShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 5.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ClimbDown"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "BestEverOutpost3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ClimbUp"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LauncherTargetHubDynamicAndShoot"
-                }
-              }
-            ]
+            "name": "ClimbUp"
           }
         }
       ]

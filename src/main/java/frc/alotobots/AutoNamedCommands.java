@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
 import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetPassingDynamicAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
 import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
@@ -97,6 +98,16 @@ public class AutoNamedCommands {
     commands.put(
         "LauncherTargetHubDynamicAndShoot",
         new LauncherTargetHubDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            rollerSubsystem,
+            launchCalculator));
+    commands.put(
+        "LauncherTargetPassingDynamicAndShoot",
+        new LauncherTargetPassingDynamicAndShoot(
             deflectorSubsystem,
             shooterSubsystem,
             turretSubsystem,

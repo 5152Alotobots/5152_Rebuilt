@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.882857940425487,
-        "y": 0.859557189743884
+        "x": 3.864738096806138,
+        "y": 0.9519062058149137
       },
       "isLocked": false,
       "linkedName": "OutpostStart"
     },
     {
       "anchor": {
-        "x": 7.524380630630631,
-        "y": 0.7358896396396404
+        "x": 7.532496433666189,
+        "y": 1.1820256776034261
       },
       "prevControl": {
-        "x": 5.703668597168598,
-        "y": 0.3671655405405417
+        "x": 5.702039374000968,
+        "y": 0.2311567138132098
       },
       "nextControl": {
-        "x": 8.488530491222608,
-        "y": 0.9311458263455166
+        "x": 8.640398256673217,
+        "y": 1.757548306152089
       },
       "isLocked": false,
       "linkedName": null
@@ -36,28 +36,28 @@
         "y": 3.7434642857142855
       },
       "prevControl": {
-        "x": 7.994604646550265,
-        "y": 3.8026611827019487
+        "x": 8.666079563473978,
+        "y": 3.9812218367536
       },
       "nextControl": {
-        "x": 7.247501534808823,
-        "y": 3.6205782635086825
+        "x": 6.528490718226105,
+        "y": 3.4253959525727056
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.067285714285714,
-        "y": 0.568964285714286
+        "x": 6.1351212553495005,
+        "y": 1.0267617689015696
       },
       "prevControl": {
-        "x": 7.179909074232453,
-        "y": 0.5659686652701843
+        "x": 7.164447838402429,
+        "y": 1.8808856665095728
       },
       "nextControl": {
-        "x": 4.766610360360361,
-        "y": 0.5724662162162165
+        "x": 5.339664819824967,
+        "y": 0.366700752044835
       },
       "isLocked": false,
       "linkedName": null
@@ -68,8 +68,8 @@
         "y": 0.8584572072072081
       },
       "prevControl": {
-        "x": 5.406697650896722,
-        "y": 0.781905536826452
+        "x": 4.4342407067409555,
+        "y": 0.3983965553543415
       },
       "nextControl": null,
       "isLocked": false,
@@ -103,11 +103,22 @@
           "name": "DeployIntakeAndIntake"
         }
       }
+    },
+    {
+      "name": "LauncherTargetPassingDynamicAndShoot",
+      "waypointRelativePos": 1.363814500326574,
+      "endWaypointRelativePos": 3.1717831482691548,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetPassingDynamicAndShoot"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 5.2,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
