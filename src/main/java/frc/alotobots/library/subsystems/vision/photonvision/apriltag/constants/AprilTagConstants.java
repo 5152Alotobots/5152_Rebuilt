@@ -35,10 +35,10 @@ public class AprilTagConstants {
         new Transform3d(
             new Translation3d(0.34, 0.24, 0.495),
             new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(-15))),
-        // Front (Back) Right NEEDS CALIBRATION
+        // Front (Back) Right NEEDS CALIBRATION TODO: RECALIBRATE WITH NEW MOUNT
         new Transform3d(
             new Translation3d(-0.276225, -0.3048, 0.19),
-            new Rotation3d(Math.toRadians(0), Math.toRadians(-20), Math.toRadians(-80.6))),
+            new Rotation3d(Math.toRadians(0), Math.toRadians(-15.8), Math.toRadians(-80.6))),
         // Back Left
         new Transform3d(
             new Translation3d(-0.305, 0.29, 0.19),
