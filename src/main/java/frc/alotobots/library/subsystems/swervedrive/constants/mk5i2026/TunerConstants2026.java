@@ -17,6 +17,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -118,7 +119,13 @@ public class TunerConstants2026 implements TunerConstants {
 
     private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
     // Configs for the Pigeon 2; leave this null to skip applying Pigeon 2 configs
-    private static final Pigeon2Configuration pigeonConfigs = null;
+    private static final Pigeon2Configuration pigeonConfigs =
+        new Pigeon2Configuration()
+            .withMountPose(
+                new MountPoseConfigs()
+                    .withMountPosePitch(Degrees.of(-3.599834442138672))
+                    .withMountPoseRoll(Degrees.of(-178.92837524414062))
+                    .withMountPoseYaw(Degrees.of(85.9131851196289)));
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus

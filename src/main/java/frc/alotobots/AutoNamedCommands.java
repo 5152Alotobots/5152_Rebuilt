@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
 import frc.alotobots.rebuilt.commands.groups.LauncherTargetHubDynamicAndShoot;
+import frc.alotobots.rebuilt.commands.groups.LauncherTargetPassingDynamicAndShoot;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.climber.ClimberSubsystem;
 import frc.alotobots.rebuilt.subsystems.climber.commands.ClimberRunToExtension;
@@ -30,6 +31,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
+import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +45,7 @@ public class AutoNamedCommands {
   private final ShooterSubsystem shooterSubsystem;
   private final KickerSubsystem kickerSubsystem;
   private final BeltSubsystem beltSubsystem;
+  private final RollerSubsystem rollerSubsystem;
   private final ClimberSubsystem climberSubsystem;
   private final LaunchCalculator launchCalculator;
 
@@ -56,6 +59,7 @@ public class AutoNamedCommands {
       ShooterSubsystem shooterSubsystem,
       KickerSubsystem kickerSubsystem,
       BeltSubsystem beltSubsystem,
+      RollerSubsystem rollerSubsystem,
       ClimberSubsystem climberSubsystem,
       LaunchCalculator launchCalculator) {
 
@@ -67,6 +71,7 @@ public class AutoNamedCommands {
     this.shooterSubsystem = shooterSubsystem;
     this.kickerSubsystem = kickerSubsystem;
     this.beltSubsystem = beltSubsystem;
+    this.rollerSubsystem = rollerSubsystem;
     this.climberSubsystem = climberSubsystem;
     this.launchCalculator = launchCalculator;
     registerCommands();
@@ -98,6 +103,17 @@ public class AutoNamedCommands {
             turretSubsystem,
             kickerSubsystem,
             beltSubsystem,
+            rollerSubsystem,
+            launchCalculator));
+    commands.put(
+        "LauncherTargetPassingDynamicAndShoot",
+        new LauncherTargetPassingDynamicAndShoot(
+            deflectorSubsystem,
+            shooterSubsystem,
+            turretSubsystem,
+            kickerSubsystem,
+            beltSubsystem,
+            rollerSubsystem,
             launchCalculator));
     NamedCommands.registerCommands(commands);
   }

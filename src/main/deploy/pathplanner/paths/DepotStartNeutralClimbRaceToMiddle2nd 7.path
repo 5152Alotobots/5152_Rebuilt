@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.592004504504505,
+        "y": 7.221756756756756
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.628744650499286,
+        "y": 6.939728958630528
+      },
+      "isLocked": false,
+      "linkedName": "DepotStart"
+    },
+    {
+      "anchor": {
+        "x": 1.0,
+        "y": 4.65
+      },
+      "prevControl": {
+        "x": 1.0243509272467899,
+        "y": 5.542353780313838
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Depot climb 1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "DepotStartNeutralClimbRaceToMiddle2nd",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}

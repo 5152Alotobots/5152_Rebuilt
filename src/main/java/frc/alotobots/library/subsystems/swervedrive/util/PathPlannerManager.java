@@ -15,7 +15,6 @@ package frc.alotobots.library.subsystems.swervedrive.util;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import com.pathplanner.lib.util.FlippingUtil;
 import com.pathplanner.lib.util.PathPlannerLogging;
@@ -28,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.alotobots.Constants;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
-import frc.alotobots.util.LocalADStarAK;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -64,8 +62,8 @@ public class PathPlannerManager {
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         driveSubsystem);
 
-    // Configure pathfinding
-    Pathfinding.setPathfinder(new LocalADStarAK());
+    // Configure pathfinding (ONLY IF NEEDED)
+    //    Pathfinding.setPathfinder(new LocalADStarAK());
 
     // Setup logging callbacks
     configureLogging();

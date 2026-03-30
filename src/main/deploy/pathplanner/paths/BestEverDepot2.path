@@ -1,0 +1,179 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.592004504504505,
+        "y": 7.221756756756756
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.011425659156373,
+        "y": 7.151885232217134
+      },
+      "isLocked": false,
+      "linkedName": "DepotStart"
+    },
+    {
+      "anchor": {
+        "x": 6.122182596291013,
+        "y": 7.340827389443652
+      },
+      "prevControl": {
+        "x": 5.384679029957203,
+        "y": 7.314950071326677
+      },
+      "nextControl": {
+        "x": 6.941829984470154,
+        "y": 7.369586946923622
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.122182596291013,
+        "y": 4.0866809116809115
+      },
+      "prevControl": {
+        "x": 6.324072522960116,
+        "y": 3.939234455265222
+      },
+      "nextControl": {
+        "x": 5.073959122244271,
+        "y": 4.852230928612924
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.008960113960114,
+        "y": 7.340827389443652
+      },
+      "prevControl": {
+        "x": 6.9157264199574175,
+        "y": 6.739650046364884
+      },
+      "nextControl": {
+        "x": 5.643379009000049,
+        "y": 7.583204147276498
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.592004504504505,
+        "y": 7.221756756756756
+      },
+      "prevControl": {
+        "x": 4.003813710966119,
+        "y": 7.378071225399271
+      },
+      "nextControl": {
+        "x": 3.180195298042891,
+        "y": 7.065442288114241
+      },
+      "isLocked": false,
+      "linkedName": "DepotStart"
+    },
+    {
+      "anchor": {
+        "x": 1.0,
+        "y": 4.65
+      },
+      "prevControl": {
+        "x": 0.4421112696148356,
+        "y": 4.584893009985735
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Depot climb 1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6755292959133409,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 1.4002954209748963,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 2.021390374331551,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 2.7946824224519617,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 4.096573208722708,
+      "rotationDegrees": 180.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "LauncherTargetPassingDynamicAndShoot",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 1.551926845199215,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetPassingDynamicAndShoot"
+        }
+      }
+    },
+    {
+      "name": "DeployIntakeAndIntake",
+      "waypointRelativePos": 1.2745762711864412,
+      "endWaypointRelativePos": 2.031060094530722,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeployIntakeAndIntake"
+        }
+      }
+    },
+    {
+      "name": "LauncherTargetHubDynamicAndShoot",
+      "waypointRelativePos": 3.8602220770737548,
+      "endWaypointRelativePos": 4.853037230568237,
+      "command": null
+    },
+    {
+      "name": "ClimbDown",
+      "waypointRelativePos": 4.408883082952292,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ClimbDown"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "BestEver",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}
