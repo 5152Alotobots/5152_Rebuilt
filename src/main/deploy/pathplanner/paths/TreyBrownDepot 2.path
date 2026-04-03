@@ -1,0 +1,161 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.508573466476462,
+        "y": 7.340827389443652
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.671393394519248,
+        "y": 7.485678948899583
+      },
+      "isLocked": false,
+      "linkedName": "TreyBrownDepotEnd"
+    },
+    {
+      "anchor": {
+        "x": 5.863409415121255,
+        "y": 7.340827389443652
+      },
+      "prevControl": {
+        "x": 5.677991730670113,
+        "y": 7.50851842168085
+      },
+      "nextControl": {
+        "x": 6.866413943294925,
+        "y": 6.433713997504244
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.863409415121255,
+        "y": 4.701340941512126
+      },
+      "prevControl": {
+        "x": 5.340084149382346,
+        "y": 5.604885203395326
+      },
+      "nextControl": {
+        "x": 6.619062272980105,
+        "y": 3.3966727964915053
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.053766048502139,
+        "y": 7.237318116975749
+      },
+      "prevControl": {
+        "x": 9.627298644276463,
+        "y": 5.8939494912986765
+      },
+      "nextControl": {
+        "x": 6.327999915659403,
+        "y": 7.616163698353187
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5252353780364145,
+        "y": 7.094992867325918
+      },
+      "prevControl": {
+        "x": 3.4695474031661355,
+        "y": 7.505843263780331
+      },
+      "nextControl": {
+        "x": 1.5448307475788132,
+        "y": 6.66843933375854
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.0,
+        "y": 4.65
+      },
+      "prevControl": {
+        "x": 1.4303659727394846,
+        "y": 5.275934634176829
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Depot climb 1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.1792220580994428,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 3.4342688330871454,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "DeployIntakeAndIntake",
+      "waypointRelativePos": 1.0849633251833877,
+      "endWaypointRelativePos": 2.625305623471907,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeployIntakeAndIntake"
+        }
+      }
+    },
+    {
+      "name": "LauncherTargetHubDynamicAndShoot",
+      "waypointRelativePos": 3.5421760391198287,
+      "endWaypointRelativePos": 5.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetPassingDynamicAndShoot"
+        }
+      }
+    },
+    {
+      "name": "ClimbUp",
+      "waypointRelativePos": 4.190097799510953,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ClimbDown"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "BestEver",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": false
+}
