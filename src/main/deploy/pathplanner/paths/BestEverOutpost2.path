@@ -8,56 +8,56 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.237089285714285,
-        "y": 0.7471249999999998
+        "x": 3.8825311371217235,
+        "y": 0.8456313258972195
       },
       "isLocked": false,
       "linkedName": "OutpostStart"
     },
     {
       "anchor": {
-        "x": 6.342624999999999,
-        "y": 0.6823392857142858
+        "x": 5.682268188302425,
+        "y": 0.7032952924393738
       },
       "prevControl": {
-        "x": 6.373039176151851,
-        "y": 0.4341962263936509
+        "x": 5.108845854292772,
+        "y": 0.7807847970352731
       },
       "nextControl": {
-        "x": 6.155032165695351,
-        "y": 2.21287095550438
+        "x": 6.639728958630529,
+        "y": 0.5739087018544944
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.2130535714285715,
-        "y": 3.7434642857142855
+        "x": 5.966918687589158,
+        "y": 3.795634807417975
       },
       "prevControl": {
-        "x": 5.900296551611889,
-        "y": 3.7879854649737092
+        "x": 6.510342368045649,
+        "y": 3.9897146932952925
       },
       "nextControl": {
-        "x": 6.74811936936937,
-        "y": 3.6672972972972975
+        "x": 5.280876538014768,
+        "y": 3.5506197539985505
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.2130535714285715,
-        "y": 0.6823392857142858
+        "x": 5.966918687589158,
+        "y": 0.7032952924393738
       },
       "prevControl": {
-        "x": 7.145034576462375,
-        "y": 0.8895169762017892
+        "x": 6.524675549860129,
+        "y": 1.1002845130547756
       },
       "nextControl": {
-        "x": 5.633829868171005,
-        "y": 0.5535789049035534
+        "x": 5.65913216774774,
+        "y": 0.4842250507389502
       },
       "isLocked": false,
       "linkedName": null
@@ -68,21 +68,37 @@
         "y": 0.8584572072072081
       },
       "prevControl": {
-        "x": 5.225071428571429,
-        "y": 0.63375
+        "x": 5.0323657392560746,
+        "y": 0.6991320468592708
+      },
+      "nextControl": {
+        "x": 2.2333549814646476,
+        "y": 1.0177823675551454
+      },
+      "isLocked": false,
+      "linkedName": "OutpostStart"
+    },
+    {
+      "anchor": {
+        "x": 1.0385135135135142,
+        "y": 2.748040540540541
+      },
+      "prevControl": {
+        "x": 0.4679885877318113,
+        "y": 2.7605420827389446
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "OutpostStart"
+      "linkedName": "Outpost Climb 1"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.93,
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 1.1764705882352962,
+      "waypointRelativePos": 1.250259605399785,
       "rotationDegrees": 90.0
     },
     {
@@ -107,11 +123,44 @@
           "name": "DeployIntakeAndIntake"
         }
       }
+    },
+    {
+      "name": "LauncherTargetPassingDynamicAndShoot",
+      "waypointRelativePos": 0.7681254082299024,
+      "endWaypointRelativePos": 2.5930764206400854,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetPassingDynamicAndShoot"
+        }
+      }
+    },
+    {
+      "name": "LauncherTargetHubDynamicAndShoot",
+      "waypointRelativePos": 3.9908556499019787,
+      "endWaypointRelativePos": 5.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetHubDynamicAndShoot"
+        }
+      }
+    },
+    {
+      "name": "ClimbDown",
+      "waypointRelativePos": 4.317439581972533,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ClimbDown"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
@@ -127,5 +176,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

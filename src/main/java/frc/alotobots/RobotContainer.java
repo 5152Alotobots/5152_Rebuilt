@@ -412,7 +412,10 @@ public class RobotContainer {
     // Climber
     toggleClimber.onTrue(
         new ConditionalCommand(
-            new ClimberUpWithTurretSafety(climberSubsystem, turretSubsystem),
+            // Maddox asked me to disable this 3/28/26
+            // new ClimberUpWithTurretSafety(climberSubsystem, turretSubsystem),
+            new ClimberRunToExtension(
+                climberSubsystem, ClimberConstants.Limits.MAX_CLIMB_EXTENSION),
             new ClimberRunToExtension(
                 climberSubsystem, ClimberConstants.Limits.MIN_CLIMB_EXTENSION),
             () -> {

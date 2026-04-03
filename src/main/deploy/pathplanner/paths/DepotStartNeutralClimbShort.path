@@ -8,30 +8,30 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1834,
-        "y": 6.909611111111111
+        "x": 4.947144444444445,
+        "y": 7.562488888888888
       },
       "isLocked": false,
       "linkedName": "DepotStart"
     },
     {
       "anchor": {
-        "x": 1.0,
-        "y": 4.65
+        "x": 6.918,
+        "y": 7.15025900900901
       },
       "prevControl": {
-        "x": 0.0,
-        "y": 4.65
+        "x": 5.918,
+        "y": 7.15025900900901
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot climb 1"
+      "linkedName": "Neutral Zone Depot 3"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5481283422459897,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.264294282287087,
+      "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [],
@@ -47,10 +47,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "BestEver",
+  "folder": "DepotStartNeutralClimbGRT",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
