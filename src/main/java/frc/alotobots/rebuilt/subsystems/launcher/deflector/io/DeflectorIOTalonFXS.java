@@ -12,15 +12,21 @@
 */
 package frc.alotobots.rebuilt.subsystems.launcher.deflector.io;
 
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static frc.alotobots.Constants.CanId.DEFAULT_CAN_FREQUENCY;
 import static frc.alotobots.Constants.CanId.RIO_CAN_BUS;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE;
+import static frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorTalonFXSConstants.DEFLECTOR_ROTATION_PER_ROTATION;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.ControlModeValue;
@@ -36,17 +42,24 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.alotobots.Constants;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorTalonFXSConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorTalonFXSConstants.PIDConstants;
 import frc.alotobots.util.PhoenixUtil;
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
+
 import org.littletonrobotics.junction.Logger;
 
 public class DeflectorIOTalonFXS implements DeflectorIO {
   private final TalonFXS deflectorMotor;
+  private final CANcoder deflectorEncoder;
+
   private final PositionVoltage positionControl = new PositionVoltage(0);
   private final VelocityVoltage velocityControl = new VelocityVoltage(0);
 
-  private final DigitalInput backLimitSwitch;
-  private final Debouncer backLimitDebouncer;
+  // private final DigitalInput backLimitSwitch;
+  // private final Debouncer backLimitDebouncer;
   private final Debouncer deflectorMotorConnectedDebouncer;
+  private final Debouncer deflectorEncoderConnectedDebouncer;
 
   private StatusSignal<Angle> deflectorMotorPosition;
   private StatusSignal<AngularVelocity> deflectorMotorVelocity;
@@ -58,19 +71,27 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
 
   public DeflectorIOTalonFXS() {
     deflectorMotor = new TalonFXS(Constants.CanId.DEFLECTOR_MOTOR_CAN_ID, RIO_CAN_BUS);
-    deflectorMotorConnectedDebouncer = new Debouncer(0.5);
-    backLimitDebouncer = new Debouncer(0.1);
-    backLimitSwitch = new DigitalInput(0);
+    deflectorEncoder = new CANcoder(Constants.CanId.DEFLECTOR_ENCODER_CAN_ID, RIO_CAN_BUS);
+    deflectorMotorConnectedDebouncer = new Debouncer(0.1);
+    deflectorEncoderConnectedDebouncer = new Debouncer(0.1);
+    // backLimitDebouncer = new Debouncer(0.1);
+    // backLimitSwitch = new DigitalInput(0);
 
     var deflectorMotorConfig = new TalonFXSConfiguration();
     deflectorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     deflectorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    // Set feed back source to CANcoder
     deflectorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
-        ExternalFeedbackSensorSourceValue.Commutation;
+        ExternalFeedbackSensorSourceValue.RemoteCANcoder;
+    deflectorMotorConfig.ExternalFeedback.withRemoteCANcoder(deflectorEncoder);
+    
+    // Configure controler output for the Minion
     deflectorMotorConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
 
-    // PID Slots config removed here. This is currently not in use. IF IT IS EVER USED THIS MUST BE
-    // CONFIGURED
+    deflectorMotorConfig.Slot0.kP = PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KP;
+    deflectorMotorConfig.Slot0.kI = PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KI;
+    deflectorMotorConfig.Slot0.kD = PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KD;
+    deflectorMotorConfig.Slot0.kG = PIDConstants.PositionPIDConstants.DEFLECTOR_POSITION_KG;
 
     PhoenixUtil.tryUntilOk(
         5, () -> deflectorMotor.getConfigurator().apply(deflectorMotorConfig, 0.25));
@@ -111,7 +132,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     inputs.deflectorMotorPidSlot =
         switch (currentPidSlot.getValue()) {
           case 0 -> PIDSlots.DEFAULT_POSITION;
-          case 1 -> PIDSlots.VELOCITY;
+          // case 1 -> PIDSlots.VELOCITY;
           default -> throw new IllegalArgumentException(
               "No defined PID slot for value: " + currentPidSlot.getValue());
         };
@@ -127,7 +148,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
 
   @Override
   public void setDeflectorPosition(Angle position) {
-    setDeflectorPosition(position, PIDSlots.DEFAULT_POSITION);
+    setDeflectorPosition(deflectorAngleToTalonFXS(position), PIDSlots.DEFAULT_POSITION);
   }
 
   /**
@@ -135,24 +156,24 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
    *
    * @param position The target position for the deflector
    * @param pidSlot The PID slot to use for the control
-   * @throws IllegalArgumentException if position or pidSlot is null, or if pidSlot is invalid
    */
   @Override
   public void setDeflectorPosition(Angle position, PIDSlots pidSlot) {
-
     deflectorMotor.setControl(
-        positionControl.withPosition(position.in(Rotations)).withSlot(pidSlot.ordinal()));
+        positionControl.withPosition(deflectorAngleToTalonFXS(position)).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setDeflectorVelocity(AngularVelocity velocity, PIDSlots pidSlot) {
-    deflectorMotor.setControl(velocityControl.withVelocity(velocity).withSlot(pidSlot.ordinal()));
+    // IF IMPLEMENTED NEED TO CONVERT FROM HOOD VELOCITY TO MOTOR 
+    // deflectorMotor.setControl(velocityControl.withVelocity(velocity).withSlot(pidSlot.ordinal()));
   }
 
   @Override
   public void setDeflectorVelocity(AngularVelocity velocity) {
-    deflectorMotor.setControl(
-        velocityControl.withVelocity(velocity).withSlot(PIDSlots.VELOCITY.ordinal()));
+    // IF IMPLEMENTED NEED TO CONVERT FROM HOOD VELOCITY TO MOTOR 
+    // deflectorMotor.setControl(
+        // velocityControl.withVelocity(velocity).withSlot(PIDSlots.VELOCITY.ordinal()));
   }
 
   @Override
@@ -166,4 +187,85 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
   public void stop() {
     deflectorMotor.stopMotor();
   }
+
+  /**
+   * Converts TalonFXS motor position to deflector angle. Uses regression formula y = SLOPE * x +
+   * MAX_ANGLE where x is motor position in radians and y is deflector angle in radians.
+   *
+   * @param motorPosition TalonFXS motor position as an Angle unit
+   * @return Deflector angle as an Angle unit
+   */
+  private Angle talonFXSToDeflectorAngle(Angle motorPosition) {
+    return Radians.of(
+        DEFLECTOR_ROTATION_PER_ROTATION * motorPosition.in(Radians)
+            + DEFLECTOR_MAX_ANGLE.in(Radians));
+  }
+
+  /**
+   * Converts TalonFXS motor velocity to deflector angular velocity. Uses the slope from the
+   * regression formula y = SLOPE * x + MAX_ANGLE as the conversion factor.
+   *
+   * @param motorVelocity TalonFXS motor rotational velocity as an AngularVelocity unit
+   * @return Deflector angular velocity as an AngularVelocity unit
+   */
+  private AngularVelocity talonFXSToDeflectorAngularVelocity(AngularVelocity motorVelocity) {
+    return RadiansPerSecond.of(
+        motorVelocity.in(RadiansPerSecond) * DEFLECTOR_ROTATION_PER_ROTATION);
+  }
+
+  /**
+   * Converts deflector angle to TalonFXS motor position. Uses inverse of regression formula y = SLOPE
+   * * x + MAX_ANGLE, solving for x: x = (y - MAX_ANGLE) / SLOPE where y is deflector angle in
+   * radians and x is motor position in radians.
+   *
+   * @param deflectorAngle Deflector angle as an Angle unit
+   * @return TalonFXS motor position as an Angle unit
+   */
+  private Angle deflectorAngleToTalonFXS(Angle deflectorAngle) {
+    return Radians.of(
+        (deflectorAngle.in(Radians) - DEFLECTOR_MAX_ANGLE.in(Radians))
+            / DEFLECTOR_ROTATION_PER_ROTATION);
+  }
+
+  /**
+   * Converts deflector angular velocity to TalonFXS motor velocity. Uses inverse slope from
+   * regression formula y = SLOPE * x + MAX_ANGLE.
+   *
+   * @param deflectorAngularVelocity Deflector angular velocity as an AngularVelocity unit
+   * @return TalonFXS motor rotational velocity as an AngularVelocity unit
+   */
+  private AngularVelocity deflectorAngularVelocityToTalonFXS(
+      AngularVelocity deflectorAngularVelocity) {
+    return RadiansPerSecond.of(
+        deflectorAngularVelocity.in(RadiansPerSecond) / DEFLECTOR_ROTATION_PER_ROTATION);
+  }
+
+  /**
+   * Converts deflector angular acceleration to TalonFXS motor rotational acceleration. Uses the same
+   * conversion factor as velocity since acceleration is the time derivative of velocity.
+   *
+   * @param deflectorAngularAcceleration Deflector angular acceleration as an AngularAcceleration
+   *     unit
+   * @return TalonFXS motor rotational acceleration as an AngularAcceleration unit
+   */
+  private AngularAcceleration deflectorAngularAccelerationToTalonFXS(
+      AngularAcceleration deflectorAngularAcceleration) {
+    return RadiansPerSecondPerSecond.of(
+        deflectorAngularAcceleration.in(RadiansPerSecondPerSecond)
+            / DEFLECTOR_ROTATION_PER_ROTATION);
+  }
+
+  /**
+   * Converts TalonFXS motor rotational acceleration to deflector angular acceleration. Uses the same
+   * conversion factor as velocity since acceleration is the time derivative of velocity.
+   *
+   * @param motorAcceleration TalonFXS motor rotational acceleration as an AngularAcceleration unit
+   * @return Deflector angular acceleration as an AngularAcceleration unit
+   */
+  private AngularAcceleration vortexToDeflectorAngularAcceleration(
+      AngularAcceleration motorAcceleration) {
+    return RadiansPerSecondPerSecond.of(
+        motorAcceleration.in(RadiansPerSecondPerSecond) * DEFLECTOR_ROTATION_PER_ROTATION);
+  }
+
 }
