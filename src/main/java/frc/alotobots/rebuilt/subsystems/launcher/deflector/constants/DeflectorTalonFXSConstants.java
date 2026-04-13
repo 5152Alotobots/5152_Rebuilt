@@ -15,6 +15,7 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.units.measure.Current;
 
 /**
@@ -84,6 +85,8 @@ public class DeflectorTalonFXSConstants {
 
   public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = 0.453125;
   public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 0.5;
+  public static final SensorDirectionValue DEFLECTOR_ENCODER_SENSOR_DIRECTION =
+          SensorDirectionValue.Clockwise_Positive;
 
   /**
    * Regression used to calculate how many radians the hood angle changes per motor rotation radian
@@ -91,5 +94,5 @@ public class DeflectorTalonFXSConstants {
   public static final double DEFLECTOR_ROTATION_PER_ROTATION = -0.0749254;
 
   /** Gear ratio between the deflector mechanism output and the motor sensor (100:1 reduction) */
-  public static final double SENSOR_TO_MECHANISM_RATIO = 100.0 / 1.0;
+  public static final double SENSOR_TO_MECHANISM_RATIO = 3.0 / 4.0;
 }
