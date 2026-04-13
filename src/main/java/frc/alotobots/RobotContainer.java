@@ -76,7 +76,7 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIO;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOVortex;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.io.DeflectorIOTalonFXS;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.commands.DefaultShooterRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
@@ -154,7 +154,7 @@ public class RobotContainer {
         kickerSubsystem = new KickerSubsystem(new KickerIOTalonFX());
         intakeExtendoSubsystem = new IntakeExtendoSubsystem(new IntakeExtendoIOTalonFX());
         intakeRollerSubsystem = new IntakeRollerSubsystem(new IntakeRollerIOTalonFX());
-        deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOVortex());
+        deflectorSubsystem = new DeflectorSubsystem(new DeflectorIOTalonFXS());
         rollerSubsystem = new RollerSubsystem(new RollerIOSparkMax());
         launchCalculator =
             new LaunchCalculator(

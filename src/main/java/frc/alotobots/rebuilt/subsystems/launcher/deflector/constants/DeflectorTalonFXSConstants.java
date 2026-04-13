@@ -15,7 +15,6 @@ package frc.alotobots.rebuilt.subsystems.launcher.deflector.constants;
 import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.units.measure.Current;
 
 /**
