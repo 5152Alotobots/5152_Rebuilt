@@ -86,7 +86,7 @@ public class DeflectorTalonFXSConstants {
   public static final double DEFLECTOR_ENCODER_MAGNET_OFFSET = 0.453125;
   public static final double DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT = 0.5;
   public static final SensorDirectionValue DEFLECTOR_ENCODER_SENSOR_DIRECTION =
-          SensorDirectionValue.Clockwise_Positive;
+      SensorDirectionValue.Clockwise_Positive;
 
   /**
    * Regression used to calculate how many radians the hood angle changes per motor rotation radian
