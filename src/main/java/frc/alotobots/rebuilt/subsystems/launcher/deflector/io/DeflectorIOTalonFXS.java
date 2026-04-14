@@ -43,7 +43,6 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.alotobots.Constants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorTalonFXSConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorTalonFXSConstants.PIDConstants;
-import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorVortexConstants;
 import frc.alotobots.util.PhoenixUtil;
 import org.littletonrobotics.junction.Logger;
 
@@ -66,7 +65,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
   private StatusSignal<Current> deflectorMotorCurrent;
   private StatusSignal<Integer> currentPidSlot;
   private StatusSignal<ControlModeValue> deflectorMotorControlMode;
-  
+
   private StatusSignal<Angle> deflectorEncoderPosition;
   private StatusSignal<AngularVelocity> deflectorEncoderVelocity;
 
@@ -79,14 +78,14 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     CANcoderConfiguration deflectorEncoderConfig = new CANcoderConfiguration();
 
     deflectorEncoderConfig.MagnetSensor.MagnetOffset =
-            DeflectorTalonFXSConstants.DEFLECTOR_ENCODER_MAGNET_OFFSET;
+        DeflectorTalonFXSConstants.DEFLECTOR_ENCODER_MAGNET_OFFSET;
     deflectorEncoderConfig.MagnetSensor.SensorDirection =
-            DeflectorTalonFXSConstants.DEFLECTOR_ENCODER_SENSOR_DIRECTION;
+        DeflectorTalonFXSConstants.DEFLECTOR_ENCODER_SENSOR_DIRECTION;
     deflectorEncoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint =
-            DeflectorTalonFXSConstants.DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT;
+        DeflectorTalonFXSConstants.DEFLECTOR_ABSOLUTE_SENSOR_DISCONTINUITY_POINT;
 
     PhoenixUtil.tryUntilOk(
-            5, () -> deflectorEncoder.getConfigurator().apply(deflectorEncoderConfig, 0.25));
+        5, () -> deflectorEncoder.getConfigurator().apply(deflectorEncoderConfig, 0.25));
 
     var deflectorMotorConfig = new TalonFXSConfiguration();
     deflectorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
@@ -94,7 +93,8 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     // Set feed back source to CANcoder
     deflectorMotorConfig.ExternalFeedback.ExternalFeedbackSensorSource =
         ExternalFeedbackSensorSourceValue.RemoteCANcoder;
-    deflectorMotorConfig.ExternalFeedback.RotorToSensorRatio = DeflectorTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
+    deflectorMotorConfig.ExternalFeedback.RotorToSensorRatio =
+        DeflectorTalonFXSConstants.SENSOR_TO_MECHANISM_RATIO;
     deflectorMotorConfig.ExternalFeedback.withRemoteCANcoder(deflectorEncoder);
 
     // Configure controler output for the Minion
@@ -115,7 +115,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     deflectorMotorCurrent = deflectorMotor.getStatorCurrent();
     currentPidSlot = deflectorMotor.getClosedLoopSlot();
     deflectorMotorControlMode = deflectorMotor.getControlMode();
-    
+
     deflectorEncoderPosition = deflectorEncoder.getPosition();
     deflectorEncoderVelocity = deflectorEncoder.getVelocity();
 
@@ -128,8 +128,8 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
         deflectorMotorCurrent,
         currentPidSlot,
         deflectorMotorControlMode,
-            deflectorEncoderPosition,
-            deflectorEncoderVelocity);
+        deflectorEncoderPosition,
+        deflectorEncoderVelocity);
 
     ParentDevice.optimizeBusUtilizationForAll(deflectorMotor, deflectorEncoder);
   }
@@ -147,11 +147,7 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
             deflectorMotorControlMode);
 
     var encoderSignals =
-            BaseStatusSignal.refreshAll(
-                    deflectorEncoderPosition,
-                    deflectorEncoderVelocity
-            );
-
+        BaseStatusSignal.refreshAll(deflectorEncoderPosition, deflectorEncoderVelocity);
 
     inputs.deflectorMotorPidSlot =
         switch (currentPidSlot.getValue()) {
@@ -164,12 +160,12 @@ public class DeflectorIOTalonFXS implements DeflectorIO {
     inputs.deflectorMotorConnected =
         deflectorMotorConnectedDebouncer.calculate(motorSignals.isOK());
     inputs.deflectorEncoderConnected =
-            deflectorEncoderConnectedDebouncer.calculate(encoderSignals.isOK());
+        deflectorEncoderConnectedDebouncer.calculate(encoderSignals.isOK());
 
     inputs.deflectorMotorAngle = deflectorMotorPosition.getValue();
     inputs.deflectorEncoderAngle = deflectorEncoderPosition.getValue();
     inputs.deflectorAngle = talonFXSToDeflectorAngle(inputs.deflectorMotorAngle);
-    
+
     inputs.deflectorEncoderVelocity = deflectorEncoderVelocity.getValue();
     inputs.deflectorMotorVelocity = deflectorMotorVelocity.getValue();
     inputs.deflectorMotorAcceleration = deflectorMotorAcceleration.getValue();

@@ -78,46 +78,46 @@ public final class LaunchCalculatorConstants {
       // Points sorted by distance ascending. HUB UPDATED 3/22/26
 
       // LEGACY POINTS (NOT ENOUGH NEW DATA)
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(1.427), Degrees.of(63.09));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(1.427), Degrees.of(60.09));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(1.427), RotationsPerSecond.of(32.5));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.749), Degrees.of(60.88));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.749), Degrees.of(57.88));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(2.749), RotationsPerSecond.of(35.0));
 
       // NEW POINTS
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.202626), Degrees.of(65.500000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(2.202626), Degrees.of(62.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(2.202626), RotationsPerSecond.of(32.500000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(2.202626), Seconds.of(1.034));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.013908), Degrees.of(61.0));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.013908), Degrees.of(58.0));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(3.013908), RotationsPerSecond.of(35.000000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.013908), Seconds.of(1.06));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.185211), Degrees.of(60.500000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.185211), Degrees.of(57.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(3.185211), RotationsPerSecond.of(35.000000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.185211), Seconds.of(1.067));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.527779), Degrees.of(60.500000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.527779), Degrees.of(57.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(3.527779), RotationsPerSecond.of(37.500000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.527779), Seconds.of(1.08));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.949270), Degrees.of(60.500000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(3.949270), Degrees.of(57.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(3.949270), RotationsPerSecond.of(37.500000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(3.949270), Seconds.of(1.1));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(4.215489), Degrees.of(60.500000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(4.215489), Degrees.of(57.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(4.215489), RotationsPerSecond.of(40.000000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(4.215489), Seconds.of(1.167));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(4.426129), Degrees.of(61.5));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(4.426129), Degrees.of(58.5));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(4.426129), RotationsPerSecond.of(42.500000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(4.426129), Seconds.of(1.2166667));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(5.070521), Degrees.of(60.500000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(5.070521), Degrees.of(57.500000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(5.070521), RotationsPerSecond.of(45.0));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(5.070521), Seconds.of(1.15));
 
-      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(5.462477), Degrees.of(58.000000));
+      LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.put(Meters.of(5.462477), Degrees.of(55.000000));
       LAUNCHER_SHOOTER_HUB_VELOCITY_MAP.put(Meters.of(5.462477), RotationsPerSecond.of(45.000000));
       FUEL_HUB_TIME_OF_FLIGHT_MAP.put(Meters.of(5.462477), Seconds.of(1.2166667));
     }
