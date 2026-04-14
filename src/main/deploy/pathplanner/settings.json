@@ -4,10 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "BasicMeters",
+    "BestEver",
     "DepotStartNeutralClimbGRT",
     "DepotStartNeutralClimbRaceToMiddle2nd",
     "NeutralWThenClimb",
-    "BestEver",
     "Positions",
     "PreloadWClimb",
     "PreloadWNeutral",
