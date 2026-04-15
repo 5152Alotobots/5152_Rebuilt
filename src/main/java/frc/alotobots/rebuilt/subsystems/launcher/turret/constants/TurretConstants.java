@@ -25,6 +25,12 @@ public class TurretConstants {
 
     /** How long the turret must be "at position" to classify as "at position" */
     public static final Time TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
+
+    /** How much of a large error must exist to count as the turret flipping */
+    public static final Angle TURRET_FLIPPING_POSITION_THRESHOLD = Degrees.of(30);
+
+    /** How long a large error must exist to count as the turret flipping */
+    public static final Time TURRET_FLIPPING_TIME_THRESHOLD = Seconds.of(0.05);
   }
 
   /** Contains physical limits and safety thresholds for the turret. */

@@ -14,7 +14,6 @@ package frc.alotobots.rebuilt.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
 import frc.alotobots.rebuilt.subsystems.belt.commands.DefaultBeltRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.belt.constants.BeltConstants;
@@ -22,6 +21,7 @@ import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.commands.DefaultKickerRunAtVelocity;
 import frc.alotobots.rebuilt.subsystems.kicker.constants.KickerConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
 import frc.alotobots.rebuilt.subsystems.roller.commands.DefaultRollerRunOpenLoop;
 import frc.alotobots.rebuilt.subsystems.roller.constants.RollerConstants;
@@ -29,17 +29,19 @@ import frc.alotobots.rebuilt.subsystems.roller.constants.RollerConstants;
 public class LauncherShoot extends SequentialCommandGroup {
   public LauncherShoot(
       ShooterSubsystem shooterSubsystem,
+      TurretSubsystem turretSubsystem,
       BeltSubsystem beltSubsystem,
       RollerSubsystem rollerSubsystem,
       KickerSubsystem kickerSubsystem) {
     addCommands(
-        new WaitUntilCommand(shooterSubsystem::isAtTargetVelocity),
         new ParallelCommandGroup(
-            new DefaultBeltRunAtVelocity(
-                beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-            new DefaultRollerRunOpenLoop(
-                rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.JOSTLE),
-            new DefaultKickerRunAtVelocity(
-                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY)));
+                new DefaultBeltRunAtVelocity(
+                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
+                new DefaultRollerRunOpenLoop(
+                    rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.JOSTLE),
+                new DefaultKickerRunAtVelocity(
+                    kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))
+            .onlyWhile(() -> shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
+            .repeatedly());
   }
 }

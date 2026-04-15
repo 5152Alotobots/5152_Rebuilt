@@ -37,7 +37,8 @@ public class LauncherTargetPassingDynamicAndShoot extends ParallelCommandGroup {
     addCommands(
         new LauncherTargetPassingDynamic(
             deflectorSubsystem, shooterSubsystem, turretSubsystem, launchCalculator),
-        new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
+        new LauncherShoot(
+            shooterSubsystem, turretSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
   }
 
   public LauncherTargetPassingDynamicAndShoot(
@@ -58,6 +59,7 @@ public class LauncherTargetPassingDynamicAndShoot extends ParallelCommandGroup {
             launchCalculator,
             shooterVelocityOverride,
             deflectorAngleOverride),
-        new LauncherShoot(shooterSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
+        new LauncherShoot(
+            shooterSubsystem, turretSubsystem, beltSubsystem, rollerSubsystem, kickerSubsystem));
   }
 }

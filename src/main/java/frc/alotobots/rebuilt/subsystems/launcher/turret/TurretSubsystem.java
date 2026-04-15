@@ -24,7 +24,9 @@ import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretC
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_MAX_VELOCITY;
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Limits.TURRET_MIN_ANGLE;
 import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD;
+import static frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants.Thresholds.TURRET_FLIPPING_POSITION_THRESHOLD;
 
+import com.ctre.phoenix6.signals.ControlModeValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
@@ -56,6 +58,9 @@ public class TurretSubsystem extends SubsystemBase {
   /** Debouncer for ensuring stability at a position */
   private final Debouncer atTargetAngleDebounce =
       new Debouncer(TurretConstants.Thresholds.TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD.in(Seconds));
+
+  private final Debouncer flipDebouncer =
+      new Debouncer(TurretConstants.Thresholds.TURRET_FLIPPING_TIME_THRESHOLD.in(Seconds));
 
   private final SysIdRoutine sysIdRoutine;
 
@@ -215,14 +220,24 @@ public class TurretSubsystem extends SubsystemBase {
    *
    * @return true if the turret has maintained its target angle within tolerance
    */
-  @AutoLogOutput
+  @AutoLogOutput(key = "Launcher/Turret/IsAtTargetAngle")
   public boolean isAtTargetAngle() {
     // Check if current angle is within threshold of target
+    boolean inPositionControl = inputs.turretMotorControlMode == ControlModeValue.PositionVoltage;
     boolean inSetPointThreshold =
         targetAngle.minus(inputs.turretAngle).abs(Radians)
             < TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD.in(Radians);
 
     // Use debouncer to check if we've been at setpoint for the required duration
-    return atTargetAngleDebounce.calculate(inSetPointThreshold);
+    return atTargetAngleDebounce.calculate(inSetPointThreshold) || !inPositionControl;
+  }
+
+  @AutoLogOutput(key = "Launcher/Turret/IsFlipping")
+  public boolean isFlipping() {
+    boolean inPositionControl = inputs.turretMotorControlMode == ControlModeValue.PositionVoltage;
+    boolean largeFlippingError =
+        targetAngle.minus(inputs.turretAngle).abs(Radians)
+            > TURRET_FLIPPING_POSITION_THRESHOLD.in(Radians);
+    return flipDebouncer.calculate(largeFlippingError) && inPositionControl;
   }
 }
