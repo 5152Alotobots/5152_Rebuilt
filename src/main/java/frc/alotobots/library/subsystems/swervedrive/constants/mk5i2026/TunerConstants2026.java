@@ -123,9 +123,9 @@ public class TunerConstants2026 implements TunerConstants {
         new Pigeon2Configuration()
             .withMountPose(
                 new MountPoseConfigs()
-                    .withMountPosePitch(Degrees.of(-3.599834442138672))
+                    .withMountPosePitch(Degrees.of(0))
                     .withMountPoseRoll(Degrees.of(-178.92837524414062))
-                    .withMountPoseYaw(Degrees.of(85.9131851196289)));
+                    .withMountPoseYaw(Degrees.of(0.0)));
 
     // CAN bus that the devices are located on;
     // All swerve devices must share the same CAN bus

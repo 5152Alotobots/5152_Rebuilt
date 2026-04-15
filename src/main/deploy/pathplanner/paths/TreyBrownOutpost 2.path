@@ -1,0 +1,157 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.6120827389443653,
+        "y": 0.44452211126961516
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.255292439372324,
+        "y": 0.5868473609129796
+      },
+      "isLocked": false,
+      "linkedName": "treyoutpostend"
+    },
+    {
+      "anchor": {
+        "x": 5.863409415121255,
+        "y": 0.8714978601997154
+      },
+      "prevControl": {
+        "x": 5.837532097004279,
+        "y": 0.2892582025677608
+      },
+      "nextControl": {
+        "x": 5.887214152185148,
+        "y": 1.4071044441373144
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.290385164051354,
+        "y": 3.1875178316690427
+      },
+      "prevControl": {
+        "x": 5.583623758711453,
+        "y": 3.025801238921776
+      },
+      "nextControl": {
+        "x": 7.817146932952923,
+        "y": 3.5368616262482178
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.493680456490727,
+        "y": 1.3761055634807429
+      },
+      "prevControl": {
+        "x": 7.791269614835947,
+        "y": 2.126547788873039
+      },
+      "nextControl": {
+        "x": 7.361074006041254,
+        "y": 1.0417066884342434
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.45681883024251,
+        "y": 0.6515406562054193
+      },
+      "prevControl": {
+        "x": 7.171776448195422,
+        "y": 0.33311571752374136
+      },
+      "nextControl": {
+        "x": 1.6454065620542075,
+        "y": 0.8068045649072736
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.0385135135135142,
+        "y": 2.748040540540541
+      },
+      "prevControl": {
+        "x": 1.0243509272467899,
+        "y": 2.178302425106989
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Outpost Climb 1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.1513859275053226,
+      "rotationDegrees": 90.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "DeployIntakeAndIntake",
+      "waypointRelativePos": 0.8372721134368857,
+      "endWaypointRelativePos": 2.8224172856178464,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeployIntakeAndIntake"
+        }
+      }
+    },
+    {
+      "name": "LauncherTargetHubDynamicAndShoot",
+      "waypointRelativePos": 3.929777177582674,
+      "endWaypointRelativePos": 4.604996623902771,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetHubDynamicAndShoot"
+        }
+      }
+    },
+    {
+      "name": "ClimbUp",
+      "waypointRelativePos": 4.415935178933116,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ClimbUp"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.5,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "BestEver",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "useDefaultConstraints": false
+}

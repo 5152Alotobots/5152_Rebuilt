@@ -35,7 +35,7 @@ public class DeflectorTalonFXSConstants {
     /** Vortex-specific PID and motion control constants for Position mode (Position mode). */
     public static final class PositionPIDConstants {
       /** Position control proportional gain */
-      public static final double DEFLECTOR_POSITION_KP = 0.8;
+      public static final double DEFLECTOR_POSITION_KP = 10;
 
       /** Position control integral gain */
       public static final double DEFLECTOR_POSITION_KI = 0.0;

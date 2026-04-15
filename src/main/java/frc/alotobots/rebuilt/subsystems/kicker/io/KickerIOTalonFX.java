@@ -55,7 +55,7 @@ public class KickerIOTalonFX implements KickerIO {
 
     var motorKickerConfig = new TalonFXConfiguration();
     motorKickerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorKickerConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorKickerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     motorKickerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
     motorKickerConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod =
         KickerTalonFXConstants.CLOSED_LOOP_RAMP_RATE;
