@@ -18,6 +18,8 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import java.util.Objects;
 
+import static edu.wpi.first.units.Units.Radians;
+
 /**
  * A {@link Rotation2d} subclass that constrains its angle to an arbitrary [lowerBound, upperBound)
  * range instead of the standard (-π, π].
@@ -120,7 +122,7 @@ public class BoundedRotation2d extends Rotation2d {
    * @param angle The angle (will be constrained into range).
    */
   public BoundedRotation2d(Angle lowerBound, Angle upperBound, Angle angle) {
-    this(lowerBound.in(Units.Radians), upperBound.in(Units.Radians), angle.in(Units.Radians));
+    this(lowerBound.in(Radians), upperBound.in(Radians), angle.in(Radians));
   }
 
   /**
@@ -176,6 +178,11 @@ public class BoundedRotation2d extends Rotation2d {
       double lowerBoundRad, double upperBoundRad, Rotation2d rotation) {
     return new BoundedRotation2d(lowerBoundRad, upperBoundRad, rotation.getRadians());
   }
+
+    public static BoundedRotation2d fromRotation2d(
+            Angle lowerBound, Angle upperBound, Rotation2d rotation) {
+        return new BoundedRotation2d(lowerBound.in(Radians), upperBound.in(Radians), rotation.getRadians());
+    }
 
   // ———————————————————————————————————————————
   //  Internal helper
@@ -310,11 +317,11 @@ public class BoundedRotation2d extends Rotation2d {
   }
 
   public Angle getLowerBoundMeasure() {
-    return Units.Radians.of(m_lowerBoundRad);
+    return Radians.of(m_lowerBoundRad);
   }
 
   public Angle getUpperBoundMeasure() {
-    return Units.Radians.of(m_upperBoundRad);
+    return Radians.of(m_upperBoundRad);
   }
 
   public double getSpanRadians() {

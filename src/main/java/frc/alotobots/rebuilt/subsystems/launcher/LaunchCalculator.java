@@ -26,6 +26,8 @@ import edu.wpi.first.units.TimeUnit;
 import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.alotobots.rebuilt.FieldConstants;
+import frc.alotobots.rebuilt.subsystems.launcher.turret.constants.TurretConstants;
+import frc.alotobots.util.BoundedRotation2d;
 import frc.alotobots.util.GeomUtil;
 import frc.alotobots.util.UnitInterpolatingMap;
 import java.util.function.Supplier;
@@ -74,21 +76,21 @@ public class LaunchCalculator {
 
   // ── Hub historical state ──
   /** Hub turret angle from the previous loop cycle, used for velocity estimation. */
-  private Rotation2d lastHubTurretAngle = null;
+  private BoundedRotation2d lastHubTurretAngle = null;
 
   /** Hub deflector angle from the previous loop cycle, used for velocity estimation. */
   private Angle lastHubDeflectorAngle = null;
 
   // ── Passing historical state ──
   /** Passing turret angle from the previous loop cycle, used for velocity estimation. */
-  private Rotation2d lastPassingTurretAngle = null;
+  private BoundedRotation2d lastPassingTurretAngle = null;
 
   /** Passing deflector angle from the previous loop cycle, used for velocity estimation. */
   private Angle lastPassingDeflectorAngle = null;
 
   public record LaunchingParameters(
       boolean isValid,
-      Rotation2d turretAngleFieldRelative,
+      BoundedRotation2d turretAngleFieldRelative,
       AngularVelocity turretVelocity,
       Angle deflectorAngle,
       AngularVelocity deflectorVelocity,
@@ -237,11 +239,17 @@ public class LaunchCalculator {
     Distance lookaheadTurretToTargetDistance = lookahead.turretToTargetDistance();
 
     // Calculate parameters accounted for imparted velocity and rotate to robot relative
-    Rotation2d turretFieldRelativeAngle =
-        target
-            .minus(lookaheadPose.getTranslation())
-            .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
-            .getAngle();
+    Rotation2d rawAngle =
+            target
+                    .minus(lookaheadPose.getTranslation())
+                    .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
+                    .getAngle();
+
+    BoundedRotation2d turretFieldRelativeAngle =
+            BoundedRotation2d.fromRotation2d(
+                    TurretConstants.Limits.TURRET_MIN_ANGLE,
+                    TurretConstants.Limits.TURRET_MAX_ANGLE,
+                    rawAngle);
     Angle deflectorAngle =
         (Angle) LAUNCHER_DEFLECTOR_HUB_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
 
@@ -254,11 +262,12 @@ public class LaunchCalculator {
       lastHubDeflectorAngle = deflectorAngle;
     }
 
+    BoundedRotation2d delta =
+            turretFieldRelativeAngle.minus(lastHubTurretAngle);
     AngularVelocity turretVelocity =
-        RadiansPerSecond.of(
-            hubTurretAngleFilter.calculate(
-                turretFieldRelativeAngle.minus(lastHubTurretAngle).getRadians()
-                    / LOOP_PERIOD.in(Seconds)));
+            RadiansPerSecond.of(
+                    hubTurretAngleFilter.calculate(
+                            delta.getRadians() / LOOP_PERIOD.in(Seconds)));
     AngularVelocity deflectorVelocity =
         RadiansPerSecond.of(
             hubDeflectorAngleFilter.calculate(
@@ -334,11 +343,17 @@ public class LaunchCalculator {
     Distance lookaheadTurretToTargetDistance = lookahead.turretToTargetDistance();
 
     // Calculate parameters accounted for imparted velocity and rotate to robot relative
-    Rotation2d turretFieldRelativeAngle =
-        target
-            .minus(lookaheadPose.getTranslation())
-            .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
-            .getAngle();
+    Rotation2d rawAngle =
+            target
+                    .minus(lookaheadPose.getTranslation())
+                    .rotateBy(forwardEstimatedPose.getRotation().unaryMinus())
+                    .getAngle();
+
+    BoundedRotation2d turretFieldRelativeAngle =
+            BoundedRotation2d.fromRotation2d(
+                    TurretConstants.Limits.TURRET_MIN_ANGLE,
+                    TurretConstants.Limits.TURRET_MAX_ANGLE,
+                    rawAngle);
     Angle deflectorAngle =
         (Angle) LAUNCHER_DEFLECTOR_PASSING_ANGLE_MAP.get(lookaheadTurretToTargetDistance);
 
@@ -351,11 +366,12 @@ public class LaunchCalculator {
       lastPassingDeflectorAngle = deflectorAngle;
     }
 
+    BoundedRotation2d delta =
+            turretFieldRelativeAngle.minus(lastPassingTurretAngle);
     AngularVelocity turretVelocity =
-        RadiansPerSecond.of(
-            passingTurretAngleFilter.calculate(
-                turretFieldRelativeAngle.minus(lastPassingTurretAngle).getRadians()
-                    / LOOP_PERIOD.in(Seconds)));
+            RadiansPerSecond.of(
+                    passingTurretAngleFilter.calculate(
+                            delta.getRadians() / LOOP_PERIOD.in(Seconds)));
     AngularVelocity deflectorVelocity =
         RadiansPerSecond.of(
             passingDeflectorAngleFilter.calculate(
