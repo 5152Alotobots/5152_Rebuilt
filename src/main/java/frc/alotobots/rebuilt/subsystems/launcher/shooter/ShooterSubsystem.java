@@ -99,6 +99,7 @@ public class ShooterSubsystem extends SubsystemBase {
    *
    * @return true if the shooter has maintained its target velocity within tolerance
    */
+  @AutoLogOutput(key = "Launcher/Shooter/isAtTargetVelocity")
   public boolean isAtTargetVelocity() {
     // Check if current velocity is within threshold of target
     boolean inSetPointThreshold =
