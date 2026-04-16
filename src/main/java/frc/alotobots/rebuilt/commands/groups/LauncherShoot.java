@@ -41,7 +41,7 @@ public class LauncherShoot extends SequentialCommandGroup {
                     rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.JOSTLE),
                 new DefaultKickerRunAtVelocity(
                     kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))
-            .onlyWhile(() -> shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
+            .onlyWhile(() -> /*shooterSubsystem.isAtTargetVelocity() &&*/ !turretSubsystem.isFlipping())
             .repeatedly());
   }
 }
