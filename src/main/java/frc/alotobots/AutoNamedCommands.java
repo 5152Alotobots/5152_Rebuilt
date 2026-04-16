@@ -29,6 +29,8 @@ import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.commands.DeflectorRunToPosition;
+import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorConstants;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
@@ -115,6 +117,12 @@ public class AutoNamedCommands {
             beltSubsystem,
             rollerSubsystem,
             launchCalculator));
+            commands.put(
+        "DeflectorDown",
+        new DeflectorRunToPosition(
+            deflectorSubsystem,
+            DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE
+            ));
     NamedCommands.registerCommands(commands);
   }
 }

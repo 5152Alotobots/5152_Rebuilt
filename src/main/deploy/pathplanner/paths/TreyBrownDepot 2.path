@@ -110,6 +110,17 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "DeflectorDown",
+      "waypointRelativePos": 0.15022860875244265,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "DeflectorDown"
+        }
+      }
+    },
+    {
       "name": "DeployIntakeAndIntake",
       "waypointRelativePos": 0.55,
       "endWaypointRelativePos": 2.625305623471907,
