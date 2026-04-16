@@ -39,7 +39,7 @@ public class TurretConstants {
     public static final Angle TURRET_MAX_ANGLE = Degrees.of(225);
 
     /** Minimum allowed angle */
-    public static final Angle TURRET_MIN_ANGLE = Degrees.of(-160);
+    public static final Angle TURRET_MIN_ANGLE = Degrees.of(-155);
 
     /** Maximum open loop percent output */
     public static final double TURRET_MAX_OPEN_LOOP_PERCENTAGE = 0.2;
