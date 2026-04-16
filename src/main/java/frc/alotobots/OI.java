@@ -124,6 +124,7 @@ public class OI {
   public static final Trigger intakeRollersToggle = driverController.leftStick();
   public static final Trigger toggleClimber = driverController.y();
   public static final Trigger lockWheels = driverController.x();
+  public static final Trigger intakeOutFull = driverController.a();
   // TODO MAKE THIS
   public static final Trigger zoneAutoTarget = driverController.b();
 
