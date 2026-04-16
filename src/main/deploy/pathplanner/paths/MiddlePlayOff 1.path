@@ -20,50 +20,66 @@
         "y": 4.035
       },
       "prevControl": {
-        "x": 2.9195311529435974,
-        "y": 4.3504091086870345
+        "x": 3.032270974532949,
+        "y": 4.312828766195038
       },
       "nextControl": {
-        "x": 2.5640513552068454,
-        "y": 1.7125106990014274
+        "x": 2.5769900142653355,
+        "y": 3.498045649072753
       },
       "isLocked": false,
       "linkedName": "Shoot_Center"
     },
     {
       "anchor": {
-        "x": 6.329201141226819,
-        "y": 2.8769900142653353
+        "x": 2.8770270270270277,
+        "y": 2.5794008559201154
       },
       "prevControl": {
-        "x": 6.268567234967732,
-        "y": 3.1195256393016675
+        "x": 2.5768234487516395,
+        "y": 2.988267079092737
       },
       "nextControl": {
-        "x": 6.389835047485906,
-        "y": 2.6344543892290044
+        "x": 3.0249859741228593,
+        "y": 2.3778862163172
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8770270270270277,
-        "y": 4.035
+        "x": 5.876348074179743,
+        "y": 2.592339514978602
       },
       "prevControl": {
-        "x": 2.9910271041369447,
-        "y": 1.6736947218259637
+        "x": 4.3884022824536375,
+        "y": 2.5017689015691875
+      },
+      "nextControl": {
+        "x": 6.396958529185475,
+        "y": 2.624028847022429
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.966918687589158,
+        "y": 4.054407988587732
+      },
+      "prevControl": {
+        "x": 6.698136627819695,
+        "y": 3.450581852884545
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot_Center"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.442367601246096,
-      "rotationDegrees": 25.0
+      "waypointRelativePos": 2.6458982346832722,
+      "rotationDegrees": 45.0
     }
   ],
   "constraintZones": [],
@@ -72,7 +88,7 @@
     {
       "name": "LauncherTargetHubDynamicAndShoot",
       "waypointRelativePos": 0,
-      "endWaypointRelativePos": 1.4918354016982331,
+      "endWaypointRelativePos": 2.4088830829522867,
       "command": {
         "type": "named",
         "data": {
@@ -82,14 +98,14 @@
     },
     {
       "name": "DeployIntakeAndIntake",
-      "waypointRelativePos": 1.8732854343566172,
-      "endWaypointRelativePos": 2.0,
+      "waypointRelativePos": 2.8896146309601476,
+      "endWaypointRelativePos": 4.0,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
