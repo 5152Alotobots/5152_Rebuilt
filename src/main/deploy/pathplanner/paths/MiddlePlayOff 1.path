@@ -1,0 +1,109 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.592004504504505,
+        "y": 4.045213963963964
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2886162624821687,
+        "y": 4.028530670470756
+      },
+      "isLocked": false,
+      "linkedName": "Center Start"
+    },
+    {
+      "anchor": {
+        "x": 2.8770270270270277,
+        "y": 4.035
+      },
+      "prevControl": {
+        "x": 2.9195311529435974,
+        "y": 4.3504091086870345
+      },
+      "nextControl": {
+        "x": 2.5640513552068454,
+        "y": 1.7125106990014274
+      },
+      "isLocked": false,
+      "linkedName": "Shoot_Center"
+    },
+    {
+      "anchor": {
+        "x": 6.329201141226819,
+        "y": 2.8769900142653353
+      },
+      "prevControl": {
+        "x": 6.268567234967732,
+        "y": 3.1195256393016675
+      },
+      "nextControl": {
+        "x": 6.389835047485906,
+        "y": 2.6344543892290044
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8770270270270277,
+        "y": 4.035
+      },
+      "prevControl": {
+        "x": 2.9910271041369447,
+        "y": 1.6736947218259637
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Shoot_Center"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.442367601246096,
+      "rotationDegrees": 25.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "LauncherTargetHubDynamicAndShoot",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 1.4918354016982331,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LauncherTargetHubDynamicAndShoot"
+        }
+      }
+    },
+    {
+      "name": "DeployIntakeAndIntake",
+      "waypointRelativePos": 1.8732854343566172,
+      "endWaypointRelativePos": 2.0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 460.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "PlayOffMIddle",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": false
+}
