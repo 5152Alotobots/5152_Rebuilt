@@ -359,21 +359,25 @@ public class RobotContainer {
     intakeIn.onTrue(
         new IntakeExtendoRunToExtension(
             intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.STOWED));
+    intakeOutFull.onTrue(
+        new IntakeExtendoRunToExtension(
+            intakeExtendoSubsystem, IntakeExtendoConstants.Setpoints.DEPLOYED_FULL));
+
     intakeRollersToggle.toggleOnTrue(
         new IntakeRollerIntake(
                 intakeRollerSubsystem,
                 () -> IntakeRollerConstants.Setpoints.OpenLoop.INTAKE_PERCENTAGE)
             .alongWith(
                 new StartEndCommand(
-                    () -> OI.rumbleDriverController(0.02), () -> OI.rumbleDriverController(0.0)))
-        // .alongWith(
-        //     new StartEndCommand(
-        //         () ->
-        //             blingSubsystem.setAnimation(
-        //                 BlingConstants.Animations.INTAKE_ROLLERS_RUNNING_ANIMATION),
-        //         blingSubsystem::clear,
-        //         blingSubsystem))
-        );
+                    () -> OI.rumbleDriverController(0.02), () -> OI.rumbleDriverController(0.0))));
+    // // .alongWith(
+    // //     new StartEndCommand(
+    // //         () ->
+    // //             blingSubsystem.setAnimation(
+    // //                 BlingConstants.Animations.INTAKE_ROLLERS_RUNNING_ANIMATION),
+    // //         blingSubsystem::clear,
+    // //         blingSubsystem))
+    // );
     dumpBalls.whileTrue(
         new DefaultKickerRunAtVelocity(
                 kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY)
