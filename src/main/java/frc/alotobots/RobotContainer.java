@@ -383,7 +383,10 @@ public class RobotContainer {
             .alongWith(
                 new DefaultRollerRunOpenLoop(
                     rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.UNJAM))
-                    .alongWith(new IntakeRollerEject(intakeRollerSubsystem, () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE)));
+            .alongWith(
+                new IntakeRollerEject(
+                    intakeRollerSubsystem,
+                    () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE)));
     // Buttons
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
