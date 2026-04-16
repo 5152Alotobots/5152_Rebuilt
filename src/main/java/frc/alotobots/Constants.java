@@ -29,7 +29,7 @@ import lombok.experimental.UtilityClass;
  */
 public final class Constants {
   /** The simulation mode to use when not running on real hardware. */
-  public static final Mode simMode = Mode.REPLAY;
+  public static final Mode simMode = Mode.SIM;
 
   /**
    * The current runtime mode, determined by whether running on real hardware or in simulation.
