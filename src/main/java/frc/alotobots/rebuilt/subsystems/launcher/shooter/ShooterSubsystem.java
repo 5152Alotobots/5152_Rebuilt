@@ -19,11 +19,9 @@ import static edu.wpi.first.units.Units.Volts;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_LIMITS_ENABLED;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_MAX_OPEN_LOOP_PERCENTAGE;
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Limits.SHOOTER_MAX_VELOCITY;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_SPEED_THRESHOLD;
-import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD;
+import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.*;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIO;
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.io.ShooterIOInputsAutoLogged;
+import frc.alotobots.util.AsymmetricDebouncer;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -39,8 +38,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterIO io;
   private ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
-  private final Debouncer atTargetVelocityDebounce =
-      new Debouncer(SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD.in(Seconds));
+  private final AsymmetricDebouncer atTargetVelocityDebounce =
+      new AsymmetricDebouncer(
+          SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_RISING.in(Seconds),
+          SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_FALLING.in(Seconds));
 
   @AutoLogOutput(key = "Launcher/Shooter/TargetVelocity")
   private AngularVelocity targetVelocity = RadiansPerSecond.zero();
