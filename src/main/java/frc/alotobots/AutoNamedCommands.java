@@ -117,12 +117,10 @@ public class AutoNamedCommands {
             beltSubsystem,
             rollerSubsystem,
             launchCalculator));
-            commands.put(
+    commands.put(
         "DeflectorDown",
         new DeflectorRunToPosition(
-            deflectorSubsystem,
-            DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE
-            ));
+            deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
     NamedCommands.registerCommands(commands);
   }
 }
