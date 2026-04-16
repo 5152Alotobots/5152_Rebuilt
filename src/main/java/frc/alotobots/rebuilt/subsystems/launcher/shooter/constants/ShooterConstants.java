@@ -28,7 +28,7 @@ public class ShooterConstants {
         RotationsPerSecond.of(4);
 
     /** How long the flywheel must be "at velocity" to classify as "at velocity" */
-    public static final Time SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.1);
+    public static final Time SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD = Seconds.of(.4);
   }
 
   /** Contains physical limits and safety thresholds for the shooter. */
