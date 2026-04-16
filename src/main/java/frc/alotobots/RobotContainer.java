@@ -61,6 +61,7 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoCo
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
 import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerIntake;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
@@ -381,7 +382,11 @@ public class RobotContainer {
                     beltSubsystem, () -> BeltConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY))
             .alongWith(
                 new DefaultRollerRunOpenLoop(
-                    rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.UNJAM)));
+                    rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.UNJAM))
+            .alongWith(
+                new IntakeRollerEject(
+                    intakeRollerSubsystem,
+                    () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE)));
     // Buttons
     turretAimShoot.whileTrue(
         new LauncherTargetHubDynamicAndShoot(
