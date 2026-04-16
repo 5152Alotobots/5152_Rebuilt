@@ -12,6 +12,8 @@
 */
 package frc.alotobots.rebuilt.commands.groups;
 
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.alotobots.rebuilt.subsystems.belt.BeltSubsystem;
@@ -35,13 +37,26 @@ public class LauncherShoot extends SequentialCommandGroup {
       KickerSubsystem kickerSubsystem) {
     addCommands(
         new ParallelCommandGroup(
-                new DefaultBeltRunAtVelocity(
-                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY),
-                new DefaultRollerRunOpenLoop(
-                    rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.JOSTLE),
-                new DefaultKickerRunAtVelocity(
-                    kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY))
-            .onlyWhile(() -> shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
-            .repeatedly());
+            // Kicker runs forward when ready to shoot, backward otherwise
+            new DefaultKickerRunAtVelocity(
+                kickerSubsystem,
+                () ->
+                    (shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
+                        ? KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY
+                        : KickerConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY),
+            // Belt only runs when ready to shoot
+            new DefaultBeltRunAtVelocity(
+                beltSubsystem,
+                () ->
+                    (shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
+                        ? BeltConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY
+                        : RotationsPerSecond.of(0)),
+            // Roller only jostles when ready to shoot
+            new DefaultRollerRunOpenLoop(
+                rollerSubsystem,
+                () ->
+                    (shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
+                        ? RollerConstants.Setpoints.OpenLoop.JOSTLE
+                        : 0.0)));
   }
 }
