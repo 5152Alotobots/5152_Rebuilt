@@ -61,7 +61,6 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoCo
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIO;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.io.IntakeExtendoIOTalonFX;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
-import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerEject;
 import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerIntake;
 import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.io.IntakeRollerIO;
@@ -375,9 +374,11 @@ public class RobotContainer {
         //         blingSubsystem))
         );
     dumpBalls.whileTrue(
-        new IntakeRollerEject(
-                intakeRollerSubsystem,
-                () -> IntakeRollerConstants.Setpoints.OpenLoop.EJECT_PERCENTAGE)
+        new DefaultKickerRunAtVelocity(
+                kickerSubsystem, () -> KickerConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY)
+            .alongWith(
+                new DefaultBeltRunAtVelocity(
+                    beltSubsystem, () -> BeltConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY))
             .alongWith(
                 new DefaultRollerRunOpenLoop(
                     rollerSubsystem, () -> RollerConstants.Setpoints.OpenLoop.UNJAM)));
