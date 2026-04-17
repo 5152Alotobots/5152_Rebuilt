@@ -22,6 +22,7 @@ import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.Shoote
 import static frc.alotobots.rebuilt.subsystems.launcher.shooter.constants.ShooterConstants.Thresholds.*;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,10 +39,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterIO io;
   private ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
-  private final AsymmetricDebouncer atTargetVelocityDebounce =
-      new AsymmetricDebouncer(
-          SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_RISING.in(Seconds),
-          SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_FALLING.in(Seconds));
+  // private final AsymmetricDebouncer atTargetVelocityDebounce =
+  //     new AsymmetricDebouncer(
+  //         SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_RISING.in(Seconds),
+  //         SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_FALLING.in(Seconds));
+private final Debouncer atTargetVelocityDebounce =
+new Debouncer(SHOOTER_AT_TARGET_VELOCITY_TIME_THRESHOLD_FALLING.in(Seconds));
+
 
   @AutoLogOutput(key = "Launcher/Shooter/TargetVelocity")
   private AngularVelocity targetVelocity = RadiansPerSecond.zero();
