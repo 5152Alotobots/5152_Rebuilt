@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.592004504504505,
-        "y": 7.221756756756756
+        "x": 4.4,
+        "y": 7.625477888730385
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.947144444444445,
-        "y": 7.562488888888888
+        "x": 5.772838801711839,
+        "y": 7.509029957203994
       },
       "isLocked": false,
-      "linkedName": "DepotStart"
+      "linkedName": "treystartcorrect"
     },
     {
       "anchor": {
@@ -28,12 +28,7 @@
       "linkedName": "Neutral Zone Depot 1"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.264294282287087,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -53,7 +48,7 @@
   "folder": "DepotStartNeutralClimbGRT",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
