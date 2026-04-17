@@ -132,17 +132,6 @@
       }
     },
     {
-      "name": "LauncherTargetHubDynamicAndShoot",
-      "waypointRelativePos": 3.1,
-      "endWaypointRelativePos": 5.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "LauncherTargetPassingDynamicAndShoot"
-        }
-      }
-    },
-    {
       "name": "ClimbUp",
       "waypointRelativePos": 4.190097799510953,
       "endWaypointRelativePos": null,
