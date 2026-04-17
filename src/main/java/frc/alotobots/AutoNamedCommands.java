@@ -12,7 +12,11 @@
 */
 package frc.alotobots;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.alotobots.library.subsystems.swervedrive.SwerveDriveSubsystem;
 import frc.alotobots.rebuilt.commands.groups.DeployIntakeAndIntake;
@@ -26,6 +30,8 @@ import frc.alotobots.rebuilt.subsystems.intake.extendo.IntakeExtendoSubsystem;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.commands.IntakeExtendoRunToExtension;
 import frc.alotobots.rebuilt.subsystems.intake.extendo.constants.IntakeExtendoConstants;
 import frc.alotobots.rebuilt.subsystems.intake.roller.IntakeRollerSubsystem;
+import frc.alotobots.rebuilt.subsystems.intake.roller.commands.IntakeRollerIntake;
+import frc.alotobots.rebuilt.subsystems.intake.roller.constants.IntakeRollerConstants;
 import frc.alotobots.rebuilt.subsystems.kicker.KickerSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.LaunchCalculator;
 import frc.alotobots.rebuilt.subsystems.launcher.deflector.DeflectorSubsystem;
@@ -34,8 +40,6 @@ import frc.alotobots.rebuilt.subsystems.launcher.deflector.constants.DeflectorCo
 import frc.alotobots.rebuilt.subsystems.launcher.shooter.ShooterSubsystem;
 import frc.alotobots.rebuilt.subsystems.launcher.turret.TurretSubsystem;
 import frc.alotobots.rebuilt.subsystems.roller.RollerSubsystem;
-import java.util.HashMap;
-import java.util.Map;
 
 /** Registers and manages named commands for autonomous routines. */
 public class AutoNamedCommands {
@@ -121,6 +125,16 @@ public class AutoNamedCommands {
         "DeflectorDown",
         new DeflectorRunToPosition(
             deflectorSubsystem, DeflectorConstants.Limits.DEFLECTOR_MAX_ANGLE));
+    commands.put(
+      "StartIntakeRollers", 
+        new IntakeRollerIntake(
+            intakeRollerSubsystem,
+            () -> IntakeRollerConstants.Setpoints.OpenLoop.INTAKE_PERCENTAGE));
+    commands.put(
+      "StopIntakeRollers", 
+        new IntakeRollerIntake(
+            intakeRollerSubsystem,
+            () -> 0));
     NamedCommands.registerCommands(commands);
   }
 }
