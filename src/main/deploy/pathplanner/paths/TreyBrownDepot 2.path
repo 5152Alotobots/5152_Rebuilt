@@ -80,16 +80,16 @@
     },
     {
       "anchor": {
-        "x": 1.0,
-        "y": 4.65
+        "x": 1.0502282453637657,
+        "y": 4.49432239657632
       },
       "prevControl": {
-        "x": 1.4303659727394846,
-        "y": 5.275934634176829
+        "x": 1.127860199714693,
+        "y": 4.882482168330956
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot climb 1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [

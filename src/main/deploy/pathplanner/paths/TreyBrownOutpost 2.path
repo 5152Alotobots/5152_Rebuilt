@@ -80,16 +80,16 @@
     },
     {
       "anchor": {
-        "x": 1.0385135135135142,
-        "y": 2.748040540540541
+        "x": 1.0631669044222536,
+        "y": 2.825235378031384
       },
       "prevControl": {
-        "x": 1.0243509272467899,
-        "y": 2.178302425106989
+        "x": 1.0490043181555293,
+        "y": 2.2554972625978325
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Outpost Climb 1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
