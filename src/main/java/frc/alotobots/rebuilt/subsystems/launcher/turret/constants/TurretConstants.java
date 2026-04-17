@@ -21,7 +21,7 @@ import lombok.experimental.UtilityClass;
 public class TurretConstants {
   public static final class Thresholds {
     /** Acceptable PID error that will classify as "at position" */
-    public static final Angle TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(4);
+    public static final Angle TURRET_AT_TARGET_ANGLE_POSITION_THRESHOLD = Degrees.of(0.5);
 
     /** How long the turret must be "at position" to classify as "at position" */
     public static final Time TURRET_AT_TARGET_ANGLE_TIME_THRESHOLD = Seconds.of(.2);
