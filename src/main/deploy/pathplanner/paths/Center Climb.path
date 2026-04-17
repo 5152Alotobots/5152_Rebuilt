@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.765640676399664,
-        "y": 3.6468665865437786
+        "x": 3.120413694721825,
+        "y": 3.692125534950071
       },
       "isLocked": false,
       "linkedName": "Shoot_Center"
@@ -17,29 +17,24 @@
     {
       "anchor": {
         "x": 1.058941441441442,
-        "y": 3.6775112612612615
+        "y": 3.75
       },
       "prevControl": {
         "x": 0.808941441441442,
-        "y": 3.6775112612612615
+        "y": 3.75
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Center Climb"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.49056603773584906,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 460.0,
     "nominalVoltage": 12.0,
@@ -47,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "PreloadWClimb",
@@ -55,5 +50,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
