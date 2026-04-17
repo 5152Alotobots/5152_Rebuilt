@@ -43,7 +43,7 @@ public class LauncherShoot extends SequentialCommandGroup {
                 () ->
                     (shooterSubsystem.isAtTargetVelocity() && !turretSubsystem.isFlipping())
                         ? KickerConstants.Setpoints.LOAD_INTO_SHOOTER_VELOCITY
-                        : KickerConstants.Setpoints.LOAD_OUT_OF_SHOOTER_VELOCITY),
+                        : KickerConstants.Setpoints.JOSTLE_VELOCITY),
             // Belt only runs when ready to shoot
             new DefaultBeltRunAtVelocity(
                 beltSubsystem,

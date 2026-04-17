@@ -50,5 +50,6 @@ public class KickerConstants {
     // multiple speeds for more granular shooting control
     public static final AngularVelocity LOAD_INTO_SHOOTER_VELOCITY = RotationsPerSecond.of(90);
     public static final AngularVelocity LOAD_OUT_OF_SHOOTER_VELOCITY = RotationsPerSecond.of(-90);
+    public static final AngularVelocity JOSTLE_VELOCITY = RotationsPerSecond.of(-40);
   }
 }
