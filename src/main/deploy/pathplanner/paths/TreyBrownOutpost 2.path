@@ -124,13 +124,13 @@
       }
     },
     {
-      "name": "ClimbUp",
+      "name": "ClimbDown",
       "waypointRelativePos": 4.415935178933116,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "ClimbUp"
+          "name": "ClimbDown"
         }
       }
     }
